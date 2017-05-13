@@ -10,7 +10,7 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
-//Route::get('/init', 'HomeController@initRole');
+Route::get('/home', 'HomeController@index')->name('home');
 
 Route::group(['middleware' => ['acl']], function () {
     Route::get('/', function () {
@@ -20,8 +20,6 @@ Route::group(['middleware' => ['acl']], function () {
     Route::get('dashboard', function () {
         return view('dashboard');
     });
-
-    Route::get('/home', 'HomeController@index')->name('home');
 
     Route::get('/user/add', 'UserController@addUserForm');
     Route::post('/user/add', 'UserController@add')->name('user.add');

@@ -37,7 +37,7 @@
       {{ csrf_field() }}
       <div class="form-group has-feedback">
         <input type="text" class="form-control" name="name" value="{{ old('name') }}" placeholder="Name" required autofocus>
-        <span class="glyphicon fa-user form-control-feedback"></span>
+        <span class="glyphicon fa fa-user form-control-feedback"></span>
       </div>
       <div class="form-group has-feedback">
         <input type="password" class="form-control" placeholder="Password" name="password" required>

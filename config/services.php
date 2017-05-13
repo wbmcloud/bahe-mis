@@ -34,5 +34,13 @@ return [
         'key' => env('STRIPE_KEY'),
         'secret' => env('STRIPE_SECRET'),
     ],
+    /**
+     * 游戏idip
+     */
+    'idip' => [
+        'schema' => 'tcp',
+        'host' => '127.0.0.1',
+        'port' => 8888,
+    ],
 
 ];
