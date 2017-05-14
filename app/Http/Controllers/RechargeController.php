@@ -9,6 +9,8 @@ namespace App\Http\Controllers;
 
 use App\Common\Constants;
 use App\Exceptions\SlException;
+use App\Library\Protobuf\Protobuf;
+use App\Library\TcpClient;
 use App\Models\Accounts;
 use App\Models\TransactionFlow;
 use App\Models\User;
@@ -189,6 +191,23 @@ class RechargeController extends Controller
             ]);
             throw new SlException(SlException::FAIL_CODE);
         }
+
+        // 调用充值idip接口
+        $command['command_type'] = Constants::IDIP_TYPE_RECHARGE;
+        $command['account'] = $user_name;
+        $command['player_id'] = '0';
+        $command['count'] = $num;
+        $serialize = Protobuf::pack($command);
+        $res = Protobuf::unpackForResponse(TcpClient::callTcpService($serialize));
+        if (empty($res) || $res['error_code']) {
+            Log::error([
+                'request' => $request->all(),
+                'res' => $res,
+            ]);
+            $transaction_flow->recharge_fail_reason = json_encode($res);
+        }
+        $transaction_flow->status = Constants::COMMON_ENABLE;
+        $transaction_flow->save();
 
         return true;
     }

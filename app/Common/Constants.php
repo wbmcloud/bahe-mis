@@ -34,4 +34,9 @@ class Constants
     const COMMON_ENABLE = 1;
     const COMMON_DISABLE = 0;
 
+    /**
+     * IDIP接口类型
+     */
+    const IDIP_TYPE_RECHARGE = 1;
+
 }

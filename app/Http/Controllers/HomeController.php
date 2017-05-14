@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Exceptions\Exception;
+use App\Library\Protobuf\Command;
+use App\Library\Protobuf\Protobuf;
 use App\Library\TcpClient;
 use App\Logic\AccountLogic;
 use App\Models\User;
@@ -32,6 +34,14 @@ class HomeController extends Controller
         $roles = User::where('name', $user_name)->first()->roles[0]->toArray();*/
 //        $roles = Auth::user()->roles()->first()->toArray();
 //        var_dump($roles);
+        $command['command_type'] = 1;
+        $command['account'] = 'kiras';
+        $command['player_id'] = '222';
+        $command['count'] = '100';
+        $serialize = Protobuf::pack($command);
+        $res = Protobuf::unpackForResponse(TcpClient::callTcpService($serialize));
+        var_dump($res);
+        exit;
         return view('success');
     }
 
@@ -74,4 +84,5 @@ class HomeController extends Controller
         $user->can('edit-user');   // false
         $user->can('create-post'); // true
     }
+
 }

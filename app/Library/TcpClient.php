@@ -17,12 +17,12 @@ class TcpClient
 
     }
 
-    public function callTcpService($pack)
+    public static function callTcpService($pack)
     {
         $res = '';
 
         $factory = new Factory();
-        $socket = $factory->createClient($this->getTcpAddress());
+        $socket = $factory->createClient(self::getTcpAddress());
         $socket->write($pack);
         while (($data = $socket->read(8192))) {
             $res .= $data;
@@ -32,7 +32,7 @@ class TcpClient
         return $res;
     }
 
-    private function getTcpAddress()
+    private static function getTcpAddress()
     {
         $idip = Config::get('services.idip');
         return $idip['schema'] . '://' . $idip['host'] . ':' . $idip['port'];

@@ -24,6 +24,12 @@ class Protobuf
     {
         $command = new Command();
         $command->mergeFromString($data);
+        return $command;
+    }
+
+    public static function unpackForResponse($data)
+    {
+        $command = self::unpack($data);
         return [
             'error_code' => $command->getErrorCode()
         ];

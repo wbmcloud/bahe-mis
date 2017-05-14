@@ -60,7 +60,7 @@ class Handler extends ExceptionHandler
             return response()->view('error',
                 ['message' => $exception->getMessage()]);
         }
-        // return parent::render($request, $exception);
+        //return parent::render($request, $exception);
     }
 
     /**
