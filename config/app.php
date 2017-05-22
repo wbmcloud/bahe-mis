@@ -230,8 +230,6 @@ return [
         'View' => Illuminate\Support\Facades\View::class,
         // 第三方
         'Entrust'   => Zizaco\Entrust\EntrustFacade::class,
-
-        'composer' => \App\Providers\ComposerServiceProvider::class,
     ],
 
 ];

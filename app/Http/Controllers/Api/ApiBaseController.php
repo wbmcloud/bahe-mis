@@ -7,21 +7,11 @@
  */
 namespace App\Http\Controllers\Api;
 
-use App\Models\Role;
-use App\Models\User;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Hash;
+use App\Exceptions\SlException;
+use App\Http\Controllers\Controller;
 
 class ApiBaseController extends Controller
 {
 
-    protected function sendJsonResponse($code, $message, array $data)
-    {
-        $ret['code'] = $code;
-        $ret['message'] = $message;
-        $ret['data'] = $data;
-        return response()->json($ret);
-    }
-    
+
 }

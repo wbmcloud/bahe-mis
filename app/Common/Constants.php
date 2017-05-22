@@ -10,6 +10,9 @@ namespace App\Common;
 
 class Constants
 {
+    const LOGIN_URI = '/login';
+    const LOGIN_REDIRECT_URI = '/dashboard';
+
     const ROLE_SUPER = 'super';
     const ROLE_ADMIN = 'admin';
     const ROLE_AGENT = 'agent';
@@ -38,5 +41,11 @@ class Constants
      * IDIP接口类型
      */
     const IDIP_TYPE_RECHARGE = 1;
+
+    /**
+     * 分页相关配置
+     */
+    const DEFAULT_PAGE = 1;
+    const DEFAULT_PAGE_SIZE = 2;
 
 }

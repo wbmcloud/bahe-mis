@@ -84,7 +84,6 @@ class RechargeController extends Controller
             $transaction_flow->recharge_type = $recharge_type;
             $transaction_flow->num = $num;
             $transaction_flow->status = Constants::COMMON_ENABLE;
-            $transaction_flow->invitation_code = $code;
             $transaction_flow->save();
 
             $account = Accounts::where('user_name', $user_name)->first();
@@ -94,9 +93,11 @@ class RechargeController extends Controller
                 $account->user_name = $user_name;
                 $account->type = $recharge_type;
                 $account->balance = $num;
+                $account->total = $num;
                 $account->save();
             } else {
                 $account->balance += $num;
+                $account->total += $num;
                 $account->save();
             }
 

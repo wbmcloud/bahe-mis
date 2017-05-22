@@ -52,6 +52,10 @@ class UserController extends Controller
         $this->validate($request, [
             'name' => 'required|string',
             'password' => 'required|string',
+            'invite_code' => 'integer|nullable',
+            'uin' => 'integer|nullable',
+            'uin_group' => 'string|nullable',
+            'bank_card' => 'integer|nullable',
         ]);
     }
 
@@ -66,21 +70,23 @@ class UserController extends Controller
 
     protected function attemptAddUser($request)
     {
-        // 获取输入参数
-        $name = $request->input('name');
-        $password = $request->input('password');
-        $role_name = $request->input('role_name');
-
         // 获取角色
-        $role = Role::where('name', $role_name)->first();
+        $role = Role::where('name', $this->params['role_name'])->first();
         if (empty($role)) {
             return false;
         }
 
         // 创建用户
         $user = new User();
-        $user->name = $name;
-        $user->password = bcrypt($password);
+        $user->name = $this->params['name'];
+        $user->password = bcrypt($this->params['password']);
+        !empty($this->params['invite_code']) && ($user->invite_code = $this->params['invite_code']);
+        !empty($this->params['uin']) && ($user->uin = $this->params['uin']);
+        !empty($this->params['wechat']) && ($user->wechat = $this->params['wechat']);
+        !empty($this->params['uin_group']) && ($user->uin_group = $this->params['uin_group']);
+        !empty($this->params['tel']) && ($user->tel = $this->params['tel']);
+        !empty($this->params['bank_card']) && ($user->bank_card = $this->params['bank_card']);
+        !empty($this->params['id_card']) && ($user->id_card = $this->params['id_card']);
         $user->save();
 
         // 绑定角色

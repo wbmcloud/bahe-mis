@@ -62,5 +62,6 @@ class Kernel extends HttpKernel
         'ability' => \Zizaco\Entrust\Middleware\EntrustAbility::class,
 
         'acl' => \App\Http\Middleware\AccessControl::class,
+        'validator' => \App\Http\Middleware\ParamsValidator::class,
     ];
 }

@@ -2,6 +2,7 @@
 
 namespace App\Exceptions;
 
+use App\Common\Utils;
 use Exception;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Database\QueryException;
@@ -49,7 +50,10 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Exception $exception)
     {
-        if ($exception instanceof NotFoundHttpException) {
+        if ($request->ajax()) {
+            return Utils::sendJsonResponse($exception->getCode(), $exception->getMessage());
+        }
+        /*if ($exception instanceof NotFoundHttpException) {
             return response()->view('errors.404');
         } elseif ($exception instanceof FatalErrorException) {
             return response()->view('errors.500');
@@ -59,8 +63,8 @@ class Handler extends ExceptionHandler
         } else {
             return response()->view('error',
                 ['message' => $exception->getMessage()]);
-        }
-        //return parent::render($request, $exception);
+        }*/
+        return parent::render($request, $exception);
     }
 
     /**

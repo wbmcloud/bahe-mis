@@ -10,7 +10,7 @@ namespace App\Exceptions;
 
 class SlException extends \Exception
 {
-    const SUCCESS_CODE = 2001000;
+    const SUCCESS_CODE = 0;
     const FAIL_CODE = 2001001;
     const PERMISSION_FAIL_CODE = 2001002;
     const SYSTEM_ERROR_CODE = 2001003;
@@ -20,6 +20,8 @@ class SlException extends \Exception
     const AGENT_NOT_RECHARGE_FOR_AGENT_CODE = 2001007;
     const USER_NOT_EXSIST_CODE = 2001008;
     const ACCOUNT_BALANCE_NOT_ENOUGH = 2001009;
+    const PARAMS_INVALID = 2001010;
+    const AGENT_NOT_EXSIST_CODE = 2001011;
 
 
     public static $error_msg = [
@@ -33,6 +35,8 @@ class SlException extends \Exception
         self::AGENT_NOT_RECHARGE_FOR_AGENT_CODE => '代理不能为代理进行充值',
         self::USER_NOT_EXSIST_CODE => '用户不存在',
         self::ACCOUNT_BALANCE_NOT_ENOUGH => '账户余额不足',
+        self::PARAMS_INVALID => '参数不合法',
+        self::AGENT_NOT_EXSIST_CODE => '代理人不存在',
     ];
 
     public function __construct($code)

@@ -20,4 +20,9 @@ class Controller extends BaseController
     {
         return view('error');
     }
+
+    public function __construct()
+    {
+        $this->params = $_REQUEST;
+    }
 }

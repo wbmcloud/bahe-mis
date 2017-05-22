@@ -11,12 +11,11 @@
 |
 */
 Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/', function () {
+    return redirect()->intended('/login');
+});
 
-Route::group(['middleware' => ['acl']], function () {
-    Route::get('/', function () {
-        return redirect()->intended('/dashboard');
-    });
-
+Route::group(['middleware' => ['acl', 'validator']], function () {
     Route::get('dashboard', function () {
         return view('dashboard');
     });
@@ -32,6 +31,16 @@ Route::group(['middleware' => ['acl']], function () {
 
     Route::get('/recharge/user', 'RechargeController@showUserRechargeForm');
     Route::post('/recharge/user', 'RechargeController@userRecharge')->name('recharge.user');
+
+    Route::get('/agent/list', 'AgentController@agentList')->name('agent.list');
+
+    Route::group(['prefix' => 'api'], function () {
+        Route::get('/agent/cancel', 'Api\AgentController@cancelAgent');
+        Route::get('/agent/add', 'Api\AgentController@addAgent');
+        Route::get('/agent/info', 'Api\AgentController@agentInfo');
+        Route::post('/agent/save', 'Api\AgentController@saveAgent');
+        Route::get('/agent/list', 'Api\AgentController@agentList');
+    });
 
 });
 

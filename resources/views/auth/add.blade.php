@@ -2,6 +2,11 @@
 
 @section('head')
 <link rel="stylesheet" href="{{ asset("/bower_components/admin-lte/plugins/select2/select2.css") }}">
+    <style>
+        .agent {
+            display: none;
+        }
+    </style>
 @endsection
 
 @section('content')
@@ -38,8 +43,57 @@
                     </select>
                 </div>
             </div>
+            <div class="agent form-group">
+                <label for="invite_code" class="col-sm-2 control-label">邀请码</label>
+
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" name="invite_code" placeholder="请输入邀请码">
+                </div>
+            </div>
+            <div class="agent form-group">
+                <label for="uin" class="col-sm-2 control-label">QQ号</label>
+
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" name="uin" placeholder="请输入QQ号">
+                </div>
+            </div>
+            <div class="agent form-group">
+                <label for="wechat" class="col-sm-2 control-label">微信号</label>
+
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" name="wechat" placeholder="请输入微信号">
+                </div>
+            </div>
+            <div class="agent form-group">
+                <label for="uin_group" class="col-sm-2 control-label">QQ群</label>
+
+                <div class="col-sm-10">
+                    <textarea class="form-control" name="uin_group" placeholder="请输入QQ群，可输入多个，每行一个"></textarea>
+                </div>
+            </div>
+            <div class="agent form-group">
+                <label for="tel" class="col-sm-2 control-label">手机号</label>
+
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" name="tel" placeholder="请输入手机号">
+                </div>
+            </div>
+            <div class="agent form-group">
+                <label for="bank_card" class="col-sm-2 control-label">银行卡号</label>
+
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" name="bank_card" placeholder="请输入银行卡号">
+                </div>
+            </div>
+            <div class="agent form-group">
+                <label for="id_card" class="col-sm-2 control-label">身份证号</label>
+
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" name="id_card" placeholder="请输入身份证号">
+                </div>
+            </div>
+            <button type="submit" class="btn btn-info pull-right">提交</button>
         </div>
-        <button type="submit" class="btn btn-info pull-right">提交</button>
     </form>
 @endsection
 
@@ -53,5 +107,18 @@
             minimumResultsForSearch: Infinity
         });
     });
+    $('.js-example-basic-single').change(function () {
+        if (this.value == 'admin') {
+            var agents = $('.agent');
+            for (var i = 0; i < agents.length; i++) {
+                $(agents[i]).css('display', 'none');
+            }
+        } else {
+            var agents = $('.agent');
+            for (var i = 0; i < agents.length; i++) {
+                $(agents[i]).css('display', 'block');
+            }
+        }
+    })
 </script>
 @endsection

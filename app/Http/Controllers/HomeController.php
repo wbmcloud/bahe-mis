@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Common\Constants;
 use App\Exceptions\Exception;
 use App\Library\Protobuf\Command;
 use App\Library\Protobuf\Protobuf;
 use App\Library\TcpClient;
 use App\Logic\AccountLogic;
+use App\Models\Role;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -34,15 +36,16 @@ class HomeController extends Controller
         $roles = User::where('name', $user_name)->first()->roles[0]->toArray();*/
 //        $roles = Auth::user()->roles()->first()->toArray();
 //        var_dump($roles);
-        $command['command_type'] = 1;
+        /*$command['command_type'] = 1;
         $command['account'] = 'kiras';
         $command['player_id'] = '222';
         $command['count'] = '100';
         $serialize = Protobuf::pack($command);
         $res = Protobuf::unpackForResponse(TcpClient::callTcpService($serialize));
         var_dump($res);
-        exit;
-        return view('success');
+        exit;*/
+        $users = Role::where('id', Constants::ROLE_TYPE_AGENT)->first()->users()->get()->toArray();
+        return view('agent.list', ['agents' => $users]);
     }
 
     public function initRole()
