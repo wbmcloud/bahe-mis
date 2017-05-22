@@ -70,7 +70,7 @@
                     <span id="msg"></span>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" id="confirm" onclick="hide()" class="btn btn-default">确认</button>
+                    <button type="button" id="confirm" class="btn btn-default">确认</button>
                     <!--button type="button" class="btn btn-primary">保存</button-->
                 </div>
             </div><!-- /.modal-content -->
@@ -168,6 +168,8 @@
                 data: data,
                 success: function (res) {
                     $('#msg').html(res.msg);
+                    $("#confirm").removeAttr("data-dismiss");
+                    $("#confirm").attr("onclick", "hide()");
                     $('.modal_container').modal({
                         "show": true,
                         "backdrop": false,
@@ -191,6 +193,8 @@
                 success: function (res) {
                     if (res.code) {
                         $('#msg').html(res.msg);
+                        $("#confirm").attr("data-dismiss", "modal");
+                        $("#confirm").removeAttr("onclick");
                         $('.modal_container').modal('show');
                     } else {
                         var data = res.data;
@@ -225,6 +229,8 @@
                 success: function (res) {
                     $('.edit_agent').modal('hide');
                     $('#msg').html(res.msg);
+                    $("#confirm").attr("data-dismiss", "modal");
+                    $("#confirm").removeAttr("onclick");
                     $('.modal_container').modal('show');
                 }
             });
