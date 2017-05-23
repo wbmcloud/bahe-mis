@@ -16,11 +16,20 @@ use Illuminate\Http\Request;
 
 class AgentController extends ApiBaseController
 {
-    public function cancelAgent(Request $request)
+    public function banAgent(Request $request)
     {
         $user_id = $request->input('id');
         $user = User::findOrFail($user_id);
         $user->status = Constants::COMMON_DISABLE;
+        $user->save();
+        return Utils::sendJsonSuccessResponse();
+    }
+
+    public function unBanAgent(Request $request)
+    {
+        $user_id = $request->input('id');
+        $user = User::findOrFail($user_id);
+        $user->status = Constants::COMMON_ENABLE;
         $user->save();
         return Utils::sendJsonSuccessResponse();
     }

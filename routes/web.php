@@ -33,15 +33,24 @@ Route::group(['middleware' => ['acl', 'validator']], function () {
     Route::post('/recharge/user', 'RechargeController@userRecharge')->name('recharge.user');
 
     Route::get('/agent/list', 'AgentController@agentList')->name('agent.list');
+    Route::get('/agent/banlist', 'AgentController@banAgentList')->name('agent.banlist');
+    Route::get('/general_agent/list', 'GeneralAgentController@agentList')->name('general_agent.list');
+    Route::get('/general_agent/add', 'GeneralAgentController@addAgentForm');
+    Route::post('/general_agent/add', 'GeneralAgentController@addAgent')->name('general_agent.add');
 
     Route::group(['prefix' => 'api'], function () {
-        Route::get('/agent/cancel', 'Api\AgentController@cancelAgent');
+        Route::get('/agent/ban', 'Api\AgentController@banAgent');
+        Route::get('/agent/unban', 'Api\AgentController@unBanAgent');
         Route::get('/agent/add', 'Api\AgentController@addAgent');
         Route::get('/agent/info', 'Api\AgentController@agentInfo');
         Route::post('/agent/save', 'Api\AgentController@saveAgent');
         Route::get('/agent/list', 'Api\AgentController@agentList');
+        Route::get('/general_agent/info', 'Api\GeneralAgentController@agentInfo');
+        Route::post('/general_agent/save', 'Api\GeneralAgentController@saveAgent');
+        Route::get('/general_agent/ban', 'Api\GeneralAgentController@banAgent');
     });
 
 });
+
 
 Auth::routes();

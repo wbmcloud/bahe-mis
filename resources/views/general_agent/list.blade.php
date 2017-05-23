@@ -9,7 +9,7 @@
 @section('content')
     <section class="content-header">
         <h1>
-            代理人列表
+            一级代理列表
         </h1>
     </section>
     <section class="content">
@@ -25,9 +25,10 @@
                             <thead>
                             <tr>
                             <th>id</th>
-                            <th>用户名</th>
-                            <th>成为代理时间</th>
-                            <th>代理操作</th>
+                            <th>姓名</th>
+                            <th>邀请码</th>
+                            <th>入驻时间</th>
+                            <th>操作</th>
                             </tr>
                             </thead>
                             <tbody id="agent_list_container">
@@ -38,9 +39,10 @@
                                     <tr>
                                         <td>{{ $agent['id'] }}</td>
                                         <td>{{ $agent['name'] }}</td>
+                                        <td>{{ $agent['invite_code'] }}</td>
                                         <td>{{ date('Y-m-d', strtotime($agent['created_at'])) }}</td>
                                         <td>
-                                            <button type="button" class="btn btn-primary">消费记录</button>
+                                            <button type="button" class="btn btn-primary">充值信息</button>
                                             <button type="button" onclick="banAgent({{ $agent['id'] }})" class="btn btn-primary">封禁</button>
                                             <button type="button" onclick="editAgent({{ $agent['id'] }})" class="btn btn-primary">修改信息</button>
                                         </td>
@@ -94,45 +96,24 @@
                     <div class="box-body">
                         <input type="hidden" class="form-control" name="id">
                         <div class="form-group">
-                            <label for="name" class="col-sm-2 control-label">用户名</label>
+                            <label for="name" class="col-sm-2 control-label">姓名</label>
 
                             <div class="col-sm-10">
-                                <input type="text" class="form-control" name="name" placeholder="请输入用户名" disabled>
+                                <input type="text" class="form-control" id="name" name="name" placeholder="请输入姓名" required>
                             </div>
                         </div>
                         <div class="form-group">
                             <label for="invite_code" class="col-sm-2 control-label">邀请码</label>
 
                             <div class="col-sm-10">
-                                <input type="text" class="form-control" name="invite_code" placeholder="请输入邀请码">
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="uin" class="col-sm-2 control-label">QQ号</label>
-
-                            <div class="col-sm-10">
-                                <input type="text" class="form-control" name="uin" placeholder="请输入QQ号">
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="wechat" class="col-sm-2 control-label">微信号</label>
-
-                            <div class="col-sm-10">
-                                <input type="text" class="form-control" name="wechat" placeholder="请输入微信号">
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="uin_group" class="col-sm-2 control-label">QQ群</label>
-
-                            <div class="col-sm-10">
-                                <textarea class="form-control" name="uin_group" placeholder="请输入QQ群，可输入多个，每行一个"></textarea>
+                                <input type="text" class="form-control" name="invite_code" placeholder="请输入邀请码" required>
                             </div>
                         </div>
                         <div class="form-group">
                             <label for="tel" class="col-sm-2 control-label">手机号</label>
 
                             <div class="col-sm-10">
-                                <input type="text" class="form-control" name="tel" placeholder="请输入手机号">
+                                <input type="text" class="form-control" name="tel" placeholder="请输入手机号" required>
                             </div>
                         </div>
                         <div class="form-group">
@@ -168,7 +149,7 @@
                 headers: {
                     "X-Requested-With": "XMLHttpRequest",
                 },
-                url: "/api/agent/ban",
+                url: "/api/general_agent/ban",
                 data: data,
                 success: function (res) {
                     $('#msg').html(res.msg);
@@ -192,7 +173,7 @@
                 headers: {
                     "X-Requested-With": "XMLHttpRequest",
                 },
-                url: "/api/agent/info",
+                url: "/api/general_agent/info",
                 data: data,
                 success: function (res) {
                     if (res.code) {
@@ -228,7 +209,7 @@
                     "X-Requested-With": "XMLHttpRequest",
                 },
                 type: 'POST',
-                url: "/api/agent/save",
+                url: "/api/general_agent/save",
                 data: data,
                 success: function (res) {
                     $('.edit_agent').modal('hide');
@@ -244,97 +225,5 @@
             $(".modal_container").modal('hide');
             location.reload();
         }
-        /*function agentList() {
-            $.ajax({
-                headers: {
-                    "X-Requested-With": "XMLHttpRequest",
-                },
-                url: "/api/agent/list",
-                success: function (res) {
-                    var data = res.data.list;
-                    console.log(data);
-                    if (data) {
-                        var html_str = '';
-                        $.each(data, function() {
-                            html_str += '<tr> \
-                                <td>' + this.id + '</td> \
-                                <td>' + this.name + '</td> \
-                                <td>X</td> \
-                                <td>' + this.created_at + '</td> \
-                                <td> \
-                                <button type="button" class="btn btn-primary">消费记录</button> \
-                                <button type="button" onclick="cancelAgent(' + this.id +')" class="btn btn-primary">取消代理</button> \
-                                <button type="button" onclick="editAgent(' + this.id +')" class="btn btn-primary">修改信息</button> \
-                                </td> \
-                                </tr>';
-                        });
-                        $('#agent_list_container').html(html_str);
-                    }
-                }
-            });
-        }*/
-        /**
-         *   "paging": true,
-             "lengthChange": false,
-             "searching": false,
-             "ordering": true,
-             "info": true,
-             "autoWidth": false
-             recordsTotal
-             recordsFiltered
-         */
-        /*$(document).ready(function () {
-            $('#agent_container').DataTable({
-                // serverSide: true,
-                searching: false,
-                lengthChange: false,
-                info: true,
-                /*columnDefs: [{
-                    targets: -1,
-                    data: null,
-                    defaultContent: "<button>Click!</button>"
-                }],*/
-                /*ajax: {
-                    headers: {
-                        "X-Requested-With": "XMLHttpRequest",
-                    },
-                    url: '/api/agent/list',
-                    type: 'GET',
-                    dataSrc: function(data){
-                        return data.data.list;
-                    },
-                    data: function (data) {
-                        return {
-                            page: 1
-                        }
-                    },
-                },*/
-                /*ajax: {
-                    headers: {
-                        "X-Requested-With": "XMLHttpRequest",
-                    },
-                    url: '/api/agent/list',
-                    data: {
-                        page: 1,
-                    },
-                    // dataSrc: "data.list",
-                    dataFilter: function(data){
-                        ar data = JSON.parse(data);
-                        var json = {
-                            draw: 1,
-                            recordsTotal: data.data.total_count,
-                            recordsFiltered: data.data.total_count,
-                            data: data.data.list
-                        };
-                        return JSON.stringify(json); // return JSON string
-                    }
-                },
-                columns: [
-                    { "data": 'id' },
-                    { "data": 'name' },
-                    { "data": 'created_at' }
-                ],*/
-            // });
-        // });
     </script>
 @endsection

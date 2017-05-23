@@ -54,8 +54,8 @@
             </span>
           </a>
           <ul class="treeview-menu">
-            <li><a href="index.html"><i class="fa fa-circle-o"></i>新增</a></li>
-            <li><a href="index2.html"><i class="fa fa-circle-o"></i>查询</a></li>
+            <li><a href="{{ route('general_agent.add') }}"><i class="fa fa-circle-o"></i>新增</a></li>
+            <li><a href="{{ route('general_agent.list') }}"><i class="fa fa-circle-o"></i>查询</a></li>
           </ul>
         </li>
         <li class="treeview">
@@ -67,6 +67,7 @@
           </a>
           <ul class="treeview-menu">
             <li class="active"><a href="{{ route('agent.list') }}"><i class="fa fa-circle-o"></i>查询</a></li>
+            <li class="active"><a href="{{ route('agent.banlist') }}"><i class="fa fa-circle-o"></i>封禁查询</a></li>
           </ul>
         </li>
         <li class="treeview">

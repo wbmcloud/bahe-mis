@@ -19,7 +19,7 @@ class AgentController extends Controller
 
     public function agentList()
     {
-        $page = isset($this->params['page']) ? $this->params['page'] : Constants::DEFAULT_PAGE;
+        // $page = isset($this->params['page']) ? $this->params['page'] : Constants::DEFAULT_PAGE;
         $page_size = isset($this->params['page_size']) ? $this->params['page_size'] : Constants::DEFAULT_PAGE_SIZE;
         $users = Role::where('id', Constants::ROLE_TYPE_AGENT)
             ->first()
@@ -47,6 +47,19 @@ class AgentController extends Controller
             'agents' => $users,
             'total_count' => $total_count,
         ]);*/
+    }
+
+    public function banAgentList()
+    {
+        $page_size = isset($this->params['page_size']) ? $this->params['page_size'] : Constants::DEFAULT_PAGE_SIZE;
+        $users = Role::where('id', Constants::ROLE_TYPE_AGENT)
+            ->first()
+            ->users()
+            ->where('status', Constants::COMMON_DISABLE)
+            ->paginate($page_size);
+        return view('agent.banlist', [
+            'agents' => $users,
+        ]);
     }
 
 }
