@@ -56,6 +56,7 @@
           <ul class="treeview-menu">
             <li><a href="{{ route('general_agent.add') }}"><i class="fa fa-circle-o"></i>新增</a></li>
             <li><a href="{{ route('general_agent.list') }}"><i class="fa fa-circle-o"></i>查询</a></li>
+            <li><a href="{{ route('general_agent.invite_code') }}"><i class="fa fa-circle-o"></i>邀请码</a></li>
           </ul>
         </li>
         <li class="treeview">

@@ -46,6 +46,6 @@ class Constants
      * 分页相关配置
      */
     const DEFAULT_PAGE = 1;
-    const DEFAULT_PAGE_SIZE = 2;
+    const DEFAULT_PAGE_SIZE = 10;
 
 }

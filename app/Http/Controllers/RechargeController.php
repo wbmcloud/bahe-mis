@@ -11,6 +11,7 @@ use App\Common\Constants;
 use App\Exceptions\SlException;
 use App\Library\Protobuf\Protobuf;
 use App\Library\TcpClient;
+use App\Logic\AccountLogic;
 use App\Models\Accounts;
 use App\Models\TransactionFlow;
 use App\Models\User;
@@ -28,7 +29,12 @@ class RechargeController extends Controller
 
     public function showUserRechargeForm()
     {
-        return view('recharge.user');
+        $account_logic = new AccountLogic();
+        $accounts = $account_logic->getAgentBalance();
+
+        return view('recharge.user', [
+            'accounts' => $accounts
+        ]);
     }
 
     public function agentRecharge(Request $request)

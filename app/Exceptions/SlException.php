@@ -22,6 +22,7 @@ class SlException extends \Exception
     const ACCOUNT_BALANCE_NOT_ENOUGH = 2001009;
     const PARAMS_INVALID = 2001010;
     const AGENT_NOT_EXSIST_CODE = 2001011;
+    const INVITE_CODE_NOT_VALID_CODE = 2001012;
 
 
     public static $error_msg = [
@@ -37,6 +38,7 @@ class SlException extends \Exception
         self::ACCOUNT_BALANCE_NOT_ENOUGH => '账户余额不足',
         self::PARAMS_INVALID => '参数不合法',
         self::AGENT_NOT_EXSIST_CODE => '代理人不存在',
+        self::INVITE_CODE_NOT_VALID_CODE => '邀请码不合法',
     ];
 
     public function __construct($code)

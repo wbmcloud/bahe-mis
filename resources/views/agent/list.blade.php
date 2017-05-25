@@ -31,8 +31,8 @@
                             </tr>
                             </thead>
                             <tbody id="agent_list_container">
-                            @if(empty($agents->toArray()))
-                                <tr>没有记录</tr>
+                            @if(empty($agents->total()))
+                                <tr><td colspan="5">没有记录</td></tr>
                             @else
                                 @foreach($agents as $agent)
                                     <tr>

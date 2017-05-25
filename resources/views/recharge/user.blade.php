@@ -40,6 +40,22 @@
             </div>
         </div>
         <button type="submit" class="btn btn-info pull-right">充值</button>
+        @foreach ($accounts as $account)
+            <div class="form-group">
+                @if($account['type'] == 1)
+                    <label class="col-sm-2 control-label">房卡</label>
+                    <span class="info-box-number" style="color: red"><i>{{ $account['balance'] }}</i></span>
+                @elseif($account['type'] == 2)
+                    <label class="col-sm-2 control-label">钻石</label>
+                    <span class="info-box-number" style="color: red"><i>{{ $account['balance'] }}</i></span>
+                @elseif($account['type'] == 3)
+                    <label class="col-sm-2 control-label">欢乐豆</label>
+                    <span class="info-box-number" style="color: red"><i>{{ $account['balance'] }}</i></span>
+                @else
+                @endif
+            </div>
+        @endforeach
+
     </form>
 @endsection
 @section('script')
