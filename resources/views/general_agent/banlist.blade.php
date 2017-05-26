@@ -9,7 +9,7 @@
 @section('content')
     <section class="content-header">
         <h1>
-            邀请码列表
+            封禁代理人列表
         </h1>
     </section>
     <section class="content">
@@ -25,29 +25,31 @@
                             <thead>
                             <tr>
                             <th>id</th>
+                            <th>姓名</th>
                             <th>邀请码</th>
-                            <th>是否使用</th>
+                            <th>入驻时间</th>
+                            <th>操作</th>
                             </tr>
                             </thead>
                             <tbody id="agent_list_container">
-                            @if(empty($codes->total()))
-                                <tr><td colspan="5">没有记录</td></tr>
+                            @if(empty($agents))
+                                <tr>没有记录</tr>
                             @else
-                                @foreach($codes as $code)
+                                @foreach($agents as $agent)
                                     <tr>
-                                        <td>{{ $code['id'] }}</td>
-                                        <td>{{ $code['invite_code'] }}</td>
-                                        @if($code['is_used'])
-                                        <td>是</td>
-                                        @else
-                                        <td>否</td>
-                                        @endif
+                                        <td>{{ $agent['id'] }}</td>
+                                        <td>{{ $agent['name'] }}</td>
+                                        <td>{{ $agent['invite_code'] }}</td>
+                                        <td>{{ date('Y-m-d', strtotime($agent['created_at'])) }}</td>
+                                        <td>
+                                            <button type="button" onclick="unBanAgent({{ $agent['id'] }})" class="btn btn-primary">解封</button>
+                                        </td>
                                     </tr>
                                 @endforeach
                             @endif
                             </tbody>
                         </table>
-                        {{ $codes->links() }}
+                        {{ $agents->links() }}
                     </div>
                     <!-- /.box-body -->
                 </div>
@@ -84,35 +86,40 @@
     <script src="{{ asset("/bower_components/admin-lte/plugins/datatables/jquery.dataTables.min.js") }}"></script>
     <script src="{{ asset("/bower_components/admin-lte/plugins/datatables/dataTables.bootstrap.min.js") }}"></script>
     <script>
-
-        function saveAgent() {
-            var data = {};
-            var form_data = $('.form-horizontal').serializeArray();
-            $.each(form_data, function() {
-                data[this.name] = this.value;
-            });
+        function unBanAgent(id) {
+            var data = {
+                'id': id,
+            }
             $.ajax({
                 headers: {
                     "X-Requested-With": "XMLHttpRequest",
                 },
-                type: 'POST',
-                url: "/api/general_agent/save",
+                url: "/api/general_agent/unban",
                 data: data,
                 success: function (res) {
-                    $('.edit_agent').modal('hide');
+                    if (!res.code) {
+                        $("#confirm").removeAttr("data-dismiss");
+                        $("#confirm").attr("onclick", "hide()");
+                    } else {
+                        $("#confirm").attr("data-dismiss", "modal");
+                        $("#confirm").removeAttr("onclick");
+                    }
                     $('#msg').html(res.msg);
-                    $("#confirm").attr("data-dismiss", "modal");
-                    $("#confirm").removeAttr("onclick");
-                    $('.modal_container').modal('show');
+                    $('.modal_container').modal({
+                        "show": true,
+                        "backdrop": false,
+                        "keyboard": false
+                    });
                 }
             });
-        }
+
+        };
 
         function hide() {
             $(".modal_container").modal('hide');
             location.reload();
         }
         $('#general_agent').addClass('active');
-        $('#general_agent_invite_code').addClass('active');
+        $('#general_agent_banlist').addClass('active');
     </script>
 @endsection

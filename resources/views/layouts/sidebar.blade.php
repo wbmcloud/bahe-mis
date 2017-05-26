@@ -32,7 +32,7 @@
       <ul class="sidebar-menu">
         <li class="header">HEADER</li>
         <!-- Optionally, you can add icons to the links -->
-        <li class="treeview">
+        <li id="recharge" class="treeview">
           <a href="#"><i class="fa fa-link"></i> <span>充值中心</span>
             <span class="pull-right-container">
               <i class="fa fa-angle-left pull-right"></i>
@@ -40,13 +40,13 @@
           </a>
           <ul class="treeview-menu">
             @role(['super', 'admin'])
-            <li><a href="{{ route('recharge.agent') }}"><i class="fa fa-link"></i> <span>代理充值</span></a></li>
+            <li id="agent_recharge"><a href="{{ route('recharge.agent') }}"><i class="fa fa-link"></i> <span>代理充值</span></a></li>
             @endrole
-            <li><a href="{{ route('recharge.user') }}"><i class="fa fa-link"></i> <span>用户充值</span></a></li>
+            <li id="user_recharge"><a href="{{ route('recharge.user') }}"><i class="fa fa-link"></i> <span>用户充值</span></a></li>
           </ul>
         </li>
         @role(['super', 'admin'])
-        <li class="treeview">
+        <li id="general_agent" class="treeview">
           <a href="#">
             <i class="fa fa-dashboard"></i> <span>一级代理</span>
             <span class="pull-right-container">
@@ -54,12 +54,13 @@
             </span>
           </a>
           <ul class="treeview-menu">
-            <li><a href="{{ route('general_agent.add') }}"><i class="fa fa-circle-o"></i>新增</a></li>
-            <li><a href="{{ route('general_agent.list') }}"><i class="fa fa-circle-o"></i>查询</a></li>
-            <li><a href="{{ route('general_agent.invite_code') }}"><i class="fa fa-circle-o"></i>邀请码</a></li>
+            <li id="general_agent_add"><a href="{{ route('general_agent.add') }}"><i class="fa fa-circle-o"></i>新增</a></li>
+            <li id="general_agent_list"><a href="{{ route('general_agent.list') }}"><i class="fa fa-circle-o"></i>查询</a></li>
+            <li id="general_agent_banlist"><a href="{{ route('general_agent.banlist') }}"><i class="fa fa-circle-o"></i>封禁查询</a></li>
+            <li id="general_agent_invite_code"><a href="{{ route('general_agent.invite_code') }}"><i class="fa fa-circle-o"></i>邀请码</a></li>
           </ul>
         </li>
-        <li class="treeview">
+        <li id="agent" class="treeview">
           <a href="#">
             <i class="fa fa-dashboard"></i> <span>代理</span>
             <span class="pull-right-container">
@@ -67,8 +68,8 @@
             </span>
           </a>
           <ul class="treeview-menu">
-            <li class="active"><a href="{{ route('agent.list') }}"><i class="fa fa-circle-o"></i>查询</a></li>
-            <li class="active"><a href="{{ route('agent.banlist') }}"><i class="fa fa-circle-o"></i>封禁查询</a></li>
+            <li id="agent_list"><a href="{{ route('agent.list') }}"><i class="fa fa-circle-o"></i>查询</a></li>
+            <li id="agent_banlist"><a href="{{ route('agent.banlist') }}"><i class="fa fa-circle-o"></i>封禁查询</a></li>
           </ul>
         </li>
         <li class="treeview">

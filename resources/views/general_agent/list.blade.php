@@ -225,5 +225,7 @@
             $(".modal_container").modal('hide');
             location.reload();
         }
+        $('#general_agent').addClass('active');
+        $('#general_agent_list').addClass('active');
     </script>
 @endsection

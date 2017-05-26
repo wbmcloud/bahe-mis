@@ -36,7 +36,7 @@
                             @else
                                 @foreach($agents as $agent)
                                     <tr>
-                                        <td>{{ $agent['id'] }}</td>
+                                        <td><a href="{{ route('agent.info') . '?id=' . $agent['id'] }}">{{ $agent['id'] }}</a></td>
                                         <td>{{ $agent['name'] }}</td>
                                         <td>{{ date('Y-m-d', strtotime($agent['created_at'])) }}</td>
                                         <td>
@@ -117,5 +117,7 @@
             $(".modal_container").modal('hide');
             location.reload();
         }
+        $('#agent').addClass('active');
+        $('#agent_banlist').addClass('active');
     </script>
 @endsection

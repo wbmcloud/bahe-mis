@@ -69,5 +69,7 @@
                 increaseArea: '20%' // optional
             });
         });
+        $('#recharge').addClass('active');
+        $('#user_recharge').addClass('active');
     </script>
 @endsection

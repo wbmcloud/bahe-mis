@@ -55,6 +55,7 @@
 
 @section('script')
 <script type="text/javascript">
-
+$('#general_agent').addClass('active');
+$('#general_agent_add').addClass('active');
 </script>
 @endsection

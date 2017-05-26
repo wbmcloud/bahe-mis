@@ -89,6 +89,10 @@ desired effect
 <!-- AdminLTE App -->
 <script src="{{ asset("/bower_components/admin-lte/dist/js/app.min.js") }}"></script>
 
+<script src="{{ asset("/bower_components/admin-lte/plugins/fastclick/fastclick.js") }}"></script>
+
+<script src="{{ asset("/bower_components/admin-lte/plugins/slimScroll/jquery.slimscroll.min.js") }}"></script>
+
 @yield('script')
 <!-- Optionally, you can add Slimscroll and FastClick plugins.
      Both of these plugins are recommended to enhance the

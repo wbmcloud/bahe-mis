@@ -8,6 +8,7 @@
 namespace App\Http\Controllers;
 
 use App\Common\Constants;
+use App\Exceptions\SlException;
 use App\Models\Role;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -59,6 +60,17 @@ class AgentController extends Controller
             ->paginate($page_size);
         return view('agent.banlist', [
             'agents' => $users,
+        ]);
+    }
+
+    public function agentInfo()
+    {
+        $user = User::find($this->params['id']);
+        if (empty($user)) {
+            throw new SlException(SlException::AGENT_NOT_EXSIST_CODE);
+        }
+        return view('agent.info', [
+            'agent_info' => $user
         ]);
     }
 

@@ -97,4 +97,14 @@ class GeneralAgentController extends Controller
             'codes' => $codes,
         ]);
     }
+
+    public function banAgentList()
+    {
+        $page_size = isset($this->params['page_size']) ? $this->params['page_size'] : Constants::DEFAULT_PAGE_SIZE;
+        $general_agents = GeneralAgents::where('status', Constants::COMMON_DISABLE)
+            ->paginate($page_size);;
+        return view('general_agent.banlist', [
+            'agents' => $general_agents
+        ]);
+    }
 }

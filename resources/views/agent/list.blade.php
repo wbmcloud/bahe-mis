@@ -26,6 +26,7 @@
                             <tr>
                             <th>id</th>
                             <th>用户名</th>
+                            <th>交易总数</th>
                             <th>成为代理时间</th>
                             <th>代理操作</th>
                             </tr>
@@ -36,8 +37,9 @@
                             @else
                                 @foreach($agents as $agent)
                                     <tr>
-                                        <td>{{ $agent['id'] }}</td>
+                                        <td><a href="{{ route('agent.info') . '?id=' . $agent['id'] }}">{{ $agent['id'] }}</a></td>
                                         <td>{{ $agent['name'] }}</td>
+                                        <td>{{ $agent['account']['total'] }}</td>
                                         <td>{{ date('Y-m-d', strtotime($agent['created_at'])) }}</td>
                                         <td>
                                             <button type="button" class="btn btn-primary">消费记录</button>
@@ -336,5 +338,7 @@
                 ],*/
             // });
         // });
+        $('#agent').addClass('active');
+        $('#agent_list').addClass('active');
     </script>
 @endsection
