@@ -31,7 +31,7 @@
                             </tr>
                             </thead>
                             <tbody id="agent_list_container">
-                            @if(empty($agents))
+                            @if(empty($agents->total()))
                                 <tr>没有记录</tr>
                             @else
                                 @foreach($agents as $agent)
