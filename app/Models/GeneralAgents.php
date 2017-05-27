@@ -11,4 +11,9 @@ class GeneralAgents extends Model
         parent::__construct($attributes);
         $this->table = 'general_agents';
     }
+
+    public function agents()
+    {
+        return $this->hasMany('App\Models\User', 'invite_code', 'invite_code');
+    }
 }

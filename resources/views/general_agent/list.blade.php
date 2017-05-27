@@ -27,6 +27,7 @@
                             <th>id</th>
                             <th>姓名</th>
                             <th>邀请码</th>
+                            <th>发展代理数</th>
                             <th>入驻时间</th>
                             <th>操作</th>
                             </tr>
@@ -40,6 +41,7 @@
                                         <td>{{ $agent['id'] }}</td>
                                         <td>{{ $agent['name'] }}</td>
                                         <td>{{ $agent['invite_code'] }}</td>
+                                        <td>{{ count($agent['agents'])}}</td>
                                         <td>{{ date('Y-m-d', strtotime($agent['created_at'])) }}</td>
                                         <td>
                                             <button type="button" class="btn btn-primary">充值信息</button>
