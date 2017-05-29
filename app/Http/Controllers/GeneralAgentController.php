@@ -23,10 +23,28 @@ class GeneralAgentController extends Controller
 
     public function agentList()
     {
-        // $page = isset($this->params['page']) ? $this->params['page'] : Constants::DEFAULT_PAGE;
-        $page_size = isset($this->params['page_size']) ? $this->params['page_size'] : Constants::DEFAULT_PAGE_SIZE;
-        $users = GeneralAgents::where('status', Constants::COMMON_ENABLE)
-            ->paginate($page_size);
+        $page_size = isset($this->params['page_size']) ? $this->params['page_size'] :
+            Constants::DEFAULT_PAGE_SIZE;
+
+        if (isset($this->params['query_str']) && !empty($this->params['query_str'])) {
+            // 分析query_str类型
+            if (is_numeric($this->params['query_str']) &&
+                (strlen($this->params['query_str']) == Constants::INVITE_CODE_LENGTH)) {
+                // 邀请码查询
+                $users = GeneralAgents::where('status', Constants::COMMON_ENABLE)
+                    ->where('invite_code', $this->params['query_str'])
+                    ->paginate($page_size);
+            } else {
+                // 姓名查询
+                $users = GeneralAgents::where('status', Constants::COMMON_ENABLE)
+                    ->where('name', $this->params['query_str'])
+                    ->paginate($page_size);
+            }
+        } else {
+            $users = GeneralAgents::where('status', Constants::COMMON_ENABLE)
+                ->paginate($page_size);
+        }
+
         return view('general_agent.list', [
             'agents' => $users,
         ]);
@@ -100,11 +118,30 @@ class GeneralAgentController extends Controller
 
     public function banAgentList()
     {
-        $page_size = isset($this->params['page_size']) ? $this->params['page_size'] : Constants::DEFAULT_PAGE_SIZE;
-        $general_agents = GeneralAgents::where('status', Constants::COMMON_DISABLE)
-            ->paginate($page_size);;
+        $page_size = isset($this->params['page_size']) ? $this->params['page_size'] :
+            Constants::DEFAULT_PAGE_SIZE;
+
+        if (isset($this->params['query_str']) && !empty($this->params['query_str'])) {
+            // 分析query_str类型
+            if (is_numeric($this->params['query_str']) &&
+                (strlen($this->params['query_str']) == Constants::INVITE_CODE_LENGTH)) {
+                // 邀请码查询
+                $users = GeneralAgents::where('status', Constants::COMMON_DISABLE)
+                    ->where('invite_code', $this->params['query_str'])
+                    ->paginate($page_size);
+            } else {
+                // 姓名查询
+                $users = GeneralAgents::where('status', Constants::COMMON_DISABLE)
+                    ->where('name', $this->params['query_str'])
+                    ->paginate($page_size);
+            }
+        } else {
+            $users = GeneralAgents::where('status', Constants::COMMON_DISABLE)
+                ->paginate($page_size);
+        }
+
         return view('general_agent.banlist', [
-            'agents' => $general_agents
+            'agents' => $users
         ]);
     }
 }

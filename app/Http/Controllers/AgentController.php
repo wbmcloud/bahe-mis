@@ -22,11 +22,21 @@ class AgentController extends Controller
     {
         // $page = isset($this->params['page']) ? $this->params['page'] : Constants::DEFAULT_PAGE;
         $page_size = isset($this->params['page_size']) ? $this->params['page_size'] : Constants::DEFAULT_PAGE_SIZE;
-        $users = Role::where('id', Constants::ROLE_TYPE_AGENT)
-            ->first()
-            ->users()
-            ->where('status', Constants::COMMON_ENABLE)
-            ->paginate($page_size);
+
+        if (isset($this->params['query_str']) && !empty($this->params['query_str'])) {
+            $users = Role::where('id', Constants::ROLE_TYPE_AGENT)
+                ->first()
+                ->users()
+                ->where('status', Constants::COMMON_ENABLE)
+                ->where('name', $this->params['query_str'])
+                ->paginate($page_size);
+        } else {
+            $users = Role::where('id', Constants::ROLE_TYPE_AGENT)
+                ->first()
+                ->users()
+                ->where('status', Constants::COMMON_ENABLE)
+                ->paginate($page_size);
+        }
         return view('agent.list', [
             'agents' => $users,
         ]);
@@ -52,12 +62,23 @@ class AgentController extends Controller
 
     public function banAgentList()
     {
-        $page_size = isset($this->params['page_size']) ? $this->params['page_size'] : Constants::DEFAULT_PAGE_SIZE;
-        $users = Role::where('id', Constants::ROLE_TYPE_AGENT)
-            ->first()
-            ->users()
-            ->where('status', Constants::COMMON_DISABLE)
-            ->paginate($page_size);
+        $page_size = isset($this->params['page_size']) ? $this->params['page_size'] :
+            Constants::DEFAULT_PAGE_SIZE;
+
+        if (isset($this->params['query_str']) && !empty($this->params['query_str'])) {
+            $users = Role::where('id', Constants::ROLE_TYPE_AGENT)
+                ->first()
+                ->users()
+                ->where('status', Constants::COMMON_DISABLE)
+                ->where('name', $this->params['query_str'])
+                ->paginate($page_size);
+        } else {
+            $users = Role::where('id', Constants::ROLE_TYPE_AGENT)
+                ->first()
+                ->users()
+                ->where('status', Constants::COMMON_DISABLE)
+                ->paginate($page_size);
+        }
         return view('agent.banlist', [
             'agents' => $users,
         ]);

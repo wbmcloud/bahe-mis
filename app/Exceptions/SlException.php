@@ -23,6 +23,7 @@ class SlException extends \Exception
     const PARAMS_INVALID = 2001010;
     const AGENT_NOT_EXSIST_CODE = 2001011;
     const INVITE_CODE_NOT_VALID_CODE = 2001012;
+    const QUERY_STRING_NOT_EMPTY_CODE = 2001013;
 
 
     public static $error_msg = [
@@ -39,6 +40,7 @@ class SlException extends \Exception
         self::PARAMS_INVALID => '参数不合法',
         self::AGENT_NOT_EXSIST_CODE => '代理人不存在',
         self::INVITE_CODE_NOT_VALID_CODE => '邀请码不合法',
+        self::QUERY_STRING_NOT_EMPTY_CODE => '查询字符串不能为空',
     ];
 
     public function __construct($code)

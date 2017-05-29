@@ -19,6 +19,16 @@
                     <!--div class="box-header">
                         <h3 class="box-title">Hover Data Table</h3>
                     </div-->
+
+                    <!-- /input-group -->
+                    <div class="input-group margin" style="width:25%;">
+                        <input id="query_str" type="text" class="col-sm-2 form-control" placeholder="请输入姓名或者邀请码">
+                        <span class="input-group-btn">
+                              <button type="button" class="btn btn-info btn-flat" onclick="query();">搜索</button>
+                        </span>
+                    </div>
+                    <!-- /input-group -->
+
                     <!-- /.box-header -->
                     <div class="box-body">
                         <table id="agent_container" class="table table-bordered table-hover">
@@ -40,7 +50,8 @@
                                         <td>{{ $agent['id'] }}</td>
                                         <td>{{ $agent['name'] }}</td>
                                         <td>{{ $agent['invite_code'] }}</td>
-                                        <td>{{ date('Y-m-d', strtotime($agent['created_at'])) }}</td>
+                                        <!--td>{{ date('Y-m-d', strtotime($agent['created_at'])) }}</td-->
+                                        <td>{{ $agent['created_at'] }}</td>
                                         <td>
                                             <button type="button" onclick="unBanAgent({{ $agent['id'] }})" class="btn btn-primary">解封</button>
                                         </td>
@@ -119,6 +130,29 @@
             $(".modal_container").modal('hide');
             location.reload();
         }
+
+        function getCurrenturl()
+        {
+            return location.origin + location.pathname;
+        }
+
+        function query()
+        {
+            var query_str = $("#query_str").val();
+            if (!query_str) {
+                $('#msg').html("请输入姓名或者邀请码");
+                $("#confirm").attr("data-dismiss", "modal");
+                $("#confirm").removeAttr("onclick");
+                $('.modal_container').modal({
+                    "show": true,
+                    "backdrop": false,
+                    "keyboard": false
+                });
+            } else {
+                location.href = getCurrenturl() + '?query_str=' + query_str;
+            }
+        }
+
         $('#general_agent').addClass('active');
         $('#general_agent_banlist').addClass('active');
     </script>

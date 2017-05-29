@@ -2,16 +2,13 @@
 
 namespace App\Console\Commands;
 
+use App\Common\Constants;
 use Carbon\Carbon;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\DB;
 
 class genInviteCodes extends Command
 {
-
-    const INVITE_CODE_LENGTH = 7;
-
-    const INVITE_CODE_BATCH_SIZE = 100;
 
     /**
      * The name and signature of the console command.
@@ -45,7 +42,7 @@ class genInviteCodes extends Command
     public function handle()
     {
         $batch_insert_arr = [];
-        for ($i = 0; $i < self::INVITE_CODE_BATCH_SIZE; $i++) {
+        for ($i = 0; $i < Constants::INVITE_CODE_BATCH_SIZE; $i++) {
             $batch_insert_arr[] = [
                 'invite_code' => $this->genInviteCode(),
                 'created_at' => Carbon::now(),
@@ -55,7 +52,7 @@ class genInviteCodes extends Command
         DB::table('invite_code')->insert($batch_insert_arr);
     }
 
-    protected function genInviteCode($length = self::INVITE_CODE_LENGTH)
+    protected function genInviteCode($length = Constants::INVITE_CODE_LENGTH)
     {
         $invite_code = '';
         for ($i = 0; $i < $length; $i++) {

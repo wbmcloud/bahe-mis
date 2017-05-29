@@ -17,7 +17,7 @@
       </div>
 
       <!-- search form (Optional) -->
-      <form action="#" method="get" class="sidebar-form">
+      <!--form action="#" method="get" class="sidebar-form">
         <div class="input-group">
           <input type="text" name="q" class="form-control" placeholder="Search...">
               <span class="input-group-btn">
@@ -25,7 +25,7 @@
                 </button>
               </span>
         </div>
-      </form>
+      </form-->
       <!-- /.search form -->
 
       <!-- Sidebar Menu -->
@@ -72,7 +72,7 @@
             <li id="agent_banlist"><a href="{{ route('agent.banlist') }}"><i class="fa fa-circle-o"></i>封禁查询</a></li>
           </ul>
         </li>
-        <li class="treeview">
+        <!--li class="treeview">
           <a href="#">
             <i class="fa fa-dashboard"></i> <span>玩家</span>
             <span class="pull-right-container">
@@ -87,9 +87,9 @@
           <a href="pages/mailbox/mailbox.html">
             <i class="fa fa-envelope"></i> <span>代开房</span>
           </a>
-        </li>
+        </li-->
         @endrole
-        <li class="treeview">
+        <!--li class="treeview">
           <a href="#">
             <i class="fa fa-dashboard"></i> <span>数据</span>
             <span class="pull-right-container">
@@ -99,7 +99,7 @@
           <ul class="treeview-menu">
             <li><a href="index.html"><i class="fa fa-circle-o"></i>流水汇总</a></li>
           </ul>
-        </li>
+        </li-->
       </ul>
       <!-- /.sidebar-menu -->
     </section>

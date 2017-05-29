@@ -48,4 +48,10 @@ class Constants
     const DEFAULT_PAGE = 1;
     const DEFAULT_PAGE_SIZE = 10;
 
+    /**
+     * 邀请码配置
+     */
+    const INVITE_CODE_LENGTH = 7;
+    const INVITE_CODE_BATCH_SIZE = 100;
+
 }
