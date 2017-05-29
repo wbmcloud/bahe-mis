@@ -21,7 +21,7 @@
                     </div-->
 
                     <!-- /input-group -->
-                    <div class="input-group margin" style="width:25%;">
+                    <div class="input-group margin" style="width:40%;">
                         <input id="query_str" type="text" class="col-sm-2 form-control" placeholder="请输入用户名">
                         <span class="input-group-btn">
                               <button type="button" class="btn btn-info btn-flat" onclick="query();">搜索</button>
@@ -56,6 +56,7 @@
                                             <button type="button" class="btn btn-primary">消费记录</button>
                                             <button type="button" onclick="banAgent({{ $agent['id'] }})" class="btn btn-primary">封禁</button>
                                             <button type="button" onclick="editAgent({{ $agent['id'] }})" class="btn btn-primary">修改信息</button>
+                                            <button type="button" onclick="resetPassword({{ $agent['id'] }})" class="btn btn-primary">重置密码</button>
                                         </td>
                                     </tr>
                                 @endforeach
@@ -102,7 +103,7 @@
                     <h4 class="modal-title" id="gridSystemModalLabel">修改信息</h4>
                 </div>
                 <!-- form start -->
-                <form class="form-horizontal" method="POST" action="">
+                <form class="edit_agent_form form-horizontal" method="POST" action="">
                     {{  csrf_field() }}
                     <div class="box-body">
                         <input type="hidden" class="form-control" name="id">
@@ -168,6 +169,32 @@
             </div><!-- /.modal-content -->
         </div><!-- /.modal-dialog -->
     </div><!-- /.modal -->
+
+    <div class="reset_passwd modal fade" tabindex="-1" role="dialog" aria-labelledby="gridSystemModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="gridSystemModalLabel">重置密码</h4>
+                </div>
+                <!-- form start -->
+                <form class="reset_password_form form-horizontal" method="POST" action="">
+                    {{  csrf_field() }}
+                    <div class="box-body">
+                        <input type="hidden" class="form-control" name="id">
+                        <div class="form-group">
+                            <label for="name" class="col-sm-2 control-label">输入密码</label>
+                            <div class="col-sm-10">
+                                <input type="password" class="form-control" name="password" placeholder="请输入密码">
+                            </div>
+                        </div>
+                        <button type="button" onclick="savePassword()" class="btn btn-info pull-right">提交</button>
+                    </div>
+                </form>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+
 @endsection
 @section('script')
     <script src="{{ asset("/bower_components/admin-lte/plugins/datatables/jquery.dataTables.min.js") }}"></script>
@@ -197,6 +224,34 @@
 
         };
         
+        function resetPassword(id) {
+            $("input[name='id']").val(id);
+            $('.reset_passwd').modal('show');
+        }
+
+        function savePassword() {
+            var _id = $("input[name='id']").val();
+            var _password = $("input[name='password']").val();
+            var _data = {
+                id: _id,
+                password: _password
+            };
+            $.ajax({
+                headers: {
+                    "X-Requested-With": "XMLHttpRequest",
+                },
+                url: "/api/agent/reset",
+                data: _data,
+                success: function (res) {
+                    $('.reset_passwd').modal('hide');
+                    $('#msg').html(res.msg);
+                    $("#confirm").attr("data-dismiss", "modal");
+                    $("#confirm").removeAttr("onclick");
+                    $('.modal_container').modal('show');
+                }
+            });
+        }
+
         function editAgent(id) {
             var data = {
                 'id': id,
@@ -232,7 +287,7 @@
         
         function saveAgent() {
             var data = {};
-            var form_data = $('.form-horizontal').serializeArray();
+            var form_data = $('.edit_agent_form').serializeArray();
             $.each(form_data, function() {
                 data[this.name] = this.value;
             });

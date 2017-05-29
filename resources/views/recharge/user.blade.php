@@ -38,7 +38,7 @@
                 </div>
 
             </div>
-
+            @role('agent')
             <div class="form-group">
                 <label class="col-sm-2 control-label">账户余额</label>
                 <div class="col-sm-10">
@@ -59,6 +59,7 @@
                     @endforeach
                 </div>
             </div>
+            @endrole
         </div>
         <button type="submit" class="btn btn-info pull-right">充值</button>
     </form>

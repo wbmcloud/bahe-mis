@@ -48,6 +48,7 @@ Route::group(['middleware' => ['acl', 'validator']], function () {
         Route::get('/agent/info', 'Api\AgentController@agentInfo');
         Route::post('/agent/save', 'Api\AgentController@saveAgent');
         Route::get('/agent/list', 'Api\AgentController@agentList');
+        Route::get('/agent/reset', 'Api\AgentController@resetPassword');
         Route::get('/general_agent/info', 'Api\GeneralAgentController@agentInfo');
         Route::post('/general_agent/save', 'Api\GeneralAgentController@saveAgent');
         Route::get('/general_agent/ban', 'Api\GeneralAgentController@banAgent');

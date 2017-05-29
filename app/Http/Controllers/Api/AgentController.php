@@ -95,4 +95,17 @@ class AgentController extends ApiBaseController
             'total_count' => $total_count,
         ]);
     }
+
+    public function resetPassword()
+    {
+        $user = User::find($this->params['id']);
+        if (empty($user)) {
+            throw new SlException(SlException::AGENT_NOT_EXSIST_CODE);
+        }
+
+        // 重置密码
+        $user->password = bcrypt($this->params['password']);
+        $user->save();
+        return Utils::sendJsonSuccessResponse();
+    }
 }

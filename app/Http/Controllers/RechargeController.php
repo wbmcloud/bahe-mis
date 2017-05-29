@@ -72,7 +72,6 @@ class RechargeController extends Controller
         $user_name = $request->input('user_name');
         $num = $request->input('num');
         $recharge_type = $request->input('recharge_type');
-        $code = $request->input('code');
 
         $login_user_role = $this->checkAgentRechargeAuth();
         $recharge_user_role = $this->checkAgentRechargeRole($user_name);
