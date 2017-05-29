@@ -60,14 +60,14 @@
                 @foreach ($accounts as $account)
                   <div class="col-xs-4">
                     @if($account['type'] == 1)
-                      <span>房卡</span>
+                      <span style="font-size: 12px">房卡</span>
                       @elseif($account['type'] == 2)
-                      <span>钻石</span>
+                      <span style="font-size: 12px">钻石</span>
                     @elseif($account['type'] == 3)
-                      <span>欢乐豆</span>
+                      <span style="font-size: 12px">欢乐豆</span>
                     @else
                     @endif
-                    <span class="info-box-number" style="color: red"><i>{{ $account['balance'] }}</i></span>
+                    <span style="color: red;font-size: 12px"><i>{{ $account['balance'] }}</i></span>
                   </div>
                 @endforeach
               </div>
