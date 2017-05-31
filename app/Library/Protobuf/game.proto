@@ -1,22 +1,59 @@
 syntax = "proto3";
 package app.library.protobuf;
-//操作类型
-enum COMMAND_TYPE {
-    COMMAND_TYPE_BEGIN = 0; //起始
-    COMMAND_TYPE_RECHARGE = 1; //充值
+
+message InnerMeta {
+    INNER_TYPE type_t = 1;
+    bytes stuff = 2;
 }
 
-enum ERROR_CODE {
-    ERROR_CODE_SUCCESS = 0; //成功
-    ERROR_CODE_NO_PERMISSION = 1; //没有权限
+/////////////////////////////////////////////////////
+//服务器之间通用协议类型
+/////////////////////////////////////////////////////
+enum INNER_TYPE {
+    INNER_TYPE_BEGIN = 0; //开始协议
+    INNER_TYPE_REGISTER = 1; //注册服务器
+    INNER_TYPE_COMMAND = 2; //GMT指令
+    INNER_TYPE_COUNT = 100; //协议最大数量
+}
+
+//操作类型
+enum COMMAND_TYPE {
+    COMMAND_TYPE_BEGIN = 0; 
+    COMMAND_TYPE_RECHARGE = 1; //充值钻石
+    COMMAND_TYPE_ROOM_CARD = 2; //房卡
+    COMMAND_TYPE_HUANLEDOU = 3; //欢乐豆
+}
+
+enum COMMAND_ERROR_CODE {
+    COMMAND_ERROR_CODE_SUCCESS = 0; //成功
+    COMMAND_ERROR_CODE_NO_PERMISSION = 1; //没有权限
+    COMMAND_ERROR_CODE_PARA = 2; //参数错误
+    COMMAND_ERROR_CODE_NO_ACCOUNT = 3; //没有账号数据
+    COMMAND_ERROR_CODE_NO_PLAYER = 4; //没有玩家数据(即账号存在，但账号下无该角色数据)
+    COMMAND_ERROR_CODE_PLAYER_ONLINE = 5; //玩家在线
+    COMMAND_ERROR_CODE_PLAYER_OFFLINE = 6; //玩家离线
+}
+
+enum SERVER_TYPE {
+    SERVER_TYPE_BEGIN = 0;
+    SERVER_TYPE_GMT = 1; //GMT服务器
+    SERVER_TYPE_GAME = 2; //游戏服务器
+}
+
+message Register {
+    INNER_TYPE type_t = 1;
+    SERVER_TYPE server_type = 2; //服务器类型
+    int64 server_id = 3; //服务器ID
 }
 
 message Command {
-    COMMAND_TYPE command_type = 1; //操作类型
-    ERROR_CODE error_code = 2; //返回码
+    INNER_TYPE type_t = 1;
+    COMMAND_TYPE command_type = 2; //操作类型
+    COMMAND_ERROR_CODE error_code = 3; //返回码
 
-    bytes account = 3; //账号
-    int64 player_id = 4; //玩家角色ID
-    int32 count = 5; //数量(根据COMMAND_TYPE有不同的意义)
+    bytes account = 4; //账号
+    int64 player_id = 5; //玩家角色ID
+    int64 item_id = 6; //如果是物品，物品ID(房卡是特殊物品)
+    int32 count = 7; //数量(根据COMMAND_TYPE有不同的意义)
 }
 

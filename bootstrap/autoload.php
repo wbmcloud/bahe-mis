@@ -16,6 +16,6 @@ define('LARAVEL_START', microtime(true));
 
 require __DIR__.'/../vendor/autoload.php';
 
-require_once __DIR__ . '/../app/Library/Protobuf/GPBMetadata/Game.php';
+require_once __DIR__ . '/../app/Library/Protobuf/GPBMetadata/PATH/Game.php';
 require_once  __DIR__ . '/../app/Library/Protobuf/Command.php';
 

@@ -7,6 +7,7 @@ use Exception;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Database\QueryException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Illuminate\Support\Facades\Log;
 use Symfony\Component\Debug\Exception\FatalErrorException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
@@ -38,7 +39,7 @@ class Handler extends ExceptionHandler
      */
     public function report(Exception $exception)
     {
-        parent::report($exception);
+        // parent::report($exception);
     }
 
     /**
@@ -50,10 +51,25 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Exception $exception)
     {
+        if ($exception->getCode() > 2001000) {
+            // 业务异常日志
+            Log::warning(json_encode([
+                'request' => $request->all(),
+                'errno' => $exception->getCode(),
+                'errmsg' => $exception->getMessage(),
+            ]));
+        } else {
+            Log::error(json_encode([
+                'request' => $request->all(),
+                'errno' => $exception->getCode(),
+                'errmsg' => $exception->getMessage(),
+            ]));
+        }
+
         if ($request->ajax()) {
             return Utils::sendJsonResponse($exception->getCode(), $exception->getMessage());
         }
-        /*if ($exception instanceof NotFoundHttpException) {
+        if ($exception instanceof NotFoundHttpException) {
             return response()->view('errors.404');
         } elseif ($exception instanceof FatalErrorException) {
             return response()->view('errors.500');
@@ -63,8 +79,8 @@ class Handler extends ExceptionHandler
         } else {
             return response()->view('error',
                 ['message' => $exception->getMessage()]);
-        }*/
-        return parent::render($request, $exception);
+        }
+        // return parent::render($request, $exception);
     }
 
     /**

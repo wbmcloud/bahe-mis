@@ -1,9 +1,5 @@
 @extends('admin_template')
 
-@section('head')
-
-@endsection
-
 @section('content')
     <div class="box-header with-border">
         <h3 class="box-title">新增一级代理</h3>

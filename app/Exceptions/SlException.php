@@ -24,6 +24,8 @@ class SlException extends \Exception
     const AGENT_NOT_EXSIST_CODE = 2001011;
     const INVITE_CODE_NOT_VALID_CODE = 2001012;
     const QUERY_STRING_NOT_EMPTY_CODE = 2001013;
+    const GMT_SERVER_REGISTER_FAIL_CODE = 2001014;
+    const GMT_SERVER_RECHARGE_FAIL_CODE = 2001015;
 
 
     public static $error_msg = [
@@ -41,6 +43,8 @@ class SlException extends \Exception
         self::AGENT_NOT_EXSIST_CODE => '代理人不存在',
         self::INVITE_CODE_NOT_VALID_CODE => '邀请码不合法',
         self::QUERY_STRING_NOT_EMPTY_CODE => '查询字符串不能为空',
+        self::GMT_SERVER_REGISTER_FAIL_CODE => 'GMT服务器注册失败',
+        self::GMT_SERVER_RECHARGE_FAIL_CODE => '充值失败',
     ];
 
     public function __construct($code)

@@ -32,8 +32,8 @@
                 <label for="recharge_name" class="col-sm-2 control-label">充值类型</label>
 
                 <div class="col-sm-10">
-                    <input type="radio" value="1" name="recharge_type" checked>&nbsp;&nbsp;&nbsp;&nbsp;房卡&nbsp;&nbsp;
-                    <input type="radio" value="2" name="recharge_type">&nbsp;&nbsp;&nbsp;&nbsp;钻石&nbsp;&nbsp;
+                    <input type="radio" value="1" name="recharge_type">&nbsp;&nbsp;&nbsp;&nbsp;钻石&nbsp;&nbsp;
+                    <input type="radio" value="2" name="recharge_type" checked>&nbsp;&nbsp;&nbsp;&nbsp;房卡&nbsp;&nbsp;
                     <input type="radio" value="3" name="recharge_type">&nbsp;&nbsp;&nbsp;&nbsp;欢乐豆
                 </div>
 

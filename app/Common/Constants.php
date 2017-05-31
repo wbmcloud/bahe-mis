@@ -38,11 +38,6 @@ class Constants
     const COMMON_DISABLE = 0;
 
     /**
-     * IDIP接口类型
-     */
-    const IDIP_TYPE_RECHARGE = 1;
-
-    /**
      * 分页相关配置
      */
     const DEFAULT_PAGE = 1;

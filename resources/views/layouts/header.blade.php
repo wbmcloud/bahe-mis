@@ -60,9 +60,9 @@
                 @foreach ($accounts as $account)
                   <div class="col-xs-4">
                     @if($account['type'] == 1)
-                      <span style="font-size: 12px">房卡</span>
-                      @elseif($account['type'] == 2)
                       <span style="font-size: 12px">钻石</span>
+                      @elseif($account['type'] == 2)
+                      <span style="font-size: 12px">房卡</span>
                     @elseif($account['type'] == 3)
                       <span style="font-size: 12px">欢乐豆</span>
                     @else

@@ -9,6 +9,7 @@ namespace App\Http\Controllers;
 
 use App\Common\Constants;
 use App\Exceptions\SlException;
+use App\Library\Protobuf\COMMAND_TYPE;
 use App\Library\Protobuf\Protobuf;
 use App\Library\TcpClient;
 use App\Logic\AccountLogic;
@@ -19,6 +20,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Validation\Rule;
 
 class RechargeController extends Controller
 {
@@ -39,7 +41,7 @@ class RechargeController extends Controller
 
     public function agentRecharge(Request $request)
     {
-        $this->validateRechargeParams($request);
+        $this->validateAgentRechargeParams($request);
         if ($this->attemptAgentRecharge($request)) {
             return $this->sendSuccessResponse();
         }
@@ -49,7 +51,7 @@ class RechargeController extends Controller
 
     public function userRecharge(Request $request)
     {
-        $this->validateRechargeParams($request);
+        $this->validateUserRechargeParams($request);
         if ($this->attemptUserRecharge($request)) {
             return $this->sendSuccessResponse();
         }
@@ -57,24 +59,37 @@ class RechargeController extends Controller
         return $this->sendFailResponse();
     }
 
-    protected function validateRechargeParams(Request $request)
+    protected function validateAgentRechargeParams(Request $request)
     {
         $this->validate($request, [
             'user_name' => 'string|required',
             'num' => 'integer|required',
-            'recharge_type' => 'integer|required',
+            'recharge_type' => ['required', Rule::in([
+                COMMAND_TYPE::COMMAND_TYPE_RECHARGE,
+                COMMAND_TYPE::COMMAND_TYPE_ROOM_CARD,
+                COMMAND_TYPE::COMMAND_TYPE_HUANLEDOU
+            ])],
             'code' => 'string'
         ]);
     }
 
-    protected function attemptAgentRecharge($request)
+    protected function validateUserRechargeParams(Request $request)
     {
-        $user_name = $request->input('user_name');
-        $num = $request->input('num');
-        $recharge_type = $request->input('recharge_type');
+        $this->validate($request, [
+            'role_id' => 'integer|required',
+            'num' => 'integer|required',
+            'recharge_type' => ['required', Rule::in([
+                COMMAND_TYPE::COMMAND_TYPE_RECHARGE,
+                COMMAND_TYPE::COMMAND_TYPE_ROOM_CARD,
+                COMMAND_TYPE::COMMAND_TYPE_HUANLEDOU
+            ])]
+        ]);
+    }
 
+    protected function attemptAgentRecharge(Request $request)
+    {
         $login_user_role = $this->checkAgentRechargeAuth();
-        $recharge_user_role = $this->checkAgentRechargeRole($user_name);
+        $recharge_user_role = $this->checkAgentRechargeRole($this->params['user_name']);
 
         DB::beginTransaction();
 
@@ -84,25 +99,29 @@ class RechargeController extends Controller
             $transaction_flow->initiator_name = Auth::user()->name;
             $transaction_flow->initiator_type = Constants::$recharge_role_type[$login_user_role['name']];
             $transaction_flow->recipient_id = $recharge_user_role['pivot']['user_id'];
-            $transaction_flow->recipient_name = $user_name;
+            $transaction_flow->recipient_name = $this->params['user_name'];
             $transaction_flow->recipient_type = Constants::$recharge_role_type[$recharge_user_role['name']];
-            $transaction_flow->recharge_type = $recharge_type;
-            $transaction_flow->num = $num;
+            $transaction_flow->recharge_type = $this->params['recharge_type'];
+            $transaction_flow->num = $this->params['num'];
             $transaction_flow->status = Constants::COMMON_ENABLE;
             $transaction_flow->save();
 
-            $account = Accounts::where('user_name', $user_name)->first();
+            $account = Accounts::where([
+                'user_name' => $this->params['user_name'],
+                'type' => $this->params['recharge_type'],
+                ])
+                ->first();
             if (empty($account)) {
                 $account = new Accounts();
                 $account->user_id = $recharge_user_role['pivot']['user_id'];
-                $account->user_name = $user_name;
-                $account->type = $recharge_type;
-                $account->balance = $num;
-                $account->total = $num;
+                $account->user_name = $this->params['user_name'];
+                $account->type = $this->params['recharge_type'];
+                $account->balance = $this->params['num'];
+                $account->total = $this->params['num'];
                 $account->save();
             } else {
-                $account->balance += $num;
-                $account->total += $num;
+                $account->balance += $this->params['num'];
+                $account->total += $this->params['num'];
                 $account->save();
             }
 
@@ -110,6 +129,7 @@ class RechargeController extends Controller
         } catch (Exception $e) {
             DB::rollback();
             Log::error([
+                'request' => $request->all(),
                 'errno' => $e->getCode(),
                 'errmsg' => $e->getMessage(),
             ]);
@@ -153,13 +173,7 @@ class RechargeController extends Controller
 
     protected function attemptUserRecharge(Request $request)
     {
-        $user_name = $request->input('user_name');
-        $num = $request->input('num');
-        $recharge_type = $request->input('recharge_type');
-
         $login_user_role = $this->checkAgentRechargeAuth();
-
-        // TODO
 
         DB::beginTransaction();
 
@@ -168,24 +182,43 @@ class RechargeController extends Controller
             $transaction_flow->initiator_id = Auth::id();
             $transaction_flow->initiator_name = Auth::user()->name;
             $transaction_flow->initiator_type = Constants::$recharge_role_type[$login_user_role['name']];
-            $transaction_flow->recipient_id = $user_name;
+            $transaction_flow->recipient_id = $this->params['role_id'];
             $transaction_flow->recipient_type = Constants::ROLE_TYPE_USER;
-            $transaction_flow->recharge_type = $recharge_type;
-            $transaction_flow->num = $num;
+            $transaction_flow->recharge_type = $this->params['recharge_type'];
+            $transaction_flow->num = $this->params['num'];
             $transaction_flow->status = Constants::COMMON_DISABLE;
             $transaction_flow->save();
 
             if ($login_user_role['name'] === Constants::ROLE_AGENT) {
                 $account = Accounts::where([
                     'user_id' => Auth::id(),
-                    'type' => $recharge_type,
+                    'type' => $this->params['recharge_type'],
                 ])->first();
-                if (empty($account) || $account->balance < $num) {
+                if (empty($account) || $account->balance < $this->params['num']) {
                     throw new SlException(SlException::ACCOUNT_BALANCE_NOT_ENOUGH);
                 }
-                $account->balance -= $num;
+                $account->balance -= $this->params['num'];
                 $account->save();
             }
+
+            // 调用idip进行充值
+            $command['command_type'] = $this->params['recharge_type'];
+            $command['player_id'] = $this->params['role_id'];
+            $command['count'] = $this->params['num'];
+            $inner_meta_command = Protobuf::packCommandInnerMeta($command);
+            $command_res = Protobuf::unpackForResponse(TcpClient::callTcpService($inner_meta_command));
+            if ($command_res['error_code'] != 0) {
+                Log::error([
+                    'request' => $request->all(),
+                    'res' => $command_res,
+                ]);
+                $transaction_flow->recharge_fail_reason = $command_res['error_code'];
+                $transaction_flow->save();
+                throw new SlException(SlException::GMT_SERVER_RECHARGE_FAIL_CODE);
+            }
+
+            $transaction_flow->status = Constants::COMMON_ENABLE;
+            $transaction_flow->save();
 
             DB::commit();
         } catch (Exception $e) {
@@ -198,22 +231,13 @@ class RechargeController extends Controller
             throw new SlException(SlException::FAIL_CODE);
         }
 
-        // 调用充值idip接口
-        $command['command_type'] = Constants::IDIP_TYPE_RECHARGE;
-        $command['account'] = $user_name;
-        $command['player_id'] = '0';
-        $command['count'] = $num;
-        $serialize = Protobuf::pack($command);
-        $res = Protobuf::unpackForResponse(TcpClient::callTcpService($serialize));
-        if (empty($res) || $res['error_code']) {
-            Log::error([
-                'request' => $request->all(),
-                'res' => $res,
-            ]);
-            $transaction_flow->recharge_fail_reason = json_encode($res);
-        }
-        $transaction_flow->status = Constants::COMMON_ENABLE;
-        $transaction_flow->save();
+        // 调用idip进行充值
+        /*$inner_meta_register_srv = Protobuf::packRegisterInnerMeta();
+        $register_res = TcpClient::callTcpService($inner_meta_register_srv);
+
+        if ($register_res !== $inner_meta_register_srv) {
+            throw new SlException(SlException::GMT_SERVER_REGISTER_FAIL_CODE);
+        }*/
 
         return true;
     }
