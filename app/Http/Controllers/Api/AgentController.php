@@ -52,8 +52,22 @@ class AgentController extends ApiBaseController
         return Utils::sendJsonResponse(SlException::SUCCESS_CODE, '', $user->toArray());
     }
 
+    protected function validateAgentParams(Request $request)
+    {
+        $this->validate($request, [
+            'invite_code' => 'integer|nullable',
+            'uin' => 'integer|nullable',
+            'wechat' => 'string|nullable',
+            'uin_group' => 'string|nullable',
+            'tel' => 'integer|nullable',
+            'bank_card' => 'string|nullable',
+            'id_card' => 'string|nullable',
+        ]);
+    }
+
     public function saveAgent(Request $request)
     {
+        $this->validateAgentParams($request);
         $user = User::find($this->params['id']);
         if (empty($user)) {
             throw new SlException(SlException::AGENT_NOT_EXSIST_CODE);
