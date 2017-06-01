@@ -65,5 +65,13 @@ class COMMAND_ERROR_CODE
      * <code>COMMAND_ERROR_CODE_PLAYER_OFFLINE = 6;</code>
      */
     const COMMAND_ERROR_CODE_PLAYER_OFFLINE = 6;
+    /**
+     * <pre>
+     *物品未能找到
+     * </pre>
+     *
+     * <code>COMMAND_ERROR_CODE_ITEM_NOT_FOUND = 7;</code>
+     */
+    const COMMAND_ERROR_CODE_ITEM_NOT_FOUND = 7;
 }
 

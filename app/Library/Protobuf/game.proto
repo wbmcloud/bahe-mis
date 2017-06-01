@@ -18,7 +18,7 @@ enum INNER_TYPE {
 
 //操作类型
 enum COMMAND_TYPE {
-    COMMAND_TYPE_BEGIN = 0; 
+    COMMAND_TYPE_BEGIN = 0;
     COMMAND_TYPE_RECHARGE = 1; //充值钻石
     COMMAND_TYPE_ROOM_CARD = 2; //房卡
     COMMAND_TYPE_HUANLEDOU = 3; //欢乐豆
@@ -32,6 +32,7 @@ enum COMMAND_ERROR_CODE {
     COMMAND_ERROR_CODE_NO_PLAYER = 4; //没有玩家数据(即账号存在，但账号下无该角色数据)
     COMMAND_ERROR_CODE_PLAYER_ONLINE = 5; //玩家在线
     COMMAND_ERROR_CODE_PLAYER_OFFLINE = 6; //玩家离线
+    COMMAND_ERROR_CODE_ITEM_NOT_FOUND = 7; //物品未能找到
 }
 
 enum SERVER_TYPE {
@@ -56,4 +57,5 @@ message Command {
     int64 item_id = 6; //如果是物品，物品ID(房卡是特殊物品)
     int32 count = 7; //数量(根据COMMAND_TYPE有不同的意义)
 }
+
 
