@@ -57,12 +57,14 @@ class Handler extends ExceptionHandler
                 'request' => $request->all(),
                 'errno' => $exception->getCode(),
                 'errmsg' => $exception->getMessage(),
+                'trace' => $exception->getTraceAsString(),
             ]));
         } else {
             Log::error(json_encode([
                 'request' => $request->all(),
                 'errno' => $exception->getCode(),
                 'errmsg' => $exception->getMessage(),
+                'trace' => $exception->getTraceAsString(),
             ]));
         }
 

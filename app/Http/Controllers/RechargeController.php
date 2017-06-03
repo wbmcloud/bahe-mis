@@ -128,11 +128,6 @@ class RechargeController extends Controller
             DB::commit();
         } catch (Exception $e) {
             DB::rollback();
-            Log::error([
-                'request' => $request->all(),
-                'errno' => $e->getCode(),
-                'errmsg' => $e->getMessage(),
-            ]);
             throw new SlException(SlException::FAIL_CODE);
         }
 
@@ -173,22 +168,12 @@ class RechargeController extends Controller
 
     protected function attemptUserRecharge(Request $request)
     {
+        $is_recharged = true;
         $login_user_role = $this->checkAgentRechargeAuth();
 
         DB::beginTransaction();
 
         try {
-            $transaction_flow = new TransactionFlow();
-            $transaction_flow->initiator_id = Auth::id();
-            $transaction_flow->initiator_name = Auth::user()->name;
-            $transaction_flow->initiator_type = Constants::$recharge_role_type[$login_user_role['name']];
-            $transaction_flow->recipient_id = $this->params['role_id'];
-            $transaction_flow->recipient_type = Constants::ROLE_TYPE_USER;
-            $transaction_flow->recharge_type = $this->params['recharge_type'];
-            $transaction_flow->num = $this->params['num'];
-            $transaction_flow->status = Constants::COMMON_DISABLE;
-            $transaction_flow->save();
-
             if ($login_user_role['name'] === Constants::ROLE_AGENT) {
                 $account = Accounts::where([
                     'user_id' => Auth::id(),
@@ -202,42 +187,61 @@ class RechargeController extends Controller
             }
 
             // 调用idip进行充值
+            $inner_meta_register_srv = Protobuf::packRegisterInnerMeta();
+            $register_res = TcpClient::callTcpService($inner_meta_register_srv, true);
+            if ($register_res !== $inner_meta_register_srv) {
+                throw new SlException(SlException::GMT_SERVER_REGISTER_FAIL_CODE);
+            }
+            // 调用idip进行充值
+            if ($this->params['recharge_type'] == COMMAND_TYPE::COMMAND_TYPE_ROOM_CARD) {
+                $command['item_id'] = Constants::ROOM_CARD_ITEM_ID;
+            }
             $command['command_type'] = $this->params['recharge_type'];
             $command['player_id'] = $this->params['role_id'];
             $command['count'] = $this->params['num'];
             $inner_meta_command = Protobuf::packCommandInnerMeta($command);
             $command_res = Protobuf::unpackForResponse(TcpClient::callTcpService($inner_meta_command));
             if ($command_res['error_code'] != 0) {
-                Log::error([
-                    'request' => $request->all(),
-                    'res' => $command_res,
-                ]);
-                $transaction_flow->recharge_fail_reason = $command_res['error_code'];
-                $transaction_flow->save();
                 throw new SlException(SlException::GMT_SERVER_RECHARGE_FAIL_CODE);
             }
 
-            $transaction_flow->status = Constants::COMMON_ENABLE;
-            $transaction_flow->save();
-
             DB::commit();
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
+            $is_recharged = false;
+            // 关闭socket连接
+            if (TcpClient::isAlive()) {
+                TcpClient::getSocket()->close();
+            }
             DB::rollback();
-            Log::error([
-                'request' => $request->all(),
-                'errno' => $e->getCode(),
-                'errmsg' => $e->getMessage(),
-            ]);
-            throw new SlException(SlException::FAIL_CODE);
+            if ($e->getCode() == SlException::GMT_SERVER_RECHARGE_FAIL_CODE) {
+                $recharge_fail_reason = json_encode($command_res);
+            } else {
+                $recharge_fail_reason = json_encode([
+                    'error_code' => $e->getCode(),
+                    'error_msg' => $e->getMessage(),
+                ]);
+            }
         }
 
-        // 调用idip进行充值
-        /*$inner_meta_register_srv = Protobuf::packRegisterInnerMeta();
-        $register_res = TcpClient::callTcpService($inner_meta_register_srv);
+        $transaction_flow = new TransactionFlow();
+        $transaction_flow->initiator_id = Auth::id();
+        $transaction_flow->initiator_name = Auth::user()->name;
+        $transaction_flow->initiator_type = Constants::$recharge_role_type[$login_user_role['name']];
+        $transaction_flow->recipient_id = $this->params['role_id'];
+        $transaction_flow->recipient_type = Constants::ROLE_TYPE_USER;
+        $transaction_flow->recharge_type = $this->params['recharge_type'];
+        $transaction_flow->num = $this->params['num'];
 
-        if ($register_res !== $inner_meta_register_srv) {
-            throw new SlException(SlException::GMT_SERVER_REGISTER_FAIL_CODE);
-        }*/
+        if ($is_recharged) {
+            $transaction_flow->status = Constants::COMMON_ENABLE;
+        } else {
+            $transaction_flow->recharge_fail_reason = $recharge_fail_reason;
+        }
+        $transaction_flow->save();
+
+        if (!$is_recharged) {
+            throw new SlException(SlException::GMT_SERVER_RECHARGE_FAIL_CODE);
+        }
 
         return true;
     }

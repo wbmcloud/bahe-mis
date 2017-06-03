@@ -15,7 +15,7 @@ class Protobuf
         $command = new Command();
         $command->setTypeT(INNER_TYPE::INNER_TYPE_COMMAND);
         $command->setCommandType($data['command_type']);
-        // $command->setAccount($data['account']);
+        isset($data['item_id']) && ($command->setItemId($data['item_id']));
         $command->setPlayerId($data['player_id']);
         $command->setCount($data['count']);
         return $command->serializeToString();
