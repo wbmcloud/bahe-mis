@@ -11,8 +11,7 @@ use App\Common\Constants;
 use App\Common\Utils;
 use App\Exceptions\SlException;
 use App\Models\GeneralAgents;
-use App\Models\Role;
-use App\Models\User;
+use App\Models\TransactionFlow;
 use Illuminate\Http\Request;
 
 class GeneralAgentController extends ApiBaseController
@@ -54,6 +53,15 @@ class GeneralAgentController extends ApiBaseController
         !empty($this->params['bank_card']) && ($user->bank_card = $this->params['bank_card']);
         !empty($this->params['id_card']) && ($user->id_card = $this->params['id_card']);
         $user->save();
+        return Utils::sendJsonSuccessResponse();
+    }
+
+    public function delAgentFlow(Request $request)
+    {
+        $this->validate($request, [
+            'id' => 'integer|required',
+        ]);
+        TransactionFlow::find($this->params['id'])->delete();
         return Utils::sendJsonSuccessResponse();
     }
 

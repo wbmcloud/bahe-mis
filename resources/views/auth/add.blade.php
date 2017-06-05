@@ -32,7 +32,20 @@
                     <input type="password" class="form-control" id="password" name="password" placeholder="请输入密码" required>
                 </div>
             </div>
+
             <div class="form-group">
+                <label for="role_name" class="col-sm-2 control-label">角色</label>
+                <div class="col-sm-10">
+                <select class="form-control select2" name="role_name" style="width: 100%;" required>
+                    @role('super')
+                    <option value="admin">管理员</option>
+                    @endrole
+                    <option value="agent">代理</option>
+                </select>
+                </div>
+            </div>
+
+            <!--div class="form-group">
                 <label for="role" class="col-sm-2 control-label">角色</label>
                 <div class="col-sm-10">
                     <select class="js-example-basic-single" name="role_name" style="width: 100%" required>
@@ -42,7 +55,7 @@
                         <option value="agent">代理</option>
                     </select>
                 </div>
-            </div>
+            </div-->
             <div class="agent form-group">
                 <label for="invite_code" class="col-sm-2 control-label">邀请码</label>
 
@@ -101,13 +114,14 @@
 <script src="{{ asset("/bower_components/admin-lte/plugins/select2/select2.js") }}"></script>
 <script type="text/javascript">
     $(document).ready(function() {
-        $(".js-example-basic-single").select2({
+        /*$(".select2").select2({
             placeholder: "Select a state",
             allowClear: true,
             minimumResultsForSearch: Infinity
-        });
+        });*/
+        $(".select2").select2();
     });
-    $('.js-example-basic-single').change(function () {
+    $('.select2').change(function () {
         if (this.value == 'admin') {
             var agents = $('.agent');
             for (var i = 0; i < agents.length; i++) {

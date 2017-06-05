@@ -40,6 +40,7 @@ Route::group(['middleware' => ['acl', 'validator']], function () {
     Route::post('/general_agent/add', 'GeneralAgentController@addAgent')->name('general_agent.add');
     Route::get('/general_agent/invite_code', 'GeneralAgentController@inviteCode')->name('general_agent.invite_code');
     Route::get('/general_agent/banlist', 'GeneralAgentController@banAgentList')->name('general_agent.banlist');
+    Route::get('/general_agent/rechargelist', 'GeneralAgentController@agentRechargeList')->name('general_agent.rechargelist');
 
     Route::group(['prefix' => 'api'], function () {
         Route::get('/agent/ban', 'Api\AgentController@banAgent');
@@ -53,6 +54,7 @@ Route::group(['middleware' => ['acl', 'validator']], function () {
         Route::post('/general_agent/save', 'Api\GeneralAgentController@saveAgent');
         Route::get('/general_agent/ban', 'Api\GeneralAgentController@banAgent');
         Route::get('/general_agent/unban', 'Api\GeneralAgentController@unBanAgent');
+        Route::get('/general_agent/delflow', 'Api\GeneralAgentController@delAgentFlow');
     });
 
 });

@@ -12,8 +12,12 @@ use App\Exceptions\SlException;
 use App\Models\GeneralAgents;
 use App\Models\InviteCode;
 use App\Models\Role;
+use App\Models\TransactionFlow;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
@@ -142,6 +146,35 @@ class GeneralAgentController extends Controller
 
         return view('general_agent.banlist', [
             'agents' => $users
+        ]);
+    }
+
+    public function agentRechargeList(Request $request)
+    {
+        $page_size = isset($this->params['page_size']) ? $this->params['page_size'] :
+            Constants::DEFAULT_PAGE_SIZE;
+        $start_time = isset($this->params['start_date']) ? $this->params['start_date'] : Carbon::today()->toDateString();
+        $end_time = isset($this->params['end_date']) ? $this->params['end_date'] : Carbon::tomorrow()->toDateString();
+
+        // 参数校验
+        $this->validate($request, [
+            'invite_code' => 'required|digits:7',
+            /*'start_time' => 'required|date',
+            'end_time' => 'required|date'*/
+        ]);
+        $users = User::where([
+            'invite_code' => $this->params['invite_code'],
+        ])->get()->toArray();
+        if (empty($users) || ($start_time > $end_time)) {
+            $recharge_flows = new LengthAwarePaginator([], 0, $page_size);
+        } else {
+            $recharge_flows = TransactionFlow::whereIn('recipient_id', array_column($users, 'id'))
+                ->whereBetween('created_at', [$start_time, $end_time])
+                ->paginate($page_size);
+        }
+
+        return view('general_agent.recharge', [
+            'recharge_flows' => $recharge_flows
         ]);
     }
 }

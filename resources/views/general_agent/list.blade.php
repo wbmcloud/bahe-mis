@@ -54,7 +54,7 @@
                                         <!--td>{{ date('Y-m-d', strtotime($agent['created_at'])) }}</td-->
                                         <td>{{ $agent['created_at'] }}</td>
                                         <td>
-                                            <button type="button" class="btn btn-primary">充值信息</button>
+                                            <button type="button" onclick="rechargeList('{{ route('general_agent.rechargelist') . '?invite_code=' . $agent['invite_code'] }}')" class="btn btn-primary">充值信息</button>
                                             <button type="button" onclick="banAgent({{ $agent['id'] }})" class="btn btn-primary">封禁</button>
                                             <button type="button" onclick="editAgent({{ $agent['id'] }})" class="btn btn-primary">修改信息</button>
                                         </td>
@@ -153,6 +153,11 @@
     <script src="{{ asset("/bower_components/admin-lte/plugins/datatables/jquery.dataTables.min.js") }}"></script>
     <script src="{{ asset("/bower_components/admin-lte/plugins/datatables/dataTables.bootstrap.min.js") }}"></script>
     <script>
+
+        function rechargeList(url) {
+            location.href = url;
+        }
+
         function banAgent(id) {
             var data = {
                 'id': id,
