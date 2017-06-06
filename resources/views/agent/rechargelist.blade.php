@@ -12,7 +12,7 @@
 @section('content')
     <section class="content-header">
         <h1>
-            充值信息
+            消费记录
         </h1>
     </section>
 
@@ -38,37 +38,43 @@
                         <table id="agent_container" class="table table-bordered table-hover">
                             <thead>
                             <tr>
-                            <th>代理id</th>
-                            <th>代理用户名</th>
-                            <th>充值类型</th>
-                            <th>充值额度</th>
-                            <th>充值时间</th>
-                            <th>操作</th>
+                            <th>发起人id</th>
+                            <th>发起人用户名</th>
+                            <th>发起人类型</th>
+                            <th>接收人id</th>
+                            <th>接收人用户名</th>
+                            <th>接收人类型</th>
+                            <th>交易类型</th>
+                            <th>额度</th>
+                            <th>交易时间</th>
+                            <th>交易是否成功</th>
                             </tr>
                             </thead>
                             <tbody id="agent_list_container">
-                            @if(empty($recharge_flows->total()))
-                                <tr><td colspan="4">没有记录</td></tr>
+                            @if(empty($recharge_list->total()))
+                                <tr><td colspan="9">没有记录</td></tr>
                             @else
-                                @foreach($recharge_flows as $recharge_flow)
+                                @foreach($recharge_list as $recharge)
                                     <tr>
-                                        <td>{{ $recharge_flow['recipient_id'] }}</td>
-                                        <td>{{ $recharge_flow['recipient_name'] }}</td>
-                                        <td>{{ \App\Common\Constants::$transaction_type[$recharge_flow['recharge_type']] }}</td>
-                                        <td>{{ $recharge_flow['num'] }}</td>
-                                        <td>{{ $recharge_flow['created_at'] }}</td>
-                                        <td>
-                                            <button type="button" onclick="delRechargeRecord({{ $recharge_flow['id'] }})" class="btn btn-primary">删除</button>
-                                        </td>
+                                        <td>{{ $recharge['initiator_id'] }}</td>
+                                        <td>{{ $recharge['initiator_name'] }}</td>
+                                        <td>{{ \App\Common\Constants::$role_type[$recharge['initiator_type']] }}</td>
+                                        <td>{{ $recharge['recipient_id'] }}</td>
+                                        <td>{{ $recharge['recipient_name'] }}</td>
+                                        <td>{{ \App\Common\Constants::$role_type[$recharge['recipient_type']] }}</td>
+                                        <td>{{ \App\Common\Constants::$transaction_type[$recharge['recharge_type']] }}</td>
+                                        <td>{{ $recharge['num'] }}</td>
+                                        <td>{{ $recharge['created_at'] }}</td>
+                                        <td>{{ \App\Common\Constants::$recharge_status[$recharge['status']] }}</td>
                                     </tr>
                                 @endforeach
                             @endif
                             </tbody>
                         </table>
-                        {{ $recharge_flows->appends([
+                        {{ $recharge_list->appends([
                             'start_date' => \Illuminate\Support\Facades\Request::input('start_date'),
                             'end_date' => \Illuminate\Support\Facades\Request::input('end_date'),
-                            'invite_code' => \Illuminate\Support\Facades\Request::input('invite_code'),
+                            'id' => \Illuminate\Support\Facades\Request::input('id'),
                         ])->links() }}
                     </div>
                     <!-- /.box-body -->
@@ -110,40 +116,6 @@
     <script src="{{ asset("/bower_components/admin-lte/plugins/daterangepicker/daterangepicker.js") }}"></script>
 
     <script>
-        function delRechargeRecord(id) {
-            var data = {
-                'id': id,
-            }
-            $.ajax({
-                headers: {
-                    "X-Requested-With": "XMLHttpRequest",
-                },
-                url: "/api/general_agent/delflow",
-                data: data,
-                success: function (res) {
-                    if (!res.code) {
-                        $("#confirm").removeAttr("data-dismiss");
-                        $("#confirm").attr("onclick", "hide()");
-                    } else {
-                        $("#confirm").attr("data-dismiss", "modal");
-                        $("#confirm").removeAttr("onclick");
-                    }
-                    $('#msg').html(res.msg);
-                    $('.modal_container').modal({
-                        "show": true,
-                        "backdrop": false,
-                        "keyboard": false
-                    });
-                }
-            });
-
-        };
-        
-        function hide() {
-            $(".modal_container").modal('hide');
-            location.reload();
-        }
-
         function getCurrenturl()
         {
             return location.origin + location.pathname;
@@ -178,7 +150,6 @@
             location.href = getCurrenturl() + '?start_date=' + _date_arr[0] + '&end_date=' + _date_arr[1] + '&' + _origin_params;
         }
 
-
         $(document).ready(function () {
             console.log(getRequest());
             //Date range picker
@@ -189,9 +160,7 @@
                 "startDate": getRequest()['start_date'],
                 "endDate": getRequest()['end_date']
             }, function (start, end, label) {
-                /*var _date_range = '"' + start.format('YYYY-MM-DD') + ' - ' + end.format('YYYY-MM-DD') + '"';
-                console.log(_date_range);
-                $('#reservation').val(_date_range);*/
+
             });
         });
     </script>

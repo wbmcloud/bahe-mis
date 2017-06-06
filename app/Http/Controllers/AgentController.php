@@ -10,7 +10,9 @@ namespace App\Http\Controllers;
 use App\Common\Constants;
 use App\Exceptions\SlException;
 use App\Models\Role;
+use App\Models\TransactionFlow;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -92,6 +94,28 @@ class AgentController extends Controller
         }
         return view('agent.info', [
             'agent_info' => $user
+        ]);
+    }
+
+    public function rechargeList(Request $request)
+    {
+        $page_size = isset($this->params['page_size']) ? $this->params['page_size'] :
+            Constants::DEFAULT_PAGE_SIZE;
+        $start_time = isset($this->params['start_date']) ? $this->params['start_date'] : Carbon::today()->toDateString();
+        $end_time = isset($this->params['end_date']) ? $this->params['end_date'] : Carbon::tomorrow()->toDateString();
+
+        // 参数校验
+        $this->validate($request, [
+            'id' => 'required|integer',
+            /*'start_time' => 'required|date',
+            'end_time' => 'required|date'*/
+        ]);
+        $recharge_list = TransactionFlow::where('recipient_id', $this->params['id'])
+            ->whereBetween('created_at', [$start_time, $end_time])
+            ->paginate($page_size);
+
+        return view('agent.rechargelist', [
+            'recharge_list' => $recharge_list
         ]);
     }
 

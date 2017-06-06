@@ -35,6 +35,7 @@ Route::group(['middleware' => ['acl', 'validator']], function () {
     Route::get('/agent/list', 'AgentController@agentList')->name('agent.list');
     Route::get('/agent/banlist', 'AgentController@banAgentList')->name('agent.banlist');
     Route::get('/agent/info', 'AgentController@agentInfo')->name('agent.info');
+    Route::get('/agent/rechargelist', 'AgentController@rechargeList')->name('agent.rechargelist');
     Route::get('/general_agent/list', 'GeneralAgentController@agentList')->name('general_agent.list');
     Route::get('/general_agent/add', 'GeneralAgentController@addAgentForm');
     Route::post('/general_agent/add', 'GeneralAgentController@addAgent')->name('general_agent.add');

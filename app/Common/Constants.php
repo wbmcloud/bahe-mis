@@ -34,6 +34,17 @@ class Constants
         self::ROLE_AGENT => self::ROLE_TYPE_AGENT,
     ];
 
+    public static $role_type = [
+        self::ROLE_TYPE_SUPER => '超级管理员',
+        self::ROLE_TYPE_ADMIN => '管理员',
+        self::ROLE_TYPE_AGENT => '代理',
+    ];
+
+    public static $recharge_status = [
+        self::COMMON_DISABLE => '失败',
+        self::COMMON_ENABLE => '成功',
+    ];
+
     const COMMON_ENABLE = 1;
     const COMMON_DISABLE = 0;
 
