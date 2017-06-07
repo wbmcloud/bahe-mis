@@ -151,17 +151,18 @@ class GeneralAgentController extends Controller
 
     public function agentRechargeList(Request $request)
     {
+        // 参数校验
+        $this->validate($request, [
+            'invite_code' => 'required|digits:7',
+            'start_date' => 'date_format:Y-m-d',
+            'end_date' => 'date_format:Y-m-d'
+        ]);
+
         $page_size = isset($this->params['page_size']) ? $this->params['page_size'] :
             Constants::DEFAULT_PAGE_SIZE;
         $start_time = isset($this->params['start_date']) ? $this->params['start_date'] : Carbon::today()->toDateString();
         $end_time = isset($this->params['end_date']) ? $this->params['end_date'] : Carbon::tomorrow()->toDateString();
 
-        // 参数校验
-        $this->validate($request, [
-            'invite_code' => 'required|digits:7',
-            /*'start_time' => 'required|date',
-            'end_time' => 'required|date'*/
-        ]);
         $users = User::where([
             'invite_code' => $this->params['invite_code'],
         ])->get()->toArray();

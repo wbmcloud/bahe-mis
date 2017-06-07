@@ -99,17 +99,17 @@ class AgentController extends Controller
 
     public function rechargeList(Request $request)
     {
+        // 参数校验
+        $this->validate($request, [
+            'id' => 'required|integer',
+            'start_date' => 'date_format:Y-m-d|nullable',
+            'end_date' => 'date_format:Y-m-d|nullable'
+        ]);
         $page_size = isset($this->params['page_size']) ? $this->params['page_size'] :
             Constants::DEFAULT_PAGE_SIZE;
         $start_time = isset($this->params['start_date']) ? $this->params['start_date'] : Carbon::today()->toDateString();
         $end_time = isset($this->params['end_date']) ? $this->params['end_date'] : Carbon::tomorrow()->toDateString();
 
-        // 参数校验
-        $this->validate($request, [
-            'id' => 'required|integer',
-            /*'start_time' => 'required|date',
-            'end_time' => 'required|date'*/
-        ]);
         $recharge_list = TransactionFlow::where('recipient_id', $this->params['id'])
             ->whereBetween('created_at', [$start_time, $end_time])
             ->paginate($page_size);
