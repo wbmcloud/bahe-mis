@@ -57,6 +57,18 @@
                 </div>
             </div-->
             <div class="agent form-group">
+                <label for="city" class="col-sm-2 control-label">开通城市</label>
+
+                <div class="col-sm-10">
+                    <select class="form-control select2" name="city" multiple="multiple" data-placeholder="请选择开通城市" style="width: 100%;" required>
+                        @foreach($cities as $city)
+                        <option value="{{ $city['city_id'] }}">{{ $city['city_name'] }}</option>
+                        @endforeach
+                    </select>
+                </div>
+            </div>
+
+            <div class="agent form-group">
                 <label for="invite_code" class="col-sm-2 control-label">邀请码</label>
 
                 <div class="col-sm-10">

@@ -10,12 +10,12 @@ use Google\Protobuf\Internal\GPBUtil;
 
 /**
  * <pre>
- *注册服务器
+ *代开房间
  * </pre>
  *
- * Protobuf type <code>app.library.protobuf.Register</code>
+ * Protobuf type <code>app.library.protobuf.OpenRoom</code>
  */
-class Register extends \Google\Protobuf\Internal\Message
+class OpenRoom extends \Google\Protobuf\Internal\Message
 {
     /**
      * <code>.app.library.protobuf.INNER_TYPE type_t = 1;</code>
@@ -23,20 +23,28 @@ class Register extends \Google\Protobuf\Internal\Message
     private $type_t = 0;
     /**
      * <pre>
-     *服务器类型
+     *返回码
      * </pre>
      *
-     * <code>.app.library.protobuf.SERVER_TYPE server_type = 2;</code>
+     * <code>.app.library.protobuf.COMMAND_ERROR_CODE error_code = 2;</code>
      */
-    private $server_type = 0;
+    private $error_code = 0;
     /**
      * <pre>
-     *服务器ID
+     *游戏服务器ID
      * </pre>
      *
      * <code>int64 server_id = 3;</code>
      */
     private $server_id = 0;
+    /**
+     * <pre>
+     *房间ID，如果非0则证明开放成功
+     * </pre>
+     *
+     * <code>int64 room_id = 4;</code>
+     */
+    private $room_id = 0;
 
     public function __construct() {
         \GPBMetadata\PATH\Game::initOnce();
@@ -62,32 +70,32 @@ class Register extends \Google\Protobuf\Internal\Message
 
     /**
      * <pre>
-     *服务器类型
+     *返回码
      * </pre>
      *
-     * <code>.app.library.protobuf.SERVER_TYPE server_type = 2;</code>
+     * <code>.app.library.protobuf.COMMAND_ERROR_CODE error_code = 2;</code>
      */
-    public function getServerType()
+    public function getErrorCode()
     {
-        return $this->server_type;
+        return $this->error_code;
     }
 
     /**
      * <pre>
-     *服务器类型
+     *返回码
      * </pre>
      *
-     * <code>.app.library.protobuf.SERVER_TYPE server_type = 2;</code>
+     * <code>.app.library.protobuf.COMMAND_ERROR_CODE error_code = 2;</code>
      */
-    public function setServerType($var)
+    public function setErrorCode($var)
     {
-        GPBUtil::checkEnum($var, \App\Library\Protobuf\SERVER_TYPE::class);
-        $this->server_type = $var;
+        GPBUtil::checkEnum($var, \App\Library\Protobuf\COMMAND_ERROR_CODE::class);
+        $this->error_code = $var;
     }
 
     /**
      * <pre>
-     *服务器ID
+     *游戏服务器ID
      * </pre>
      *
      * <code>int64 server_id = 3;</code>
@@ -99,7 +107,7 @@ class Register extends \Google\Protobuf\Internal\Message
 
     /**
      * <pre>
-     *服务器ID
+     *游戏服务器ID
      * </pre>
      *
      * <code>int64 server_id = 3;</code>
@@ -108,6 +116,31 @@ class Register extends \Google\Protobuf\Internal\Message
     {
         GPBUtil::checkInt64($var);
         $this->server_id = $var;
+    }
+
+    /**
+     * <pre>
+     *房间ID，如果非0则证明开放成功
+     * </pre>
+     *
+     * <code>int64 room_id = 4;</code>
+     */
+    public function getRoomId()
+    {
+        return $this->room_id;
+    }
+
+    /**
+     * <pre>
+     *房间ID，如果非0则证明开放成功
+     * </pre>
+     *
+     * <code>int64 room_id = 4;</code>
+     */
+    public function setRoomId($var)
+    {
+        GPBUtil::checkInt64($var);
+        $this->room_id = $var;
     }
 
 }

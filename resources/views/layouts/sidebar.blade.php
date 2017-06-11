@@ -82,12 +82,12 @@
           <ul class="treeview-menu">
             <li class="active"><a href="index2.html"><i class="fa fa-circle-o"></i>信息查询</a></li>
           </ul>
-        </li>
-        <li>
-          <a href="pages/mailbox/mailbox.html">
-            <i class="fa fa-envelope"></i> <span>代开房</span>
-          </a>
         </li-->
+        <li class="treeview">
+          <a href="">
+            <i class="fa fa-link"></i> <span>代开房</span>
+          </a>
+        </li>
         @endrole
         <!--li class="treeview">
           <a href="#">

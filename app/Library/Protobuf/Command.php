@@ -9,6 +9,10 @@ use Google\Protobuf\Internal\RepeatedField;
 use Google\Protobuf\Internal\GPBUtil;
 
 /**
+ * <pre>
+ *GMT指令
+ * </pre>
+ *
  * Protobuf type <code>app.library.protobuf.Command</code>
  */
 class Command extends \Google\Protobuf\Internal\Message

@@ -41,12 +41,14 @@ enum SERVER_TYPE {
     SERVER_TYPE_GAME = 2; //游戏服务器
 }
 
+//注册服务器
 message Register {
     INNER_TYPE type_t = 1;
     SERVER_TYPE server_type = 2; //服务器类型
     int64 server_id = 3; //服务器ID
 }
 
+//GMT指令
 message Command {
     INNER_TYPE type_t = 1;
     COMMAND_TYPE command_type = 2; //操作类型
@@ -58,4 +60,11 @@ message Command {
     int32 count = 7; //数量(根据COMMAND_TYPE有不同的意义)
 }
 
+//代开房间
+message OpenRoom {
+	INNER_TYPE type_t = 1;
+	COMMAND_ERROR_CODE error_code = 2; //返回码
+	int64 server_id = 3; //游戏服务器ID
+	int64 room_id = 4; //房间ID，如果非0则证明开放成功
+}
 

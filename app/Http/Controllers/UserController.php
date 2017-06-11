@@ -7,6 +7,7 @@
  */
 namespace App\Http\Controllers;
 
+use App\Logic\UserLogic;
 use App\Models\Role;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -17,7 +18,8 @@ class UserController extends Controller
 {
     public function addUserForm()
     {
-        return view('auth.add');
+        $cities = (new UserLogic())->getAllOpenCities();
+        return view('auth.add', ['cities' => $cities]);
     }
 
     public function addResetPasswordForm()
