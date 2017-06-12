@@ -26,6 +26,7 @@ class SlException extends \Exception
     const QUERY_STRING_NOT_EMPTY_CODE = 2001013;
     const GMT_SERVER_REGISTER_FAIL_CODE = 2001014;
     const GMT_SERVER_RECHARGE_FAIL_CODE = 2001015;
+    const GMT_SERVER_OPEN_ROOM_FAIL_CODE = 2001016;
 
 
     public static $error_msg = [
@@ -45,6 +46,7 @@ class SlException extends \Exception
         self::QUERY_STRING_NOT_EMPTY_CODE => '查询字符串不能为空',
         self::GMT_SERVER_REGISTER_FAIL_CODE => 'GMT服务器注册失败',
         self::GMT_SERVER_RECHARGE_FAIL_CODE => '充值失败',
+        self::GMT_SERVER_OPEN_ROOM_FAIL_CODE => '代开房失败',
     ];
 
     public function __construct($code)

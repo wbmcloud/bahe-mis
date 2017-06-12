@@ -8,6 +8,8 @@
 
 namespace App\Common;
 
+use App\Library\Protobuf\COMMAND_TYPE;
+
 class Constants
 {
     const LOGIN_URI = '/login';
@@ -23,9 +25,9 @@ class Constants
     const ROLE_TYPE_USER = 4;
 
     public static $transaction_type = [
-        1 => '房卡',
-        2 => '钻石',
-        3 => '欢乐豆',
+        COMMAND_TYPE::COMMAND_TYPE_ROOM_CARD => '房卡',
+        COMMAND_TYPE::COMMAND_TYPE_RECHARGE => '钻石',
+        COMMAND_TYPE::COMMAND_TYPE_HUANLEDOU => '欢乐豆',
     ];
 
     public static $recharge_role_type = [
@@ -61,4 +63,8 @@ class Constants
     const INVITE_CODE_BATCH_SIZE = 100;
 
     const ROOM_CARD_ITEM_ID = 13303809;
+
+    const OPEN_ROOM_CARD_REDUCE = 1;
+
+    const OPEN_ROOM_TYPE = 4;   // 代开房类型
 }

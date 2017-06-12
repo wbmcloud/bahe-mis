@@ -72,6 +72,7 @@ class AgentController extends ApiBaseController
         if (empty($user)) {
             throw new SlException(SlException::AGENT_NOT_EXSIST_CODE);
         }
+        !empty($this->params['city_id']) && ($user->city_id = $this->params['city_id']);
         !empty($this->params['invite_code']) && ($user->invite_code = $this->params['invite_code']);
         !empty($this->params['uin']) && ($user->uin = $this->params['uin']);
         !empty($this->params['wechat']) && ($user->wechat = $this->params['wechat']);

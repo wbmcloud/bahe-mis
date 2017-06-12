@@ -33,4 +33,9 @@ class User extends Authenticatable
     {
         return $this->hasOne('App\Models\Accounts', 'user_id', 'id');
     }
+
+    public function city()
+    {
+        return $this->hasOne('App\Models\City', 'city_id', 'city_id');
+    }
 }

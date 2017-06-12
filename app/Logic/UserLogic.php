@@ -15,7 +15,7 @@ class UserLogic extends BaseLogic
 {
     public function getAllOpenCities()
     {
-        $cities = City::where('status', Constants::COMMON_ENABLE)->get()->toArray();
+        $cities = City::where('status', Constants::COMMON_ENABLE)->get();
         return $cities;
     }
 }

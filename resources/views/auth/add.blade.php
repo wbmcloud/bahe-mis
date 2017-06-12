@@ -36,7 +36,7 @@
             <div class="form-group">
                 <label for="role_name" class="col-sm-2 control-label">角色</label>
                 <div class="col-sm-10">
-                <select class="form-control select2" name="role_name" style="width: 100%;" required>
+                <select class="role_single form-control select2" name="role_name" style="width: 100%;" required>
                     @role('super')
                     <option value="admin">管理员</option>
                     @endrole
@@ -57,10 +57,10 @@
                 </div>
             </div-->
             <div class="agent form-group">
-                <label for="city" class="col-sm-2 control-label">开通城市</label>
+                <label for="city_id" class="col-sm-2 control-label">开通城市</label>
 
                 <div class="col-sm-10">
-                    <select class="form-control select2" name="city" multiple="multiple" data-placeholder="请选择开通城市" style="width: 100%;" required>
+                    <select class="city_multi form-control select2" name="city_id" style="width: 100%;" required>
                         @foreach($cities as $city)
                         <option value="{{ $city['city_id'] }}">{{ $city['city_name'] }}</option>
                         @endforeach
@@ -131,7 +131,12 @@
             allowClear: true,
             minimumResultsForSearch: Infinity
         });*/
-        $(".select2").select2();
+        $(".role_single").select2();
+        $(".city_multi").select2({
+            placeholder: "请选择开通城市",
+            maximumSelectionLength: 3,
+            tags: true
+        });
     });
     $('.select2').change(function () {
         if (this.value == 'admin') {

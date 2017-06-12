@@ -13,6 +13,7 @@ enum INNER_TYPE {
     INNER_TYPE_BEGIN = 0; //开始协议
     INNER_TYPE_REGISTER = 1; //注册服务器
     INNER_TYPE_COMMAND = 2; //GMT指令
+    INNER_TYPE_OPEN_ROOM = 3; //代开房间
     INNER_TYPE_COUNT = 100; //协议最大数量
 }
 
@@ -33,6 +34,8 @@ enum COMMAND_ERROR_CODE {
     COMMAND_ERROR_CODE_PLAYER_ONLINE = 5; //玩家在线
     COMMAND_ERROR_CODE_PLAYER_OFFLINE = 6; //玩家离线
     COMMAND_ERROR_CODE_ITEM_NOT_FOUND = 7; //物品未能找到
+    COMMAND_ERROR_CODE_SERVER_NOT_FOUND = 8; //未能找到服务器
+    COMMAND_ERROR_CODE_ASSET_NOT_FOUND = 9; //未能找到相关数据，由于策划配置造成
 }
 
 enum SERVER_TYPE {

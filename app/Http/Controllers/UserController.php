@@ -54,6 +54,7 @@ class UserController extends Controller
         $this->validate($request, [
             'name' => 'required|string',
             'password' => 'required|string',
+            'city_id' => 'required|integer',
             'invite_code' => 'integer|nullable',
             'uin' => 'integer|nullable',
             'uin_group' => 'string|nullable',
@@ -82,6 +83,7 @@ class UserController extends Controller
         $user = new User();
         $user->name = $this->params['name'];
         $user->password = bcrypt($this->params['password']);
+        $user->city_id = $this->params['city_id'];
         !empty($this->params['invite_code']) && ($user->invite_code = $this->params['invite_code']);
         !empty($this->params['uin']) && ($user->uin = $this->params['uin']);
         !empty($this->params['wechat']) && ($user->wechat = $this->params['wechat']);

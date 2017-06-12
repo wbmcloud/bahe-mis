@@ -83,12 +83,12 @@
             <li class="active"><a href="index2.html"><i class="fa fa-circle-o"></i>信息查询</a></li>
           </ul>
         </li-->
-        <li class="treeview">
-          <a href="">
+        @endrole
+        <li id="openroom" class="treeview">
+          <a href="{{ route('agent.openroom') }}">
             <i class="fa fa-link"></i> <span>代开房</span>
           </a>
         </li>
-        @endrole
         <!--li class="treeview">
           <a href="#">
             <i class="fa fa-dashboard"></i> <span>数据</span>

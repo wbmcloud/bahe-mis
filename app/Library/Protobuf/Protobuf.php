@@ -66,4 +66,30 @@ class Protobuf
         $inner_meta->setStuff(self::packRegisterSrv());
         return $inner_meta->serializeToString();
     }
+
+    public static function packOpenRoom($data)
+    {
+        $open_room = new OpenRoom();
+        $open_room->setTypeT(INNER_TYPE::INNER_TYPE_OPEN_ROOM);
+        $open_room->setServerId($data['server_id']);
+        return $open_room->serializeToString();
+    }
+
+    public static function packOpenRoomInnerMeta($data)
+    {
+        $inner_meta = new InnerMeta();
+        $inner_meta->setTypeT(INNER_TYPE::INNER_TYPE_OPEN_ROOM);
+        $inner_meta->setStuff(self::packOpenRoom($data));
+        return $inner_meta->serializeToString();
+    }
+
+    public static function unpackOpenRoom($data)
+    {
+        $open_room = new OpenRoom();
+        $open_room->mergeFromString($data);
+        return [
+            'error_code' => $open_room->getErrorCode(),
+            'room_id' => $open_room->getRoomId()
+        ];
+    }
 }

@@ -1,5 +1,6 @@
 @extends('admin_template')
 @section('head')
+    <link rel="stylesheet" href="{{ asset("/bower_components/admin-lte/plugins/select2/select2.css") }}">
     <style>
     .pagination {
         margin-left: 40%;
@@ -115,6 +116,17 @@
                             </div>
                         </div>
                         <div class="form-group">
+                            <label for="city_id" class="col-sm-2 control-label">开通城市</label>
+
+                            <div class="col-sm-10">
+                                <select class="city_multi form-control select2" name="city_id" style="width: 100%;" required>
+                                    @foreach($cities as $city)
+                                        <option value="{{ $city['city_id'] }}">{{ $city['city_name'] }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
                             <label for="invite_code" class="col-sm-2 control-label">邀请码</label>
 
                             <div class="col-sm-10">
@@ -197,9 +209,14 @@
 
 @endsection
 @section('script')
+    <script src="{{ asset("/bower_components/admin-lte/plugins/select2/select2.js") }}"></script>
     <script src="{{ asset("/bower_components/admin-lte/plugins/datatables/jquery.dataTables.min.js") }}"></script>
     <script src="{{ asset("/bower_components/admin-lte/plugins/datatables/dataTables.bootstrap.min.js") }}"></script>
     <script>
+        var city_select = $(".city_multi").select2({
+            placeholder: "请选择开通城市",
+        });
+
         function rechargeList(url) {
             location.href = url;
         }
@@ -227,7 +244,7 @@
             });
 
         };
-        
+
         function resetPassword(id) {
             $("input[name='id']").val(id);
             $('.reset_passwd').modal('show');
@@ -274,6 +291,7 @@
                         $('.modal_container').modal('show');
                     } else {
                         var data = res.data;
+                        city_select.val(data.city_id).trigger('change');
                         $("input[name='id']").val(data.id);
                         $("input[name='name']").val(data.name);
                         $("input[name='invite_code']").val(data.invite_code);
@@ -288,7 +306,7 @@
                 }
             });
         }
-        
+
         function saveAgent() {
             var data = {};
             var form_data = $('.edit_agent_form').serializeArray();
@@ -316,98 +334,6 @@
             $(".modal_container").modal('hide');
             location.reload();
         }
-        /*function agentList() {
-            $.ajax({
-                headers: {
-                    "X-Requested-With": "XMLHttpRequest",
-                },
-                url: "/api/agent/list",
-                success: function (res) {
-                    var data = res.data.list;
-                    console.log(data);
-                    if (data) {
-                        var html_str = '';
-                        $.each(data, function() {
-                            html_str += '<tr> \
-                                <td>' + this.id + '</td> \
-                                <td>' + this.name + '</td> \
-                                <td>X</td> \
-                                <td>' + this.created_at + '</td> \
-                                <td> \
-                                <button type="button" class="btn btn-primary">消费记录</button> \
-                                <button type="button" onclick="cancelAgent(' + this.id +')" class="btn btn-primary">取消代理</button> \
-                                <button type="button" onclick="editAgent(' + this.id +')" class="btn btn-primary">修改信息</button> \
-                                </td> \
-                                </tr>';
-                        });
-                        $('#agent_list_container').html(html_str);
-                    }
-                }
-            });
-        }*/
-        /**
-         *   "paging": true,
-             "lengthChange": false,
-             "searching": false,
-             "ordering": true,
-             "info": true,
-             "autoWidth": false
-             recordsTotal
-             recordsFiltered
-         */
-        /*$(document).ready(function () {
-            $('#agent_container').DataTable({
-                // serverSide: true,
-                searching: false,
-                lengthChange: false,
-                info: true,
-                /*columnDefs: [{
-                    targets: -1,
-                    data: null,
-                    defaultContent: "<button>Click!</button>"
-                }],*/
-                /*ajax: {
-                    headers: {
-                        "X-Requested-With": "XMLHttpRequest",
-                    },
-                    url: '/api/agent/list',
-                    type: 'GET',
-                    dataSrc: function(data){
-                        return data.data.list;
-                    },
-                    data: function (data) {
-                        return {
-                            page: 1
-                        }
-                    },
-                },*/
-                /*ajax: {
-                    headers: {
-                        "X-Requested-With": "XMLHttpRequest",
-                    },
-                    url: '/api/agent/list',
-                    data: {
-                        page: 1,
-                    },
-                    // dataSrc: "data.list",
-                    dataFilter: function(data){
-                        ar data = JSON.parse(data);
-                        var json = {
-                            draw: 1,
-                            recordsTotal: data.data.total_count,
-                            recordsFiltered: data.data.total_count,
-                            data: data.data.list
-                        };
-                        return JSON.stringify(json); // return JSON string
-                    }
-                },
-                columns: [
-                    { "data": 'id' },
-                    { "data": 'name' },
-                    { "data": 'created_at' }
-                ],*/
-            // });
-        // });
 
         function getCurrenturl()
         {

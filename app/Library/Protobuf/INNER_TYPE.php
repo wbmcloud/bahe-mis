@@ -41,6 +41,14 @@ class INNER_TYPE
     const INNER_TYPE_COMMAND = 2;
     /**
      * <pre>
+     *代开房间
+     * </pre>
+     *
+     * <code>INNER_TYPE_OPEN_ROOM = 3;</code>
+     */
+    const INNER_TYPE_OPEN_ROOM = 3;
+    /**
+     * <pre>
      *协议最大数量
      * </pre>
      *

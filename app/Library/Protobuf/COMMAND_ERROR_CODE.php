@@ -73,5 +73,21 @@ class COMMAND_ERROR_CODE
      * <code>COMMAND_ERROR_CODE_ITEM_NOT_FOUND = 7;</code>
      */
     const COMMAND_ERROR_CODE_ITEM_NOT_FOUND = 7;
+    /**
+     * <pre>
+     *未能找到服务器
+     * </pre>
+     *
+     * <code>COMMAND_ERROR_CODE_SERVER_NOT_FOUND = 8;</code>
+     */
+    const COMMAND_ERROR_CODE_SERVER_NOT_FOUND = 8;
+    /**
+     * <pre>
+     *未能找到相关数据，由于策划配置造成
+     * </pre>
+     *
+     * <code>COMMAND_ERROR_CODE_ASSET_NOT_FOUND = 9;</code>
+     */
+    const COMMAND_ERROR_CODE_ASSET_NOT_FOUND = 9;
 }
 

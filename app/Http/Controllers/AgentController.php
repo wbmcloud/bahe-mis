@@ -9,12 +9,18 @@ namespace App\Http\Controllers;
 
 use App\Common\Constants;
 use App\Exceptions\SlException;
+use App\Library\Protobuf\COMMAND_TYPE;
+use App\Library\Protobuf\Protobuf;
+use App\Library\TcpClient;
+use App\Logic\UserLogic;
+use App\Models\City;
 use App\Models\Role;
 use App\Models\TransactionFlow;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 
 class AgentController extends Controller
@@ -40,26 +46,9 @@ class AgentController extends Controller
                 ->paginate($page_size);
         }
         return view('agent.list', [
+            'cities' => (new UserLogic())->getAllOpenCities(),
             'agents' => $users,
         ]);
-            // ->forPage($page, $page_size)
-            // ->get()
-            // ->toArray();
-        /*$users = array_map(function($user) {
-            return ['id' => $user['id'],
-                'name' => $user['name'],
-                'created_at' => $user['created_at']];
-        }, $users);
-        $total_count = Role::where('id', Constants::ROLE_TYPE_AGENT)
-            ->first()
-            ->users()
-            ->where('status', Constants::COMMON_ENABLE)
-            ->count();
-
-        return view('agent.list', [
-            'agents' => $users,
-            'total_count' => $total_count,
-        ]);*/
     }
 
     public function banAgentList()
@@ -116,6 +105,99 @@ class AgentController extends Controller
 
         return view('agent.rechargelist', [
             'recharge_list' => $recharge_list
+        ]);
+    }
+
+    public function showOpenRoomForm(Request $request)
+    {
+        $cities = [];
+        $user = Auth::user();
+        if (!$user->hasRole('agent')) {
+            $cities = (new UserLogic())->getAllOpenCities();
+        }
+        return view('agent.openroom', [
+            'agent' => $user,
+            'cities' => $cities,
+        ]);
+    }
+
+    public function openRoom(Request $request)
+    {
+        $this->validate($request, [
+            'server_id' => 'required|integer'
+        ]);
+
+        $login_user = Auth::user();
+
+        $is_recharged = true;
+
+        DB::beginTransaction();
+
+        try {
+            if ($login_user->hasRole(Constants::ROLE_AGENT)) {
+                $account = Accounts::where([
+                    'user_id' => $login_user->id,
+                    'type' => COMMAND_TYPE::COMMAND_TYPE_ROOM_CARD,
+                ])->first();
+                if (empty($account) || $account->balance < $this->params['num']) {
+                    throw new SlException(SlException::ACCOUNT_BALANCE_NOT_ENOUGH);
+                }
+                $account->balance -= $this->params['num'];
+                $account->save();
+            }
+
+            // 调用idip注册服务器
+            $inner_meta_register_srv = Protobuf::packRegisterInnerMeta();
+            $register_res = TcpClient::callTcpService($inner_meta_register_srv, true);
+            if ($register_res !== $inner_meta_register_srv) {
+                throw new SlException(SlException::GMT_SERVER_REGISTER_FAIL_CODE);
+            }
+            // 调用idip代开房
+            $open_room['server_id'] = $this->params['server_id'];
+            $inner_meta_open_room = Protobuf::packOpenRoomInnerMeta($open_room);
+            $open_room_res = Protobuf::unpackForResponse(TcpClient::callTcpService($inner_meta_open_room));
+            if ($open_room_res['error_code'] != 0) {
+                throw new SlException(SlException::GMT_SERVER_OPEN_ROOM_FAIL_CODE);
+            }
+            DB::commit();
+        } catch (\Exception $e) {
+            $is_recharged = false;
+            // 关闭socket连接
+            if (TcpClient::isAlive()) {
+                TcpClient::getSocket()->close();
+            }
+            DB::rollback();
+            if ($e->getCode() == SlException::GMT_SERVER_OPEN_ROOM_FAIL_CODE) {
+                $recharge_fail_reason = json_encode($open_room_res);
+            } else {
+                $recharge_fail_reason = json_encode([
+                    'error_code' => $e->getCode(),
+                    'error_msg' => $e->getMessage(),
+                ]);
+            }
+        }
+
+        $transaction_flow = new TransactionFlow();
+        $transaction_flow->initiator_id = Auth::id();
+        $transaction_flow->initiator_name = Auth::user()->name;
+        $transaction_flow->initiator_type = Constants::$recharge_role_type[$login_user->roles()->first()->toArray()['name']];
+        $transaction_flow->recharge_type = Constants::OPEN_ROOM_TYPE;
+        $transaction_flow->num = Constants::OPEN_ROOM_CARD_REDUCE;
+
+        if ($is_recharged) {
+            $transaction_flow->status = Constants::COMMON_ENABLE;
+            $transaction_flow->result = json_encode($open_room_res);
+        } else {
+            $transaction_flow->recharge_fail_reason = $recharge_fail_reason;
+        }
+        $transaction_flow->save();
+
+        if (!$is_recharged) {
+            throw new SlException(SlException::GMT_SERVER_OPEN_ROOM_FAIL_CODE);
+        }
+
+        return view('agent.openroomres', [
+            'room_id' => $open_room_res['room_id']
         ]);
     }
 
