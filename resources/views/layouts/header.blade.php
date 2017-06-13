@@ -4,9 +4,9 @@
   <!-- Logo -->
   <a href="/dashboard" class="logo">
     <!-- mini logo for sidebar mini 50x50 pixels -->
-    <span class="logo-mini"><b>A</b>LT</span>
+    <!--span class="logo-mini"><b>A</b>LT</span-->
     <!-- logo for regular state and mobile devices -->
-    <img style="width: auto; height: 60%;" src="{{ asset("/bower_components/admin-lte/dist/img/bahe_logo.png") }}"/>
+    <img style="width: auto; height: 62%;" src="{{ asset("/bower_components/admin-lte/dist/img/bahe_logo.png") }}"/>
     <!--span class="logo-lg"><b>Admin</b>LTE</span-->
   </a>
 
