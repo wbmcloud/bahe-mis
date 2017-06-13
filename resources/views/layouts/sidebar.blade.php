@@ -40,9 +40,9 @@
           </a>
           <ul class="treeview-menu">
             @role(['super', 'admin'])
-            <li id="agent_recharge"><a href="{{ route('recharge.agent') }}"><i class="fa fa-link"></i> <span>代理充值</span></a></li>
+            <li id="agent_recharge"><a href="{{ route('recharge.agent') }}"><i class="fa fa-circle-o"></i> <span>代理充值</span></a></li>
             @endrole
-            <li id="user_recharge"><a href="{{ route('recharge.user') }}"><i class="fa fa-link"></i> <span>用户充值</span></a></li>
+            <li id="user_recharge"><a href="{{ route('recharge.user') }}"><i class="fa fa-circle-o"></i> <span>用户充值</span></a></li>
           </ul>
         </li>
         @role(['super', 'admin'])
