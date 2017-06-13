@@ -13,6 +13,7 @@ use App\Library\Protobuf\COMMAND_TYPE;
 use App\Library\Protobuf\Protobuf;
 use App\Library\TcpClient;
 use App\Logic\UserLogic;
+use App\Models\Accounts;
 use App\Models\City;
 use App\Models\Role;
 use App\Models\TransactionFlow;
@@ -139,10 +140,10 @@ class AgentController extends Controller
                     'user_id' => $login_user->id,
                     'type' => COMMAND_TYPE::COMMAND_TYPE_ROOM_CARD,
                 ])->first();
-                if (empty($account) || $account->balance < $this->params['num']) {
+                if (empty($account) || $account->balance < Constants::OPEN_ROOM_CARD_REDUCE) {
                     throw new SlException(SlException::ACCOUNT_BALANCE_NOT_ENOUGH);
                 }
-                $account->balance -= $this->params['num'];
+                $account->balance -= Constants::OPEN_ROOM_CARD_REDUCE;
                 $account->save();
             }
 
@@ -155,13 +156,15 @@ class AgentController extends Controller
             // 调用idip代开房
             $open_room['server_id'] = $this->params['server_id'];
             $inner_meta_open_room = Protobuf::packOpenRoomInnerMeta($open_room);
-            $open_room_res = Protobuf::unpackForResponse(TcpClient::callTcpService($inner_meta_open_room));
+            $open_room_res = Protobuf::unpackOpenRoom(TcpClient::callTcpService($inner_meta_open_room));
             if ($open_room_res['error_code'] != 0) {
                 throw new SlException(SlException::GMT_SERVER_OPEN_ROOM_FAIL_CODE);
             }
             DB::commit();
         } catch (\Exception $e) {
             $is_recharged = false;
+            $error_code = $e->getCode();
+            $error_message = $e->getMessage();
             // 关闭socket连接
             if (TcpClient::isAlive()) {
                 TcpClient::getSocket()->close();
@@ -193,7 +196,7 @@ class AgentController extends Controller
         $transaction_flow->save();
 
         if (!$is_recharged) {
-            throw new SlException(SlException::GMT_SERVER_OPEN_ROOM_FAIL_CODE);
+            throw new SlException($error_code, $error_message);
         }
 
         return view('agent.openroomres', [

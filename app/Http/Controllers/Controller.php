@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Common\Utils;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Foundation\Validation\ValidatesRequests;
@@ -37,6 +38,9 @@ class Controller extends BaseController
             'request' => Request::all(),
             'response' => $res,
         ]));
+        if (Request::ajax()) {
+            return Utils::sendJsonSuccessResponse($res);
+        }
         return $res;
     }
 }

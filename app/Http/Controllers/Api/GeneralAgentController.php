@@ -8,13 +8,13 @@
 namespace App\Http\Controllers\Api;
 
 use App\Common\Constants;
-use App\Common\Utils;
 use App\Exceptions\SlException;
+use App\Http\Controllers\Controller;
 use App\Models\GeneralAgents;
 use App\Models\TransactionFlow;
 use Illuminate\Http\Request;
 
-class GeneralAgentController extends ApiBaseController
+class GeneralAgentController extends Controller
 {
     public function banAgent(Request $request)
     {
@@ -22,7 +22,7 @@ class GeneralAgentController extends ApiBaseController
         $user = GeneralAgents::findOrFail($user_id);
         $user->status = Constants::COMMON_DISABLE;
         $user->save();
-        return Utils::sendJsonSuccessResponse();
+        return [];
     }
 
     public function unBanAgent(Request $request)
@@ -31,7 +31,7 @@ class GeneralAgentController extends ApiBaseController
         $user = GeneralAgents::findOrFail($user_id);
         $user->status = Constants::COMMON_ENABLE;
         $user->save();
-        return Utils::sendJsonSuccessResponse();
+        return [];
     }
 
     public function agentInfo()
@@ -40,7 +40,7 @@ class GeneralAgentController extends ApiBaseController
         if (empty($general_agent)) {
             throw new SlException(SlException::AGENT_NOT_EXSIST_CODE);
         }
-        return Utils::sendJsonResponse(SlException::SUCCESS_CODE, '', $general_agent->toArray());
+        return $general_agent->toArray();
     }
 
     public function saveAgent(Request $request)
@@ -53,7 +53,7 @@ class GeneralAgentController extends ApiBaseController
         !empty($this->params['bank_card']) && ($user->bank_card = $this->params['bank_card']);
         !empty($this->params['id_card']) && ($user->id_card = $this->params['id_card']);
         $user->save();
-        return Utils::sendJsonSuccessResponse();
+        return [];
     }
 
     public function delAgentFlow(Request $request)
@@ -62,7 +62,7 @@ class GeneralAgentController extends ApiBaseController
             'id' => 'integer|required',
         ]);
         TransactionFlow::find($this->params['id'])->delete();
-        return Utils::sendJsonSuccessResponse();
+        return [];
     }
 
 }

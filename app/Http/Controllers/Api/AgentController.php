@@ -8,13 +8,13 @@
 namespace App\Http\Controllers\Api;
 
 use App\Common\Constants;
-use App\Common\Utils;
 use App\Exceptions\SlException;
+use App\Http\Controllers\Controller;
 use App\Models\Role;
 use App\Models\User;
 use Illuminate\Http\Request;
 
-class AgentController extends ApiBaseController
+class AgentController extends Controller
 {
     public function banAgent(Request $request)
     {
@@ -22,7 +22,7 @@ class AgentController extends ApiBaseController
         $user = User::findOrFail($user_id);
         $user->status = Constants::COMMON_DISABLE;
         $user->save();
-        return Utils::sendJsonSuccessResponse();
+        return [];
     }
 
     public function unBanAgent(Request $request)
@@ -31,7 +31,7 @@ class AgentController extends ApiBaseController
         $user = User::findOrFail($user_id);
         $user->status = Constants::COMMON_ENABLE;
         $user->save();
-        return Utils::sendJsonSuccessResponse();
+        return [];
     }
 
     public function addAgent(Request $request)
@@ -40,7 +40,7 @@ class AgentController extends ApiBaseController
         $user = User::findOrFail($user_id);
         $user->status = Constants::COMMON_ENABLE;
         $user->save();
-        return Utils::sendJsonSuccessResponse();
+        return [];
     }
 
     public function agentInfo()
@@ -49,7 +49,7 @@ class AgentController extends ApiBaseController
         if (empty($user)) {
             throw new SlException(SlException::AGENT_NOT_EXSIST_CODE);
         }
-        return Utils::sendJsonResponse(SlException::SUCCESS_CODE, '', $user->toArray());
+        return $user->toArray();
     }
 
     protected function validateAgentParams(Request $request)
@@ -81,7 +81,7 @@ class AgentController extends ApiBaseController
         !empty($this->params['bank_card']) && ($user->bank_card = $this->params['bank_card']);
         !empty($this->params['id_card']) && ($user->id_card = $this->params['id_card']);
         $user->save();
-        return Utils::sendJsonSuccessResponse();
+        return [];
     }
 
     public function agentList()
@@ -105,10 +105,10 @@ class AgentController extends ApiBaseController
             ->users()
             ->where('status', Constants::COMMON_ENABLE)
             ->count();
-        return Utils::sendJsonSuccessResponse([
+        return [
             'list' => $users,
             'total_count' => $total_count,
-        ]);
+        ];
     }
 
     public function resetPassword()
@@ -121,6 +121,6 @@ class AgentController extends ApiBaseController
         // 重置密码
         $user->password = bcrypt($this->params['password']);
         $user->save();
-        return Utils::sendJsonSuccessResponse();
+        return [];
     }
 }

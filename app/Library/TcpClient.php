@@ -79,6 +79,6 @@ class TcpClient
 
     public static function isAlive()
     {
-        return (gettype(self::$socket->getResource()) === 'resource') ? true : false;
+        return (is_null(self::$socket) || (gettype(self::$socket->getResource()) !== 'resource')) ? false : true;
     }
 }

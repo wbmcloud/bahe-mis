@@ -49,9 +49,11 @@ class SlException extends \Exception
         self::GMT_SERVER_OPEN_ROOM_FAIL_CODE => '代开房失败',
     ];
 
-    public function __construct($code)
+    public function __construct($code, $message = null)
     {
-        $message = self::$error_msg[$code];
+        if (is_null($message)) {
+            $message = self::$error_msg[$code];
+        }
         parent::__construct($message, $code);
     }
 }

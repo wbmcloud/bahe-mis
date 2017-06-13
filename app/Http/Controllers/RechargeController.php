@@ -208,6 +208,8 @@ class RechargeController extends Controller
             DB::commit();
         } catch (\Exception $e) {
             $is_recharged = false;
+            $error_code = $e->getCode();
+            $error_message = $e->getMessage();
             // 关闭socket连接
             if (TcpClient::isAlive()) {
                 TcpClient::getSocket()->close();
@@ -240,7 +242,7 @@ class RechargeController extends Controller
         $transaction_flow->save();
 
         if (!$is_recharged) {
-            throw new SlException(SlException::GMT_SERVER_RECHARGE_FAIL_CODE);
+            throw new SlException($error_code, $error_message);
         }
 
         return true;

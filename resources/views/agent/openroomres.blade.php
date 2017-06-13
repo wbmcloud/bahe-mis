@@ -1,5 +1,13 @@
 @extends('admin_template')
-
+@section('head')
+    <style>
+        .open_room {
+            font-size: 25px;
+            font-family: sans-serif;
+            color: red;
+        }
+    </style>
+@endsection
 @section('content')
     <section class="content-header">
         <h1>
@@ -14,7 +22,7 @@
                     <label for="server_id" class="col-sm-2 control-label">房间号</label>
 
                     <div class="col-sm-10">
-                        <p>{{ $room_id }}</p>
+                        <span class="open_room">{{ $room_id }}</span>
                     </div>
                 </div>
             </div>
