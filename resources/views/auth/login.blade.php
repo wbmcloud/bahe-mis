@@ -27,11 +27,11 @@
 <body class="hold-transition login-page">
 <div class="login-box">
   <div class="login-logo">
-    <a href="###"><b>Admin</b>LTE</a>
+    <img style="width: 50%; height: 50%;" src="{{ asset("/bower_components/admin-lte/dist/img/bahe_logo.png") }}"/>
   </div>
   <!-- /.login-logo -->
   <div class="login-box-body">
-    <p class="login-box-msg">Sign in to start your session</p>
+    <!--p class="login-box-msg">Sign in to start your session</p-->
 
     <form action="{{ route('login') }}" method="post">
       {{ csrf_field() }}
@@ -47,13 +47,13 @@
         <div class="col-xs-8">
           <div class="checkbox icheck">
             <label>
-              <input type="checkbox" name="remember" {{ old('remember') ? checked : '' }}> Remember Me
+              <input type="checkbox" name="remember" {{ old('remember') ? checked : '' }}> 记住密码
             </label>
           </div>
         </div>
         <!-- /.col -->
         <div class="col-xs-4">
-          <button type="submit" class="btn btn-primary btn-block btn-flat">Sign In</button>
+          <button type="submit" class="btn btn-primary btn-block btn-flat">登录</button>
         </div>
         <!-- /.col -->
       </div>
