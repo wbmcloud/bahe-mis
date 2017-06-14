@@ -15,7 +15,7 @@
     </div>
     <!-- /.box-header -->
     <!-- form start -->
-    <form class="form-horizontal" method="POST" action="{{  route('user.add') }}">
+    <form class="form-horizontal" method="POST" action="{{  route('user.doadd') }}">
         {{  csrf_field() }}
         <div class="box-body">
             <div class="form-group">

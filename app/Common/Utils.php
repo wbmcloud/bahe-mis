@@ -8,6 +8,7 @@
 namespace App\Common;
 
 use App\Exceptions\SlException;
+use Illuminate\Support\Facades\Request;
 
 class Utils
 {
@@ -26,5 +27,10 @@ class Utils
     public static function sendJsonSuccessResponse($data = [])
     {
         return self::sendJsonResponse(SlException::SUCCESS_CODE, '', $data);
+    }
+
+    public static function getPathUri()
+    {
+        return preg_replace('/\?.*/', '', Request::getRequestUri());
     }
 }

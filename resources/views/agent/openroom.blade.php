@@ -7,7 +7,7 @@
         </h1>
     </section>
     <section class="content">
-        <form class="form-horizontal" method="POST" action="{{  route('agent.openroom') }}">
+        <form class="form-horizontal" method="POST" action="{{  route('agent.doopenroom') }}">
             {{  csrf_field() }}
             <div class="box-body">
                 <div class="form-group">

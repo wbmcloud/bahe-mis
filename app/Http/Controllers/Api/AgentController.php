@@ -10,7 +10,6 @@ namespace App\Http\Controllers\Api;
 use App\Common\Constants;
 use App\Exceptions\SlException;
 use App\Http\Controllers\Controller;
-use App\Models\Role;
 use App\Models\User;
 use Illuminate\Http\Request;
 
@@ -52,22 +51,8 @@ class AgentController extends Controller
         return $user->toArray();
     }
 
-    protected function validateAgentParams(Request $request)
-    {
-        $this->validate($request, [
-            'invite_code' => 'integer|nullable',
-            'uin' => 'integer|nullable',
-            'wechat' => 'string|nullable',
-            'uin_group' => 'string|nullable',
-            'tel' => 'integer|nullable',
-            'bank_card' => 'string|nullable',
-            'id_card' => 'string|nullable',
-        ]);
-    }
-
     public function saveAgent(Request $request)
     {
-        $this->validateAgentParams($request);
         $user = User::find($this->params['id']);
         if (empty($user)) {
             throw new SlException(SlException::AGENT_NOT_EXSIST_CODE);
@@ -82,33 +67,6 @@ class AgentController extends Controller
         !empty($this->params['id_card']) && ($user->id_card = $this->params['id_card']);
         $user->save();
         return [];
-    }
-
-    public function agentList()
-    {
-        $page = isset($this->params['page']) ? $this->params['page'] : Constants::DEFAULT_PAGE;
-        $page_size = isset($this->params['page_size']) ? $this->params['page_size'] : Constants::DEFAULT_PAGE_SIZE;
-        $users = Role::where('id', Constants::ROLE_TYPE_AGENT)
-            ->first()
-            ->users()
-            ->where('status', Constants::COMMON_ENABLE)
-            ->forPage($page, $page_size)
-            ->get()
-            ->toArray();
-        $users = array_map(function($user) {
-            return ['id' => $user['id'],
-                'name' => $user['name'],
-                'created_at' => $user['created_at']];
-        }, $users);
-        $total_count = Role::where('id', Constants::ROLE_TYPE_AGENT)
-            ->first()
-            ->users()
-            ->where('status', Constants::COMMON_ENABLE)
-            ->count();
-        return [
-            'list' => $users,
-            'total_count' => $total_count,
-        ];
     }
 
     public function resetPassword()

@@ -14,7 +14,6 @@ use App\Library\Protobuf\Protobuf;
 use App\Library\TcpClient;
 use App\Logic\UserLogic;
 use App\Models\Accounts;
-use App\Models\City;
 use App\Models\Role;
 use App\Models\TransactionFlow;
 use App\Models\User;
@@ -22,14 +21,12 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Hash;
 
 class AgentController extends Controller
 {
 
     public function agentList()
     {
-        // $page = isset($this->params['page']) ? $this->params['page'] : Constants::DEFAULT_PAGE;
         $page_size = isset($this->params['page_size']) ? $this->params['page_size'] : Constants::DEFAULT_PAGE_SIZE;
 
         if (isset($this->params['query_str']) && !empty($this->params['query_str'])) {
@@ -46,10 +43,10 @@ class AgentController extends Controller
                 ->where('status', Constants::COMMON_ENABLE)
                 ->paginate($page_size);
         }
-        return view('agent.list', [
+        return [
             'cities' => (new UserLogic())->getAllOpenCities(),
             'agents' => $users,
-        ]);
+        ];
     }
 
     public function banAgentList()
@@ -71,9 +68,9 @@ class AgentController extends Controller
                 ->where('status', Constants::COMMON_DISABLE)
                 ->paginate($page_size);
         }
-        return view('agent.banlist', [
+        return [
             'agents' => $users,
-        ]);
+        ];
     }
 
     public function agentInfo()
@@ -82,19 +79,13 @@ class AgentController extends Controller
         if (empty($user)) {
             throw new SlException(SlException::AGENT_NOT_EXSIST_CODE);
         }
-        return view('agent.info', [
+        return [
             'agent_info' => $user
-        ]);
+        ];
     }
 
     public function rechargeList(Request $request)
     {
-        // 参数校验
-        $this->validate($request, [
-            'id' => 'required|integer',
-            'start_date' => 'date_format:Y-m-d|nullable',
-            'end_date' => 'date_format:Y-m-d|nullable'
-        ]);
         $page_size = isset($this->params['page_size']) ? $this->params['page_size'] :
             Constants::DEFAULT_PAGE_SIZE;
         $start_time = isset($this->params['start_date']) ? $this->params['start_date'] : Carbon::today()->toDateString();
@@ -104,9 +95,9 @@ class AgentController extends Controller
             ->whereBetween('created_at', [$start_time, $end_time])
             ->paginate($page_size);
 
-        return view('agent.rechargelist', [
+        return [
             'recharge_list' => $recharge_list
-        ]);
+        ];
     }
 
     public function showOpenRoomForm(Request $request)
@@ -116,20 +107,15 @@ class AgentController extends Controller
         if (!$user->hasRole('agent')) {
             $cities = (new UserLogic())->getAllOpenCities();
         }
-        return view('agent.openroom', [
+        return [
             'agent' => $user,
             'cities' => $cities,
-        ]);
+        ];
     }
 
     public function openRoom(Request $request)
     {
-        $this->validate($request, [
-            'server_id' => 'required|integer'
-        ]);
-
         $login_user = Auth::user();
-
         $is_recharged = true;
 
         DB::beginTransaction();
@@ -199,9 +185,9 @@ class AgentController extends Controller
             throw new SlException($error_code, $error_message);
         }
 
-        return view('agent.openroomres', [
+        return [
             'room_id' => $open_room_res['room_id']
-        ]);
+        ];
     }
 
 }

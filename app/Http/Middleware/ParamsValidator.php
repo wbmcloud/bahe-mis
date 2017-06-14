@@ -3,6 +3,7 @@
 namespace App\Http\Middleware;
 
 use App\Common\ParamsRules;
+use App\Common\Utils;
 use Closure;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 
@@ -18,7 +19,7 @@ class ParamsValidator
      */
     public function handle($request, Closure $next)
     {
-        $resource_uri = preg_replace('/\?.*/', '', $request->getRequestUri());
+        $resource_uri = Utils::getPathUri();
         if (isset(ParamsRules::$rules[$resource_uri])) {
             $this->validate($request, ParamsRules::$rules[$resource_uri]);
         }

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Common\ParamsRules;
 use App\Common\Utils;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Routing\Controller as BaseController;
@@ -13,16 +14,6 @@ use Illuminate\Support\Facades\Request;
 class Controller extends BaseController
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
-
-    protected function sendSuccessResponse()
-    {
-        return view('success');
-    }
-
-    protected function sendFailResponse()
-    {
-        return view('error');
-    }
 
     public function __construct()
     {
@@ -40,6 +31,10 @@ class Controller extends BaseController
         ]));
         if (Request::ajax()) {
             return Utils::sendJsonSuccessResponse($res);
+        }
+        $path_uri = Utils::getPathUri();
+        if (isset(ParamsRules::$interface_tpl[$path_uri])) {
+            return view(ParamsRules::$interface_tpl[$path_uri], $res);
         }
         return $res;
     }

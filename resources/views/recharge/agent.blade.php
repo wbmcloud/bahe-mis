@@ -11,7 +11,7 @@
     </div>
     <!-- /.box-header -->
     <!-- form start -->
-    <form class="form-horizontal" method="POST" action="{{  route('recharge.agent') }}">
+    <form class="form-horizontal" method="POST" action="{{  route('recharge.doagent') }}">
         {{  csrf_field() }}
         <div class="box-body">
             <div class="form-group">

@@ -49,39 +49,17 @@ class GeneralAgentController extends Controller
                 ->paginate($page_size);
         }
 
-        return view('general_agent.list', [
+        return [
             'agents' => $users,
-        ]);
+        ];
     }
 
     public function addAgentForm()
     {
-        return view('general_agent.add');
+        return [];
     }
 
-    public function addAgent(Request $request)
-    {
-        $this->validateParams($request);
-
-        if ($this->attemptAddAgent()) {
-            return $this->sendSuccessResponse();
-        }
-
-        return $this->sendFailResponse();
-    }
-
-    protected function validateParams(Request $request)
-    {
-        $this->validate($request, [
-            'name' => 'required|string',
-            'invite_code' => 'integer|required',
-            'tel' => 'integer|required',
-            'bank_card' => 'integer|nullable',
-            'id_card' => 'integer|nullable',
-        ]);
-    }
-
-    protected function attemptAddAgent()
+    public function addAgent()
     {
         $general_agent = new GeneralAgents();
         // 校验邀请码合法性
@@ -107,17 +85,16 @@ class GeneralAgentController extends Controller
             DB::rollback();
             throw new SlException(SlException::FAIL_CODE);
         }
-        return true;
+        return [];
     }
-
 
     public function inviteCode()
     {
         $page_size = isset($this->params['page_size']) ? $this->params['page_size'] : Constants::DEFAULT_PAGE_SIZE;
         $codes = InviteCode::paginate($page_size);
-        return view('general_agent.invite_code', [
+        return [
             'codes' => $codes,
-        ]);
+        ];
     }
 
     public function banAgentList()
@@ -144,20 +121,13 @@ class GeneralAgentController extends Controller
                 ->paginate($page_size);
         }
 
-        return view('general_agent.banlist', [
+        return [
             'agents' => $users
-        ]);
+        ];
     }
 
     public function agentRechargeList(Request $request)
     {
-        // 参数校验
-        $this->validate($request, [
-            'invite_code' => 'required|digits:7',
-            'start_date' => 'date_format:Y-m-d',
-            'end_date' => 'date_format:Y-m-d'
-        ]);
-
         $page_size = isset($this->params['page_size']) ? $this->params['page_size'] :
             Constants::DEFAULT_PAGE_SIZE;
         $start_time = isset($this->params['start_date']) ? $this->params['start_date'] : Carbon::today()->toDateString();
@@ -174,8 +144,8 @@ class GeneralAgentController extends Controller
                 ->paginate($page_size);
         }
 
-        return view('general_agent.recharge', [
+        return [
             'recharge_flows' => $recharge_flows
-        ]);
+        ];
     }
 }

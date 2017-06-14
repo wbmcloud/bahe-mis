@@ -19,59 +19,17 @@ class UserController extends Controller
     public function addUserForm()
     {
         $cities = (new UserLogic())->getAllOpenCities();
-        return view('auth.add', ['cities' => $cities]);
+        return [
+            'cities' => $cities
+        ];
     }
 
     public function addResetPasswordForm()
     {
-        return view('auth.reset');
+        return [];
     }
 
     public function add(Request $request)
-    {
-        $this->validateAddUserParams($request);
-
-        if ($this->attemptAddUser($request)) {
-            return $this->sendSuccessResponse();
-        }
-
-        return $this->sendFailResponse();
-    }
-
-    public function reset(Request $request)
-    {
-        $this->validateResetPasswordParams($request);
-
-        if ($this->attemptResetPassword($request)) {
-            return $this->sendSuccessResponse();
-        }
-
-        return $this->sendFailResponse();
-    }
-
-    protected function validateAddUserParams($request)
-    {
-        $this->validate($request, [
-            'name' => 'required|string',
-            'password' => 'required|string',
-            'city_id' => 'required|integer',
-            'invite_code' => 'integer|nullable',
-            'uin' => 'integer|nullable',
-            'uin_group' => 'string|nullable',
-            'bank_card' => 'integer|nullable',
-        ]);
-    }
-
-    protected function validateResetPasswordParams($request)
-    {
-        $this->validate($request, [
-            'old_password' => 'required|string',
-            'new_password' => 'required|string',
-            'dup_password' => 'required|string',
-        ]);
-    }
-
-    protected function attemptAddUser($request)
     {
         // 获取角色
         $role = Role::where('name', $this->params['role_name'])->first();
@@ -96,10 +54,10 @@ class UserController extends Controller
         // 绑定角色
         $user->attachRole($role);
 
-        return true;
+        return [];
     }
 
-    protected function attemptResetPassword($request)
+    public function reset(Request $request)
     {
         // 获取输入参数
         $old_password = $request->input('old_password');
@@ -115,6 +73,8 @@ class UserController extends Controller
         // 更新密码
         $user->password = bcrypt($new_password);
         $user->save();
-        return true;
+
+        return [];
     }
+
 }

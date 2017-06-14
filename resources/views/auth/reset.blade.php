@@ -6,7 +6,7 @@
 </div>
 <!-- /.box-header -->
 <!-- form start -->
-<form class="form-horizontal" method="POST" action="{{  route('user.reset') }}">
+<form class="form-horizontal" method="POST" action="{{  route('user.doreset') }}">
     {{  csrf_field() }}
     <div class="box-body">
         <div class="form-group">

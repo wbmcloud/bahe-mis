@@ -1,10 +1,8 @@
 <?php
 
-namespace App\Http\Controllers\Auth;
+namespace App\Http\Controllers;
 
 use App\Common\Constants;
-use App\Http\Controllers\Controller;
-use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Foundation\Auth\ThrottlesLogins;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -22,16 +20,7 @@ class LoginController extends Controller
     |
     */
 
-    // use AuthenticatesUsers;
     use ThrottlesLogins;
-
-    protected function validateLogin(Request $request)
-    {
-        $this->validate($request, [
-            $this->username() => 'required|string',
-            'password' => 'required|string',
-        ]);
-    }
 
     protected function username()
     {
@@ -47,13 +36,11 @@ class LoginController extends Controller
         if (Auth::check()) {
             return redirect(Constants::LOGIN_REDIRECT_URI);
         }
-        return view('auth.login');
+        return [];
     }
 
     public function login(Request $request)
     {
-        $this->validateLogin($request);
-
         if ($this->hasTooManyLoginAttempts($request)) {
             $this->fireLockoutEvent($request);
 

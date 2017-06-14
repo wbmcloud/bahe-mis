@@ -43,7 +43,7 @@ class GeneralAgentController extends Controller
         return $general_agent->toArray();
     }
 
-    public function saveAgent(Request $request)
+    public function saveAgent()
     {
         $user = GeneralAgents::find($this->params['id']);
         if (empty($user)) {
@@ -56,11 +56,8 @@ class GeneralAgentController extends Controller
         return [];
     }
 
-    public function delAgentFlow(Request $request)
+    public function delAgentFlow()
     {
-        $this->validate($request, [
-            'id' => 'integer|required',
-        ]);
         TransactionFlow::find($this->params['id'])->delete();
         return [];
     }

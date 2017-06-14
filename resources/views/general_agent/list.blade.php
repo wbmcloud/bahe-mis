@@ -111,14 +111,14 @@
                             <label for="name" class="col-sm-2 control-label">姓名</label>
 
                             <div class="col-sm-10">
-                                <input type="text" class="form-control" id="name" name="name" placeholder="请输入姓名" required>
+                                <input type="text" class="form-control" id="name" name="name" placeholder="请输入姓名" disabled>
                             </div>
                         </div>
                         <div class="form-group">
                             <label for="invite_code" class="col-sm-2 control-label">邀请码</label>
 
                             <div class="col-sm-10">
-                                <input type="text" class="form-control" name="invite_code" placeholder="请输入邀请码" required>
+                                <input type="text" class="form-control" name="invite_code" placeholder="请输入邀请码" disabled>
                             </div>
                         </div>
                         <div class="form-group">

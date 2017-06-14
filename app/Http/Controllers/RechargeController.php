@@ -26,7 +26,7 @@ class RechargeController extends Controller
 {
     public function showAgentRechargeForm()
     {
-        return view('recharge.agent');
+        return [];
     }
 
     public function showUserRechargeForm()
@@ -34,59 +34,12 @@ class RechargeController extends Controller
         $account_logic = new AccountLogic();
         $accounts = $account_logic->getAgentBalance();
 
-        return view('recharge.user', [
+        return [
             'accounts' => $accounts
-        ]);
+        ];
     }
 
-    public function agentRecharge(Request $request)
-    {
-        $this->validateAgentRechargeParams($request);
-        if ($this->attemptAgentRecharge($request)) {
-            return $this->sendSuccessResponse();
-        }
-
-        return $this->sendFailResponse();
-    }
-
-    public function userRecharge(Request $request)
-    {
-        $this->validateUserRechargeParams($request);
-        if ($this->attemptUserRecharge($request)) {
-            return $this->sendSuccessResponse();
-        }
-
-        return $this->sendFailResponse();
-    }
-
-    protected function validateAgentRechargeParams(Request $request)
-    {
-        $this->validate($request, [
-            'user_name' => 'string|required',
-            'num' => 'integer|required',
-            'recharge_type' => ['required', Rule::in([
-                COMMAND_TYPE::COMMAND_TYPE_RECHARGE,
-                COMMAND_TYPE::COMMAND_TYPE_ROOM_CARD,
-                COMMAND_TYPE::COMMAND_TYPE_HUANLEDOU
-            ])],
-            'code' => 'string'
-        ]);
-    }
-
-    protected function validateUserRechargeParams(Request $request)
-    {
-        $this->validate($request, [
-            'role_id' => 'integer|required',
-            'num' => 'integer|required',
-            'recharge_type' => ['required', Rule::in([
-                COMMAND_TYPE::COMMAND_TYPE_RECHARGE,
-                COMMAND_TYPE::COMMAND_TYPE_ROOM_CARD,
-                COMMAND_TYPE::COMMAND_TYPE_HUANLEDOU
-            ])]
-        ]);
-    }
-
-    protected function attemptAgentRecharge(Request $request)
+    public function agentRecharge()
     {
         $login_user_role = $this->checkAgentRechargeAuth();
         $recharge_user_role = $this->checkAgentRechargeRole($this->params['user_name']);
@@ -109,7 +62,7 @@ class RechargeController extends Controller
             $account = Accounts::where([
                 'user_name' => $this->params['user_name'],
                 'type' => $this->params['recharge_type'],
-                ])
+            ])
                 ->first();
             if (empty($account)) {
                 $account = new Accounts();
@@ -131,42 +84,10 @@ class RechargeController extends Controller
             throw new SlException(SlException::FAIL_CODE);
         }
 
-        return true;
+        return [];
     }
 
-    protected function checkAgentRechargeRole($user_name)
-    {
-        $user = User::where('name', $user_name)->first();
-        if (empty($user)) {
-            throw new SlException(SlException::USER_NOT_EXSIST_CODE);
-        }
-        $role = $user->roles()->first()->toArray();
-        if (empty($role)) {
-            throw new SlException(SlException::ROLE_NOT_EXSIST_CODE);
-        }
-        if ($role['name'] !== Constants::ROLE_AGENT) {
-            throw new SlException(SlException::RECHARGE_ROLE_NOT_AGENT_CODE);
-        }
-        return $role;
-    }
-
-    protected function checkAgentRechargeAuth()
-    {
-        $user = Auth::user();
-        if (empty($user)) {
-            return redirect()->intended('login');
-        }
-        $role = $user->roles()->first()->toArray();
-        if (empty($role)) {
-            throw new SlException(SlException::ROLE_NOT_EXSIST_CODE);
-        }
-        if ($role['name'] === Constants::ROLE_TYPE_AGENT) {
-            throw new SlException(SlException::AGENT_NOT_RECHARGE_FOR_AGENT_CODE);
-        }
-        return $role;
-    }
-
-    protected function attemptUserRecharge(Request $request)
+    public function userRecharge()
     {
         $is_recharged = true;
         $login_user_role = $this->checkAgentRechargeAuth();
@@ -245,6 +166,39 @@ class RechargeController extends Controller
             throw new SlException($error_code, $error_message);
         }
 
-        return true;
+        return [];
     }
+
+    protected function checkAgentRechargeRole($user_name)
+    {
+        $user = User::where('name', $user_name)->first();
+        if (empty($user)) {
+            throw new SlException(SlException::USER_NOT_EXSIST_CODE);
+        }
+        $role = $user->roles()->first()->toArray();
+        if (empty($role)) {
+            throw new SlException(SlException::ROLE_NOT_EXSIST_CODE);
+        }
+        if ($role['name'] !== Constants::ROLE_AGENT) {
+            throw new SlException(SlException::RECHARGE_ROLE_NOT_AGENT_CODE);
+        }
+        return $role;
+    }
+
+    protected function checkAgentRechargeAuth()
+    {
+        $user = Auth::user();
+        if (empty($user)) {
+            return redirect()->intended('login');
+        }
+        $role = $user->roles()->first()->toArray();
+        if (empty($role)) {
+            throw new SlException(SlException::ROLE_NOT_EXSIST_CODE);
+        }
+        if ($role['name'] === Constants::ROLE_TYPE_AGENT) {
+            throw new SlException(SlException::AGENT_NOT_RECHARGE_FOR_AGENT_CODE);
+        }
+        return $role;
+    }
+
 }
