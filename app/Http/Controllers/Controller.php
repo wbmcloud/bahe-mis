@@ -24,9 +24,9 @@ class Controller extends BaseController
     {
         $res = call_user_func_array([$this, $method], $parameters);
         Log::info(json_encode([
-            'header' => Request::header(),
-            'url' => Request::fullUrl(),
-            'request' => Request::all(),
+            'header'   => Request::header(),
+            'url'      => Request::fullUrl(),
+            'request'  => Request::all(),
             'response' => $res,
         ]));
         if (Request::ajax()) {
@@ -36,6 +36,7 @@ class Controller extends BaseController
         if (isset(ParamsRules::$interface_tpl[$path_uri])) {
             return view(ParamsRules::$interface_tpl[$path_uri], $res);
         }
+
         return $res;
     }
 }

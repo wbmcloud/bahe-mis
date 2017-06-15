@@ -38,7 +38,7 @@ class GeneralAgentController extends Controller
     {
         $general_agent = GeneralAgents::find($this->params['id']);
         if (empty($general_agent)) {
-            throw new SlException(SlException::AGENT_NOT_EXSIST_CODE);
+            throw new SlException(SlException::AGENT_NOT_EXIST_CODE);
         }
         return $general_agent->toArray();
     }
@@ -47,7 +47,7 @@ class GeneralAgentController extends Controller
     {
         $user = GeneralAgents::find($this->params['id']);
         if (empty($user)) {
-            throw new SlException(SlException::AGENT_NOT_EXSIST_CODE);
+            throw new SlException(SlException::AGENT_NOT_EXIST_CODE);
         }
         !empty($this->params['tel']) && ($user->tel = $this->params['tel']);
         !empty($this->params['bank_card']) && ($user->bank_card = $this->params['bank_card']);

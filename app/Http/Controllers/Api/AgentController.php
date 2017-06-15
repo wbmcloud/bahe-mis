@@ -46,7 +46,7 @@ class AgentController extends Controller
     {
         $user = User::find($this->params['id']);
         if (empty($user)) {
-            throw new SlException(SlException::AGENT_NOT_EXSIST_CODE);
+            throw new SlException(SlException::AGENT_NOT_EXIST_CODE);
         }
         return $user->toArray();
     }
@@ -55,7 +55,7 @@ class AgentController extends Controller
     {
         $user = User::find($this->params['id']);
         if (empty($user)) {
-            throw new SlException(SlException::AGENT_NOT_EXSIST_CODE);
+            throw new SlException(SlException::AGENT_NOT_EXIST_CODE);
         }
         !empty($this->params['city_id']) && ($user->city_id = $this->params['city_id']);
         !empty($this->params['invite_code']) && ($user->invite_code = $this->params['invite_code']);
@@ -73,7 +73,7 @@ class AgentController extends Controller
     {
         $user = User::find($this->params['id']);
         if (empty($user)) {
-            throw new SlException(SlException::AGENT_NOT_EXSIST_CODE);
+            throw new SlException(SlException::AGENT_NOT_EXIST_CODE);
         }
 
         // 重置密码
