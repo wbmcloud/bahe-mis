@@ -8,6 +8,7 @@
 namespace App\Library;
 
 use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\Log;
 use Socket\Raw\Factory;
 use Socket\Raw\Socket;
 
