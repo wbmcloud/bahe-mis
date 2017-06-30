@@ -3,6 +3,7 @@
 namespace App\Exceptions;
 
 use App\Common\Utils;
+use App\Library\BLogger;
 use Exception;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Database\QueryException;
@@ -51,21 +52,18 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Exception $exception)
     {
+        $log_info = [
+            'code' => $exception->getCode(),
+            'message' => $exception->getMessage(),
+            'file' => $exception->getFile(),
+            'line' => $exception->getLine(),
+            'request' => $request->all(),
+        ];
         if ($exception->getCode() > 2001000) {
             // 业务异常日志
-            Log::warning(json_encode([
-                'request' => $request->all(),
-                'errno' => $exception->getCode(),
-                'errmsg' => $exception->getMessage(),
-                'trace' => $exception->getTraceAsString(),
-            ]));
+            BLogger::warning($log_info);
         } else {
-            Log::error(json_encode([
-                'request' => $request->all(),
-                'errno' => $exception->getCode(),
-                'errmsg' => $exception->getMessage(),
-                'trace' => $exception->getTraceAsString(),
-            ]));
+            BLogger::error($log_info);
         }
 
         if ($request->ajax()) {

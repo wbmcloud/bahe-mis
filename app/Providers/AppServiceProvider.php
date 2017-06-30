@@ -2,11 +2,10 @@
 
 namespace App\Providers;
 
-use App\Logic\AccountLogic;
+use App\Library\BContext;
+use App\Library\BLogger;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\ServiceProvider;
-use Illuminate\Support\Facades\View;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -17,13 +16,15 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        // 初始化Context
+        BContext::init();
         DB::listen(function ($query) {
             $db_log = [
-                'sql' => $query->sql,
+                'statement' => $query->sql,
                 'bind_params' => $query->bindings,
                 'cost_time' => $query->time,
             ];
-            Log::debug(json_encode($db_log));
+            BLogger::db($db_log);
         });
     }
 

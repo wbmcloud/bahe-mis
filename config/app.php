@@ -12,7 +12,7 @@ return [
     | any other location as required by the application or its packages.
     */
 
-    'name' => env('APP_NAME', 'gamemis'),
+    'name' => env('APP_NAME', 'bahe-mis'),
 
     /*
     |--------------------------------------------------------------------------
@@ -178,8 +178,7 @@ return [
         App\Providers\RouteServiceProvider::class,
         // 第三方
         Zizaco\Entrust\EntrustServiceProvider::class,
-
-        \App\Providers\ComposerServiceProvider::class,
+        App\Providers\ComposerServiceProvider::class,
     ],
 
     /*
@@ -194,7 +193,6 @@ return [
     */
 
     'aliases' => [
-
         'App' => Illuminate\Support\Facades\App::class,
         'Artisan' => Illuminate\Support\Facades\Artisan::class,
         'Auth' => Illuminate\Support\Facades\Auth::class,
@@ -230,6 +228,7 @@ return [
         'View' => Illuminate\Support\Facades\View::class,
         // 第三方
         'Entrust'   => Zizaco\Entrust\EntrustFacade::class,
+        'Ip'  => Zhuzhichao\IpLocationZh\Ip::class,
     ],
 
 ];

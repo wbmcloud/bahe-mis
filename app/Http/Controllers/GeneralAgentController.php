@@ -44,6 +44,7 @@ class GeneralAgentController extends Controller
         $page_size = isset($this->params['page_size']) ? $this->params['page_size'] :
             Constants::DEFAULT_PAGE_SIZE;
         $codes = InviteCode::paginate($page_size);
+
         return [
             'codes' => $codes,
         ];

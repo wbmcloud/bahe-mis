@@ -3,9 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Common\Constants;
+use App\Events\LoginEvent;
 use Illuminate\Foundation\Auth\ThrottlesLogins;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Jenssegers\Agent\Agent;
 
 class LoginController extends Controller
 {
@@ -49,8 +51,10 @@ class LoginController extends Controller
 
         if (Auth::attempt([
             $this->username() => $this->params['name'],
-            'password' => $this->params['password'],
-            'status' => Constants::COMMON_ENABLE])) {
+                'password' => $this->params['password'],
+                'status' => Constants::COMMON_ENABLE])) {
+            //登录成功，触发事件
+            event(new LoginEvent(Auth::user(), new Agent(), $request->getClientIp()));
             return redirect(Constants::LOGIN_REDIRECT_URI);
         }
         return redirect(Constants::LOGIN_URI);
