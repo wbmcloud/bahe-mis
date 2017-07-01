@@ -66,21 +66,24 @@ class Handler extends ExceptionHandler
             BLogger::error($log_info);
         }
 
-        if ($request->ajax()) {
-            return Utils::sendJsonResponse($exception->getCode(), $exception->getMessage());
+        if (env('APP_ENV') == 'production') {
+            if ($request->ajax()) {
+                return Utils::sendJsonResponse($exception->getCode(), $exception->getMessage());
+            }
+            if ($exception instanceof NotFoundHttpException) {
+                return response()->view('errors.404');
+            } elseif ($exception instanceof FatalErrorException) {
+                return response()->view('errors.500');
+            } elseif ($exception instanceof QueryException) {
+                return response()->view('error',
+                    ['message' => SlException::$error_msg[SlException::SYSTEM_ERROR_CODE]]);
+            } else {
+                return response()->view('error',
+                    ['message' => $exception->getMessage()]);
+            }
         }
-        if ($exception instanceof NotFoundHttpException) {
-            return response()->view('errors.404');
-        } elseif ($exception instanceof FatalErrorException) {
-            return response()->view('errors.500');
-        } elseif ($exception instanceof QueryException) {
-            return response()->view('error',
-                ['message' => SlException::$error_msg[SlException::SYSTEM_ERROR_CODE]]);
-        } else {
-            return response()->view('error',
-                ['message' => $exception->getMessage()]);
-        }
-        // return parent::render($request, $exception);
+
+        return parent::render($request, $exception);
     }
 
     /**

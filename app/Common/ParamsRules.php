@@ -11,6 +11,8 @@ namespace App\Common;
 class ParamsRules
 {
 
+    const IF_DASHBOARD = '/dashboard';
+
     /**
      * 登录模块
      */
@@ -25,6 +27,9 @@ class ParamsRules
     const IF_USER_DO_ADD   = '/user/doadd';
     const IF_USER_RESET    = '/user/reset';
     const IF_USER_DO_RESET = '/user/doreset';
+
+    const IF_USER_AGREE     = '/user/agree';
+    const IF_USER_AGREEMENT = '/user/agreement';
 
     /**
      * 代理模块
@@ -198,6 +203,9 @@ class ParamsRules
             'name'     => 'required|string',
             'password' => 'required|string',
         ],
+        self::IF_USER_AGREE                  => [
+            'is_accept' => 'required|accepted',
+        ],
     ];
 
     /**
@@ -226,5 +234,6 @@ class ParamsRules
         self::IF_USER_RESET                  => 'auth.reset',
         self::IF_USER_DO_RESET               => 'success',
         self::IF_USER_LOGIN                  => 'auth.login',
+        self::IF_USER_AGREE                  => 'dashboard',
     ];
 }

@@ -9,6 +9,7 @@
 namespace App\Logic;
 
 use App\Common\Constants;
+use App\Common\ParamsRules;
 use App\Exceptions\SlException;
 use App\Models\City;
 use App\Models\Role;
@@ -129,4 +130,12 @@ class UserLogic extends BaseLogic
         return $role;
     }
 
+    public function agree($params)
+    {
+        $user = Auth::user();
+        !empty($params['is_accept']) && ($user->is_accept = Constants::COMMON_ENABLE);
+        $user->save();
+
+        return redirect(ParamsRules::IF_DASHBOARD);
+    }
 }

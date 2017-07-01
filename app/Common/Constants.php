@@ -12,9 +12,6 @@ use App\Library\Protobuf\COMMAND_TYPE;
 
 class Constants
 {
-    const LOGIN_URI          = '/login';
-    const LOGIN_REDIRECT_URI = '/dashboard';
-
     const ROLE_SUPER = 'super';
     const ROLE_ADMIN = 'admin';
     const ROLE_AGENT = 'agent';
@@ -67,4 +64,9 @@ class Constants
     const OPEN_ROOM_CARD_REDUCE = 1;
 
     const OPEN_ROOM_TYPE = 4;   // 代开房类型
+
+    public static $agreement_uri = [
+        ParamsRules::IF_USER_AGREEMENT,
+        ParamsRules::IF_USER_AGREE,
+    ];
 }

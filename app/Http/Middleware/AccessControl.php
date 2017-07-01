@@ -2,6 +2,8 @@
 
 namespace App\Http\Middleware;
 
+use App\Common\Constants;
+use App\Common\ParamsRules;
 use App\Common\Utils;
 use App\Exceptions\SlException;
 use Closure;
@@ -22,9 +24,19 @@ class AccessControl
             return redirect()->intended('login');
         }
         $resource_uri = Utils::getPathUri();
-        if (!Auth::user()->can($resource_uri)) {
+        $user = Auth::user();
+        // 代理协议
+        if (!Auth::user()->hasRole([Constants::ROLE_SUPER, Constants::ROLE_ADMIN]) &&
+            !in_array($resource_uri, Constants::$agreement_uri)) {
+            if (!$user->is_accept) {
+                return redirect(ParamsRules::IF_USER_AGREEMENT);
+            }
+        }
+
+        if (!$user->can($resource_uri)) {
             throw new SlException(SlException::PERMISSION_FAIL_CODE);
         }
+
         return $next($request);
     }
 }

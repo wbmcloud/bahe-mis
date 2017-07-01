@@ -18,11 +18,15 @@ Route::get('/login', 'LoginController@showLoginForm')->name('login');
 Route::post('/dologin', 'LoginController@login')->name('dologin');
 Route::post('/logout', 'LoginController@logout')->name('logout');
 
+
 Route::group(['middleware' => ['acl', 'validator']], function () {
-    Route::get('dashboard', function () {
+    Route::get('/dashboard', function () {
         return view('dashboard');
     });
-
+    Route::get('/user/agreement', function () {
+        return view('/agreement');
+    });
+    Route::post('/user/agree', 'UserController@agree')->name('user.agree');
     Route::get('/user/add', 'UserController@addUserForm')->name('user.add');
     Route::post('/user/doadd', 'UserController@add')->name('user.doadd');
     Route::get('/user/reset', 'UserController@addResetPasswordForm')->name('user.reset');

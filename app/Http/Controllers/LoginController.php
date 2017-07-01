@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Common\Constants;
+use App\Common\ParamsRules;
 use App\Events\LoginEvent;
 use Illuminate\Foundation\Auth\ThrottlesLogins;
 use Illuminate\Http\Request;
@@ -36,7 +37,7 @@ class LoginController extends Controller
     public function showLoginForm()
     {
         if (Auth::check()) {
-            return redirect(Constants::LOGIN_REDIRECT_URI);
+            return redirect(ParamsRules::IF_DASHBOARD);
         }
         return [];
     }
@@ -55,9 +56,9 @@ class LoginController extends Controller
                 'status' => Constants::COMMON_ENABLE])) {
             //登录成功，触发事件
             event(new LoginEvent(Auth::user(), new Agent(), $request->getClientIp()));
-            return redirect(Constants::LOGIN_REDIRECT_URI);
+            return redirect(ParamsRules::IF_DASHBOARD);
         }
-        return redirect(Constants::LOGIN_URI);
+        return redirect(ParamsRules::IF_USER_LOGIN);
     }
 
     /**
@@ -74,7 +75,7 @@ class LoginController extends Controller
 
         $request->session()->regenerate();
 
-        return redirect(Constants::LOGIN_URI);
+        return redirect(ParamsRules::IF_USER_LOGIN);
     }
 
     protected function guard()

@@ -41,4 +41,11 @@ class UserController extends Controller
         return $user_logic->reset($this->params);
     }
 
+    public function agree()
+    {
+        $user_logic = new UserLogic();
+
+        return $user_logic->agree($this->params);
+    }
+
 }
