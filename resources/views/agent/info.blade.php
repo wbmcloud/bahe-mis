@@ -16,8 +16,14 @@
                         </div>
                         <div class="form-group">
                             <label class="col-sm-2 control-label">用户名</label>
-                            <span>{{ $agent_info['name'] }}</span>
+                            <span>{{ $agent_info['user_name'] }}</span>
                         </div>
+                        @if($agent_info['name'])
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">姓名</label>
+                                <span>{{ $agent_info['name'] }}</span>
+                            </div>
+                        @endif
                         @if($agent_info['invite_code'])
                         <div class="form-group">
                             <label class="col-sm-2 control-label">邀请码</label>

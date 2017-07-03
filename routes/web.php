@@ -43,17 +43,14 @@ Route::group(['middleware' => ['acl', 'validator']], function () {
     Route::get('/agent/rechargelist', 'AgentController@rechargeList')->name('agent.rechargelist');
     Route::get('/agent/openroom', 'AgentController@showOpenRoomForm')->name('agent.openroom');
     Route::post('/agent/doopenroom', 'AgentController@openRoom')->name('agent.doopenroom');
-    Route::get('/general_agent/list', 'GeneralAgentController@agentList')->name('general_agent.list');
-    Route::get('/general_agent/add', 'GeneralAgentController@addAgentForm')->name('general_agent.add');
-    Route::post('/general_agent/doadd', 'GeneralAgentController@addAgent')->name('general_agent.doadd');
-    Route::get('/general_agent/invite_code', 'GeneralAgentController@inviteCode')->name('general_agent.invite_code');
-    Route::get('/general_agent/banlist', 'GeneralAgentController@banAgentList')->name('general_agent.banlist');
-    Route::get('/general_agent/rechargelist', 'GeneralAgentController@agentRechargeList')->name('general_agent.rechargelist');
+    Route::get('/general_agent/list', 'FirstAgentController@agentList')->name('general_agent.list');
+    Route::get('/general_agent/invite_code', 'FirstAgentController@inviteCode')->name('general_agent.invite_code');
+    Route::get('/general_agent/banlist', 'FirstAgentController@banAgentList')->name('general_agent.banlist');
+    Route::get('/general_agent/rechargelist', 'FirstAgentController@agentRechargeList')->name('general_agent.rechargelist');
 
     Route::group(['prefix' => 'api'], function () {
         Route::get('/agent/ban', 'Api\AgentController@banAgent');
         Route::get('/agent/unban', 'Api\AgentController@unBanAgent');
-        Route::get('/agent/add', 'Api\AgentController@addAgent');
         Route::get('/agent/info', 'Api\AgentController@agentInfo');
         Route::post('/agent/save', 'Api\AgentController@saveAgent');
         Route::get('/agent/reset', 'Api\AgentController@resetPassword');

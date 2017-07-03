@@ -45,7 +45,7 @@
                                 @foreach($agents as $agent)
                                     <tr>
                                         <td><a href="{{ route('agent.info') . '?id=' . $agent['id'] }}">{{ $agent['id'] }}</a></td>
-                                        <td>{{ $agent['name'] }}</td>
+                                        <td>{{ $agent['user_name'] }}</td>
                                         <!--td>{{ date('Y-m-d', strtotime($agent['created_at'])) }}</td-->
                                         <td>{{ $agent['created_at'] }}</td>
                                         <td>

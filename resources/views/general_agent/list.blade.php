@@ -34,6 +34,7 @@
                             <thead>
                             <tr>
                             <th>id</th>
+                            <th>用户名</th>
                             <th>姓名</th>
                             <th>邀请码</th>
                             <th>发展代理数</th>
@@ -48,6 +49,7 @@
                                 @foreach($agents as $agent)
                                     <tr>
                                         <td>{{ $agent['id'] }}</td>
+                                        <td>{{ $agent['user_name'] }}</td>
                                         <td>{{ $agent['name'] }}</td>
                                         <td>{{ $agent['invite_code'] }}</td>
                                         <td>{{ count($agent['agents'])}}</td>
@@ -108,10 +110,28 @@
                     <div class="box-body">
                         <input type="hidden" class="form-control" name="id">
                         <div class="form-group">
+                            <label for="user_name" class="col-sm-2 control-label">用户名</label>
+
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" name="user_name" placeholder="请输入用户名" disabled>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="city_id" class="col-sm-2 control-label">开通城市</label>
+
+                            <div class="col-sm-10">
+                                <select class="city_multi form-control select2" name="city_id" style="width: 100%;" required disabled>
+                                    @foreach($cities as $city)
+                                        <option value="{{ $city['city_id'] }}">{{ $city['city_name'] }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
                             <label for="name" class="col-sm-2 control-label">姓名</label>
 
                             <div class="col-sm-10">
-                                <input type="text" class="form-control" id="name" name="name" placeholder="请输入姓名" disabled>
+                                <input type="text" class="form-control" name="name" placeholder="请输入姓名" disabled>
                             </div>
                         </div>
                         <div class="form-group">
@@ -201,6 +221,7 @@
                     } else {
                         var data = res.data;
                         $("input[name='id']").val(data.id);
+                        $("input[name='user_name']").val(data.user_name);
                         $("input[name='name']").val(data.name);
                         $("input[name='invite_code']").val(data.invite_code);
                         $("input[name='uin']").val(data.uin);

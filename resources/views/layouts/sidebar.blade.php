@@ -10,7 +10,7 @@
           <img src="{{ asset("/bower_components/admin-lte/dist/img/avatar.png") }}" class="img-circle" alt="User Image">
         </div>
         <div class="pull-left info">
-          <p>{{ Auth::user()->name }}</p>
+          <p>{{ Auth::user()->user_name }}</p>
           <!-- Status -->
           <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
         </div>
@@ -54,10 +54,11 @@
             </span>
           </a>
           <ul class="treeview-menu">
-            <li id="general_agent_add"><a href="{{ route('general_agent.add') }}"><i class="fa fa-circle-o"></i>新增</a></li>
+            <li id="general_agent_add"><a href="{{ route('user.add', ['type' => \App\Common\Constants::ADD_USER_TYPE_FIRST_AGENT]) }}"><i class="fa fa-circle-o"></i>新增</a></li>
             <li id="general_agent_list"><a href="{{ route('general_agent.list') }}"><i class="fa fa-circle-o"></i>查询</a></li>
             <li id="general_agent_banlist"><a href="{{ route('general_agent.banlist') }}"><i class="fa fa-circle-o"></i>封禁查询</a></li>
             <li id="general_agent_invite_code"><a href="{{ route('general_agent.invite_code') }}"><i class="fa fa-circle-o"></i>邀请码</a></li>
+            <li id="general_agent_cash_order"><a href="###"><i class="fa fa-circle-o"></i>每周打款单</a></li>
           </ul>
         </li>
         <li id="agent" class="treeview">
@@ -68,6 +69,7 @@
             </span>
           </a>
           <ul class="treeview-menu">
+            <li id="agent_add"><a href="{{ route('user.add', ['type' => \App\Common\Constants::ADD_USER_TYPE_AGENT]) }}"><i class="fa fa-circle-o"></i>新增</a></li>
             <li id="agent_list"><a href="{{ route('agent.list') }}"><i class="fa fa-circle-o"></i>查询</a></li>
             <li id="agent_banlist"><a href="{{ route('agent.banlist') }}"><i class="fa fa-circle-o"></i>封禁查询</a></li>
           </ul>
@@ -89,17 +91,19 @@
             <i class="fa fa-link"></i> <span>代开房</span>
           </a>
         </li>
-        <!--li class="treeview">
+        @role(['first_agent'])
+        <li class="treeview">
           <a href="#">
-            <i class="fa fa-dashboard"></i> <span>数据</span>
+            <i class="fa fa-dashboard"></i> <span>数据统计</span>
             <span class="pull-right-container">
               <i class="fa fa-angle-left pull-right"></i>
             </span>
           </a>
           <ul class="treeview-menu">
-            <li><a href="index.html"><i class="fa fa-circle-o"></i>流水汇总</a></li>
+            <li><a href="index.html"><i class="fa fa-circle-o"></i>收入统计</a></li>
           </ul>
-        </li-->
+        </li>
+        @endrole
       </ul>
       <!-- /.sidebar-menu -->
     </section>

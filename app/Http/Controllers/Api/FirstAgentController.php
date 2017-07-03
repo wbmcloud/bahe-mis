@@ -12,14 +12,15 @@ use App\Exceptions\SlException;
 use App\Http\Controllers\Controller;
 use App\Models\GeneralAgents;
 use App\Models\TransactionFlow;
+use App\Models\User;
 use Illuminate\Http\Request;
 
-class GeneralAgentController extends Controller
+class FirstAgentController extends Controller
 {
     public function banAgent(Request $request)
     {
         $user_id = $request->input('id');
-        $user = GeneralAgents::findOrFail($user_id);
+        $user = User::findOrFail($user_id);
         $user->status = Constants::COMMON_DISABLE;
         $user->save();
         return [];
@@ -28,7 +29,7 @@ class GeneralAgentController extends Controller
     public function unBanAgent(Request $request)
     {
         $user_id = $request->input('id');
-        $user = GeneralAgents::findOrFail($user_id);
+        $user = User::findOrFail($user_id);
         $user->status = Constants::COMMON_ENABLE;
         $user->save();
         return [];
@@ -36,7 +37,7 @@ class GeneralAgentController extends Controller
 
     public function agentInfo()
     {
-        $general_agent = GeneralAgents::find($this->params['id']);
+        $general_agent = User::find($this->params['id']);
         if (empty($general_agent)) {
             throw new SlException(SlException::AGENT_NOT_EXIST_CODE);
         }
@@ -45,7 +46,7 @@ class GeneralAgentController extends Controller
 
     public function saveAgent()
     {
-        $user = GeneralAgents::find($this->params['id']);
+        $user = User::find($this->params['id']);
         if (empty($user)) {
             throw new SlException(SlException::AGENT_NOT_EXIST_CODE);
         }

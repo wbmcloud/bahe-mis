@@ -26,7 +26,7 @@
             <!-- The user image in the navbar-->
             <img src="{{ asset("/bower_components/admin-lte/dist/img/avatar.png") }}" class="user-image" alt="User Image">
             <!-- hidden-xs hides the username on small devices so only the image appears. -->
-            <span class="hidden-xs">{{ Auth::user()->name }}</span>
+            <span class="hidden-xs">{{ Auth::user()->user_name }}</span>
           </a>
           <ul class="dropdown-menu">
             <!-- The user image in the menu -->
@@ -34,17 +34,31 @@
               <img src="{{ asset("/bower_components/admin-lte/dist/img/avatar.png") }}" class="img-circle" alt="User Image">
 
               <p>
-                {{ Auth::user()->name }}
+                {{ Auth::user()->user_name }}
                 <small>{{ Auth::user()->roles[0]['display_name'] }}</small>
               </p>
             </li>
 
             <!-- inner menu: contains the actual data -->
             @role(['super','admin'])
+            @role('super')
             <li>
-              <a href="{{ route('user.add') }}">
+              <a href="{{ route('user.add', ['type' => \App\Common\Constants::ADD_USER_TYPE_ADMIN]) }}">
                 <i class="fa fa-users text-aqua"></i>
-                <i style="color: black">添加用户</i>
+                <i style="color: black">添加管理员</i>
+              </a>
+            </li>
+            @endrole
+            <li>
+              <a href="{{ route('user.add', ['type' => \App\Common\Constants::ADD_USER_TYPE_AGENT]) }}">
+                <i class="fa fa-users text-aqua"></i>
+                <i style="color: black">添加代理</i>
+              </a>
+            </li>
+            <li>
+              <a href="{{ route('user.add', ['type' => \App\Common\Constants::ADD_USER_TYPE_FIRST_AGENT]) }}">
+                <i class="fa fa-users text-aqua"></i>
+                <i style="color: black">添加一级代理</i>
               </a>
             </li>
             @endrole

@@ -12,14 +12,16 @@ use App\Library\Protobuf\COMMAND_TYPE;
 
 class Constants
 {
-    const ROLE_SUPER = 'super';
-    const ROLE_ADMIN = 'admin';
-    const ROLE_AGENT = 'agent';
+    const ROLE_SUPER       = 'super';
+    const ROLE_ADMIN       = 'admin';
+    const ROLE_AGENT       = 'agent';
+    const ROLE_FIRST_AGENT = 'first_agent';
 
-    const ROLE_TYPE_SUPER = 1;
-    const ROLE_TYPE_ADMIN = 2;
-    const ROLE_TYPE_AGENT = 3;
-    const ROLE_TYPE_USER  = 4;
+    const ROLE_TYPE_USER        = 0;
+    const ROLE_TYPE_SUPER       = 1;
+    const ROLE_TYPE_ADMIN       = 2;
+    const ROLE_TYPE_AGENT       = 3;
+    const ROLE_TYPE_FIRST_AGENT = 4;
 
     public static $transaction_type = [
         COMMAND_TYPE::COMMAND_TYPE_ROOM_CARD => '房卡',
@@ -31,12 +33,14 @@ class Constants
         self::ROLE_SUPER => self::ROLE_TYPE_SUPER,
         self::ROLE_ADMIN => self::ROLE_TYPE_ADMIN,
         self::ROLE_AGENT => self::ROLE_TYPE_AGENT,
+        self::ROLE_FIRST_AGENT => self::ROLE_TYPE_FIRST_AGENT,
     ];
 
     public static $role_type = [
         self::ROLE_TYPE_SUPER => '超级管理员',
         self::ROLE_TYPE_ADMIN => '管理员',
         self::ROLE_TYPE_AGENT => '代理',
+        self::ROLE_TYPE_FIRST_AGENT => '一级代理',
     ];
 
     public static $recharge_status = [
@@ -69,4 +73,9 @@ class Constants
         ParamsRules::IF_USER_AGREEMENT,
         ParamsRules::IF_USER_AGREE,
     ];
+
+    const ADD_USER_TYPE_ADMIN       = 1;
+    const ADD_USER_TYPE_AGENT       = 2;
+    const ADD_USER_TYPE_FIRST_AGENT = 3;
+
 }

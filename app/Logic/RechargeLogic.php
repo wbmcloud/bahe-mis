@@ -22,7 +22,7 @@ class RechargeLogic extends BaseLogic
 {
     protected function checkAgentRechargeRole($user_name)
     {
-        $user = User::where('name', $user_name)->first();
+        $user = User::where('user_name', $user_name)->first();
         if (empty($user)) {
             throw new SlException(SlException::USER_NOT_EXIST_CODE);
         }
@@ -30,7 +30,10 @@ class RechargeLogic extends BaseLogic
         $user_logic = new UserLogic();
         $role       = $user_logic->getRoleByUser($user);
 
-        if ($role['name'] !== Constants::ROLE_AGENT) {
+        if (!in_array($role['name'], [
+            Constants::ROLE_AGENT,
+            Constants::ROLE_FIRST_AGENT,
+        ])) {
             throw new SlException(SlException::RECHARGE_ROLE_NOT_AGENT_CODE);
         }
 
@@ -96,7 +99,7 @@ class RechargeLogic extends BaseLogic
     {
         $transaction_flow                 = new TransactionFlow();
         $transaction_flow->initiator_id   = $user->id;
-        $transaction_flow->initiator_name = $user->name;
+        $transaction_flow->initiator_name = $user->user_name;
         $transaction_flow->initiator_type = Constants::$recharge_role_type[$user->roles()->first()->toArray()['name']];
         $transaction_flow->recipient_name = $params['user_name'];
         $transaction_flow->recipient_id   = $recharge_role['pivot']['user_id'];
@@ -143,7 +146,7 @@ class RechargeLogic extends BaseLogic
     {
         $transaction_flow                 = new TransactionFlow();
         $transaction_flow->initiator_id   = $user->id;
-        $transaction_flow->initiator_name = $user->name;
+        $transaction_flow->initiator_name = $user->user_name;
         $transaction_flow->initiator_type = Constants::$recharge_role_type[$user->roles()->first()->toArray()['name']];
         $transaction_flow->recipient_id   = $params['role_id'];
         $transaction_flow->recipient_type = Constants::ROLE_TYPE_USER;
@@ -172,8 +175,11 @@ class RechargeLogic extends BaseLogic
 
         DB::beginTransaction();
         try {
-            if ($user->hasRole(Constants::ROLE_AGENT)) {
-                $this->rechargeReduceBalance($user->name, $params['recharge_type'], $params['num']);
+            if ($user->hasRole([
+                Constants::ROLE_AGENT,
+                Constants::ROLE_FIRST_AGENT,
+            ])) {
+                $this->rechargeReduceBalance($user->user_name, $params['recharge_type'], $params['num']);
             }
             $this->sendGmtUserRecharge($params, $command_res);
             DB::commit();

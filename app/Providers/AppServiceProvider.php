@@ -5,6 +5,7 @@ namespace App\Providers;
 use App\Library\BContext;
 use App\Library\BLogger;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider

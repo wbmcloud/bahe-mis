@@ -179,6 +179,7 @@ return [
         // 第三方
         Zizaco\Entrust\EntrustServiceProvider::class,
         App\Providers\ComposerServiceProvider::class,
+        App\Providers\CreatorServiceProvider::class,
     ],
 
     /*

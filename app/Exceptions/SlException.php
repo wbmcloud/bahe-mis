@@ -31,6 +31,7 @@ class SlException extends \Exception
     const USER_PASSWORD_CONFIRM_NOT_VALID_CODE = 2001018;
     const USER_PASSWORD_OLD_NOT_VALID_CODE     = 2001019;
     const METHOD_NOT_EXIST_CODE                = 2001020;
+    const TYPE_NOT_VALID_CODE                  = 2001021;
 
 
     public static $error_msg = [
@@ -54,7 +55,8 @@ class SlException extends \Exception
         self::ROLE_NOT_VALID_CODE                  => '角色不合法',
         self::USER_PASSWORD_CONFIRM_NOT_VALID_CODE => '两次输入的新密码不一致',
         self::USER_PASSWORD_OLD_NOT_VALID_CODE     => '输入的原密码不正确',
-        self::METHOD_NOT_EXIST_CODE                => '方法不存在'
+        self::METHOD_NOT_EXIST_CODE                => '方法不存在',
+        self::TYPE_NOT_VALID_CODE                  => '类型不合法',
     ];
 
     public function __construct($code, $message = null)

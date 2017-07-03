@@ -15,6 +15,7 @@ use App\Models\City;
 use App\Models\Role;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 
 class UserLogic extends BaseLogic
@@ -36,8 +37,9 @@ class UserLogic extends BaseLogic
     {
         // 创建用户
         $user = new User();
-        $user->name = $params['name'];
+        $user->user_name = $params['user_name'];
         $user->password = bcrypt($params['password']);
+        $user->role_id = $params['role_id'];
         $user->save();
 
         return $user;
@@ -51,9 +53,11 @@ class UserLogic extends BaseLogic
     {
         // 创建用户
         $user = new User();
-        $user->name = $params['name'];
+        $user->user_name = $params['user_name'];
         $user->password = bcrypt($params['password']);
         $user->city_id = $params['city_id'];
+        $user->role_id = $params['role_id'];
+        !empty($params['name']) && ($user->name = $params['name']);
         !empty($params['invite_code']) && ($user->invite_code = $params['invite_code']);
         !empty($params['uin']) && ($user->uin = $params['uin']);
         !empty($params['wechat']) && ($user->wechat = $params['wechat']);
@@ -62,6 +66,38 @@ class UserLogic extends BaseLogic
         !empty($params['bank_card']) && ($user->bank_card = $params['bank_card']);
         !empty($params['id_card']) && ($user->id_card = $params['id_card']);
         $user->save();
+
+        return $user;
+    }
+
+    public function createFirstAgent($params)
+    {
+        // 校验邀请码合法性
+        $first_agent_logic = new FirstAgentLogic();
+        $invite_code = $first_agent_logic->getInviteCode($params['invite_code']);
+
+        DB::beginTransaction();
+        try {
+            // 创建一级代理
+            $user = new User();
+            $user->user_name = $params['user_name'];
+            $user->password = bcrypt($params['password']);
+            $user->city_id = $params['city_id'];
+            $user->invite_code = $params['invite_code'];
+            $user->role_id = $params['role_id'];
+            !empty($params['name']) && ($user->name = $params['name']);
+            !empty($params['tel']) && ($user->tel = $params['tel']);
+            !empty($params['bank_card']) && ($user->bank_card = $params['bank_card']);
+            !empty($params['id_card']) && ($user->id_card = $params['id_card']);
+            $user->save();
+
+            $invite_code->is_used = Constants::COMMON_ENABLE;
+            $invite_code->save();
+            DB::commit();
+        } catch (Exception $e) {
+            DB::rollback();
+            throw new SlException(SlException::FAIL_CODE);
+        }
 
         return $user;
     }
@@ -77,25 +113,49 @@ class UserLogic extends BaseLogic
 
     public function add($params)
     {
-        $role = $this->getRoleByRoleName($params['role_name']);
-        if (empty($role)) {
-            throw new SlException(SlException::ROLE_NOT_EXIST_CODE);
+        switch ($params['type']) {
+            case Constants::ADD_USER_TYPE_ADMIN:
+                if (!Auth::user()->hasRole(Constants::ROLE_SUPER)) {
+                    throw new SlException(SlException::PERMISSION_FAIL_CODE);
+                }
+                $role = $this->getRoleByRoleName(Constants::ROLE_ADMIN);
+                $params['role_id'] = $role->id;
+                $user = $this->createAdmin($params);
+                // 绑定角色
+                $user->attachRole($role);
+                return $user;
+                break;
+            case Constants::ADD_USER_TYPE_AGENT:
+                if (!Auth::user()->hasRole([
+                    Constants::ROLE_SUPER,
+                    Constants::ROLE_ADMIN,
+                ])) {
+                    throw new SlException(SlException::PERMISSION_FAIL_CODE);
+                }
+                $role = $this->getRoleByRoleName(Constants::ROLE_AGENT);
+                $params['role_id'] = $role->id;
+                $user = $this->createAgent($params);
+                // 绑定角色
+                $user->attachRole($role);
+                return $user;
+                break;
+            case Constants::ADD_USER_TYPE_FIRST_AGENT:
+                if (!Auth::user()->hasRole([
+                    Constants::ROLE_SUPER,
+                    Constants::ROLE_ADMIN,
+                ])) {
+                    throw new SlException(SlException::PERMISSION_FAIL_CODE);
+                }
+                $role = $this->getRoleByRoleName(Constants::ROLE_FIRST_AGENT);
+                $params['role_id'] = $role->id;
+                $user = $this->createFirstAgent($params);
+                // 绑定角色
+                $user->attachRole($role);
+                return $user;
+                break;
+
+            throw new SlException(SlException::TYPE_NOT_VALID_CODE);
         }
-
-        if ($role->name === Constants::ROLE_SUPER) {
-            throw new SlException(SlException::ROLE_NOT_VALID_CODE);
-        }
-
-        if ($role->name === Constants::ROLE_ADMIN) {
-            $user = $this->createAdmin($params);
-        } elseif ($role->name === Constants::ROLE_AGENT) {
-            $user = $this->createAgent($params);
-        }
-
-        // 绑定角色
-        $user->attachRole($role);
-
-        return [];
     }
 
     public function reset($params)

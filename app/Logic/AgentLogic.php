@@ -10,6 +10,7 @@ namespace App\Logic;
 
 use App\Common\Constants;
 use App\Exceptions\SlException;
+use App\Library\Protobuf\COMMAND_TYPE;
 use App\Library\Protobuf\Protobuf;
 use App\Library\TcpClient;
 use App\Models\Accounts;
@@ -30,19 +31,18 @@ class AgentLogic extends BaseLogic
     {
         if (is_null($query)) {
             $condition = [
+                'role_id' => Constants::ROLE_TYPE_AGENT,
                 'status' => $status,
             ];
         } else {
             $condition = [
-                'name'   => $query,
+                'role_id' => Constants::ROLE_TYPE_AGENT,
+                'user_name'   => $query,
                 'status' => $status,
             ];
         }
 
-        $users = Role::where('id', Constants::ROLE_TYPE_AGENT)
-            ->first()
-            ->users()
-            ->where($condition)
+        $users = User::where($condition)
             ->paginate($page_size);
 
         return $users;
@@ -125,7 +125,7 @@ class AgentLogic extends BaseLogic
     {
         $transaction_flow                 = new TransactionFlow();
         $transaction_flow->initiator_id   = $user->id;
-        $transaction_flow->initiator_name = $user->name;
+        $transaction_flow->initiator_name = $user->user_name;
         $transaction_flow->initiator_type = Constants::$recharge_role_type[$user->roles()->first()->toArray()['name']];
         $transaction_flow->recharge_type  = Constants::OPEN_ROOM_TYPE;
         $transaction_flow->num            = Constants::OPEN_ROOM_CARD_REDUCE;
@@ -152,8 +152,11 @@ class AgentLogic extends BaseLogic
         $is_recharged = true;
         DB::beginTransaction();
         try {
-            if ($user->hasRole(Constants::ROLE_AGENT)) {
-                $this->openRoomReduceBalance($user->name,
+            if ($user->hasRole([
+                Constants::ROLE_AGENT,
+                Constants::ROLE_FIRST_AGENT,
+            ])) {
+                $this->openRoomReduceBalance($user->user_name,
                     COMMAND_TYPE::COMMAND_TYPE_ROOM_CARD,
                     Constants::OPEN_ROOM_CARD_REDUCE);
             }

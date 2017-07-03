@@ -27,7 +27,7 @@ class LoginController extends Controller
 
     protected function username()
     {
-        return 'name';
+        return 'user_name';
     }
     /**
      * Show the application's login form.
@@ -51,7 +51,7 @@ class LoginController extends Controller
         }
 
         if (Auth::attempt([
-            $this->username() => $this->params['name'],
+            $this->username() => $this->params['user_name'],
                 'password' => $this->params['password'],
                 'status' => Constants::COMMON_ENABLE])) {
             //登录成功，触发事件

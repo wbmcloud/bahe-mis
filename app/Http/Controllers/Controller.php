@@ -24,7 +24,9 @@ class Controller extends BaseController
     public function callAction($method, $parameters)
     {
         $response = call_user_func_array([$this, $method], $parameters);
-        BLogger::info($response);
+        if (is_array($response)) {
+            BLogger::info($response);
+        }
         if (Request::ajax()) {
             return Utils::sendJsonSuccessResponse($response);
         }

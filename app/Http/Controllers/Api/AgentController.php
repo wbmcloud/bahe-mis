@@ -33,15 +33,6 @@ class AgentController extends Controller
         return [];
     }
 
-    public function addAgent(Request $request)
-    {
-        $user_id = $request->input('id');
-        $user = User::findOrFail($user_id);
-        $user->status = Constants::COMMON_ENABLE;
-        $user->save();
-        return [];
-    }
-
     public function agentInfo()
     {
         $user = User::find($this->params['id']);
@@ -58,6 +49,7 @@ class AgentController extends Controller
             throw new SlException(SlException::AGENT_NOT_EXIST_CODE);
         }
         !empty($this->params['city_id']) && ($user->city_id = $this->params['city_id']);
+        !empty($this->params['name']) && ($user->name = $this->params['name']);
         !empty($this->params['invite_code']) && ($user->invite_code = $this->params['invite_code']);
         !empty($this->params['uin']) && ($user->uin = $this->params['uin']);
         !empty($this->params['wechat']) && ($user->wechat = $this->params['wechat']);

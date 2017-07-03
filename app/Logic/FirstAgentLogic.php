@@ -17,7 +17,7 @@ use App\Models\User;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\DB;
 
-class GeneralAgentLogic extends BaseLogic
+class FirstAgentLogic extends BaseLogic
 {
     /**
      * @param     $params
@@ -33,20 +33,24 @@ class GeneralAgentLogic extends BaseLogic
                 (strlen($params['query_str']) == Constants::INVITE_CODE_LENGTH)
             ) {
                 // 邀请码查询
-                $users = GeneralAgents::where([
+                $users = User::where([
+                    'role_id' => Constants::ROLE_TYPE_FIRST_AGENT,
                     'status'      => $status,
                     'invite_code' => $params['query_str']
                 ])->paginate($page_size);
             } else {
                 // 姓名查询
-                $users = GeneralAgents::where([
+                $users = User::where([
+                    'role_id' => Constants::ROLE_TYPE_FIRST_AGENT,
                     'status' => $status,
                     'name'   => $params['query_str']
                 ])->paginate($page_size);
             }
         } else {
-            $users = GeneralAgents::where('status', $status)
-                ->paginate($page_size);
+            $users = User::where([
+                'role_id' => Constants::ROLE_TYPE_FIRST_AGENT,
+                'status'  => $status,
+            ])->paginate($page_size);
         }
 
         return $users;
@@ -118,6 +122,7 @@ class GeneralAgentLogic extends BaseLogic
     public function getAgentRechargeList($invite_code, $start_time, $end_time, $page_size)
     {
         $users = User::where([
+            'role_id' => Constants::ROLE_TYPE_AGENT,
             'invite_code' => $invite_code,
         ])->get()->toArray();
 
@@ -129,6 +134,7 @@ class GeneralAgentLogic extends BaseLogic
                     $start_time,
                     $end_time,
                 ])
+                ->orderBy('id', 'desc')
                 ->paginate($page_size);
         }
 

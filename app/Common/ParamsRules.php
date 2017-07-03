@@ -105,15 +105,18 @@ class ParamsRules
             'id_card'     => 'string|nullable',
         ],
         self::IF_USER_DO_ADD                 => [
-            'name'      => 'required|string',
-            'password'  => 'required|string',
-            'city_id'   => 'required|integer',
-            'uin'       => 'integer|nullable',
-            'wechat'    => 'string|nullable',
-            'uin_group' => 'string|nullable',
-            'bank_card' => 'integer|nullable',
-            'tel'       => 'integer|nullable',
-            'id_card'   => 'integer|nullable',
+            'type'        => ['required', 'in:1,2,3'],
+            'user_name'   => 'required|string',
+            'password'    => 'required|string',
+            'city_id'     => 'integer|nullable',
+            'invite_code' => 'integer|nullable',
+            'name'        => 'string|nullable',
+            'uin'         => 'integer|nullable',
+            'wechat'      => 'string|nullable',
+            'uin_group'   => 'string|nullable',
+            'bank_card'   => 'integer|nullable',
+            'tel'         => 'integer|nullable',
+            'id_card'     => 'integer|nullable',
         ],
         self::IF_USER_DO_RESET               => [
             'old_password' => 'required|string',
@@ -206,6 +209,9 @@ class ParamsRules
         self::IF_USER_AGREE                  => [
             'is_accept' => 'required|accepted',
         ],
+        self::IF_USER_ADD => [
+            'type' => ['required', 'in:1,2,3']
+        ],
     ];
 
     /**
@@ -229,7 +235,6 @@ class ParamsRules
         self::IF_RECHARGE_AGENT              => 'recharge.agent',
         self::IF_RECHARGE_DO_USER            => 'success',
         self::IF_RECHARGE_DO_AGENT           => 'success',
-        self::IF_USER_ADD                    => 'auth.add',
         self::IF_USER_DO_ADD                 => 'success',
         self::IF_USER_RESET                  => 'auth.reset',
         self::IF_USER_DO_RESET               => 'success',

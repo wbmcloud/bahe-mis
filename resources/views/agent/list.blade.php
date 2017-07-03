@@ -49,7 +49,7 @@
                                 @foreach($agents as $agent)
                                     <tr>
                                         <td><a href="{{ route('agent.info') . '?id=' . $agent['id'] }}">{{ $agent['id'] }}</a></td>
-                                        <td>{{ $agent['name'] }}</td>
+                                        <td>{{ $agent['user_name'] }}</td>
                                         <td>{{ $agent['account']['total'] }}</td>
                                         <!--td>{{ date('Y-m-d', strtotime($agent['created_at'])) }}</td-->
                                         <td>{{ $agent['created_at'] }}</td>
@@ -109,10 +109,10 @@
                     <div class="box-body">
                         <input type="hidden" class="form-control" name="id">
                         <div class="form-group">
-                            <label for="name" class="col-sm-2 control-label">用户名</label>
+                            <label for="user_name" class="col-sm-2 control-label">用户名</label>
 
                             <div class="col-sm-10">
-                                <input type="text" class="form-control" name="name" placeholder="请输入用户名" disabled>
+                                <input type="text" class="form-control" name="user_name" placeholder="请输入用户名" disabled>
                             </div>
                         </div>
                         <div class="form-group">
@@ -124,6 +124,13 @@
                                         <option value="{{ $city['city_id'] }}">{{ $city['city_name'] }}</option>
                                     @endforeach
                                 </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="name" class="col-sm-2 control-label">姓名</label>
+
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" name="name" placeholder="请输入姓名">
                             </div>
                         </div>
                         <div class="form-group">
@@ -293,6 +300,7 @@
                         var data = res.data;
                         city_select.val(data.city_id).trigger('change');
                         $("input[name='id']").val(data.id);
+                        $("input[name='user_name']").val(data.user_name);
                         $("input[name='name']").val(data.name);
                         $("input[name='invite_code']").val(data.invite_code);
                         $("input[name='uin']").val(data.uin);

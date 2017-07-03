@@ -36,7 +36,7 @@
     <form action="{{ route('dologin') }}" method="post">
       {{ csrf_field() }}
       <div class="form-group has-feedback">
-        <input type="text" class="form-control" name="name" value="{{ old('name') }}" placeholder="Name" required autofocus>
+        <input type="text" class="form-control" name="user_name" value="{{ old('user_name') }}" placeholder="Name" required autofocus>
         <span class="glyphicon fa fa-user form-control-feedback"></span>
       </div>
       <div class="form-group has-feedback">

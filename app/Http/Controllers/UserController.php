@@ -8,18 +8,31 @@
 
 namespace App\Http\Controllers;
 
+use App\Common\Constants;
 use App\Logic\UserLogic;
 
 class UserController extends Controller
 {
     public function addUserForm()
     {
-        $user_logic = new UserLogic();
-        $cities     = $user_logic->getOpenCities();
+        switch ($this->params['type']) {
+            case Constants::ADD_USER_TYPE_ADMIN:
+                return view('auth.add_admin');
+                break;
+            case Constants::ADD_USER_TYPE_AGENT:
+                $user_logic = new UserLogic();
+                $cities     = $user_logic->getOpenCities();
+                return view('auth.add_agent', ['cities' => $cities]);
+                break;
+            case Constants::ADD_USER_TYPE_FIRST_AGENT:
+                $user_logic = new UserLogic();
+                $cities     = $user_logic->getOpenCities();
+                return view('auth.add_first_agent', ['cities' => $cities]);
+                break;
 
-        return [
-            'cities' => $cities
-        ];
+            default:
+                return view('auth.add_admin');
+        }
     }
 
     public function addResetPasswordForm()

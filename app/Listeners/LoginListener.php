@@ -28,7 +28,7 @@ class LoginListener
         $login_info = [
             'ip'        => $ip,
             'user_id'   => $user->id,
-            'user_name' => $user->name,
+            'user_name' => $user->user_name,
         ];
 
         $addresses = Ip::find($ip);

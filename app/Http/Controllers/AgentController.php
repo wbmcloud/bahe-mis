@@ -25,7 +25,7 @@ class AgentController extends Controller
         $agent_logic = new AgentLogic();
         $user_logic  = new UserLogic();
 
-        $users  = isset($query) && !empty($query) ?
+        $users  = isset($this->params['query_str']) && !empty($this->params['query_str']) ?
             $agent_logic->getAgentList($this->params['query_str'], $page_size) :
             $agent_logic->getAgentList(null, $page_size);
         $cities = $user_logic->getOpenCities();
@@ -42,7 +42,7 @@ class AgentController extends Controller
             Constants::DEFAULT_PAGE_SIZE;
 
         $agent_logic = new AgentLogic();
-        $users       = isset($query) && !empty($query) ?
+        $users       = isset($this->params['query_str']) && !empty($this->params['query_str']) ?
             $agent_logic->getAgentList($this->params['query_str'], $page_size, Constants::COMMON_DISABLE) :
             $agent_logic->getAgentList(null, $page_size, Constants::COMMON_DISABLE);
 
