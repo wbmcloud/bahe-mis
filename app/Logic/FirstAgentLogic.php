@@ -10,10 +10,12 @@ namespace App\Logic;
 
 use App\Common\Constants;
 use App\Exceptions\SlException;
+use App\Models\CashOrder;
 use App\Models\GeneralAgents;
 use App\Models\InviteCode;
 use App\Models\TransactionFlow;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\DB;
 
@@ -57,23 +59,6 @@ class FirstAgentLogic extends BaseLogic
     }
 
     /**
-     * @param $params
-     * @return GeneralAgents
-     */
-    public function saveGeneralAgent($params)
-    {
-        $general_agent              = new GeneralAgents();
-        $general_agent->name        = $params['name'];
-        $general_agent->invite_code = $params['invite_code'];
-        !empty($params['tel']) && ($general_agent->tel = $params['tel']);
-        !empty($params['bank_card']) && ($general_agent->bank_card = $params['bank_card']);
-        !empty($params['id_card']) && ($general_agent->id_card = $params['id_card']);
-        $general_agent->save();
-
-        return $general_agent;
-    }
-
-    /**
      * @param $invite_code
      * @return mixed
      * @throws SlException
@@ -85,31 +70,11 @@ class FirstAgentLogic extends BaseLogic
             throw new SlException(SlException::INVITE_CODE_NOT_VALID_CODE);
         }
 
-        return $invite_code;
-    }
-
-    /**
-     * @param $params
-     * @return array
-     * @throws SlException
-     */
-    public function addGeneralAgent($params)
-    {
-        // 校验邀请码合法性
-        $invite_code = $this->getInviteCode($params['invite_code']);
-
-        DB::beginTransaction();
-        try {
-            $this->saveGeneralAgent($params);
-            $invite_code->is_used = Constants::COMMON_ENABLE;
-            $invite_code->save();
-            DB::commit();
-        } catch (Exception $e) {
-            DB::rollback();
-            throw new SlException(SlException::FAIL_CODE);
+        if ($invite_code['is_used'] == Constants::COMMON_ENABLE) {
+            throw new SlException(SlException::INVITE_CODE_USED_CODE);
         }
 
-        return [];
+        return $invite_code;
     }
 
     /**
@@ -139,5 +104,17 @@ class FirstAgentLogic extends BaseLogic
         }
 
         return $recharge_flows;
+    }
+
+    public function getLastWeekCashOrder($page_size)
+    {
+        $last_week_day = Carbon::now()->previousWeekday();
+        $last_week = $last_week_day->weekOfYear;
+
+        $cash_orders = CashOrder::where([
+            'week' => $last_week
+        ])->paginate($page_size);
+
+        return $cash_orders;
     }
 }

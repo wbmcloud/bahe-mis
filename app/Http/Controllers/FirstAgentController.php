@@ -12,6 +12,7 @@ use App\Logic\FirstAgentLogic;
 use App\Logic\UserLogic;
 use App\Models\InviteCode;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Auth;
 
 class FirstAgentController extends Controller
 {
@@ -66,11 +67,30 @@ class FirstAgentController extends Controller
         $end_time   = isset($this->params['end_date']) ? $this->params['end_date'] : Carbon::tomorrow()->toDateString();
 
         $general_agent_logic = new FirstAgentLogic();
-        $recharge_flows      = $general_agent_logic->getAgentRechargeList($this->params['invite_code'], $start_time,
-            $end_time, $page_size);
+
+        if (Auth::user()->hasRole(Constants::ROLE_FIRST_AGENT)) {
+            $recharge_flows      = $general_agent_logic->getAgentRechargeList(Auth::user()->invite_code, $start_time,
+                $end_time, $page_size);
+        } else {
+            $recharge_flows      = $general_agent_logic->getAgentRechargeList($this->params['invite_code'], $start_time,
+                $end_time, $page_size);
+        }
 
         return [
             'recharge_flows' => $recharge_flows
         ];
     }
+
+    public function currentWeekCashOrderList()
+    {
+        $page_size  = isset($this->params['page_size']) ? $this->params['page_size'] :
+            Constants::DEFAULT_PAGE_SIZE;
+
+        $first_agent_logic = new FirstAgentLogic();
+
+        return [
+            'cash_orders' => $first_agent_logic->getLastWeekCashOrder($page_size)
+        ];
+    }
+
 }

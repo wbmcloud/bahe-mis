@@ -47,6 +47,7 @@ Route::group(['middleware' => ['acl', 'validator']], function () {
     Route::get('/general_agent/invite_code', 'FirstAgentController@inviteCode')->name('general_agent.invite_code');
     Route::get('/general_agent/banlist', 'FirstAgentController@banAgentList')->name('general_agent.banlist');
     Route::get('/general_agent/rechargelist', 'FirstAgentController@agentRechargeList')->name('general_agent.rechargelist');
+    Route::get('/general_agent/cash_order_list', 'FirstAgentController@currentWeekCashOrderList')->name('general_agent.cash_order_list');
 
     Route::group(['prefix' => 'api'], function () {
         Route::get('/agent/ban', 'Api\AgentController@banAgent');
@@ -54,11 +55,12 @@ Route::group(['middleware' => ['acl', 'validator']], function () {
         Route::get('/agent/info', 'Api\AgentController@agentInfo');
         Route::post('/agent/save', 'Api\AgentController@saveAgent');
         Route::get('/agent/reset', 'Api\AgentController@resetPassword');
-        Route::get('/general_agent/info', 'Api\GeneralAgentController@agentInfo');
-        Route::post('/general_agent/save', 'Api\GeneralAgentController@saveAgent');
-        Route::get('/general_agent/ban', 'Api\GeneralAgentController@banAgent');
-        Route::get('/general_agent/unban', 'Api\GeneralAgentController@unBanAgent');
-        Route::get('/general_agent/delflow', 'Api\GeneralAgentController@delAgentFlow');
+        Route::get('/general_agent/info', 'Api\FirstAgentController@agentInfo');
+        Route::post('/general_agent/save', 'Api\FirstAgentController@saveAgent');
+        Route::get('/general_agent/ban', 'Api\FirstAgentController@banAgent');
+        Route::get('/general_agent/unban', 'Api\FirstAgentController@unBanAgent');
+        Route::get('/general_agent/delflow', 'Api\FirstAgentController@delAgentFlow');
+        Route::get('/general_agent/do_cash_order', 'Api\FirstAgentController@confirmCashOrder');
     });
 
 });

@@ -56,7 +56,7 @@
                                         <!--td>{{ date('Y-m-d', strtotime($agent['created_at'])) }}</td-->
                                         <td>{{ $agent['created_at'] }}</td>
                                         <td>
-                                            <button type="button" onclick="rechargeList('{{ route('general_agent.rechargelist') . '?invite_code=' . $agent['invite_code'] }}')" class="btn btn-primary">充值信息</button>
+                                            <button type="button" onclick="rechargeList('{{ route('general_agent.rechargelist', ['invite_code' => $agent['invite_code']]) }}')" class="btn btn-primary">充值信息</button>
                                             <button type="button" onclick="banAgent({{ $agent['id'] }})" class="btn btn-primary">封禁</button>
                                             <button type="button" onclick="editAgent({{ $agent['id'] }})" class="btn btn-primary">修改信息</button>
                                         </td>

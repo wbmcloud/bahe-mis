@@ -4,6 +4,7 @@ namespace App\Console;
 
 use App\Console\Commands\genInviteCodes;
 use App\Console\Commands\ImportRolePermissions;
+use App\Console\Commands\statDateCashOrder;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 
@@ -17,6 +18,7 @@ class Kernel extends ConsoleKernel
     protected $commands = [
         ImportRolePermissions::class,
         genInviteCodes::class,
+        statDateCashOrder::class,
     ];
 
     /**

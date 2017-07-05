@@ -32,6 +32,8 @@ class SlException extends \Exception
     const USER_PASSWORD_OLD_NOT_VALID_CODE     = 2001019;
     const METHOD_NOT_EXIST_CODE                = 2001020;
     const TYPE_NOT_VALID_CODE                  = 2001021;
+    const INVITE_CODE_USED_CODE                = 2001022;
+    const CASH_ORDER_NOT_FOUND_CODE            = 2001023;
 
 
     public static $error_msg = [
@@ -57,6 +59,8 @@ class SlException extends \Exception
         self::USER_PASSWORD_OLD_NOT_VALID_CODE     => '输入的原密码不正确',
         self::METHOD_NOT_EXIST_CODE                => '方法不存在',
         self::TYPE_NOT_VALID_CODE                  => '类型不合法',
+        self::INVITE_CODE_USED_CODE                => '邀请码已经使用',
+        self::CASH_ORDER_NOT_FOUND_CODE            => '未找到打款单',
     ];
 
     public function __construct($code, $message = null)

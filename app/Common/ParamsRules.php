@@ -51,12 +51,13 @@ class ParamsRules
     /**
      * 一级代理模块
      */
-    const IF_GENERAL_AGENT_LIST          = '/general_agent/list';
-    const IF_GENERAL_AGENT_BAN_LIST      = '/general_agent/banlist';
-    const IF_GENERAL_AGENT_ADD           = '/general_agent/add';
-    const IF_GENERAL_AGENT_DO_ADD        = '/general_agent/doadd';
-    const IF_GENERAL_AGENT_INVITE_CODE   = '/general_agent/invite_code';
-    const IF_GENERAL_AGENT_RECHARGE_LIST = '/general_agent/rechargelist';
+    const IF_GENERAL_AGENT_LIST            = '/general_agent/list';
+    const IF_GENERAL_AGENT_BAN_LIST        = '/general_agent/banlist';
+    const IF_GENERAL_AGENT_ADD             = '/general_agent/add';
+    const IF_GENERAL_AGENT_DO_ADD          = '/general_agent/doadd';
+    const IF_GENERAL_AGENT_INVITE_CODE     = '/general_agent/invite_code';
+    const IF_GENERAL_AGENT_RECHARGE_LIST   = '/general_agent/rechargelist';
+    const IF_GENERAL_AGENT_CASH_ORDER_LIST = '/general_agent/cash_order_list';
 
     const IF_API_GENERAL_AGENT_INFO     = '/api/general_agent/info';
     const IF_API_GENERAL_AGENT_SAVE     = '/api/general_agent/save';
@@ -240,5 +241,6 @@ class ParamsRules
         self::IF_USER_DO_RESET               => 'success',
         self::IF_USER_LOGIN                  => 'auth.login',
         self::IF_USER_AGREE                  => 'dashboard',
+        self::IF_GENERAL_AGENT_CASH_ORDER_LIST => 'general_agent.cash_order_list',
     ];
 }

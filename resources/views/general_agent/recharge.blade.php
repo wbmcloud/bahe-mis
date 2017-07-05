@@ -172,10 +172,11 @@
         function query()
         {
             var _date_range = $('#reservation').val();
-            console.log(_date_range);
             var _date_arr = _date_range.split(' - ');
-            var _origin_params = getUrlParams();
-            location.href = getCurrenturl() + '?start_date=' + _date_arr[0] + '&end_date=' + _date_arr[1] + '&' + _origin_params;
+            var _args = getRequest();
+            _args['start_date'] = _date_arr[0];
+            _args['end_date'] = _date_arr[1];
+            location.href = getCurrenturl() + '?' + $.param(_args);
         }
 
 
