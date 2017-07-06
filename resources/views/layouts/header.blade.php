@@ -68,23 +68,25 @@
                 <i style="color: black">修改密码</i>
               </a>
             </li>
-            @if(!empty($accounts))
+            @if(!empty($account) && (!empty($account['diamond_balance']) ||
+                !empty($account['card_balance']) || !empty($account['bean_balance'])))
             <!-- Menu Body -->
             <li class="user-body">
               <div class="row">
-                @foreach ($accounts as $account)
                   <div class="col-xs-4">
-                    @if($account['type'] == 1)
+                    @if($account['diamond_balance'] > 0)
                       <span style="font-size: 12px">钻石</span>
-                      @elseif($account['type'] == 2)
-                      <span style="font-size: 12px">房卡</span>
-                    @elseif($account['type'] == 3)
-                      <span style="font-size: 12px">欢乐豆</span>
-                    @else
+                      <span style="color: red;font-size: 12px"><i>{{ $account['diamond_balance'] }}</i></span>
                     @endif
-                    <span style="color: red;font-size: 12px"><i>{{ $account['balance'] }}</i></span>
+                    @if($account['card_balance'] > 0)
+                      <span style="font-size: 12px">房卡</span>
+                      <span style="color: red;font-size: 12px"><i>{{ $account['card_balance'] }}</i></span>
+                    @endif
+                    @if($account['bean_balance'])
+                      <span style="font-size: 12px">欢乐豆</span>
+                      <span style="color: red;font-size: 12px"><i>{{ $account['bean_balance'] }}</i></span>
+                    @endif
                   </div>
-                @endforeach
               </div>
               <!-- /.row -->
             </li>

@@ -78,4 +78,14 @@ class Constants
     const ADD_USER_TYPE_AGENT       = 2;
     const ADD_USER_TYPE_FIRST_AGENT = 3;
 
+    public static $recharge_role = [
+        Constants::ROLE_AGENT,
+        Constants::ROLE_FIRST_AGENT,
+    ];
+
+    public static $admin_role = [
+        Constants::ROLE_SUPER,
+        Constants::ROLE_ADMIN
+    ];
+
 }

@@ -123,7 +123,7 @@ class UserLogic extends BaseLogic
                 $user = $this->createAdmin($params);
                 // 绑定角色
                 $user->attachRole($role);
-                return $user;
+                return redirect(ParamsRules::IF_RESULT);
                 break;
             case Constants::ADD_USER_TYPE_AGENT:
                 if (!Auth::user()->hasRole([
@@ -135,9 +135,16 @@ class UserLogic extends BaseLogic
                 $role = $this->getRoleByRoleName(Constants::ROLE_AGENT);
                 $params['role_id'] = $role->id;
                 $user = $this->createAgent($params);
+
                 // 绑定角色
                 $user->attachRole($role);
-                return $user;
+
+                // 初始化账户信息
+                $account_logic = new AccountLogic();
+                $account_logic->createAccount([
+                    'user_id' => $user->id,
+                ]);
+                return redirect(ParamsRules::IF_RESULT);
                 break;
             case Constants::ADD_USER_TYPE_FIRST_AGENT:
                 if (!Auth::user()->hasRole([
@@ -149,9 +156,16 @@ class UserLogic extends BaseLogic
                 $role = $this->getRoleByRoleName(Constants::ROLE_FIRST_AGENT);
                 $params['role_id'] = $role->id;
                 $user = $this->createFirstAgent($params);
+
                 // 绑定角色
                 $user->attachRole($role);
-                return $user;
+
+                // 初始化账户信息
+                $account_logic = new AccountLogic();
+                $account_logic->createAccount([
+                    'user_id' => $user->id,
+                ]);
+                return redirect(ParamsRules::IF_RESULT);
                 break;
 
             throw new SlException(SlException::TYPE_NOT_VALID_CODE);
@@ -173,7 +187,7 @@ class UserLogic extends BaseLogic
         $user->password = bcrypt($params['new_password']);
         $user->save();
 
-        return [];
+        return redirect(ParamsRules::IF_RESULT);
     }
 
     /**

@@ -38,27 +38,29 @@
                 </div>
 
             </div>
-            @role('agent')
+            @role(['agent', 'first_agent'])
+            @if(!empty($account) && (!empty($account['diamond_balance']) ||
+                !empty($account['card_balance']) || !empty($account['bean_balance'])))
             <div class="form-group">
                 <label class="col-sm-2 control-label">账户余额</label>
                 <div class="col-sm-10">
-                    @foreach ($accounts as $account)
-                        @if($account['type'] == 1)
-                            <label class="control-label">钻石</label>
-                            <span style="color: red;width: 5%;"><i>{{ $account['balance'] }}</i></span>
-                            <span>&nbsp;&nbsp;</span>
-                        @elseif($account['type'] == 2)
-                            <label class="control-label">房卡</label>
-                            <span style="color: red"><i>{{ $account['balance'] }}</i></span>
-                            <span>&nbsp;&nbsp;</span>
-                        @elseif($account['type'] == 3)
-                            <label class="control-label">欢乐豆</label>
-                            <span style="color: red"><i>{{ $account['balance'] }}</i></span>
-                        @else
-                        @endif
-                    @endforeach
+                    @if($account['diamond_balance'])
+                        <label class="control-label">钻石</label>
+                        <span style="color: red;width: 5%;"><i>{{ $account['diamond_balance'] }}</i></span>
+                        <span>&nbsp;&nbsp;</span>
+                    @endif
+                    @if($account['card_balance'])
+                        <label class="control-label">房卡</label>
+                        <span style="color: red"><i>{{ $account['card_balance'] }}</i></span>
+                        <span>&nbsp;&nbsp;</span>
+                    @endif
+                    @if($account['bean_balance'])
+                        <label class="control-label">欢乐豆</label>
+                        <span style="color: red"><i>{{ $account['bean_balance'] }}</i></span>
+                    @endif
                 </div>
             </div>
+            @endif
             @endrole
         </div>
         <button type="submit" class="btn btn-info pull-right">充值</button>

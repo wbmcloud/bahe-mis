@@ -10,7 +10,9 @@ namespace App\Logic;
 
 use App\Common\Constants;
 use App\Exceptions\SlException;
+use App\Library\Protobuf\COMMAND_TYPE;
 use App\Models\Accounts;
+use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 
 class AccountLogic extends BaseLogic
@@ -21,20 +23,18 @@ class AccountLogic extends BaseLogic
         if (empty($user)) {
             return redirect()->intended('login');
         }
-        return Accounts::where('user_id', $user->id)->get()->toArray();
+        return Accounts::where('user_id', $user->id)->first();
     }
 
     /**
      * @param $user_name
-     * @param $recharge_type
      * @return mixed
      */
-    public function getAccountByUserNameAndType($user_name, $recharge_type)
+    public function getAccountByUserName($user_name)
     {
-        return Accounts::where([
+        return User::where([
             'user_name' => $user_name,
-            'type' => $recharge_type,
-        ])->first();
+        ])->first()->account()->first();
     }
 
     /**
@@ -44,16 +44,51 @@ class AccountLogic extends BaseLogic
     public function createAccount($params)
     {
         $account            = new Accounts();
+
+        if (isset($params['recharge_type'])) {
+            switch ($params['recharge_type']) {
+                case COMMAND_TYPE::COMMAND_TYPE_RECHARGE:
+                    $account->diamond_balance = $params['num'];
+                    $account->diamond_total = $params['num'];
+                    break;
+                case COMMAND_TYPE::COMMAND_TYPE_ROOM_CARD:
+                    $account->card_balance = $params['num'];
+                    $account->card_total = $params['num'];
+                    break;
+                case COMMAND_TYPE::COMMAND_TYPE_HUANLEDOU:
+                    $account->bean_balance = $params['num'];
+                    $account->bean_total = $params['num'];
+                    break;
+            }
+        }
         $account->user_id   = $params['user_id'];
-        $account->user_name = $params['user_name'];
-        $account->type      = $params['recharge_type'];
-        $account->balance   = $params['num'];
-        $account->total     = $params['num'];
         $account->save();
 
         return $account;
     }
 
+    public function saveAccount($account, $params)
+    {
+        if (isset($params['recharge_type'])) {
+            switch ($params['recharge_type']) {
+                case COMMAND_TYPE::COMMAND_TYPE_RECHARGE:
+                    $account->diamond_balance += $params['num'];
+                    $account->diamond_total += $params['num'];
+                    break;
+                case COMMAND_TYPE::COMMAND_TYPE_ROOM_CARD:
+                    $account->card_balance += $params['num'];
+                    $account->card_total += $params['num'];
+                    break;
+                case COMMAND_TYPE::COMMAND_TYPE_HUANLEDOU:
+                    $account->bean_balance += $params['num'];
+                    $account->bean_total += $params['num'];
+                    break;
+            }
+        }
+        $account->save();
+
+        return $account;
+    }
     /**
      * @param $user_name
      * @param $type
@@ -63,11 +98,24 @@ class AccountLogic extends BaseLogic
      */
     public function reduceBalance($user_name, $type, $num)
     {
-        $account = $this->getAccountByUserNameAndType($user_name, $type);
-        if (empty($account) || $account->balance < Constants::OPEN_ROOM_CARD_REDUCE) {
+        $account = $this->getAccountByUserName($user_name);
+        switch ($type) {
+            case COMMAND_TYPE::COMMAND_TYPE_RECHARGE:
+                $condition = empty($account) || $account->diamond_balance <= Constants::COMMON_DISABLE;
+                $account->diamond_balance -= $num;
+                break;
+            case COMMAND_TYPE::COMMAND_TYPE_ROOM_CARD:
+                $condition = empty($account) || $account->card_balance <= Constants::COMMON_DISABLE;
+                $account->card_balance -= $num;
+                break;
+            case COMMAND_TYPE::COMMAND_TYPE_HUANLEDOU:
+                $condition = empty($account) || $account->bean_balance <= Constants::COMMON_DISABLE;
+                $account->bean_balance -= $num;
+                break;
+        }
+        if ($condition) {
             throw new SlException(SlException::ACCOUNT_BALANCE_NOT_ENOUGH);
         }
-        $account->balance -= $num;
         $account->save();
 
         return $account;

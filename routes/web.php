@@ -18,13 +18,22 @@ Route::get('/login', 'LoginController@showLoginForm')->name('login');
 Route::post('/dologin', 'LoginController@login')->name('dologin');
 Route::post('/logout', 'LoginController@logout')->name('logout');
 
+Route::get('/404', function () {
+    return view('errors.404');
+});
+Route::get('/500', function () {
+    return view('errors.500');
+});
 
 Route::group(['middleware' => ['acl', 'validator']], function () {
     Route::get('/dashboard', function () {
         return view('dashboard');
     });
+    Route::get('/result', function () {
+        return view('result');
+    });
     Route::get('/user/agreement', function () {
-        return view('/agreement');
+        return view('agreement');
     });
     Route::post('/user/agree', 'UserController@agree')->name('user.agree');
     Route::get('/user/add', 'UserController@addUserForm')->name('user.add');

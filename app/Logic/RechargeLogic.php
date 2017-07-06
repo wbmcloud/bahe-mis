@@ -9,6 +9,7 @@
 namespace App\Logic;
 
 use App\Common\Constants;
+use App\Common\ParamsRules;
 use App\Exceptions\SlException;
 use App\Library\Protobuf\COMMAND_TYPE;
 use App\Library\Protobuf\Protobuf;
@@ -20,65 +21,34 @@ use Illuminate\Support\Facades\DB;
 
 class RechargeLogic extends BaseLogic
 {
-    protected function checkAgentRechargeRole($user_name)
-    {
-        $user = User::where('user_name', $user_name)->first();
-        if (empty($user)) {
-            throw new SlException(SlException::USER_NOT_EXIST_CODE);
-        }
-
-        $user_logic = new UserLogic();
-        $role       = $user_logic->getRoleByUser($user);
-
-        if (!in_array($role['name'], [
-            Constants::ROLE_AGENT,
-            Constants::ROLE_FIRST_AGENT,
-        ])) {
-            throw new SlException(SlException::RECHARGE_ROLE_NOT_AGENT_CODE);
-        }
-
-        return $role;
-    }
-
-    protected function checkAgentRechargeAuth()
-    {
-        $user = Auth::user();
-        if (empty($user)) {
-            return redirect()->intended('login');
-        }
-
-        $user_logic = new UserLogic();
-        $role       = $user_logic->getRoleByUser($user);
-
-        if ($role['name'] === Constants::ROLE_TYPE_AGENT) {
-            throw new SlException(SlException::AGENT_NOT_RECHARGE_FOR_AGENT_CODE);
-        }
-
-        return $role;
-    }
 
     public function agentRecharge($params)
     {
-        $this->checkAgentRechargeAuth();
-        $recharge_user_role = $this->checkAgentRechargeRole($params['user_name']);
-        $user = Auth::user();
+        // 判断登录账号是否有代理充值权限
+        $login_user = Auth::user();
+        $user_logic = new UserLogic();
+        $login_role       = $user_logic->getRoleByUser($login_user);
+        if (!in_array($login_role['name'], Constants::$admin_role)) {
+            throw new SlException(SlException::AGENT_NOT_RECHARGE_FOR_AGENT_CODE);
+        }
 
+        // 判断充值的代理账号是否合法
+        $user = User::where('user_name', $params['user_name'])->first();
+        if (empty($user)) {
+            throw new SlException(SlException::USER_NOT_EXIST_CODE);
+        }
+        $recharge_user_role       = $user_logic->getRoleByUser($user);
+        if (!in_array($recharge_user_role['name'], Constants::$recharge_role)) {
+            throw new SlException(SlException::RECHARGE_ROLE_NOT_AGENT_CODE);
+        }
+
+        // 给代理充值
         DB::beginTransaction();
         try {
-            $this->saveAgentTransactionFlow($user, $recharge_user_role, $params);
+            $this->saveAgentTransactionFlow($login_user, $recharge_user_role, $params);
 
             $account_logic = new AccountLogic();
-            $account       = $account_logic->getAccountByUserNameAndType($params['user_name'],
-                $params['recharge_type']);
-
-            if (empty($account)) {
-                $params['user_id'] = $recharge_user_role['pivot']['user_id'];
-                $account_logic->createAccount($params);
-            } else {
-                $account->balance += $params['num'];
-                $account->total   += $params['num'];
-                $account->save();
-            }
+            $account_logic->saveAccount($user->account()->first(), $params);
 
             DB::commit();
         } catch (Exception $e) {
@@ -86,7 +56,7 @@ class RechargeLogic extends BaseLogic
             throw new SlException(SlException::FAIL_CODE);
         }
 
-        return [];
+        return redirect(ParamsRules::IF_RESULT);
     }
 
     /**
@@ -175,11 +145,10 @@ class RechargeLogic extends BaseLogic
 
         DB::beginTransaction();
         try {
-            if ($user->hasRole([
-                Constants::ROLE_AGENT,
-                Constants::ROLE_FIRST_AGENT,
-            ])) {
-                $this->rechargeReduceBalance($user->user_name, $params['recharge_type'], $params['num']);
+            if ($user->hasRole(Constants::$recharge_role)) {
+                $account_logic = new AccountLogic();
+                $account_logic->reduceBalance($user->user_name,
+                    $params['recharge_type'], $params['num']);
             }
             $this->sendGmtUserRecharge($params, $command_res);
             DB::commit();
@@ -209,18 +178,7 @@ class RechargeLogic extends BaseLogic
             throw new SlException($error_code, $error_message);
         }
 
-        return [];
+        return redirect(ParamsRules::IF_RESULT);
     }
 
-    /**
-     * @param $user_name
-     * @param $type
-     * @param $num
-     * @return mixed
-     */
-    public function rechargeReduceBalance($user_name, $type, $num)
-    {
-        $account_logic = new AccountLogic();
-        return $account_logic->reduceBalance($user_name, $type, $num);
-    }
 }

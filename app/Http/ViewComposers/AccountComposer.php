@@ -35,7 +35,7 @@ class AccountComposer
     {
         // 获取账户信息
         $account_logic = new AccountLogic();
-        $accounts = $account_logic->getAgentBalance();
-        $view->with('accounts', $accounts);
+        $account = $account_logic->getAgentBalance();
+        $view->with('$account', $account);
     }
 }

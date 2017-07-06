@@ -11,7 +11,10 @@ namespace App\Common;
 class ParamsRules
 {
 
-    const IF_DASHBOARD = '/dashboard';
+    const IF_DASHBOARD   = '/dashboard';
+    const IF_RESULT      = '/result';
+    const IF_NOT_FOUND   = '/404';
+    const IF_FATAL_ERROR = '/500';
 
     /**
      * 登录模块
@@ -231,16 +234,10 @@ class ParamsRules
         self::IF_GENERAL_AGENT_BAN_LIST      => 'general_agent.banlist',
         self::IF_GENERAL_AGENT_RECHARGE_LIST => 'general_agent.recharge',
         self::IF_GENERAL_AGENT_ADD           => 'general_agent.add',
-        self::IF_GENERAL_AGENT_DO_ADD        => 'success',
         self::IF_RECHARGE_USER               => 'recharge.user',
         self::IF_RECHARGE_AGENT              => 'recharge.agent',
-        self::IF_RECHARGE_DO_USER            => 'success',
-        self::IF_RECHARGE_DO_AGENT           => 'success',
-        self::IF_USER_DO_ADD                 => 'success',
         self::IF_USER_RESET                  => 'auth.reset',
-        self::IF_USER_DO_RESET               => 'success',
         self::IF_USER_LOGIN                  => 'auth.login',
-        self::IF_USER_AGREE                  => 'dashboard',
         self::IF_GENERAL_AGENT_CASH_ORDER_LIST => 'general_agent.cash_order_list',
     ];
 }

@@ -44,7 +44,7 @@ class SlException extends \Exception
         self::ACCOUNT_NOT_EXIST_CODE               => '账户不存在',
         self::ROLE_NOT_EXIST_CODE                  => '角色不存在',
         self::RECHARGE_ROLE_NOT_AGENT_CODE         => '充值的不是合法的代理账号',
-        self::AGENT_NOT_RECHARGE_FOR_AGENT_CODE    => '代理不能为代理进行充值',
+        self::AGENT_NOT_RECHARGE_FOR_AGENT_CODE    => '没有给代理充值的权限',
         self::USER_NOT_EXIST_CODE                  => '用户不存在',
         self::ACCOUNT_BALANCE_NOT_ENOUGH           => '账户余额不足',
         self::PARAMS_INVALID                       => '参数不合法',

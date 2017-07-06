@@ -2,6 +2,7 @@
 
 namespace App\Exceptions;
 
+use App\Common\ParamsRules;
 use App\Common\Utils;
 use App\Library\BLogger;
 use Exception;
@@ -70,15 +71,13 @@ class Handler extends ExceptionHandler
             return Utils::sendJsonResponse($exception->getCode(), $exception->getMessage());
         }
         if ($exception instanceof NotFoundHttpException) {
-            return response()->view('errors.404');
+            return redirect(ParamsRules::IF_NOT_FOUND);
         } elseif ($exception instanceof FatalErrorException) {
-            return response()->view('errors.500');
+            return redirect(ParamsRules::IF_FATAL_ERROR);
         } elseif ($exception instanceof QueryException) {
-            return response()->view('error',
-                ['message' => SlException::$error_msg[SlException::SYSTEM_ERROR_CODE]]);
+            return redirect(ParamsRules::IF_RESULT)->with('message', SlException::$error_msg[SlException::SYSTEM_ERROR_CODE]);
         } else {
-            return response()->view('error',
-                ['message' => $exception->getMessage()]);
+            return redirect(ParamsRules::IF_RESULT)->with('message', $exception->getMessage());
         }
     }
 

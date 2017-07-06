@@ -21,10 +21,10 @@ class RechargeController extends Controller
     public function showUserRechargeForm()
     {
         $account_logic = new AccountLogic();
-        $accounts      = $account_logic->getAgentBalance();
+        $account      = $account_logic->getAgentBalance();
 
         return [
-            'accounts' => $accounts
+            'account' => $account
         ];
     }
 

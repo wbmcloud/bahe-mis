@@ -77,18 +77,6 @@ class AgentLogic extends BaseLogic
     }
 
     /**
-     * @param $user_name
-     * @param $type
-     * @param $num
-     * @return mixed
-     */
-    public function openRoomReduceBalance($user_name, $type, $num)
-    {
-        $account_logic = new AccountLogic();
-        return $account_logic->reduceBalance($user_name, $type, $num);
-    }
-
-    /**
      * @param $server_id
      * @param $open_room_res
      * @return array
@@ -156,7 +144,8 @@ class AgentLogic extends BaseLogic
                 Constants::ROLE_AGENT,
                 Constants::ROLE_FIRST_AGENT,
             ])) {
-                $this->openRoomReduceBalance($user->user_name,
+                $account_logic = new AccountLogic();
+                $account_logic->reduceBalance($user->user_name,
                     COMMAND_TYPE::COMMAND_TYPE_ROOM_CARD,
                     Constants::OPEN_ROOM_CARD_REDUCE);
             }
