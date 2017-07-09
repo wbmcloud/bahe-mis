@@ -11,6 +11,7 @@ use App\Common\Constants;
 use App\Logic\FirstAgentLogic;
 use App\Logic\UserLogic;
 use App\Models\InviteCode;
+use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 
@@ -81,7 +82,7 @@ class FirstAgentController extends Controller
         ];
     }
 
-    public function currentWeekCashOrderList()
+    public function lastWeekCashOrderList()
     {
         $page_size  = isset($this->params['page_size']) ? $this->params['page_size'] :
             Constants::DEFAULT_PAGE_SIZE;
@@ -89,8 +90,47 @@ class FirstAgentController extends Controller
         $first_agent_logic = new FirstAgentLogic();
 
         return [
-            'cash_orders' => $first_agent_logic->getLastWeekCashOrder($page_size)
+            'cash_orders' => $first_agent_logic->getLastWeekCashOrder(Constants::AGENT_LEVEL_FIRST, $page_size)
         ];
     }
 
+    public function income()
+    {
+        $first_agent_logic = new FirstAgentLogic();
+
+        return [
+            'income_stat' => $first_agent_logic->getCurrentAgentIncomeStat(Auth::id())
+        ];
+    }
+
+    public function sale()
+    {
+        $page_size  = isset($this->params['page_size']) ? $this->params['page_size'] :
+            Constants::DEFAULT_PAGE_SIZE;
+
+        $first_agent_logic = new FirstAgentLogic();
+
+        $income_stat = $first_agent_logic->getCurrentAgentIncomeStat(Auth::id());
+        $level_agent_sale_amount_list = $first_agent_logic->getLevelAgentSaleAmountDetail(Auth::id(), $page_size);
+        $agent_ids = array_column($level_agent_sale_amount_list->toArray()['data'], 'user_id');
+        $agents = $first_agent_logic->getAgentInfoByIds($agent_ids);
+
+        return [
+            'income_stat' => $income_stat,
+            'level_agent_sale_amount_list' => $level_agent_sale_amount_list,
+            'agents' => $agents
+        ];
+    }
+
+    public function incomeHistory()
+    {
+        $page_size  = isset($this->params['page_size']) ? $this->params['page_size'] :
+            Constants::DEFAULT_PAGE_SIZE;
+
+        $first_agent_logic = new FirstAgentLogic();
+
+        return [
+            'history_income_list' => $first_agent_logic->getLevelAgentCashOrderList(Auth::id(), $page_size)
+        ];
+    }
 }

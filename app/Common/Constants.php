@@ -67,8 +67,6 @@ class Constants
 
     const OPEN_ROOM_CARD_REDUCE = 1;
 
-    const OPEN_ROOM_TYPE = 4;   // 代开房类型
-
     public static $agreement_uri = [
         ParamsRules::IF_USER_AGREEMENT,
         ParamsRules::IF_USER_AGREE,
@@ -79,13 +77,27 @@ class Constants
     const ADD_USER_TYPE_FIRST_AGENT = 3;
 
     public static $recharge_role = [
-        Constants::ROLE_AGENT,
-        Constants::ROLE_FIRST_AGENT,
+        self::ROLE_AGENT,
+        self::ROLE_FIRST_AGENT,
     ];
 
     public static $admin_role = [
-        Constants::ROLE_SUPER,
-        Constants::ROLE_ADMIN
+        self::ROLE_SUPER,
+        self::ROLE_ADMIN
     ];
 
+    public static $level_agent = [
+        self::ROLE_FIRST_AGENT,
+    ];
+
+    const COMMAND_TYPE_OPEN_ROOM = 11;
+
+    const ROOM_CARD_PRICE = 2.5;
+
+    /**
+     * 代理级别类型
+     */
+
+    const AGENT_LEVEL_FIRST  = 1;
+    const AGENT_LEVEL_SECOND = 2;
 }

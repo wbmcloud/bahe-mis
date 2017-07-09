@@ -97,7 +97,7 @@
           <i class="fa fa-circle-o"></i><span>消费记录</span>
           </a>
         </li>
-        <li class="treeview">
+        <li id="data_stat" class="treeview">
           <a href="#">
             <i class="fa fa-dashboard"></i> <span>数据统计</span>
             <span class="pull-right-container">
@@ -105,7 +105,7 @@
             </span>
           </a>
           <ul class="treeview-menu">
-            <li><a href="index.html"><i class="fa fa-circle-o"></i>收入统计</a></li>
+            <li id="income"><a href="{{ route('general_agent.income') }}"><i class="fa fa-circle-o"></i>收入统计</a></li>
           </ul>
         </li>
         @endrole

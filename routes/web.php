@@ -56,7 +56,10 @@ Route::group(['middleware' => ['acl', 'validator']], function () {
     Route::get('/general_agent/invite_code', 'FirstAgentController@inviteCode')->name('general_agent.invite_code');
     Route::get('/general_agent/banlist', 'FirstAgentController@banAgentList')->name('general_agent.banlist');
     Route::get('/general_agent/rechargelist', 'FirstAgentController@agentRechargeList')->name('general_agent.rechargelist');
-    Route::get('/general_agent/cash_order_list', 'FirstAgentController@currentWeekCashOrderList')->name('general_agent.cash_order_list');
+    Route::get('/general_agent/cash_order_list', 'FirstAgentController@lastWeekCashOrderList')->name('general_agent.cash_order_list');
+    Route::get('/general_agent/income', 'FirstAgentController@income')->name('general_agent.income');
+    Route::get('/general_agent/sale', 'FirstAgentController@sale')->name('general_agent.sale');
+    Route::get('/general_agent/income_history', 'FirstAgentController@incomeHistory')->name('general_agent.income_history');
 
     Route::group(['prefix' => 'api'], function () {
         Route::get('/agent/ban', 'Api\AgentController@banAgent');

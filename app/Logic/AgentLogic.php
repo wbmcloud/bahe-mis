@@ -115,7 +115,8 @@ class AgentLogic extends BaseLogic
         $transaction_flow->initiator_id   = $user->id;
         $transaction_flow->initiator_name = $user->user_name;
         $transaction_flow->initiator_type = Constants::$recharge_role_type[$user->roles()->first()->toArray()['name']];
-        $transaction_flow->recharge_type  = Constants::OPEN_ROOM_TYPE;
+        $transaction_flow->recipient_type = Constants::ROLE_TYPE_USER;
+        $transaction_flow->recharge_type  = Constants::COMMAND_TYPE_OPEN_ROOM;
         $transaction_flow->num            = Constants::OPEN_ROOM_CARD_REDUCE;
 
         if ($is_recharged) {

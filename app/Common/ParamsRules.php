@@ -61,6 +61,9 @@ class ParamsRules
     const IF_GENERAL_AGENT_INVITE_CODE     = '/general_agent/invite_code';
     const IF_GENERAL_AGENT_RECHARGE_LIST   = '/general_agent/rechargelist';
     const IF_GENERAL_AGENT_CASH_ORDER_LIST = '/general_agent/cash_order_list';
+    const IF_GENERAL_AGENT_INCOME          = '/general_agent/income';
+    const IF_GENERAL_AGENT_SALE            = '/general_agent/sale';
+    const IF_GENERAL_AGENT_INCOME_HISTORY  = '/general_agent/income_history';
 
     const IF_API_GENERAL_AGENT_INFO     = '/api/general_agent/info';
     const IF_API_GENERAL_AGENT_SAVE     = '/api/general_agent/save';
@@ -223,21 +226,24 @@ class ParamsRules
      * 接口渲染模板路径
      */
     public static $interface_tpl = [
-        self::IF_AGENT_LIST                  => 'agent.list',
-        self::IF_AGENT_BAN_LIST              => 'agent.banlist',
-        self::IF_AGENT_INFO                  => 'agent.info',
-        self::IF_AGENT_RECHARGE_LIST         => 'agent.rechargelist',
-        self::IF_AGENT_OPEN_ROOM             => 'agent.openroom',
-        self::IF_AGENT_DO_OPEN_ROOM          => 'agent.openroomres',
-        self::IF_GENERAL_AGENT_LIST          => 'general_agent.list',
-        self::IF_GENERAL_AGENT_INVITE_CODE   => 'general_agent.invite_code',
-        self::IF_GENERAL_AGENT_BAN_LIST      => 'general_agent.banlist',
-        self::IF_GENERAL_AGENT_RECHARGE_LIST => 'general_agent.recharge',
-        self::IF_GENERAL_AGENT_ADD           => 'general_agent.add',
-        self::IF_RECHARGE_USER               => 'recharge.user',
-        self::IF_RECHARGE_AGENT              => 'recharge.agent',
-        self::IF_USER_RESET                  => 'auth.reset',
-        self::IF_USER_LOGIN                  => 'auth.login',
+        self::IF_AGENT_LIST                    => 'agent.list',
+        self::IF_AGENT_BAN_LIST                => 'agent.banlist',
+        self::IF_AGENT_INFO                    => 'agent.info',
+        self::IF_AGENT_RECHARGE_LIST           => 'agent.rechargelist',
+        self::IF_AGENT_OPEN_ROOM               => 'agent.openroom',
+        self::IF_AGENT_DO_OPEN_ROOM            => 'agent.openroomres',
+        self::IF_GENERAL_AGENT_LIST            => 'general_agent.list',
+        self::IF_GENERAL_AGENT_INVITE_CODE     => 'general_agent.invite_code',
+        self::IF_GENERAL_AGENT_BAN_LIST        => 'general_agent.banlist',
+        self::IF_GENERAL_AGENT_RECHARGE_LIST   => 'general_agent.recharge',
+        self::IF_GENERAL_AGENT_ADD             => 'general_agent.add',
+        self::IF_RECHARGE_USER                 => 'recharge.user',
+        self::IF_RECHARGE_AGENT                => 'recharge.agent',
+        self::IF_USER_RESET                    => 'auth.reset',
+        self::IF_USER_LOGIN                    => 'auth.login',
         self::IF_GENERAL_AGENT_CASH_ORDER_LIST => 'general_agent.cash_order_list',
+        self::IF_GENERAL_AGENT_INCOME          => 'general_agent.income',
+        self::IF_GENERAL_AGENT_SALE            => 'general_agent.sale',
+        self::IF_GENERAL_AGENT_INCOME_HISTORY  => 'general_agent.income_history',
     ];
 }

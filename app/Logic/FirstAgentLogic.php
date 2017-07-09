@@ -9,7 +9,9 @@
 namespace App\Logic;
 
 use App\Common\Constants;
+use App\Common\Utils;
 use App\Exceptions\SlException;
+use App\Library\Protobuf\COMMAND_TYPE;
 use App\Models\CashOrder;
 use App\Models\GeneralAgents;
 use App\Models\InviteCode;
@@ -17,6 +19,7 @@ use App\Models\TransactionFlow;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class FirstAgentLogic extends BaseLogic
@@ -106,14 +109,150 @@ class FirstAgentLogic extends BaseLogic
         return $recharge_flows;
     }
 
-    public function getLastWeekCashOrder($page_size)
+    public function getLastWeekCashOrder($agent_level = Constants::AGENT_LEVEL_FIRST, $page_size)
     {
         $last_week_day = Carbon::now()->previousWeekday();
         $last_week = $last_week_day->weekOfYear;
 
         $cash_orders = CashOrder::where([
+                'week' => $last_week,
+                'type' => $agent_level
+            ])
+            ->selectRaw('relation_id as id, name, amount')
+            ->paginate($page_size);
+
+        return $cash_orders;
+    }
+
+    public function getLevelAgentSaleAmount($user_id, $start_time = null, $end_time = null, $page_size = null)
+    {
+        $first_agent = User::where([
+            'id' => $user_id
+        ])->first();
+
+        if (empty($first_agent)) {
+            throw new SlException(SlException::USER_NOT_EXIST_CODE);
+        }
+
+        if (!$first_agent->hasRole(Constants::$level_agent)) {
+            throw new SlException(SlException::AGENT_NOT_VALID_CODE);
+        }
+
+        // 获取所有的代理充值额度
+        $agents = User::where([
+            'invite_code' => $first_agent->invite_code,
+            'role_id' => Constants::ROLE_TYPE_AGENT,
+        ])->get()->toArray();
+        $agent_ids = array_column($agents, 'id');
+
+        $group_by = 'recipient_id';
+        $select = 'recipient_id as user_id, sum(num) as sum';
+        $where = [
+            'recharge_type' => COMMAND_TYPE::COMMAND_TYPE_ROOM_CARD,
+            'status' => Constants::COMMON_ENABLE,
+        ];
+        if (!empty($start_time) && !empty($end_time)) {
+            if (empty($page_size)) {
+                $flows = TransactionFlow::whereIn('recipient_id', $agent_ids)
+                    ->where($where)
+                    ->whereBetween('created_at', [$start_time, $end_time])
+                    ->groupBy($group_by)
+                    ->selectRaw($select)
+                    ->get();
+            } else {
+                $flows = TransactionFlow::whereIn('recipient_id', $agent_ids)
+                    ->where($where)
+                    ->whereBetween('created_at', [$start_time, $end_time])
+                    ->groupBy($group_by)
+                    ->selectRaw($select)
+                    ->paginate();
+            }
+
+        } else {
+            if (empty($page_size)) {
+                $flows = TransactionFlow::whereIn('recipient_id', $agent_ids)
+                    ->where($where)
+                    ->groupBy($group_by)
+                    ->selectRaw($select)
+                    ->get();
+            } else {
+                $flows = TransactionFlow::whereIn('recipient_id', $agent_ids)
+                    ->where($where)
+                    ->groupBy($group_by)
+                    ->selectRaw($select)
+                    ->paginate();
+            }
+        }
+
+
+        return $flows;
+    }
+
+    public function getCurrentAgentIncomeStat($agent_id)
+    {
+        $income_stat = [];
+        $start_of_week = Carbon::now()->startOfWeek()->toDateTimeString();
+
+        $agent_amount = $this->getLevelAgentSaleAmount($agent_id, $start_of_week, Carbon::now()->toDateTimeString());
+        $agent_sale_sum = array_sum(array_column($agent_amount->toArray(), 'sum')) * Constants::ROOM_CARD_PRICE;
+
+        $income_stat['sale_amount'] = $agent_sale_sum;
+        $income_stat['sale_commission'] = Utils::getCommissionRate($agent_sale_sum);
+        $income_stat['agent_sale_amount'] = $this->getAgentSaleAmount($agent_id);
+        $income_stat['last_week_income'] = Utils::getCommissionRate($this->getLevelAgentLastWeekIncome($agent_id));
+
+        return $income_stat;
+
+    }
+
+    public function getAgentSaleAmount($agent_id, $start_time = null, $end_time = null)
+    {
+        return TransactionFlow::where([
+                'initiator_id' => $agent_id,
+                'status' => Constants::COMMON_ENABLE,
+            ])
+            ->whereIn('recharge_type', [
+                COMMAND_TYPE::COMMAND_TYPE_ROOM_CARD,
+                Constants::COMMAND_TYPE_OPEN_ROOM,
+            ])
+            ->whereBetween('created_at', [$start_time, $end_time])
+            ->sum('num');
+    }
+
+
+    public function getLevelAgentLastWeekIncome($agent_id)
+    {
+        $last_week_day = Carbon::now()->previousWeekday();
+        $last_week = $last_week_day->weekOfYear;
+
+        return CashOrder::where([
+            'relation_id' => $agent_id,
             'week' => $last_week
-        ])->paginate($page_size);
+        ])->sum('amount');
+    }
+
+    public function getLevelAgentSaleAmountDetail($agent_id, $page_size)
+    {
+        $start_of_week = Carbon::now()->startOfWeek()->toDateTimeString();
+
+        return $this->getLevelAgentSaleAmount($agent_id,
+            $start_of_week, Carbon::now()->toDateTimeString(), $page_size);
+    }
+
+    public function getAgentInfoByIds($agent_ids)
+    {
+        $agents = User::whereIn('id', $agent_ids)->get()->toArray();
+        return array_column($agents, null, 'id');
+    }
+
+    public function getLevelAgentCashOrderList($agent_id, $page_size)
+    {
+        $cash_orders = CashOrder::where([
+                'relation_id' => $agent_id,
+                'type' => Constants::AGENT_LEVEL_FIRST
+            ])
+            ->selectRaw('week, amount, status')
+            ->paginate($page_size);
 
         return $cash_orders;
     }

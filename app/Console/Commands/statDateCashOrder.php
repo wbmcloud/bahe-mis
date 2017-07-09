@@ -4,6 +4,7 @@ namespace App\Console\Commands;
 
 use App\Common\Constants;
 use App\Library\Protobuf\COMMAND_TYPE;
+use App\Logic\FirstAgentLogic;
 use App\Models\CashOrder;
 use App\Models\TransactionFlow;
 use App\Models\User;
@@ -45,13 +46,14 @@ class statDateCashOrder extends Command
      */
     public function handle()
     {
-        $yesterday = Carbon::yesterday();
+        $last_week_day = Carbon::now()->subWeek();
+        $last_week = $last_week_day->weekOfYear;
+
         $last_day_cash_orders = [];
         $last_day_cash_order = [
-            'day' => $yesterday->dayOfYear,
-            'week' => $yesterday->weekOfYear,
-            'month' => $yesterday->month,
-            'year' => $yesterday->year,
+            'week' => $last_week,
+            'month' => $last_week_day->month,
+            'year' => $last_week_day->year,
             'created_at' => Carbon::now()->toDateTimeString(),
             'updated_at' => Carbon::now()->toDateTimeString(),
         ];
@@ -72,14 +74,13 @@ class statDateCashOrder extends Command
                 $last_day_cash_orders[] = $last_day_cash_order;
                 continue;
             }
-            $agent_total_flows = [];
-            foreach ($agents as $agent) {
-                $agent_total_flows[] = TransactionFlow::where([
-                    'recipient_id' => $agent['id'],
-                    'recharge_type' => COMMAND_TYPE::COMMAND_TYPE_ROOM_CARD,
-                ])->get()->sum('num');
-            }
-            $last_day_cash_order['amount'] = array_sum($agent_total_flows);
+
+            $first_agent_logic = new FirstAgentLogic();
+            $start_of_week = $last_week_day->startOfWeek()->toDateTimeString();
+            $end_of_week = $last_week_day->endOfWeek()->toDateTimeString();
+            $level_agent_income = $first_agent_logic->getLevelAgentSaleAmount($first_agent['id'], $start_of_week, $end_of_week);
+            $level_agent_income = array_column($level_agent_income->toArray(), 'sum');
+            $last_day_cash_order['amount'] = array_sum($level_agent_income);
             $last_day_cash_orders[] = $last_day_cash_order;
         }
 

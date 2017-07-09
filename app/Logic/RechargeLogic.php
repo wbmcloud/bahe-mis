@@ -39,7 +39,7 @@ class RechargeLogic extends BaseLogic
         }
         $recharge_user_role       = $user_logic->getRoleByUser($user);
         if (!in_array($recharge_user_role['name'], Constants::$recharge_role)) {
-            throw new SlException(SlException::RECHARGE_ROLE_NOT_AGENT_CODE);
+            throw new SlException(SlException::AGENT_NOT_VALID_CODE);
         }
 
         // 给代理充值

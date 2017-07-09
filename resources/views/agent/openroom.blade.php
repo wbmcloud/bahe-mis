@@ -20,7 +20,7 @@
                             <option value="{{ $city['server']['server_id'] }}">{{ $city['city_name'] }}</option>
                             @endforeach
                             @endrole
-                            @role('agent')
+                            @role(['agent', 'first_agent'])
                             <option value="{{ $agent['city']['server']['server_id'] }}">{{ $agent['city']['city_name'] }}</option>
                             @endrole
                         </select>
