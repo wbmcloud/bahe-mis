@@ -1,12 +1,13 @@
 @extends('admin_template')
 @section('head')
     <style>
-    .pagination {
-        margin-left: 40%;
-    }
+        .pagination {
+            margin-left: 40%;
+        }
     </style>
     <!-- daterange picker -->
-    <link rel="stylesheet" href="{{ asset("/bower_components/admin-lte/plugins/daterangepicker/daterangepicker.css") }}">
+    <link rel="stylesheet"
+          href="{{ asset("/bower_components/admin-lte/plugins/daterangepicker/daterangepicker.css") }}">
 
 @endsection
 @section('content')
@@ -38,17 +39,21 @@
                         <table id="agent_container" class="table table-bordered table-hover">
                             <thead>
                             <tr>
-                            <th>代理id</th>
-                            <th>代理用户名</th>
-                            <th>充值类型</th>
-                            <th>充值额度</th>
-                            <th>充值时间</th>
-                            <th>操作</th>
+                                <th>代理id</th>
+                                <th>代理用户名</th>
+                                <th>充值类型</th>
+                                <th>充值额度</th>
+                                <th>充值时间</th>
+                                @role(['super', 'admin'])
+                                <th>操作</th>
+                                @endrole
                             </tr>
                             </thead>
                             <tbody id="agent_list_container">
                             @if(empty($recharge_flows->total()))
-                                <tr><td colspan="4">没有记录</td></tr>
+                                <tr>
+                                    <td colspan="4">没有记录</td>
+                                </tr>
                             @else
                                 @foreach($recharge_flows as $recharge_flow)
                                     <tr>
@@ -57,9 +62,14 @@
                                         <td>{{ \App\Common\Constants::$transaction_type[$recharge_flow['recharge_type']] }}</td>
                                         <td>{{ $recharge_flow['num'] }}</td>
                                         <td>{{ $recharge_flow['created_at'] }}</td>
+                                        @role(['super', 'admin'])
                                         <td>
-                                            <button type="button" onclick="delRechargeRecord({{ $recharge_flow['id'] }})" class="btn btn-primary">删除</button>
+                                            <button type="button"
+                                                    onclick="delRechargeRecord({{ $recharge_flow['id'] }})"
+                                                    class="btn btn-primary">删除
+                                            </button>
                                         </td>
+                                        @endrole
                                     </tr>
                                 @endforeach
                             @endif
@@ -138,20 +148,19 @@
             });
 
         };
-        
+
         function hide() {
             $(".modal_container").modal('hide');
             location.reload();
         }
 
-        function getCurrenturl()
-        {
+        function getCurrenturl() {
             return location.origin + location.pathname;
         }
 
         function getUrlParams() {
-            var _str=location.href; //取得整个地址栏
-            var _num=_str.indexOf("?")
+            var _str = location.href; //取得整个地址栏
+            var _num = _str.indexOf("?")
             _str = _str.substr(_num + 1);
             return _str;
         }
@@ -162,15 +171,14 @@
             if (url.indexOf("?") != -1) {
                 var str = url.substr(1);
                 strs = str.split("&");
-                for(var i = 0; i < strs.length; i ++) {
-                    request_arr[strs[i].split("=")[0]]=unescape(strs[i].split("=")[1]);
+                for (var i = 0; i < strs.length; i++) {
+                    request_arr[strs[i].split("=")[0]] = unescape(strs[i].split("=")[1]);
                 }
             }
             return request_arr;
         }
 
-        function query()
-        {
+        function query() {
             var _date_range = $('#reservation').val();
             var _date_arr = _date_range.split(' - ');
             var _args = getRequest();
@@ -191,8 +199,8 @@
                 "endDate": getRequest()['end_date']
             }, function (start, end, label) {
                 /*var _date_range = '"' + start.format('YYYY-MM-DD') + ' - ' + end.format('YYYY-MM-DD') + '"';
-                console.log(_date_range);
-                $('#reservation').val(_date_range);*/
+                 console.log(_date_range);
+                 $('#reservation').val(_date_range);*/
             });
         });
     </script>
