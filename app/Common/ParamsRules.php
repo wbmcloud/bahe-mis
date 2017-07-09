@@ -44,7 +44,6 @@ class ParamsRules
     const IF_AGENT_OPEN_ROOM     = '/agent/openroom';
     const IF_AGENT_DO_OPEN_ROOM  = '/agent/doopenroom';
 
-    const IF_API_AGENT_ADD   = '/api/agent/add';
     const IF_API_AGENT_BAN   = '/api/agent/ban';
     const IF_API_AGENT_UNBAN = '/api/agent/unban';
     const IF_API_AGENT_INFO  = '/api/agent/info';
@@ -56,8 +55,6 @@ class ParamsRules
      */
     const IF_GENERAL_AGENT_LIST            = '/general_agent/list';
     const IF_GENERAL_AGENT_BAN_LIST        = '/general_agent/banlist';
-    const IF_GENERAL_AGENT_ADD             = '/general_agent/add';
-    const IF_GENERAL_AGENT_DO_ADD          = '/general_agent/doadd';
     const IF_GENERAL_AGENT_INVITE_CODE     = '/general_agent/invite_code';
     const IF_GENERAL_AGENT_RECHARGE_LIST   = '/general_agent/rechargelist';
     const IF_GENERAL_AGENT_CASH_ORDER_LIST = '/general_agent/cash_order_list';
@@ -65,11 +62,12 @@ class ParamsRules
     const IF_GENERAL_AGENT_SALE            = '/general_agent/sale';
     const IF_GENERAL_AGENT_INCOME_HISTORY  = '/general_agent/income_history';
 
-    const IF_API_GENERAL_AGENT_INFO     = '/api/general_agent/info';
-    const IF_API_GENERAL_AGENT_SAVE     = '/api/general_agent/save';
-    const IF_API_GENERAL_AGENT_BAN      = '/api/general_agent/ban';
-    const IF_API_GENERAL_AGENT_UNBAN    = '/api/general_agent/unban';
-    const IF_API_GENERAL_AGENT_DEL_FLOW = '/api/general_agent/delflow';
+    const IF_API_GENERAL_AGENT_INFO          = '/api/general_agent/info';
+    const IF_API_GENERAL_AGENT_SAVE          = '/api/general_agent/save';
+    const IF_API_GENERAL_AGENT_BAN           = '/api/general_agent/ban';
+    const IF_API_GENERAL_AGENT_UNBAN         = '/api/general_agent/unban';
+    const IF_API_GENERAL_AGENT_DEL_FLOW      = '/api/general_agent/delflow';
+    const IF_API_GENERAL_AGENT_DO_CASH_ORDER = '/api/general_agent/do_cash_order';
 
     /**
      * 充值中心
@@ -85,9 +83,6 @@ class ParamsRules
      * 参数校验规则
      */
     public static $rules = [
-        self::IF_API_AGENT_ADD               => [
-            'id' => 'required|integer',
-        ],
         self::IF_API_AGENT_RESET             => [
             'id' => 'required|integer',
         ],
@@ -174,13 +169,6 @@ class ParamsRules
             'page'        => 'integer|nullable',
             'page_size'   => 'integer|nullable'
         ],
-        self::IF_GENERAL_AGENT_DO_ADD        => [
-            'name'        => 'required|string',
-            'invite_code' => 'required|digits:7',
-            'tel'         => 'integer|required',
-            'bank_card'   => 'integer|nullable',
-            'id_card'     => 'integer|nullable',
-        ],
         self::IF_API_GENERAL_AGENT_BAN       => [
             'id' => 'required|integer',
         ],
@@ -198,6 +186,9 @@ class ParamsRules
             'tel'       => 'integer|nullable',
             'bank_card' => 'string|nullable',
             'id_card'   => 'string|nullable',
+        ],
+        self::IF_API_GENERAL_AGENT_DO_CASH_ORDER => [
+            'id'        => 'required|integer',
         ],
         self::IF_RECHARGE_DO_USER            => [
             'role_id'       => 'integer|required',
@@ -222,6 +213,55 @@ class ParamsRules
     ];
 
     /**
+     * 接口权限
+     * @var array
+     */
+    public static $interface_permission = [
+        self::IF_USER_LOGIN                      => ['auth' => '*', 'desc' => '登录表单页面'],
+        self::IF_USER_DO_LOGIN                   => ['auth' => '*', 'desc' => '登录动作'],
+        self::IF_USER_LOGOUT                     => ['auth' => '*', 'desc' => '注销动作'],
+        self::IF_DASHBOARD                       => ['auth' => '*', 'desc' => '仪表盘页面'],
+        self::IF_RESULT                          => ['auth' => '*', 'desc' => '结果页面'],
+        self::IF_NOT_FOUND                       => ['auth' => '*', 'desc' => '404页面'],
+        self::IF_FATAL_ERROR                     => ['auth' => '*', 'desc' => '500错误页面'],
+        self::IF_USER_ADD                        => ['auth' => ['super', 'admin'], 'desc' => '添加用户页面'],
+        self::IF_USER_DO_ADD                     => ['auth' => ['super', 'admin'], 'desc' => '添加用户动作'],
+        self::IF_USER_RESET                      => ['auth' => ['super', 'admin'], 'desc' => '修改密码页面'],
+        self::IF_USER_DO_RESET                   => ['auth' => ['super', 'admin'], 'desc' => '修改密码动作'],
+        self::IF_USER_AGREE                      => ['auth' => ['agent', 'first_agent'], 'desc' => '代理协议同意动作'],
+        self::IF_USER_AGREEMENT                  => ['auth' => ['agent', 'first_agent'], 'desc' => '代理协议页面'],
+        self::IF_AGENT_LIST                      => ['auth' => ['super', 'admin'], 'desc' => '代理列表页面'],
+        self::IF_AGENT_BAN_LIST                  => ['auth' => ['super', 'admin'], 'desc' => '封禁代理页面页面'],
+        self::IF_AGENT_INFO                      => ['auth' => ['super', 'admin'], 'desc' => '代理详情页面'],
+        self::IF_AGENT_RECHARGE_LIST             => ['auth' => ['super', 'admin'], 'desc' => '代理充值记录页面'],
+        self::IF_AGENT_OPEN_ROOM                 => ['auth' => '*', 'desc' => '代开房页面'],
+        self::IF_AGENT_DO_OPEN_ROOM              => ['auth' => '*', 'desc' => '代开房动作'],
+        self::IF_API_AGENT_BAN                   => ['auth' => ['super', 'admin'], 'desc' => '封禁代理接口'],
+        self::IF_API_AGENT_INFO                  => ['auth' => ['super', 'admin'], 'desc' => '获取代理详情信息接口'],
+        self::IF_API_AGENT_UNBAN                 => ['auth' => ['super', 'admin'], 'desc' => '解封代理接口'],
+        self::IF_API_AGENT_RESET                 => ['auth' => ['super', 'admin'], 'desc' => '重置代理接口'],
+        self::IF_API_AGENT_SAVE                  => ['auth' => ['super', 'admin'], 'desc' => '保存代理接口'],
+        self::IF_GENERAL_AGENT_LIST              => ['auth' => ['super', 'admin'], 'desc' => '一级代理列表页面'],
+        self::IF_GENERAL_AGENT_BAN_LIST          => ['auth' => ['super', 'admin'], 'desc' => '封禁一级代理列表页面'],
+        self::IF_GENERAL_AGENT_INVITE_CODE       => ['auth' => ['super', 'admin'], 'desc' => '邀请码列表页面'],
+        self::IF_GENERAL_AGENT_RECHARGE_LIST     => ['auth' => ['super', 'admin', 'first_agent'], 'desc' => '一级代理充值记录页面'],
+        self::IF_GENERAL_AGENT_CASH_ORDER_LIST   => ['auth' => ['super', 'admin'], 'desc' => '一级代理每周打款单'],
+        self::IF_GENERAL_AGENT_INCOME            => ['auth' => ['first_agent'], 'desc' => '一级代理收入统计'],
+        self::IF_GENERAL_AGENT_SALE              => ['auth' => ['first_agent'], 'desc' => '以及代理销售明细'],
+        self::IF_GENERAL_AGENT_INCOME_HISTORY    => ['auth' => ['first_agent'], 'desc' => '一级代理收入历史'],
+        self::IF_API_GENERAL_AGENT_BAN           => ['auth' => ['super', 'admin'], 'desc' => '一级代理封禁接口'],
+        self::IF_API_GENERAL_AGENT_UNBAN         => ['auth' => ['super', 'admin'], 'desc' => '一级代理解封接口'],
+        self::IF_API_GENERAL_AGENT_INFO          => ['auth' => ['super', 'admin'], 'desc' => '一级代理信息接口'],
+        self::IF_API_GENERAL_AGENT_SAVE          => ['auth' => ['super', 'admin'], 'desc' => '一级代理信息保存接口'],
+        self::IF_API_GENERAL_AGENT_DEL_FLOW      => ['auth' => ['super', 'admin'], 'desc' => '删除代理充值记录接口'],
+        self::IF_API_GENERAL_AGENT_DO_CASH_ORDER => ['auth' => ['super', 'admin'], 'desc' => '一级代理打款单确认接口'],
+        self::IF_RECHARGE_AGENT                  => ['auth' => ['super', 'admin'], 'desc' => '代理充值页面'],
+        self::IF_RECHARGE_DO_AGENT               => ['auth' => ['super', 'admin'], 'desc' => '代理充值动作'],
+        self::IF_RECHARGE_USER                   => ['auth' => '*', 'desc' => '用户充值页面'],
+        self::IF_RECHARGE_DO_USER                => ['auth' => '*', 'desc' => '用户充值动作'],
+    ];
+
+    /**
      * @var array
      * 接口渲染模板路径
      */
@@ -236,7 +276,6 @@ class ParamsRules
         self::IF_GENERAL_AGENT_INVITE_CODE     => 'general_agent.invite_code',
         self::IF_GENERAL_AGENT_BAN_LIST        => 'general_agent.banlist',
         self::IF_GENERAL_AGENT_RECHARGE_LIST   => 'general_agent.recharge',
-        self::IF_GENERAL_AGENT_ADD             => 'general_agent.add',
         self::IF_RECHARGE_USER                 => 'recharge.user',
         self::IF_RECHARGE_AGENT                => 'recharge.agent',
         self::IF_USER_RESET                    => 'auth.reset',

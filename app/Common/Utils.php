@@ -63,4 +63,19 @@ class Utils
     {
         return round($amount / 2, 2);
     }
+
+    public static function arrayUnique(array $arr)
+    {
+        $serialize_arr = array_map(function ($v) {
+            if (is_array($v)) {
+                $v = serialize($v);
+            }
+            return $v;
+        }, $arr);
+        $arr = array_map(function ($v) {
+            return unserialize($v);
+        }, array_unique($serialize_arr));
+
+        return array_values($arr);
+    }
 }
