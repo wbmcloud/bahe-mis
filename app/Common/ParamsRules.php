@@ -12,9 +12,9 @@ class ParamsRules
 {
 
     const IF_DASHBOARD   = '/dashboard';
-    const IF_RESULT      = '/result';
     const IF_NOT_FOUND   = '/404';
     const IF_FATAL_ERROR = '/500';
+    const IF_PROMPT      = '/prompt';
 
     /**
      * 登录模块
@@ -98,11 +98,11 @@ class ParamsRules
         self::IF_API_AGENT_SAVE              => [
             'id'          => 'required|integer',
             'city_id'     => 'required|integer',
-            'invite_code' => 'integer|nullable',
+            'invite_code' => 'digits:7|nullable',
             'uin'         => 'integer|nullable',
             'wechat'      => 'string|nullable',
             'uin_group'   => 'string|nullable',
-            'tel'         => 'integer|nullable',
+            'tel'         => 'digits:11|nullable',
             'bank_card'   => 'string|nullable',
             'id_card'     => 'string|nullable',
         ],
@@ -111,14 +111,14 @@ class ParamsRules
             'user_name'   => 'required|string',
             'password'    => 'required|string',
             'city_id'     => 'integer|nullable',
-            'invite_code' => 'integer|nullable',
+            'invite_code' => 'digits:7|nullable',
             'name'        => 'string|nullable',
             'uin'         => 'integer|nullable',
             'wechat'      => 'string|nullable',
             'uin_group'   => 'string|nullable',
-            'bank_card'   => 'integer|nullable',
-            'tel'         => 'integer|nullable',
-            'id_card'     => 'integer|nullable',
+            'bank_card'   => 'string|nullable',
+            'tel'         => 'digits:11|nullable',
+            'id_card'     => 'string|nullable',
         ],
         self::IF_USER_DO_RESET               => [
             'old_password' => 'required|string',
@@ -183,7 +183,7 @@ class ParamsRules
         ],
         self::IF_API_GENERAL_AGENT_SAVE      => [
             'id'        => 'required|integer',
-            'tel'       => 'integer|nullable',
+            'tel'       => 'digits:11|nullable',
             'bank_card' => 'string|nullable',
             'id_card'   => 'string|nullable',
         ],
@@ -221,7 +221,7 @@ class ParamsRules
         self::IF_USER_DO_LOGIN                   => ['auth' => '*', 'desc' => '登录动作'],
         self::IF_USER_LOGOUT                     => ['auth' => '*', 'desc' => '注销动作'],
         self::IF_DASHBOARD                       => ['auth' => '*', 'desc' => '仪表盘页面'],
-        self::IF_RESULT                          => ['auth' => '*', 'desc' => '结果页面'],
+        self::IF_PROMPT                          => ['auth' => '*', 'desc' => '提示页面'],
         self::IF_NOT_FOUND                       => ['auth' => '*', 'desc' => '404页面'],
         self::IF_FATAL_ERROR                     => ['auth' => '*', 'desc' => '500错误页面'],
         self::IF_USER_ADD                        => ['auth' => ['super', 'admin'], 'desc' => '添加用户页面'],

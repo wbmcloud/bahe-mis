@@ -10,6 +10,7 @@ namespace App\Logic;
 
 use App\Common\Constants;
 use App\Common\ParamsRules;
+use App\Common\Utils;
 use App\Exceptions\SlException;
 use App\Library\Protobuf\COMMAND_TYPE;
 use App\Library\Protobuf\Protobuf;
@@ -56,7 +57,7 @@ class RechargeLogic extends BaseLogic
             throw new SlException(SlException::FAIL_CODE);
         }
 
-        return redirect(ParamsRules::IF_RESULT);
+        return Utils::renderSuccess();
     }
 
     /**
@@ -178,7 +179,7 @@ class RechargeLogic extends BaseLogic
             throw new SlException($error_code, $error_message);
         }
 
-        return redirect(ParamsRules::IF_RESULT);
+        return Utils::renderSuccess();
     }
 
 }

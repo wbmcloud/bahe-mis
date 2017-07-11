@@ -10,6 +10,7 @@ namespace App\Logic;
 
 use App\Common\Constants;
 use App\Common\ParamsRules;
+use App\Common\Utils;
 use App\Exceptions\SlException;
 use App\Models\City;
 use App\Models\Role;
@@ -123,7 +124,7 @@ class UserLogic extends BaseLogic
                 $user = $this->createAdmin($params);
                 // 绑定角色
                 $user->attachRole($role);
-                return redirect(ParamsRules::IF_RESULT);
+                return Utils::renderSuccess();
                 break;
             case Constants::ADD_USER_TYPE_AGENT:
                 if (!Auth::user()->hasRole([
@@ -144,7 +145,7 @@ class UserLogic extends BaseLogic
                 $account_logic->createAccount([
                     'user_id' => $user->id,
                 ]);
-                return redirect(ParamsRules::IF_RESULT);
+                return Utils::renderSuccess();
                 break;
             case Constants::ADD_USER_TYPE_FIRST_AGENT:
                 if (!Auth::user()->hasRole([
@@ -165,7 +166,7 @@ class UserLogic extends BaseLogic
                 $account_logic->createAccount([
                     'user_id' => $user->id,
                 ]);
-                return redirect(ParamsRules::IF_RESULT);
+                return Utils::renderSuccess();
                 break;
 
             throw new SlException(SlException::TYPE_NOT_VALID_CODE);
@@ -187,7 +188,7 @@ class UserLogic extends BaseLogic
         $user->password = bcrypt($params['new_password']);
         $user->save();
 
-        return redirect(ParamsRules::IF_RESULT);
+        return Utils::renderSuccess();;
     }
 
     /**

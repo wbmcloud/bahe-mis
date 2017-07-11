@@ -10,6 +10,16 @@ use Illuminate\Foundation\Validation\ValidatesRequests;
 class ParamsValidator
 {
     use ValidatesRequests;
+
+    public static $messages = [
+        'required' => 'The :attribute field is required.',
+        'digits' => 'The :attribute field is not valid.',
+        'integer' => 'The :attribute field is not valid.',
+        'date_format' => 'The :attribute field is not valid.',
+        'string' => 'The :attribute field is not valid.',
+        'in' => 'The :attribute field is not valid.',
+    ];
+
     /**
      * Handle an incoming request.
      *
@@ -21,7 +31,7 @@ class ParamsValidator
     {
         $resource_uri = Utils::getPathUri();
         if (isset(ParamsRules::$rules[$resource_uri])) {
-            $this->validate($request, ParamsRules::$rules[$resource_uri]);
+            $this->validate($request, ParamsRules::$rules[$resource_uri], self::$messages);
         }
 
         return $next($request);

@@ -78,4 +78,25 @@ class Utils
 
         return array_values($arr);
     }
+
+    public static function renderSuccess()
+    {
+        return redirect(ParamsRules::IF_PROMPT)->with([
+            'message' => SlException::$error_msg[SlException::SUCCESS_CODE],
+            'jump_url' => ParamsRules::IF_DASHBOARD,
+            'jump_time' => Constants::JUMP_TIME_INTERNAL,
+        ]);
+    }
+
+    public static function renderError($message, $jump_url = null)
+    {
+        if (is_null($jump_url)) {
+            $jump_url = url()->previous();
+        }
+        return redirect(ParamsRules::IF_PROMPT)->with([
+            'message' => $message,
+            'jump_url' => $jump_url,
+            'jump_time' => Constants::JUMP_TIME_INTERNAL,
+        ]);
+    }
 }

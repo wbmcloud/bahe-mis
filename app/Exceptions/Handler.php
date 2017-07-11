@@ -9,7 +9,7 @@ use Exception;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Database\QueryException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
-use Illuminate\Support\Facades\Log;
+use Illuminate\Validation\ValidationException;
 use Symfony\Component\Debug\Exception\FatalErrorException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
@@ -70,15 +70,19 @@ class Handler extends ExceptionHandler
         if ($request->ajax()) {
             return Utils::sendJsonResponse($exception->getCode(), $exception->getMessage());
         }
-        if ($exception instanceof NotFoundHttpException) {
+
+        if ($exception instanceof ValidationException) {
+            return redirect()->back();
+        } elseif ($exception instanceof NotFoundHttpException) {
             return redirect(ParamsRules::IF_NOT_FOUND);
         } elseif ($exception instanceof FatalErrorException) {
             return redirect(ParamsRules::IF_FATAL_ERROR);
         } elseif ($exception instanceof QueryException) {
-            return redirect(ParamsRules::IF_RESULT)->with('message', SlException::$error_msg[SlException::SYSTEM_ERROR_CODE]);
+            return Utils::renderError(SlException::$error_msg[SlException::SYSTEM_ERROR_CODE]);
         } else {
-            return redirect(ParamsRules::IF_RESULT)->with('message', $exception->getMessage());
+            return Utils::renderError($exception->getMessage());
         }
+        //return parent::render($request, $exception);
     }
 
     /**

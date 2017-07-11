@@ -100,4 +100,10 @@ class Constants
 
     const AGENT_LEVEL_FIRST  = 1;
     const AGENT_LEVEL_SECOND = 2;
+
+    /**
+     * 操作结果
+     */
+    const OPERATOR_PROMPT_NOT_PERMISSION_TEXT = '请勿非法访问！';
+    const JUMP_TIME_INTERNAL = 3;
 }

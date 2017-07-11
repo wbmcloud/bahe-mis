@@ -9,6 +9,7 @@
     <div class="box-header with-border">
         <h3 class="box-title">代理充值</h3>
     </div>
+    @include('widgets.error')
     <!-- /.box-header -->
     <!-- form start -->
     <form class="form-horizontal" method="POST" action="{{  route('recharge.doagent') }}">
@@ -18,23 +19,32 @@
                 <label for="user_name" class="col-sm-2 control-label">代理账号</label>
 
                 <div class="col-sm-10">
-                    <input type="text" class="form-control" name="user_name" placeholder="请输入代理账号" required>
+                    <input type="text" class="form-control" name="user_name" placeholder="请输入代理账号" value="{{ old('user_name') }}" required>
                 </div>
             </div>
             <div class="form-group">
                 <label for="recharge_name" class="col-sm-2 control-label">充值数量</label>
 
                 <div class="col-sm-10">
-                    <input type="text" class="form-control" name="num" placeholder="请输入充值数" required>
+                    <input type="text" class="form-control" name="num" placeholder="请输入充值数" value="{{ old('num') }}" required>
                 </div>
             </div>
             <div class="form-group">
                 <label for="recharge_name" class="col-sm-2 control-label">充值类型</label>
 
                 <div class="col-sm-10">
-                    <input type="radio" value="1" name="recharge_type">&nbsp;&nbsp;&nbsp;&nbsp;钻石&nbsp;&nbsp;
-                    <input type="radio" value="2" name="recharge_type" checked>&nbsp;&nbsp;&nbsp;&nbsp;房卡&nbsp;&nbsp;
-                    <input type="radio" value="3" name="recharge_type">&nbsp;&nbsp;&nbsp;&nbsp;欢乐豆
+                    @if(old('recharge_type'))
+                        <input type="radio" value="1" name="recharge_type"
+                               @if(old('recharge_type') == 1) checked @endif>&nbsp;&nbsp;&nbsp;&nbsp;钻石&nbsp;&nbsp;
+                        <input type="radio" value="2" name="recharge_type"
+                               @if(old('recharge_type') == 2) checked @endif>&nbsp;&nbsp;&nbsp;&nbsp;房卡&nbsp;
+                        <input type="radio" value="3" name="recharge_type"
+                               @if(old('recharge_type') == 3) checked @endif>&nbsp;&nbsp;&nbsp;&nbsp;欢乐豆
+                    @else
+                        <input type="radio" value="1" name="recharge_type">&nbsp;&nbsp;&nbsp;&nbsp;钻石&nbsp;&nbsp;
+                        <input type="radio" value="2" name="recharge_type" checked>&nbsp;&nbsp;&nbsp;&nbsp;房卡&nbsp;
+                        <input type="radio" value="3" name="recharge_type">&nbsp;&nbsp;&nbsp;&nbsp;欢乐豆
+                    @endif
                 </div>
 
             </div>

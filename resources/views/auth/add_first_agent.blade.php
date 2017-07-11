@@ -8,6 +8,7 @@
     <div class="box-header with-border">
         <h3 class="box-title">新增一级代理</h3>
     </div>
+    @include('widgets.error')
     <form class="form-horizontal" method="POST" action="{{  route('user.doadd', ['type' => \App\Common\Constants::ADD_USER_TYPE_FIRST_AGENT]) }}">
         {{  csrf_field() }}
         <div class="box-body">
