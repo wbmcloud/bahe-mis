@@ -68,11 +68,13 @@
             <i class="fa fa-link"></i> <span>代开房</span>
           </a>
         </li>
+        @role(['agent', 'first_agent'])
         <li id="agent_consume_flow" class="treeview">
           <a href="{{ route('agent.rechargelist', ['id' => \Illuminate\Support\Facades\Auth::id()]) }}">
             <i class="fa fa-circle-o"></i><span>消费记录</span>
           </a>
         </li>
+        @endrole
         @role(['first_agent'])
         <li id="general_agent_rechargelist" class="treeview">
           <a href="{{ route('general_agent.rechargelist', ['invite_code' => \Illuminate\Support\Facades\Auth::user()->invite_code]) }}">
