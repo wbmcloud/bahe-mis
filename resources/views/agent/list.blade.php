@@ -50,11 +50,11 @@
                                     <tr>
                                         <td><a href="{{ route('agent.info') . '?id=' . $agent['id'] }}">{{ $agent['id'] }}</a></td>
                                         <td>{{ $agent['user_name'] }}</td>
-                                        <td>{{ $agent['account']['total'] }}</td>
-                                        <!--td>{{ date('Y-m-d', strtotime($agent['created_at'])) }}</td-->
+                                        <td>{{ $agent['account']['card_total'] }}</td>
+                                        <td>{{ date('Y-m-d', strtotime($agent['created_at'])) }}</td>
                                         <td>{{ $agent['created_at'] }}</td>
                                         <td>
-                                            <button type="button" onclick="rechargeList('{{ route('agent.rechargelist') . '?id=' . $agent['id'] }}')" class="btn btn-primary">消费记录</button>
+                                            <button type="button" onclick="rechargeList('{{ route('agent.rechargelist', ['id' => $agent['id']]) }}')" class="btn btn-primary">充值记录</button>
                                             <button type="button" onclick="banAgent({{ $agent['id'] }})" class="btn btn-primary">封禁</button>
                                             <button type="button" onclick="editAgent({{ $agent['id'] }})" class="btn btn-primary">修改信息</button>
                                             <button type="button" onclick="resetPassword({{ $agent['id'] }})" class="btn btn-primary">重置密码</button>

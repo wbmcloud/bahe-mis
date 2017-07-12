@@ -233,7 +233,7 @@ class ParamsRules
         self::IF_AGENT_LIST                      => ['auth' => ['super', 'admin'], 'desc' => '代理列表页面'],
         self::IF_AGENT_BAN_LIST                  => ['auth' => ['super', 'admin'], 'desc' => '封禁代理页面页面'],
         self::IF_AGENT_INFO                      => ['auth' => ['super', 'admin'], 'desc' => '代理详情页面'],
-        self::IF_AGENT_RECHARGE_LIST             => ['auth' => ['super', 'admin'], 'desc' => '代理充值记录页面'],
+        self::IF_AGENT_RECHARGE_LIST             => ['auth' => '*', 'desc' => '代理充值记录页面'],
         self::IF_AGENT_OPEN_ROOM                 => ['auth' => '*', 'desc' => '代开房页面'],
         self::IF_AGENT_DO_OPEN_ROOM              => ['auth' => '*', 'desc' => '代开房动作'],
         self::IF_API_AGENT_BAN                   => ['auth' => ['super', 'admin'], 'desc' => '封禁代理接口'],

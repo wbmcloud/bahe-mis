@@ -71,7 +71,9 @@ class AgentLogic extends BaseLogic
      */
     public function getAgentRechargeFlows($agent_id, $start_time, $end_time, $page_size)
     {
-        return TransactionFlow::where('recipient_id', $agent_id)
+        return TransactionFlow::where([
+                'recipient_id' => $agent_id,
+            ])
             ->whereBetween('created_at', [$start_time, $end_time])
             ->paginate($page_size);
     }
@@ -184,5 +186,14 @@ class AgentLogic extends BaseLogic
         }
 
         return $open_room_res;
+    }
+
+    public function getAgentConsumeFlows($agent_id, $start_time, $end_time, $page_size)
+    {
+        return TransactionFlow::where([
+                'initiator_id' => $agent_id
+            ])
+            ->whereBetween('created_at', [$start_time, $end_time])
+            ->paginate();
     }
 }

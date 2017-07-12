@@ -71,8 +71,13 @@ class AgentController extends Controller
             Carbon::tomorrow()->toDateString();
 
         $agent_logic   = new AgentLogic();
-        $recharge_list = $agent_logic->getAgentRechargeFlows($this->params['id'], $start_time,
-            $end_time, $page_size);
+        if (Auth::user()->hasRole(Constants::$admin_role)) {
+            $recharge_list = $agent_logic->getAgentRechargeFlows($this->params['id'], $start_time,
+                $end_time, $page_size);
+        } else {
+            $recharge_list = $agent_logic->getAgentConsumeFlows(Auth::id(), $start_time,
+                $end_time, $page_size);
+        }
 
         return [
             'recharge_list' => $recharge_list

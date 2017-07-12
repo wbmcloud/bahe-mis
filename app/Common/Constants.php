@@ -27,6 +27,7 @@ class Constants
         COMMAND_TYPE::COMMAND_TYPE_ROOM_CARD => '房卡',
         COMMAND_TYPE::COMMAND_TYPE_RECHARGE  => '钻石',
         COMMAND_TYPE::COMMAND_TYPE_HUANLEDOU => '欢乐豆',
+        self::COMMAND_TYPE_OPEN_ROOM         => '代开房',
     ];
 
     public static $recharge_role_type = [
@@ -37,6 +38,7 @@ class Constants
     ];
 
     public static $role_type = [
+        self::ROLE_TYPE_USER  => '用户',
         self::ROLE_TYPE_SUPER => '超级管理员',
         self::ROLE_TYPE_ADMIN => '管理员',
         self::ROLE_TYPE_AGENT => '代理',
