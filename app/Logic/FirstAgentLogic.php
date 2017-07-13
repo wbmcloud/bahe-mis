@@ -121,13 +121,14 @@ class FirstAgentLogic extends BaseLogic
 
     public function getLastWeekCashOrder($agent_level = Constants::AGENT_LEVEL_FIRST, $page_size)
     {
-        $last_week_day = Carbon::now()->previousWeekday();
+        $last_week_day = Carbon::now()->subWeek();
         $last_week = $last_week_day->weekOfYear;
 
         $cash_orders = CashOrder::where([
                 'week' => $last_week,
-                'type' => $agent_level
+                'type' => $agent_level,
             ])
+            ->where('amount', '>', 0)
             ->selectRaw('relation_id as id, name, amount')
             ->paginate($page_size);
 
