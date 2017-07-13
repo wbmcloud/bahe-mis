@@ -52,8 +52,8 @@
                                         <td>{{ $agent['user_name'] }}</td>
                                         <td>{{ $agent['name'] }}</td>
                                         <td>{{ $agent['invite_code'] }}</td>
-                                        <td>{{ count($agent['agents'])}}</td>
-                                        <!--td>{{ date('Y-m-d', strtotime($agent['created_at'])) }}</td-->
+                                        <td>{{ $agents_count[$agent['invite_code']]['count'] }}</td>
+                                        <td>{{ date('Y-m-d', strtotime($agent['created_at'])) }}</td>
                                         <td>{{ $agent['created_at'] }}</td>
                                         <td>
                                             <button type="button" onclick="rechargeList('{{ route('general_agent.rechargelist', ['invite_code' => $agent['invite_code']]) }}')" class="btn btn-primary">充值信息</button>

@@ -27,11 +27,15 @@ class FirstAgentController extends Controller
         $user_logic = new UserLogic();
 
         $users = $general_agent_logic->getGeneralAgentList($this->params, $page_size);
+        $agents_count = $general_agent_logic->getAgentCount(
+            array_column($users->toArray()['data'], 'invite_code'));
+        $agents_count = array_column($agents_count->toArray(), null, 'invite_code');
         $cities = $user_logic->getOpenCities();
 
         return [
-            'agents' => $users,
-            'cities' => $cities,
+            'agents'       => $users,
+            'agents_count' => $agents_count,
+            'cities'       => $cities,
         ];
     }
 

@@ -32,33 +32,43 @@ class FirstAgentLogic extends BaseLogic
      */
     public function getGeneralAgentList($params, $page_size, $status = Constants::COMMON_ENABLE)
     {
+        $where = [
+            'role_id' => Constants::ROLE_TYPE_FIRST_AGENT,
+            'status'  => $status,
+        ];
         if (isset($params['query_str']) && !empty($params['query_str'])) {
             // 分析query_str类型
             if (is_numeric($params['query_str']) &&
                 (strlen($params['query_str']) == Constants::INVITE_CODE_LENGTH)
             ) {
                 // 邀请码查询
-                $users = User::where([
-                    'role_id' => Constants::ROLE_TYPE_FIRST_AGENT,
-                    'status'      => $status,
-                    'invite_code' => $params['query_str']
-                ])->paginate($page_size);
+                $where['invite_code'] = $params['query_str'];
             } else {
                 // 姓名查询
-                $users = User::where([
-                    'role_id' => Constants::ROLE_TYPE_FIRST_AGENT,
-                    'status' => $status,
-                    'name'   => $params['query_str']
-                ])->paginate($page_size);
+                $where['name'] = $params['query_str'];
             }
-        } else {
-            $users = User::where([
-                'role_id' => Constants::ROLE_TYPE_FIRST_AGENT,
-                'status'  => $status,
-            ])->paginate($page_size);
         }
 
+        $users = User::where($where)->paginate($page_size);
+
         return $users;
+    }
+
+    /**
+     * @param $invite_codes
+     * @return mixed
+     */
+    public function getAgentCount($invite_codes)
+    {
+        $where = [
+            'role_id'     => Constants::ROLE_TYPE_AGENT,
+            'status'      => Constants::COMMON_ENABLE,
+        ];
+        return User::where($where)
+            ->whereIn('invite_code', $invite_codes)
+            ->groupBy('invite_code')
+            ->selectRaw('invite_code, count(id) as count')
+            ->get();
     }
 
     /**
