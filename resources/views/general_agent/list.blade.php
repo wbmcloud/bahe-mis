@@ -52,7 +52,11 @@
                                         <td>{{ $agent['user_name'] }}</td>
                                         <td>{{ $agent['name'] }}</td>
                                         <td>{{ $agent['invite_code'] }}</td>
+                                        @if(isset($agents_count[$agent['invite_code']]))
                                         <td>{{ $agents_count[$agent['invite_code']]['count'] }}</td>
+                                        @else
+                                        <td>0</td>
+                                        @endif
                                         <td>{{ date('Y-m-d', strtotime($agent['created_at'])) }}</td>
                                         <td>{{ $agent['created_at'] }}</td>
                                         <td>
