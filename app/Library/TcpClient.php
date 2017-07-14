@@ -55,11 +55,17 @@ class TcpClient
                 "usec" => 0  // I assume timeout in microseconds
             ]);
 
-            $socket->write($pack);
-            /*while (($data = $socket->read(8192, PHP_NORMAL_READ))) {
-                    $res .= $data;
-                }*/
+            // 获取发送包体大小
+            $format = sprintf('na%d', strlen($pack));
+            $send_data = pack($format, strlen($pack), $pack);
+            $socket->write($send_data);
+
+            // 解析响应包
             $res = $socket->read(8192);
+            $format =  sprintf('nbody_size/a%ddata', strlen($res) - 2);
+            $unpack_data = unpack($format, $res);
+
+            $response = $unpack_data['data'];
         } catch (\Exception $e) {
             $socket->close();
             throw $e;
@@ -69,7 +75,7 @@ class TcpClient
             $socket->close();
         }
 
-        return $res;
+        return $response;
     }
 
     private static function getTcpAddress()

@@ -13,6 +13,7 @@ use App\Common\ParamsRules;
 use App\Common\Utils;
 use App\Exceptions\SlException;
 use App\Library\Protobuf\COMMAND_TYPE;
+use App\Library\Protobuf\INNER_TYPE;
 use App\Library\Protobuf\Protobuf;
 use App\Library\TcpClient;
 use App\Models\TransactionFlow;
@@ -94,7 +95,7 @@ class RechargeLogic extends BaseLogic
         // 调用idip进行充值
         $inner_meta_register_srv = Protobuf::packRegisterInnerMeta();
         $register_res            = TcpClient::callTcpService($inner_meta_register_srv, true);
-        if ($register_res !== $inner_meta_register_srv) {
+        if (Protobuf::unpackRegister($register_res)->getTypeT() !== INNER_TYPE::INNER_TYPE_REGISTER) {
             throw new SlException(SlException::GMT_SERVER_REGISTER_FAIL_CODE);
         }
         // 调用idip进行充值
