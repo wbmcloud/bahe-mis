@@ -34,6 +34,7 @@ class SlException extends \Exception
     const TYPE_NOT_VALID_CODE                  = 2001021;
     const INVITE_CODE_USED_CODE             = 2001022;
     const CASH_ORDER_NOT_FOUND_CODE         = 2001023;
+    const LOGIN_USER_NAME_OR_PASSWD_INVALID = 2001024;
 
 
     public static $error_msg = [
@@ -61,6 +62,7 @@ class SlException extends \Exception
         self::TYPE_NOT_VALID_CODE                  => '类型不合法',
         self::INVITE_CODE_USED_CODE                => '邀请码已经使用',
         self::CASH_ORDER_NOT_FOUND_CODE            => '未找到打款单',
+        self::LOGIN_USER_NAME_OR_PASSWD_INVALID    => '用户名或者密码有误！',
     ];
 
     public function __construct($code, $message = null)

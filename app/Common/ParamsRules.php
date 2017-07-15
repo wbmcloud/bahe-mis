@@ -100,25 +100,25 @@ class ParamsRules
             'city_id'     => 'required|integer',
             'invite_code' => 'digits:7|nullable',
             'uin'         => 'integer|nullable',
-            'wechat'      => 'string|nullable',
-            'uin_group'   => 'string|nullable',
+            'wechat'      => 'string|max:50|nullable',
+            'uin_group'   => 'string|max:512|nullable',
             'tel'         => 'digits:11|nullable',
-            'bank_card'   => 'string|nullable',
-            'id_card'     => 'string|nullable',
+            'bank_card'   => 'string|max:50|nullable',
+            'id_card'     => 'string|max:50|nullable',
         ],
         self::IF_USER_DO_ADD                 => [
             'type'        => ['required', 'in:1,2,3'],
-            'user_name'   => 'required|string',
+            'user_name'   => 'required|string|between:6,12',
             'password'    => 'required|string',
             'city_id'     => 'integer|nullable',
             'invite_code' => 'digits:7|nullable',
-            'name'        => 'string|nullable',
+            'name'        => 'string|between:2,12|nullable',
             'uin'         => 'integer|nullable',
-            'wechat'      => 'string|nullable',
-            'uin_group'   => 'string|nullable',
-            'bank_card'   => 'string|nullable',
+            'wechat'      => 'string|max:50|nullable',
+            'uin_group'   => 'string|max:512|nullable',
+            'bank_card'   => 'string|max:50|nullable',
             'tel'         => 'digits:11|nullable',
-            'id_card'     => 'string|nullable',
+            'id_card'     => 'string|max:50|nullable',
         ],
         self::IF_USER_DO_RESET               => [
             'old_password' => 'required|string',
@@ -181,11 +181,11 @@ class ParamsRules
         self::IF_API_FIRST_AGENT_DEL_FLOW  => [
             'id' => 'required|integer',
         ],
-        self::IF_API_FIRST_AGENT_SAVE      => [
+        self::IF_API_FIRST_AGENT_SAVE => [
             'id'        => 'required|integer',
             'tel'       => 'digits:11|nullable',
-            'bank_card' => 'string|nullable',
-            'id_card'   => 'string|nullable',
+            'bank_card' => 'string|max:50|nullable',
+            'id_card'   => 'string|max:50|nullable',
         ],
         self::IF_API_FIRST_AGENT_DO_CASH_ORDER => [
             'id'        => 'required|integer',
@@ -195,14 +195,14 @@ class ParamsRules
             'num'           => 'integer|required',
             'recharge_type' => ['required', 'in:1,2,3'],
         ],
-        self::IF_RECHARGE_DO_AGENT           => [
-            'user_name'     => 'string|required',
+        self::IF_RECHARGE_DO_AGENT => [
+            'user_name'     => 'required|string|between:6,12',
             'num'           => 'integer|required',
             'recharge_type' => ['required', 'in:1,2,3'],
         ],
-        self::IF_USER_DO_LOGIN               => [
-            'name'     => 'required|string',
-            'password' => 'required|string',
+        self::IF_USER_DO_LOGIN => [
+            'user_name' => 'required|string|between:6,12',
+            'password'  => 'required|string',
         ],
         self::IF_USER_AGREE                  => [
             'is_accept' => 'required|accepted',
