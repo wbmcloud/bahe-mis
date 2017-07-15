@@ -38,11 +38,11 @@ class FirstAgentController extends Controller
 
     public function agentInfo()
     {
-        $general_agent = User::find($this->params['id']);
-        if (empty($general_agent)) {
+        $first_agent = User::find($this->params['id']);
+        if (empty($first_agent)) {
             throw new SlException(SlException::AGENT_NOT_EXIST_CODE);
         }
-        return $general_agent->toArray();
+        return $first_agent->toArray();
     }
 
     public function saveAgent()

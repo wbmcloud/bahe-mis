@@ -128,7 +128,7 @@
                 headers: {
                     "X-Requested-With": "XMLHttpRequest",
                 },
-                url: "/api/general_agent/delflow",
+                url: "/api/first_agent/delflow",
                 data: data,
                 success: function (res) {
                     if (!res.code) {

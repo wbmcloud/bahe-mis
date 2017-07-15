@@ -30,7 +30,7 @@
         });
     });
 
-    $('#general_agent').addClass('active');
-    $('#general_agent_add').addClass('active');
+    $('#first_agent').addClass('active');
+    $('#first_agent_add').addClass('active');
 </script>
 @endsection

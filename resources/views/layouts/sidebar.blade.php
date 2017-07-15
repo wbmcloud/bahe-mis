@@ -34,7 +34,7 @@
           </ul>
         </li>
         @role(['super', 'admin'])
-        <li id="general_agent" class="treeview">
+        <li id="first_agent" class="treeview">
           <a href="#">
             <i class="fa fa-dashboard"></i> <span>一级代理</span>
             <span class="pull-right-container">
@@ -42,11 +42,11 @@
             </span>
           </a>
           <ul class="treeview-menu">
-            <li id="general_agent_add"><a href="{{ route('user.add', ['type' => \App\Common\Constants::ADD_USER_TYPE_FIRST_AGENT]) }}"><i class="fa fa-circle-o"></i>新增</a></li>
-            <li id="general_agent_list"><a href="{{ route('general_agent.list') }}"><i class="fa fa-circle-o"></i>查询</a></li>
-            <li id="general_agent_banlist"><a href="{{ route('general_agent.banlist') }}"><i class="fa fa-circle-o"></i>封禁查询</a></li>
-            <li id="general_agent_invite_code"><a href="{{ route('general_agent.invite_code') }}"><i class="fa fa-circle-o"></i>邀请码</a></li>
-            <li id="general_agent_cash_order"><a href="{{ route('general_agent.cash_order_list') }}"><i class="fa fa-circle-o"></i>每周打款单</a></li>
+            <li id="first_agent_add"><a href="{{ route('user.add', ['type' => \App\Common\Constants::ADD_USER_TYPE_FIRST_AGENT]) }}"><i class="fa fa-circle-o"></i>新增</a></li>
+            <li id="first_agent_list"><a href="{{ route('first_agent.list') }}"><i class="fa fa-circle-o"></i>查询</a></li>
+            <li id="first_agent_banlist"><a href="{{ route('first_agent.banlist') }}"><i class="fa fa-circle-o"></i>封禁查询</a></li>
+            <li id="first_agent_invite_code"><a href="{{ route('first_agent.invite_code') }}"><i class="fa fa-circle-o"></i>邀请码</a></li>
+            <li id="first_agent_cash_order"><a href="{{ route('first_agent.cash_order_list') }}"><i class="fa fa-circle-o"></i>每周打款单</a></li>
           </ul>
         </li>
         <li id="agent" class="treeview">
@@ -76,8 +76,8 @@
         </li>
         @endrole
         @role(['first_agent'])
-        <li id="general_agent_rechargelist" class="treeview">
-          <a href="{{ route('general_agent.rechargelist', ['invite_code' => \Illuminate\Support\Facades\Auth::user()->invite_code]) }}">
+        <li id="first_agent_rechargelist" class="treeview">
+          <a href="{{ route('first_agent.rechargelist', ['invite_code' => \Illuminate\Support\Facades\Auth::user()->invite_code]) }}">
           <i class="fa fa-circle-o"></i><span>代理充值记录</span>
           </a>
         </li>
@@ -89,7 +89,7 @@
             </span>
           </a>
           <ul class="treeview-menu">
-            <li id="income"><a href="{{ route('general_agent.income') }}"><i class="fa fa-circle-o"></i>收入统计</a></li>
+            <li id="income"><a href="{{ route('first_agent.income') }}"><i class="fa fa-circle-o"></i>收入统计</a></li>
           </ul>
         </li>
         @endrole

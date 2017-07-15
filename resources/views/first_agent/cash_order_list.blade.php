@@ -9,45 +9,47 @@
 @section('content')
     <section class="content-header">
         <h1>
-            邀请码列表
+            上周打款列表
         </h1>
     </section>
     <section class="content">
         <div class="row">
             <div class="col-xs-12">
                 <div class="box">
-                    <!--div class="box-header">
-                        <h3 class="box-title">Hover Data Table</h3>
-                    </div-->
-                    <!-- /.box-header -->
                     <div class="box-body">
                         <table id="agent_container" class="table table-bordered table-hover">
                             <thead>
                             <tr>
                             <th>id</th>
-                            <th>邀请码</th>
-                            <th>是否使用</th>
+                            <th>姓名</th>
+                            <th>上周打款金额</th>
+                            <th>操作</th>
                             </tr>
                             </thead>
                             <tbody id="agent_list_container">
-                            @if(empty($codes->total()))
-                                <tr><td colspan="5">没有记录</td></tr>
+                            @if(empty($cash_orders->total()))
+                                <tr><td colspan="4">没有记录</td></tr>
                             @else
-                                @foreach($codes as $code)
+                                @foreach($cash_orders as $cash_order)
                                     <tr>
-                                        <td>{{ $code['id'] }}</td>
-                                        <td>{{ $code['invite_code'] }}</td>
-                                        @if($code['is_used'])
-                                        <td>是</td>
+                                        <td>{{ $cash_order['id'] }}</td>
+                                        <td>{{ $cash_order['name'] }}</td>
+                                        <td>{{ $cash_order['amount'] }}</td>
+                                        @if($cash_order['status'] == \App\Common\Constants::COMMON_ENABLE)
+                                            <td>
+                                                <button type="button" class="btn btn-primary" disabled>已打款</button>
+                                            </td>
                                         @else
-                                        <td>否</td>
+                                            <td>
+                                                <button type="button" onclick="cashOrder({{ $cash_order['id'] }})" class="btn btn-primary">确认打款</button>
+                                            </td>
                                         @endif
                                     </tr>
                                 @endforeach
                             @endif
                             </tbody>
                         </table>
-                        {{ $codes->links() }}
+                        {{ $cash_orders->links() }}
                     </div>
                     <!-- /.box-body -->
                 </div>
@@ -84,35 +86,41 @@
     <script src="{{ asset("/bower_components/admin-lte/plugins/datatables/jquery.dataTables.min.js") }}"></script>
     <script src="{{ asset("/bower_components/admin-lte/plugins/datatables/dataTables.bootstrap.min.js") }}"></script>
     <script>
-
-        function saveAgent() {
-            var data = {};
-            var form_data = $('.form-horizontal').serializeArray();
-            $.each(form_data, function() {
-                data[this.name] = this.value;
-            });
+        function cashOrder(id) {
+            var data = {
+                'id': id,
+            }
             $.ajax({
                 headers: {
                     "X-Requested-With": "XMLHttpRequest",
                 },
-                type: 'POST',
-                url: "/api/general_agent/save",
+                url: "/api/first_agent/do_cash_order",
                 data: data,
                 success: function (res) {
-                    $('.edit_agent').modal('hide');
+                    if (!res.code) {
+                        $("#confirm").removeAttr("data-dismiss");
+                        $("#confirm").attr("onclick", "hide()");
+                    } else {
+                        $("#confirm").attr("data-dismiss", "modal");
+                        $("#confirm").removeAttr("onclick");
+                    }
                     $('#msg').html(res.msg);
-                    $("#confirm").attr("data-dismiss", "modal");
-                    $("#confirm").removeAttr("onclick");
-                    $('.modal_container').modal('show');
+                    $('.modal_container').modal({
+                        "show": true,
+                        "backdrop": false,
+                        "keyboard": false
+                    });
                 }
             });
-        }
+
+        };
 
         function hide() {
             $(".modal_container").modal('hide');
             location.reload();
         }
-        $('#general_agent').addClass('active');
-        $('#general_agent_invite_code').addClass('active');
+
+        $('#first_agent').addClass('active');
+        $('#first_agent_cash_order').addClass('active');
     </script>
 @endsection

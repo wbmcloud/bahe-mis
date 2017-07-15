@@ -23,11 +23,11 @@ class FirstAgentController extends Controller
         $page_size = isset($this->params['page_size']) ? $this->params['page_size'] :
             Constants::DEFAULT_PAGE_SIZE;
 
-        $general_agent_logic = new FirstAgentLogic();
+        $first_agent_logic = new FirstAgentLogic();
         $user_logic = new UserLogic();
 
-        $users = $general_agent_logic->getGeneralAgentList($this->params, $page_size);
-        $agents_count = $general_agent_logic->getAgentCount(
+        $users = $first_agent_logic->getGeneralAgentList($this->params, $page_size);
+        $agents_count = $first_agent_logic->getAgentCount(
             array_column($users->toArray()['data'], 'invite_code'));
         $agents_count = array_column($agents_count->toArray(), null, 'invite_code');
         $cities = $user_logic->getOpenCities();
@@ -55,8 +55,8 @@ class FirstAgentController extends Controller
         $page_size = isset($this->params['page_size']) ? $this->params['page_size'] :
             Constants::DEFAULT_PAGE_SIZE;
 
-        $general_agent_logic = new FirstAgentLogic();
-        $users = $general_agent_logic->getGeneralAgentList($this->params, $page_size,
+        $first_agent_logic = new FirstAgentLogic();
+        $users = $first_agent_logic->getGeneralAgentList($this->params, $page_size,
             Constants::COMMON_DISABLE);
 
         return [
@@ -71,13 +71,13 @@ class FirstAgentController extends Controller
         $start_time = isset($this->params['start_date']) ? $this->params['start_date'] : Carbon::today()->toDateString();
         $end_time   = isset($this->params['end_date']) ? $this->params['end_date'] : Carbon::tomorrow()->toDateString();
 
-        $general_agent_logic = new FirstAgentLogic();
+        $first_agent_logic = new FirstAgentLogic();
 
         if (Auth::user()->hasRole(Constants::ROLE_FIRST_AGENT)) {
-            $recharge_flows      = $general_agent_logic->getAgentRechargeList(Auth::user()->invite_code, $start_time,
+            $recharge_flows      = $first_agent_logic->getAgentRechargeList(Auth::user()->invite_code, $start_time,
                 $end_time, $page_size);
         } else {
-            $recharge_flows      = $general_agent_logic->getAgentRechargeList($this->params['invite_code'], $start_time,
+            $recharge_flows      = $first_agent_logic->getAgentRechargeList($this->params['invite_code'], $start_time,
                 $end_time, $page_size);
         }
 

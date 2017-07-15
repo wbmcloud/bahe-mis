@@ -50,14 +50,14 @@ Route::group(['middleware' => ['acl', 'validator']], function () {
     Route::get(\App\Common\ParamsRules::IF_AGENT_RECHARGE_LIST, 'AgentController@rechargeList')->name('agent.rechargelist');
     Route::get(\App\Common\ParamsRules::IF_AGENT_OPEN_ROOM, 'AgentController@showOpenRoomForm')->name('agent.openroom');
     Route::post(\App\Common\ParamsRules::IF_AGENT_DO_OPEN_ROOM, 'AgentController@openRoom')->name('agent.doopenroom');
-    Route::get(\App\Common\ParamsRules::IF_GENERAL_AGENT_LIST, 'FirstAgentController@agentList')->name('general_agent.list');
-    Route::get(\App\Common\ParamsRules::IF_GENERAL_AGENT_INVITE_CODE, 'FirstAgentController@inviteCode')->name('general_agent.invite_code');
-    Route::get(\App\Common\ParamsRules::IF_GENERAL_AGENT_BAN_LIST, 'FirstAgentController@banAgentList')->name('general_agent.banlist');
-    Route::get(\App\Common\ParamsRules::IF_GENERAL_AGENT_RECHARGE_LIST, 'FirstAgentController@agentRechargeList')->name('general_agent.rechargelist');
-    Route::get(\App\Common\ParamsRules::IF_GENERAL_AGENT_CASH_ORDER_LIST, 'FirstAgentController@lastWeekCashOrderList')->name('general_agent.cash_order_list');
-    Route::get(\App\Common\ParamsRules::IF_GENERAL_AGENT_INCOME, 'FirstAgentController@income')->name('general_agent.income');
-    Route::get(\App\Common\ParamsRules::IF_GENERAL_AGENT_SALE, 'FirstAgentController@sale')->name('general_agent.sale');
-    Route::get(\App\Common\ParamsRules::IF_GENERAL_AGENT_INCOME_HISTORY, 'FirstAgentController@incomeHistory')->name('general_agent.income_history');
+    Route::get(\App\Common\ParamsRules::IF_FIRST_AGENT_LIST, 'FirstAgentController@agentList')->name('first_agent.list');
+    Route::get(\App\Common\ParamsRules::IF_FIRST_AGENT_INVITE_CODE, 'FirstAgentController@inviteCode')->name('first_agent.invite_code');
+    Route::get(\App\Common\ParamsRules::IF_FIRST_AGENT_BAN_LIST, 'FirstAgentController@banAgentList')->name('first_agent.banlist');
+    Route::get(\App\Common\ParamsRules::IF_FIRST_AGENT_RECHARGE_LIST, 'FirstAgentController@agentRechargeList')->name('first_agent.rechargelist');
+    Route::get(\App\Common\ParamsRules::IF_FIRST_AGENT_CASH_ORDER_LIST, 'FirstAgentController@lastWeekCashOrderList')->name('first_agent.cash_order_list');
+    Route::get(\App\Common\ParamsRules::IF_FIRST_AGENT_INCOME, 'FirstAgentController@income')->name('first_agent.income');
+    Route::get(\App\Common\ParamsRules::IF_FIRST_AGENT_SALE, 'FirstAgentController@sale')->name('first_agent.sale');
+    Route::get(\App\Common\ParamsRules::IF_FIRST_AGENT_INCOME_HISTORY, 'FirstAgentController@incomeHistory')->name('first_agent.income_history');
 
 
     /**
@@ -69,11 +69,11 @@ Route::group(['middleware' => ['acl', 'validator']], function () {
     Route::post(\App\Common\ParamsRules::IF_API_AGENT_SAVE, 'Api\AgentController@saveAgent');
     Route::get(\App\Common\ParamsRules::IF_API_AGENT_RESET, 'Api\AgentController@resetPassword');
 
-    Route::get(\App\Common\ParamsRules::IF_API_GENERAL_AGENT_INFO, 'Api\FirstAgentController@agentInfo');
-    Route::post(\App\Common\ParamsRules::IF_API_GENERAL_AGENT_SAVE, 'Api\FirstAgentController@saveAgent');
-    Route::get(\App\Common\ParamsRules::IF_API_GENERAL_AGENT_BAN, 'Api\FirstAgentController@banAgent');
-    Route::get(\App\Common\ParamsRules::IF_API_GENERAL_AGENT_UNBAN, 'Api\FirstAgentController@unBanAgent');
-    Route::get(\App\Common\ParamsRules::IF_API_GENERAL_AGENT_DEL_FLOW, 'Api\FirstAgentController@delAgentFlow');
-    Route::get(\App\Common\ParamsRules::IF_API_GENERAL_AGENT_DO_CASH_ORDER, 'Api\FirstAgentController@confirmCashOrder');
+    Route::get(\App\Common\ParamsRules::IF_API_FIRST_AGENT_INFO, 'Api\FirstAgentController@agentInfo');
+    Route::post(\App\Common\ParamsRules::IF_API_FIRST_AGENT_SAVE, 'Api\FirstAgentController@saveAgent');
+    Route::get(\App\Common\ParamsRules::IF_API_FIRST_AGENT_BAN, 'Api\FirstAgentController@banAgent');
+    Route::get(\App\Common\ParamsRules::IF_API_FIRST_AGENT_UNBAN, 'Api\FirstAgentController@unBanAgent');
+    Route::get(\App\Common\ParamsRules::IF_API_FIRST_AGENT_DEL_FLOW, 'Api\FirstAgentController@delAgentFlow');
+    Route::get(\App\Common\ParamsRules::IF_API_FIRST_AGENT_DO_CASH_ORDER, 'Api\FirstAgentController@confirmCashOrder');
 
 });

@@ -107,7 +107,7 @@
                 headers: {
                     "X-Requested-With": "XMLHttpRequest",
                 },
-                url: "/api/general_agent/unban",
+                url: "/api/first_agent/unban",
                 data: data,
                 success: function (res) {
                     if (!res.code) {
@@ -155,7 +155,7 @@
             }
         }
 
-        $('#general_agent').addClass('active');
-        $('#general_agent_banlist').addClass('active');
+        $('#first_agent').addClass('active');
+        $('#first_agent_banlist').addClass('active');
     </script>
 @endsection
