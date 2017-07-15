@@ -8,7 +8,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Common\Constants;
-use App\Exceptions\SlException;
+use App\Exceptions\BaheException;
 use App\Http\Controllers\Controller;
 use App\Models\CashOrder;
 use App\Models\GeneralAgents;
@@ -40,7 +40,7 @@ class FirstAgentController extends Controller
     {
         $first_agent = User::find($this->params['id']);
         if (empty($first_agent)) {
-            throw new SlException(SlException::AGENT_NOT_EXIST_CODE);
+            throw new BaheException(BaheException::AGENT_NOT_EXIST_CODE);
         }
         return $first_agent->toArray();
     }
@@ -49,7 +49,7 @@ class FirstAgentController extends Controller
     {
         $user = User::find($this->params['id']);
         if (empty($user)) {
-            throw new SlException(SlException::AGENT_NOT_EXIST_CODE);
+            throw new BaheException(BaheException::AGENT_NOT_EXIST_CODE);
         }
         !empty($this->params['tel']) && ($user->tel = $this->params['tel']);
         !empty($this->params['bank_card']) && ($user->bank_card = $this->params['bank_card']);
@@ -69,11 +69,24 @@ class FirstAgentController extends Controller
         $cash_order = CashOrder::find($this->params['id']);
 
         if (empty($cash_order)) {
-            throw new SlException(SlException::CASH_ORDER_NOT_FOUND_CODE);
+            throw new BaheException(BaheException::CASH_ORDER_NOT_FOUND_CODE);
         }
 
         $cash_order->status = Constants::COMMON_ENABLE;
         $cash_order->save();
+        return [];
+    }
+
+    public function resetPassword()
+    {
+        $user = User::find($this->params['id']);
+        if (empty($user)) {
+            throw new BaheException(BaheException::AGENT_NOT_EXIST_CODE);
+        }
+
+        // 重置密码
+        $user->password = bcrypt($this->params['password']);
+        $user->save();
         return [];
     }
 

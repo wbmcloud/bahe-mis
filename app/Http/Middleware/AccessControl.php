@@ -5,7 +5,7 @@ namespace App\Http\Middleware;
 use App\Common\Constants;
 use App\Common\ParamsRules;
 use App\Common\Utils;
-use App\Exceptions\SlException;
+use App\Exceptions\BaheException;
 use Closure;
 use Illuminate\Support\Facades\Auth;
 
@@ -16,7 +16,7 @@ class AccessControl
      * @param  \Illuminate\Http\Request $request
      * @param  \Closure $next
      * @return mixed
-     * @throws SlException
+     * @throws BaheException
      */
     public function handle($request, Closure $next)
     {
@@ -34,7 +34,7 @@ class AccessControl
         }
 
         if (!$user->can($resource_uri)) {
-            throw new SlException(SlException::PERMISSION_FAIL_CODE);
+            throw new BaheException(BaheException::PERMISSION_FAIL_CODE);
         }
 
         return $next($request);

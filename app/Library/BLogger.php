@@ -9,7 +9,7 @@
 namespace App\Library;
 
 use App\Common\Utils;
-use App\Exceptions\SlException;
+use App\Exceptions\BaheException;
 use Illuminate\Support\Facades\Request;
 use Monolog\Logger;
 use Illuminate\Log\Writer;
@@ -94,7 +94,7 @@ class BLogger
      *                   $is_serialize = true
      *                   ]
      * @return mixed
-     * @throws SlException
+     * @throws BaheException
      */
     public static function __callStatic($name, $arguments)
     {
@@ -112,7 +112,7 @@ class BLogger
             return call_user_func_array([self::getLogger($name), $name], $arguments);
         }
 
-        throw new SlException(SlException::METHOD_NOT_EXIST_CODE);
+        throw new BaheException(BaheException::METHOD_NOT_EXIST_CODE);
     }
 
     /**

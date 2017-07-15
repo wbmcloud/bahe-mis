@@ -63,6 +63,7 @@
                                             <button type="button" onclick="rechargeList('{{ route('first_agent.rechargelist', ['invite_code' => $agent['invite_code']]) }}')" class="btn btn-primary">充值信息</button>
                                             <button type="button" onclick="banAgent({{ $agent['id'] }})" class="btn btn-primary">封禁</button>
                                             <button type="button" onclick="editAgent({{ $agent['id'] }})" class="btn btn-primary">修改信息</button>
+                                            <button type="button" onclick="resetPassword({{ $agent['id'] }})" class="btn btn-primary">重置密码</button>
                                         </td>
                                     </tr>
                                 @endforeach
@@ -83,24 +84,6 @@
     </div>
 @endsection
 @section('ui')
-    <div class="modal_container modal fade" tabindex="-1" role="dialog" aria-labelledby="gridSystemModalLabel">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <!--button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button-->
-                    <h4 class="modal-title" id="gridSystemModalLabel">提示</h4>
-                </div>
-                <div class="modal-body">
-                    <span id="msg"></span>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" id="confirm" class="btn btn-default">确认</button>
-                    <!--button type="button" class="btn btn-primary">保存</button-->
-                </div>
-            </div><!-- /.modal-content -->
-        </div><!-- /.modal-dialog -->
-    </div><!-- /.modal -->
-
     <div class="edit_agent modal fade" tabindex="-1" role="dialog" aria-labelledby="gridSystemModalLabel">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
@@ -169,6 +152,48 @@
                         <button type="button" onclick="saveAgent()" class="btn btn-info pull-right">提交</button>
                     </div>
                 </form>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+
+    <div class="reset_passwd modal fade" tabindex="-1" role="dialog" aria-labelledby="gridSystemModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="gridSystemModalLabel">重置密码</h4>
+                </div>
+                <!-- form start -->
+                <form class="reset_password_form form-horizontal" method="POST" action="">
+                    {{  csrf_field() }}
+                    <div class="box-body">
+                        <input type="hidden" class="form-control" name="id">
+                        <div class="form-group">
+                            <label for="name" class="col-sm-2 control-label">输入密码</label>
+                            <div class="col-sm-10">
+                                <input type="password" class="form-control" name="password" placeholder="请输入密码" required>
+                            </div>
+                        </div>
+                        <button type="button" onclick="savePassword()" class="btn btn-info pull-right">提交</button>
+                    </div>
+                </form>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+    <div class="modal_container modal fade" tabindex="-1" role="dialog" aria-labelledby="gridSystemModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <!--button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button-->
+                    <h4 class="modal-title" id="gridSystemModalLabel">提示</h4>
+                </div>
+                <div class="modal-body">
+                    <span id="msg"></span>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" id="confirm" class="btn btn-default">确认</button>
+                    <!--button type="button" class="btn btn-primary">保存</button-->
+                </div>
             </div><!-- /.modal-content -->
         </div><!-- /.modal-dialog -->
     </div><!-- /.modal -->
@@ -288,6 +313,45 @@
             } else {
                 location.href = getCurrenturl() + '?query_str=' + query_str;
             }
+        }
+
+        function resetPassword(id) {
+            $("input[name='id']").val(id);
+            $('.reset_passwd').modal('show');
+        }
+
+        function savePassword() {
+            var _id = $("input[name='id']").val();
+            var _password = $("input[name='password']").val();
+            if (!_password) {
+                $('#msg').html("请输入密码");
+                $("#confirm").attr("data-dismiss", "modal");
+                $("#confirm").removeAttr("onclick");
+                $('.modal_container').modal({
+                    "show": true,
+                    "backdrop": false,
+                    "keyboard": false
+                });
+                return;
+            }
+            var _data = {
+                id: _id,
+                password: _password
+            };
+            $.ajax({
+                headers: {
+                    "X-Requested-With": "XMLHttpRequest",
+                },
+                url: "/api/first_agent/reset",
+                data: _data,
+                success: function (res) {
+                    $('.reset_passwd').modal('hide');
+                    $('#msg').html(res.msg);
+                    $("#confirm").attr("data-dismiss", "modal");
+                    $("#confirm").removeAttr("onclick");
+                    $('.modal_container').modal('show');
+                }
+            });
         }
 
         $('#first_agent').addClass('active');

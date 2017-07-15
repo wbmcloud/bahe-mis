@@ -68,7 +68,14 @@ class Handler extends ExceptionHandler
         }
 
         if ($request->ajax()) {
-            return Utils::sendJsonResponse($exception->getCode(), $exception->getMessage());
+            $code = $exception->getCode();
+            $message = $exception->getMessage();
+
+            if ($exception instanceof NotFoundHttpException) {
+                $code = BaheException::RESOURCE_NOT_FOUND;
+                $message = BaheException::$error_msg[BaheException::RESOURCE_NOT_FOUND];
+            }
+            return Utils::sendJsonResponse($code, $message);
         }
 
         if ($exception instanceof ValidationException) {
@@ -78,7 +85,7 @@ class Handler extends ExceptionHandler
         } elseif ($exception instanceof FatalErrorException) {
             return redirect(ParamsRules::IF_FATAL_ERROR);
         } elseif ($exception instanceof QueryException) {
-            return Utils::renderError(SlException::$error_msg[SlException::SYSTEM_ERROR_CODE]);
+            return Utils::renderError(BaheException::$error_msg[BaheException::SYSTEM_ERROR_CODE]);
         } else {
             return Utils::renderError($exception->getMessage());
         }

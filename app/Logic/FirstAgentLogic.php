@@ -10,7 +10,7 @@ namespace App\Logic;
 
 use App\Common\Constants;
 use App\Common\Utils;
-use App\Exceptions\SlException;
+use App\Exceptions\BaheException;
 use App\Library\Protobuf\COMMAND_TYPE;
 use App\Models\CashOrder;
 use App\Models\GeneralAgents;
@@ -74,17 +74,17 @@ class FirstAgentLogic extends BaseLogic
     /**
      * @param $invite_code
      * @return mixed
-     * @throws SlException
+     * @throws BaheException
      */
     public function getInviteCode($invite_code)
     {
         $invite_code = InviteCode::where('invite_code', $invite_code)->first();
         if (empty($invite_code)) {
-            throw new SlException(SlException::INVITE_CODE_NOT_VALID_CODE);
+            throw new BaheException(BaheException::INVITE_CODE_NOT_VALID_CODE);
         }
 
         if ($invite_code['is_used'] == Constants::COMMON_ENABLE) {
-            throw new SlException(SlException::INVITE_CODE_USED_CODE);
+            throw new BaheException(BaheException::INVITE_CODE_USED_CODE);
         }
 
         return $invite_code;
@@ -142,11 +142,11 @@ class FirstAgentLogic extends BaseLogic
         ])->first();
 
         if (empty($first_agent)) {
-            throw new SlException(SlException::USER_NOT_EXIST_CODE);
+            throw new BaheException(BaheException::USER_NOT_EXIST_CODE);
         }
 
         if (!$first_agent->hasRole(Constants::$level_agent)) {
-            throw new SlException(SlException::AGENT_NOT_VALID_CODE);
+            throw new BaheException(BaheException::AGENT_NOT_VALID_CODE);
         }
 
         // 获取所有的代理充值额度

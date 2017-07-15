@@ -4,12 +4,14 @@ namespace App\Http\Controllers;
 
 use App\Common\ParamsRules;
 use App\Common\Utils;
+use App\Events\ActionEvent;
 use App\Library\BLogger;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Request;
 
 class Controller extends BaseController
@@ -27,10 +29,18 @@ class Controller extends BaseController
         if (is_array($response)) {
             BLogger::info($response);
         }
+        $path_uri = Utils::getPathUri();
+
+        // 记录操作日志
+        if (in_array($path_uri, ParamsRules::$action_interface)) {
+            event(new ActionEvent(Auth::user(), \Illuminate\Http\Request::createFromGlobals()));
+        }
+
+        // AJAX请求
         if (Request::ajax()) {
             return Utils::sendJsonSuccessResponse($response);
         }
-        $path_uri = Utils::getPathUri();
+        // 渲染模板
         if (isset(ParamsRules::$interface_tpl[$path_uri])) {
             if ($response instanceof RedirectResponse) {
                 return $response;

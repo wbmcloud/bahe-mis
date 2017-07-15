@@ -12,7 +12,7 @@ use Carbon\Carbon;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\DB;
 
-class statDateCashOrder extends Command
+class StatDateCashOrder extends Command
 {
 
     /**

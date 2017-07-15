@@ -76,5 +76,6 @@ Route::group(['middleware' => ['validator']], function () {
         Route::get(\App\Common\ParamsRules::IF_API_FIRST_AGENT_UNBAN, 'Api\FirstAgentController@unBanAgent');
         Route::get(\App\Common\ParamsRules::IF_API_FIRST_AGENT_DEL_FLOW, 'Api\FirstAgentController@delAgentFlow');
         Route::get(\App\Common\ParamsRules::IF_API_FIRST_AGENT_DO_CASH_ORDER, 'Api\FirstAgentController@confirmCashOrder');
+        Route::get(\App\Common\ParamsRules::IF_API_FIRST_AGENT_RESET, 'Api\FirstAgentController@resetPassword');
     });
 });

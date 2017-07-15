@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Common\Constants;
 use App\Common\ParamsRules;
 use App\Events\LoginEvent;
-use App\Exceptions\SlException;
+use App\Exceptions\BaheException;
 use Illuminate\Foundation\Auth\ThrottlesLogins;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -60,7 +60,7 @@ class LoginController extends Controller
             return redirect(ParamsRules::IF_DASHBOARD);
         }
         return redirect(ParamsRules::IF_USER_LOGIN)->with('message',
-            SlException::$error_msg[SlException::LOGIN_USER_NAME_OR_PASSWD_INVALID]);
+            BaheException::$error_msg[BaheException::LOGIN_USER_NAME_OR_PASSWD_INVALID]);
     }
 
     /**

@@ -9,7 +9,7 @@
 namespace App\Logic;
 
 use App\Common\Constants;
-use App\Exceptions\SlException;
+use App\Exceptions\BaheException;
 use App\Library\Protobuf\COMMAND_TYPE;
 use App\Library\Protobuf\INNER_TYPE;
 use App\Library\Protobuf\Protobuf;
@@ -52,13 +52,13 @@ class AgentLogic extends BaseLogic
     /**
      * @param $id
      * @return mixed
-     * @throws SlException
+     * @throws BaheException
      */
     public function getAgentInfoById($id)
     {
         $user = User::find($id);
         if (empty($user)) {
-            throw new SlException(SlException::AGENT_NOT_EXIST_CODE);
+            throw new BaheException(BaheException::AGENT_NOT_EXIST_CODE);
         }
         return $user;
     }
@@ -83,7 +83,7 @@ class AgentLogic extends BaseLogic
      * @param $server_id
      * @param $open_room_res
      * @return array
-     * @throws SlException
+     * @throws BaheException
      */
     public function sendGmtOpenRoom($server_id, &$open_room_res)
     {
@@ -91,14 +91,14 @@ class AgentLogic extends BaseLogic
         $inner_meta_register_srv = Protobuf::packRegisterInnerMeta();
         $register_res            = TcpClient::callTcpService($inner_meta_register_srv, true);
         if (Protobuf::unpackRegister($register_res)->getTypeT() !== INNER_TYPE::INNER_TYPE_REGISTER) {
-            throw new SlException(SlException::GMT_SERVER_REGISTER_FAIL_CODE);
+            throw new BaheException(BaheException::GMT_SERVER_REGISTER_FAIL_CODE);
         }
         // 调用idip代开房
         $open_room['server_id'] = $server_id;
         $inner_meta_open_room   = Protobuf::packOpenRoomInnerMeta($open_room);
         $open_room_res          = Protobuf::unpackOpenRoom(TcpClient::callTcpService($inner_meta_open_room));
         if ($open_room_res['error_code'] != 0) {
-            throw new SlException(SlException::GMT_SERVER_OPEN_ROOM_FAIL_CODE);
+            throw new BaheException(BaheException::GMT_SERVER_OPEN_ROOM_FAIL_CODE);
         }
 
         return $open_room_res;
@@ -137,7 +137,7 @@ class AgentLogic extends BaseLogic
      * @param $user
      * @param $server_id
      * @return array
-     * @throws SlException
+     * @throws BaheException
      */
     public function openRoom($user, $server_id)
     {
@@ -164,7 +164,7 @@ class AgentLogic extends BaseLogic
                 TcpClient::getSocket()->close();
             }
             DB::rollback();
-            if ($e->getCode() == SlException::GMT_SERVER_OPEN_ROOM_FAIL_CODE) {
+            if ($e->getCode() == BaheException::GMT_SERVER_OPEN_ROOM_FAIL_CODE) {
                 $recharge_fail_reason = json_encode($open_room_res);
             } else {
                 $recharge_fail_reason = json_encode([
@@ -183,7 +183,7 @@ class AgentLogic extends BaseLogic
             $recharge_fail_reason);
 
         if (!$is_recharged) {
-            throw new SlException($error_code, $error_message);
+            throw new BaheException($error_code, $error_message);
         }
 
         return $open_room_res;

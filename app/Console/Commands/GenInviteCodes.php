@@ -7,7 +7,7 @@ use Carbon\Carbon;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\DB;
 
-class genInviteCodes extends Command
+class GenInviteCodes extends Command
 {
 
     /**

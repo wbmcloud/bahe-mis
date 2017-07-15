@@ -68,6 +68,7 @@ class ParamsRules
     const IF_API_FIRST_AGENT_UNBAN         = '/api/first_agent/unban';
     const IF_API_FIRST_AGENT_DEL_FLOW      = '/api/first_agent/delflow';
     const IF_API_FIRST_AGENT_DO_CASH_ORDER = '/api/first_agent/do_cash_order';
+    const IF_API_FIRST_AGENT_RESET         = '/api/first_agent/reset';
 
     /**
      * 充值中心
@@ -85,6 +86,7 @@ class ParamsRules
     public static $rules = [
         self::IF_API_AGENT_RESET             => [
             'id' => 'required|integer',
+            'password' => 'required|string',
         ],
         self::IF_API_AGENT_BAN               => [
             'id' => 'required|integer',
@@ -108,11 +110,11 @@ class ParamsRules
         ],
         self::IF_USER_DO_ADD                 => [
             'type'        => ['required', 'in:1,2,3'],
-            'user_name'   => 'required|string|between:6,12',
+            'user_name'   => 'required|string|between:6,22',
             'password'    => 'required|string',
             'city_id'     => 'integer|nullable',
             'invite_code' => 'digits:7|nullable',
-            'name'        => 'string|between:2,12|nullable',
+            'name'        => 'string|between:2,22|nullable',
             'uin'         => 'integer|nullable',
             'wechat'      => 'string|max:50|nullable',
             'uin_group'   => 'string|max:512|nullable',
@@ -181,6 +183,10 @@ class ParamsRules
         self::IF_API_FIRST_AGENT_DEL_FLOW  => [
             'id' => 'required|integer',
         ],
+        self::IF_API_FIRST_AGENT_RESET  => [
+            'id' => 'required|integer',
+            'password' => 'required|string',
+        ],
         self::IF_API_FIRST_AGENT_SAVE => [
             'id'        => 'required|integer',
             'tel'       => 'digits:11|nullable',
@@ -196,12 +202,12 @@ class ParamsRules
             'recharge_type' => ['required', 'in:1,2,3'],
         ],
         self::IF_RECHARGE_DO_AGENT => [
-            'user_name'     => 'required|string|between:6,12',
+            'user_name'     => 'required|string|between:6,22',
             'num'           => 'integer|required',
             'recharge_type' => ['required', 'in:1,2,3'],
         ],
         self::IF_USER_DO_LOGIN => [
-            'user_name' => 'required|string|between:6,12',
+            'user_name' => 'required|string|between:6,22',
             'password'  => 'required|string',
         ],
         self::IF_USER_AGREE                  => [
@@ -255,6 +261,7 @@ class ParamsRules
         self::IF_API_FIRST_AGENT_SAVE          => ['auth' => ['super', 'admin'], 'desc' => '一级代理信息保存接口'],
         self::IF_API_FIRST_AGENT_DEL_FLOW      => ['auth' => ['super', 'admin'], 'desc' => '删除代理充值记录接口'],
         self::IF_API_FIRST_AGENT_DO_CASH_ORDER => ['auth' => ['super', 'admin'], 'desc' => '一级代理打款单确认接口'],
+        self::IF_API_FIRST_AGENT_RESET         => ['auth' => ['super', 'admin'], 'desc' => '一级代理密码重置接口'],
         self::IF_RECHARGE_AGENT                  => ['auth' => ['super', 'admin'], 'desc' => '代理充值页面'],
         self::IF_RECHARGE_DO_AGENT               => ['auth' => ['super', 'admin'], 'desc' => '代理充值动作'],
         self::IF_RECHARGE_USER                   => ['auth' => '*', 'desc' => '用户充值页面'],
@@ -284,5 +291,27 @@ class ParamsRules
         self::IF_FIRST_AGENT_INCOME          => 'first_agent.income',
         self::IF_FIRST_AGENT_SALE            => 'first_agent.sale',
         self::IF_FIRST_AGENT_INCOME_HISTORY  => 'first_agent.income_history',
+    ];
+
+    /**
+     * @var array
+     * 写入操作
+     */
+    public static $action_interface = [
+        self::IF_USER_DO_ADD,
+        self::IF_USER_DO_RESET,
+        self::IF_RECHARGE_DO_AGENT,
+        self::IF_RECHARGE_DO_USER,
+        self::IF_AGENT_DO_OPEN_ROOM,
+        self::IF_API_AGENT_BAN,
+        self::IF_API_AGENT_UNBAN,
+        self::IF_API_AGENT_RESET,
+        self::IF_API_AGENT_SAVE,
+        self::IF_API_FIRST_AGENT_BAN,
+        self::IF_API_FIRST_AGENT_UNBAN,
+        self::IF_API_FIRST_AGENT_SAVE,
+        self::IF_API_FIRST_AGENT_DO_CASH_ORDER,
+        self::IF_API_FIRST_AGENT_DEL_FLOW,
+        self::IF_API_FIRST_AGENT_RESET,
     ];
 }

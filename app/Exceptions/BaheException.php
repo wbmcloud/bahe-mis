@@ -8,7 +8,7 @@
 
 namespace App\Exceptions;
 
-class SlException extends \Exception
+class BaheException extends \Exception
 {
     const SUCCESS_CODE                      = 0;
     const FAIL_CODE                         = 2001001;
@@ -35,6 +35,7 @@ class SlException extends \Exception
     const INVITE_CODE_USED_CODE             = 2001022;
     const CASH_ORDER_NOT_FOUND_CODE         = 2001023;
     const LOGIN_USER_NAME_OR_PASSWD_INVALID = 2001024;
+    const RESOURCE_NOT_FOUND                = 2001025;
 
 
     public static $error_msg = [
@@ -63,6 +64,7 @@ class SlException extends \Exception
         self::INVITE_CODE_USED_CODE                => '邀请码已经使用',
         self::CASH_ORDER_NOT_FOUND_CODE            => '未找到打款单',
         self::LOGIN_USER_NAME_OR_PASSWD_INVALID    => '用户名或者密码有误！',
+        self::RESOURCE_NOT_FOUND                   => '未找到资源',
     ];
 
     public function __construct($code, $message = null)

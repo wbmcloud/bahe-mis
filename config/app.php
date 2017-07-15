@@ -180,6 +180,7 @@ return [
         Zizaco\Entrust\EntrustServiceProvider::class,
         App\Providers\ComposerServiceProvider::class,
         App\Providers\CreatorServiceProvider::class,
+        Maatwebsite\Excel\ExcelServiceProvider::class,
     ],
 
     /*
@@ -230,6 +231,7 @@ return [
         // 第三方
         'Entrust'   => Zizaco\Entrust\EntrustFacade::class,
         'Ip'  => Zhuzhichao\IpLocationZh\Ip::class,
+        'Excel' => Maatwebsite\Excel\Facades\Excel::class,
     ],
 
 ];

@@ -11,13 +11,15 @@ namespace App\Logic;
 use App\Common\Constants;
 use App\Common\ParamsRules;
 use App\Common\Utils;
-use App\Exceptions\SlException;
+use App\Events\ActionEvent;
+use App\Exceptions\BaheException;
 use App\Models\City;
 use App\Models\Role;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Request;
 
 class UserLogic extends BaseLogic
 {
@@ -97,7 +99,7 @@ class UserLogic extends BaseLogic
             DB::commit();
         } catch (Exception $e) {
             DB::rollback();
-            throw new SlException(SlException::FAIL_CODE);
+            throw new BaheException(BaheException::FAIL_CODE);
         }
 
         return $user;
@@ -117,7 +119,7 @@ class UserLogic extends BaseLogic
         switch ($params['type']) {
             case Constants::ADD_USER_TYPE_ADMIN:
                 if (!Auth::user()->hasRole(Constants::ROLE_SUPER)) {
-                    throw new SlException(SlException::PERMISSION_FAIL_CODE);
+                    throw new BaheException(BaheException::PERMISSION_FAIL_CODE);
                 }
                 $role = $this->getRoleByRoleName(Constants::ROLE_ADMIN);
                 $params['role_id'] = $role->id;
@@ -131,7 +133,7 @@ class UserLogic extends BaseLogic
                     Constants::ROLE_SUPER,
                     Constants::ROLE_ADMIN,
                 ])) {
-                    throw new SlException(SlException::PERMISSION_FAIL_CODE);
+                    throw new BaheException(BaheException::PERMISSION_FAIL_CODE);
                 }
                 $role = $this->getRoleByRoleName(Constants::ROLE_AGENT);
                 $params['role_id'] = $role->id;
@@ -152,7 +154,7 @@ class UserLogic extends BaseLogic
                     Constants::ROLE_SUPER,
                     Constants::ROLE_ADMIN,
                 ])) {
-                    throw new SlException(SlException::PERMISSION_FAIL_CODE);
+                    throw new BaheException(BaheException::PERMISSION_FAIL_CODE);
                 }
                 $role = $this->getRoleByRoleName(Constants::ROLE_FIRST_AGENT);
                 $params['role_id'] = $role->id;
@@ -169,19 +171,19 @@ class UserLogic extends BaseLogic
                 return Utils::renderSuccess();
                 break;
 
-            throw new SlException(SlException::TYPE_NOT_VALID_CODE);
+            throw new BaheException(BaheException::TYPE_NOT_VALID_CODE);
         }
     }
 
     public function reset($params)
     {
         if ($params['new_password'] !== $params['dup_password']) {
-            throw new SlException(SlException::USER_PASSWORD_CONFIRM_NOT_VALID_CODE);
+            throw new BaheException(BaheException::USER_PASSWORD_CONFIRM_NOT_VALID_CODE);
         }
 
         $user = Auth::user();
         if (!Hash::check($params['old_password'], $user->password)) {
-            throw new SlException(SlException::USER_PASSWORD_OLD_NOT_VALID_CODE);
+            throw new BaheException(BaheException::USER_PASSWORD_OLD_NOT_VALID_CODE);
         }
 
         // 更新密码
@@ -194,13 +196,13 @@ class UserLogic extends BaseLogic
     /**
      * @param $user
      * @return mixed
-     * @throws SlException
+     * @throws BaheException
      */
     public function getRoleByUser($user)
     {
         $role = $user->roles()->first()->toArray();
         if (empty($role)) {
-            throw new SlException(SlException::ROLE_NOT_EXIST_CODE);
+            throw new BaheException(BaheException::ROLE_NOT_EXIST_CODE);
         }
         return $role;
     }

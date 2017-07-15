@@ -8,7 +8,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Common\Constants;
-use App\Exceptions\SlException;
+use App\Exceptions\BaheException;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -37,7 +37,7 @@ class AgentController extends Controller
     {
         $user = User::find($this->params['id']);
         if (empty($user)) {
-            throw new SlException(SlException::AGENT_NOT_EXIST_CODE);
+            throw new BaheException(BaheException::AGENT_NOT_EXIST_CODE);
         }
         return $user->toArray();
     }
@@ -46,7 +46,7 @@ class AgentController extends Controller
     {
         $user = User::find($this->params['id']);
         if (empty($user)) {
-            throw new SlException(SlException::AGENT_NOT_EXIST_CODE);
+            throw new BaheException(BaheException::AGENT_NOT_EXIST_CODE);
         }
         !empty($this->params['city_id']) && ($user->city_id = $this->params['city_id']);
         !empty($this->params['name']) && ($user->name = $this->params['name']);
@@ -65,7 +65,7 @@ class AgentController extends Controller
     {
         $user = User::find($this->params['id']);
         if (empty($user)) {
-            throw new SlException(SlException::AGENT_NOT_EXIST_CODE);
+            throw new BaheException(BaheException::AGENT_NOT_EXIST_CODE);
         }
 
         // 重置密码

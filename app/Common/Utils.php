@@ -7,7 +7,7 @@
  */
 namespace App\Common;
 
-use App\Exceptions\SlException;
+use App\Exceptions\BaheException;
 use Illuminate\Support\Facades\Request;
 
 class Utils
@@ -16,7 +16,7 @@ class Utils
     {
         $ret['code'] = $code;
         if (empty($msg)) {
-            $ret['msg'] = SlException::$error_msg[$code];;
+            $ret['msg'] = BaheException::$error_msg[$code];;
         } else {
             $ret['msg'] = $msg;
         }
@@ -26,11 +26,14 @@ class Utils
 
     public static function sendJsonSuccessResponse($data = [])
     {
-        return self::sendJsonResponse(SlException::SUCCESS_CODE, '', $data);
+        return self::sendJsonResponse(BaheException::SUCCESS_CODE, '', $data);
     }
 
-    public static function getPathUri()
+    public static function getPathUri($request = null)
     {
+        if (!is_null($request)) {
+            return preg_replace('/\?.*/', '', $request->getRequestUri());
+        }
         return preg_replace('/\?.*/', '', Request::getRequestUri());
     }
 
@@ -82,7 +85,7 @@ class Utils
     public static function renderSuccess()
     {
         return redirect(ParamsRules::IF_PROMPT)->with([
-            'message' => SlException::$error_msg[SlException::SUCCESS_CODE],
+            'message' => BaheException::$error_msg[BaheException::SUCCESS_CODE],
             'jump_url' => ParamsRules::IF_DASHBOARD,
             'jump_time' => Constants::JUMP_TIME_INTERNAL,
         ]);

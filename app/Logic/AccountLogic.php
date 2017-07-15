@@ -9,7 +9,7 @@
 namespace App\Logic;
 
 use App\Common\Constants;
-use App\Exceptions\SlException;
+use App\Exceptions\BaheException;
 use App\Library\Protobuf\COMMAND_TYPE;
 use App\Models\Accounts;
 use App\Models\User;
@@ -94,7 +94,7 @@ class AccountLogic extends BaseLogic
      * @param $type
      * @param $num
      * @return mixed
-     * @throws SlException
+     * @throws BaheException
      */
     public function reduceBalance($user_name, $type, $num)
     {
@@ -114,7 +114,7 @@ class AccountLogic extends BaseLogic
                 break;
         }
         if ($condition) {
-            throw new SlException(SlException::ACCOUNT_BALANCE_NOT_ENOUGH);
+            throw new BaheException(BaheException::ACCOUNT_BALANCE_NOT_ENOUGH);
         }
         $account->save();
 

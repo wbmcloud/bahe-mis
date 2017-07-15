@@ -11,7 +11,7 @@ namespace App\Logic;
 use App\Common\Constants;
 use App\Common\ParamsRules;
 use App\Common\Utils;
-use App\Exceptions\SlException;
+use App\Exceptions\BaheException;
 use App\Library\Protobuf\COMMAND_TYPE;
 use App\Library\Protobuf\INNER_TYPE;
 use App\Library\Protobuf\Protobuf;
@@ -31,17 +31,17 @@ class RechargeLogic extends BaseLogic
         $user_logic = new UserLogic();
         $login_role       = $user_logic->getRoleByUser($login_user);
         if (!in_array($login_role['name'], Constants::$admin_role)) {
-            throw new SlException(SlException::AGENT_NOT_RECHARGE_FOR_AGENT_CODE);
+            throw new BaheException(BaheException::AGENT_NOT_RECHARGE_FOR_AGENT_CODE);
         }
 
         // 判断充值的代理账号是否合法
         $user = User::where('user_name', $params['user_name'])->first();
         if (empty($user)) {
-            throw new SlException(SlException::USER_NOT_EXIST_CODE);
+            throw new BaheException(BaheException::USER_NOT_EXIST_CODE);
         }
         $recharge_user_role       = $user_logic->getRoleByUser($user);
         if (!in_array($recharge_user_role['name'], Constants::$recharge_role)) {
-            throw new SlException(SlException::AGENT_NOT_VALID_CODE);
+            throw new BaheException(BaheException::AGENT_NOT_VALID_CODE);
         }
 
         // 给代理充值
@@ -55,7 +55,7 @@ class RechargeLogic extends BaseLogic
             DB::commit();
         } catch (Exception $e) {
             DB::rollback();
-            throw new SlException(SlException::FAIL_CODE);
+            throw new BaheException(BaheException::FAIL_CODE);
         }
 
         return Utils::renderSuccess();
@@ -88,7 +88,7 @@ class RechargeLogic extends BaseLogic
      * @param $params
      * @param $command_res
      * @return array
-     * @throws SlException
+     * @throws BaheException
      */
     public function sendGmtUserRecharge($params, &$command_res)
     {
@@ -96,7 +96,7 @@ class RechargeLogic extends BaseLogic
         $inner_meta_register_srv = Protobuf::packRegisterInnerMeta();
         $register_res            = TcpClient::callTcpService($inner_meta_register_srv, true);
         if (Protobuf::unpackRegister($register_res)->getTypeT() !== INNER_TYPE::INNER_TYPE_REGISTER) {
-            throw new SlException(SlException::GMT_SERVER_REGISTER_FAIL_CODE);
+            throw new BaheException(BaheException::GMT_SERVER_REGISTER_FAIL_CODE);
         }
         // 调用idip进行充值
         if ($params['recharge_type'] == COMMAND_TYPE::COMMAND_TYPE_ROOM_CARD) {
@@ -108,7 +108,7 @@ class RechargeLogic extends BaseLogic
         $inner_meta_command      = Protobuf::packCommandInnerMeta($command);
         $command_res             = Protobuf::unpackForResponse(TcpClient::callTcpService($inner_meta_command));
         if ($command_res['error_code'] != 0) {
-            throw new SlException(SlException::GMT_SERVER_RECHARGE_FAIL_CODE);
+            throw new BaheException(BaheException::GMT_SERVER_RECHARGE_FAIL_CODE);
         }
 
         return $command_res;
@@ -138,7 +138,7 @@ class RechargeLogic extends BaseLogic
     /**
      * @param $params
      * @return array
-     * @throws SlException
+     * @throws BaheException
      */
     public function userRecharge($params)
     {
@@ -163,7 +163,7 @@ class RechargeLogic extends BaseLogic
                 TcpClient::getSocket()->close();
             }
             DB::rollback();
-            if ($e->getCode() == SlException::GMT_SERVER_RECHARGE_FAIL_CODE) {
+            if ($e->getCode() == BaheException::GMT_SERVER_RECHARGE_FAIL_CODE) {
                 $recharge_fail_reason = json_encode($command_res);
             } else {
                 $recharge_fail_reason = json_encode([
@@ -177,7 +177,7 @@ class RechargeLogic extends BaseLogic
         $this->saveUserTransactionFlow($user, $params, $is_recharged, $recharge_fail_reason);
 
         if (!$is_recharged) {
-            throw new SlException($error_code, $error_message);
+            throw new BaheException($error_code, $error_message);
         }
 
         return Utils::renderSuccess();

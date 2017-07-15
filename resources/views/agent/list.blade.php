@@ -78,24 +78,6 @@
     </div>
 @endsection
 @section('ui')
-    <div class="modal_container modal fade" tabindex="-1" role="dialog" aria-labelledby="gridSystemModalLabel">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <!--button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button-->
-                    <h4 class="modal-title" id="gridSystemModalLabel">提示</h4>
-                </div>
-                <div class="modal-body">
-                    <span id="msg"></span>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" id="confirm" class="btn btn-default">确认</button>
-                    <!--button type="button" class="btn btn-primary">保存</button-->
-                </div>
-            </div><!-- /.modal-content -->
-        </div><!-- /.modal-dialog -->
-    </div><!-- /.modal -->
-
     <div class="edit_agent modal fade" tabindex="-1" role="dialog" aria-labelledby="gridSystemModalLabel">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
@@ -204,7 +186,7 @@
                         <div class="form-group">
                             <label for="name" class="col-sm-2 control-label">输入密码</label>
                             <div class="col-sm-10">
-                                <input type="password" class="form-control" name="password" placeholder="请输入密码">
+                                <input type="password" class="form-control" name="password" placeholder="请输入密码" required>
                             </div>
                         </div>
                         <button type="button" onclick="savePassword()" class="btn btn-info pull-right">提交</button>
@@ -213,7 +195,23 @@
             </div><!-- /.modal-content -->
         </div><!-- /.modal-dialog -->
     </div><!-- /.modal -->
-
+    <div class="modal_container modal fade" tabindex="-1" role="dialog" aria-labelledby="gridSystemModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <!--button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button-->
+                    <h4 class="modal-title" id="gridSystemModalLabel">提示</h4>
+                </div>
+                <div class="modal-body">
+                    <span id="msg"></span>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" id="confirm" class="btn btn-default">确认</button>
+                    <!--button type="button" class="btn btn-primary">保存</button-->
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
 @endsection
 @section('script')
     <script src="{{ asset("/bower_components/admin-lte/plugins/select2/select2.js") }}"></script>
@@ -260,6 +258,17 @@
         function savePassword() {
             var _id = $("input[name='id']").val();
             var _password = $("input[name='password']").val();
+            if (!_password) {
+                $('#msg').html("请输入密码");
+                $("#confirm").attr("data-dismiss", "modal");
+                $("#confirm").removeAttr("onclick");
+                $('.modal_container').modal({
+                    "show": true,
+                    "backdrop": false,
+                    "keyboard": false
+                });
+                return;
+            }
             var _data = {
                 id: _id,
                 password: _password
