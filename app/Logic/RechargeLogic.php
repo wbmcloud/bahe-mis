@@ -92,13 +92,13 @@ class RechargeLogic extends BaseLogic
      */
     public function sendGmtUserRecharge($params, &$command_res)
     {
-        // 调用idip进行充值
+        // 调用gmt进行充值
         $inner_meta_register_srv = Protobuf::packRegisterInnerMeta();
         $register_res            = TcpClient::callTcpService($inner_meta_register_srv, true);
         if (Protobuf::unpackRegister($register_res)->getTypeT() !== INNER_TYPE::INNER_TYPE_REGISTER) {
             throw new BaheException(BaheException::GMT_SERVER_REGISTER_FAIL_CODE);
         }
-        // 调用idip进行充值
+        // 调用gmt进行充值
         if ($params['recharge_type'] == COMMAND_TYPE::COMMAND_TYPE_ROOM_CARD) {
             $command['item_id'] = Constants::ROOM_CARD_ITEM_ID;
         }

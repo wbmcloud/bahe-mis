@@ -80,8 +80,8 @@ class TcpClient
 
     private static function getTcpAddress()
     {
-        $idip = Config::get('services.idip');
-        return $idip['schema'] . '://' . $idip['host'] . ':' . $idip['port'];
+        $gmt = Config::get('services.gmt');
+        return $gmt['schema'] . '://' . $gmt['host'] . ':' . $gmt['port'];
     }
 
     public static function isAlive()

@@ -87,13 +87,13 @@ class AgentLogic extends BaseLogic
      */
     public function sendGmtOpenRoom($server_id, &$open_room_res)
     {
-        // 调用idip注册服务器
+        // 调用gmt注册服务器
         $inner_meta_register_srv = Protobuf::packRegisterInnerMeta();
         $register_res            = TcpClient::callTcpService($inner_meta_register_srv, true);
         if (Protobuf::unpackRegister($register_res)->getTypeT() !== INNER_TYPE::INNER_TYPE_REGISTER) {
             throw new BaheException(BaheException::GMT_SERVER_REGISTER_FAIL_CODE);
         }
-        // 调用idip代开房
+        // 调用gmt代开房
         $open_room['server_id'] = $server_id;
         $inner_meta_open_room   = Protobuf::packOpenRoomInnerMeta($open_room);
         $open_room_res          = Protobuf::unpackOpenRoom(TcpClient::callTcpService($inner_meta_open_room));
