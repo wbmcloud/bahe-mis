@@ -49,6 +49,21 @@
             <li id="first_agent_cash_order"><a href="{{ route('first_agent.cash_order_list') }}"><i class="fa fa-circle-o"></i>每周打款单</a></li>
           </ul>
         </li>
+        <li id="general_agent" class="treeview">
+          <a href="#">
+            <i class="fa fa-dashboard"></i> <span>总代理</span>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+          </a>
+          <ul class="treeview-menu">
+            <li id="general_agent_add"><a href="{{ route('user.add', ['type' => \App\Common\Constants::ADD_USER_TYPE_GENERAL_AGENT]) }}"><i class="fa fa-circle-o"></i>新增</a></li>
+            <li id="general_agent_list"><a href="{{ route('general_agent.list') }}"><i class="fa fa-circle-o"></i>查询</a></li>
+            <li id="general_agent_banlist"><a href="{{ route('general_agent.banlist') }}"><i class="fa fa-circle-o"></i>封禁查询</a></li>
+            <li id="general_agent_invite_code"><a href="{{ route('general_agent.invite_code') }}"><i class="fa fa-circle-o"></i>邀请码</a></li>
+            <li id="general_agent_cash_order"><a href="{{ route('general_agent.cash_order_list') }}"><i class="fa fa-circle-o"></i>每周打款单</a></li>
+          </ul>
+        </li>
         <li id="agent" class="treeview">
           <a href="#">
             <i class="fa fa-dashboard"></i> <span>代理</span>
@@ -68,7 +83,7 @@
             <i class="fa fa-link"></i> <span>代开房</span>
           </a>
         </li>
-        @role(['agent', 'first_agent'])
+        @role(['agent', 'first_agent', 'general_agent'])
         <li id="agent_consume_flow" class="treeview">
           <a href="{{ route('agent.rechargelist', ['id' => \Illuminate\Support\Facades\Auth::id()]) }}">
             <i class="fa fa-circle-o"></i><span>消费记录</span>
@@ -90,6 +105,24 @@
           </a>
           <ul class="treeview-menu">
             <li id="income"><a href="{{ route('first_agent.income') }}"><i class="fa fa-circle-o"></i>收入统计</a></li>
+          </ul>
+        </li>
+        @endrole
+        @role(['general_agent'])
+        <li id="general_agent_rechargelist" class="treeview">
+          <a href="{{ route('general_agent.rechargelist', ['invite_code' => \Illuminate\Support\Facades\Auth::user()->invite_code]) }}">
+            <i class="fa fa-circle-o"></i><span>代理充值记录</span>
+          </a>
+        </li>
+        <li id="data_stat" class="treeview">
+          <a href="#">
+            <i class="fa fa-dashboard"></i> <span>数据统计</span>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+          </a>
+          <ul class="treeview-menu">
+            <li id="income"><a href="{{ route('general_agent.income') }}"><i class="fa fa-circle-o"></i>收入统计</a></li>
           </ul>
         </li>
         @endrole

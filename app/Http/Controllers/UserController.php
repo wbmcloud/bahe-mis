@@ -29,7 +29,11 @@ class UserController extends Controller
                 $cities     = $user_logic->getOpenCities();
                 return view('auth.add_first_agent', ['cities' => $cities]);
                 break;
-
+            case Constants::ADD_USER_TYPE_GENERAL_AGENT:
+                $user_logic = new UserLogic();
+                $cities     = $user_logic->getOpenCities();
+                return view('auth.add_general_agent', ['cities' => $cities]);
+                break;
             default:
                 return view('auth.add_admin');
         }

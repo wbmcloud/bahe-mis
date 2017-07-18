@@ -14,7 +14,7 @@ use App\Models\InviteCode;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 
-class FirstAgentController extends Controller
+class GeneralAgentController extends Controller
 {
 
     public function agentList()

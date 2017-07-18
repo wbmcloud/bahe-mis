@@ -71,6 +71,26 @@ class ParamsRules
     const IF_API_FIRST_AGENT_RESET         = '/api/first_agent/reset';
 
     /**
+     * 总代理模块
+     */
+    const IF_GENERAL_AGENT_LIST            = '/general_agent/list';
+    const IF_GENERAL_AGENT_BAN_LIST        = '/general_agent/banlist';
+    const IF_GENERAL_AGENT_INVITE_CODE     = '/general_agent/invite_code';
+    const IF_GENERAL_AGENT_RECHARGE_LIST   = '/general_agent/rechargelist';
+    const IF_GENERAL_AGENT_CASH_ORDER_LIST = '/general_agent/cash_order_list';
+    const IF_GENERAL_AGENT_INCOME          = '/general_agent/income';
+    const IF_GENERAL_AGENT_SALE            = '/general_agent/sale';
+    const IF_GENERAL_AGENT_INCOME_HISTORY  = '/general_agent/income_history';
+
+    const IF_API_GENERAL_AGENT_INFO          = '/api/general_agent/info';
+    const IF_API_GENERAL_AGENT_SAVE          = '/api/general_agent/save';
+    const IF_API_GENERAL_AGENT_BAN           = '/api/general_agent/ban';
+    const IF_API_GENERAL_AGENT_UNBAN         = '/api/general_agent/unban';
+    const IF_API_GENERAL_AGENT_DEL_FLOW      = '/api/general_agent/delflow';
+    const IF_API_GENERAL_AGENT_DO_CASH_ORDER = '/api/general_agent/do_cash_order';
+    const IF_API_GENERAL_AGENT_RESET         = '/api/general_agent/reset';
+
+    /**
      * 充值中心
      */
     const IF_RECHARGE_USER     = '/recharge/user';
@@ -214,7 +234,53 @@ class ParamsRules
             'is_accept' => 'required|accepted',
         ],
         self::IF_USER_ADD => [
-            'type' => ['required', 'in:1,2,3']
+            'type' => ['required', 'in:1,2,3,4']
+        ],
+        self::IF_GENERAL_AGENT_LIST          => [
+            'query_str' => 'string|nullable',
+            'page'      => 'integer|nullable',
+            'page_size' => 'integer|nullable'
+        ],
+        self::IF_GENERAL_AGENT_INVITE_CODE   => [
+            'page'      => 'integer|nullable',
+            'page_size' => 'integer|nullable'
+        ],
+        self::IF_GENERAL_AGENT_BAN_LIST      => [
+            'query_str' => 'string|nullable',
+            'page'      => 'integer|nullable',
+            'page_size' => 'integer|nullable'
+        ],
+        self::IF_GENERAL_AGENT_RECHARGE_LIST => [
+            'invite_code' => 'required|digits:7',
+            'start_date'  => 'date_format:Y-m-d',
+            'end_date'    => 'date_format:Y-m-d',
+            'page'        => 'integer|nullable',
+            'page_size'   => 'integer|nullable'
+        ],
+        self::IF_API_GENERAL_AGENT_BAN       => [
+            'id' => 'required|integer',
+        ],
+        self::IF_API_GENERAL_AGENT_UNBAN     => [
+            'id' => 'required|integer',
+        ],
+        self::IF_API_GENERAL_AGENT_INFO      => [
+            'id' => 'required|integer',
+        ],
+        self::IF_API_GENERAL_AGENT_DEL_FLOW  => [
+            'id' => 'required|integer',
+        ],
+        self::IF_API_GENERAL_AGENT_RESET  => [
+            'id' => 'required|integer',
+            'password' => 'required|string',
+        ],
+        self::IF_API_GENERAL_AGENT_SAVE => [
+            'id'        => 'required|integer',
+            'tel'       => 'digits:11|nullable',
+            'bank_card' => 'string|max:50|nullable',
+            'id_card'   => 'string|max:50|nullable',
+        ],
+        self::IF_API_GENERAL_AGENT_DO_CASH_ORDER => [
+            'id'        => 'required|integer',
         ],
     ];
 
@@ -234,8 +300,8 @@ class ParamsRules
         self::IF_USER_DO_ADD                     => ['auth' => ['super', 'admin'], 'desc' => '添加用户动作'],
         self::IF_USER_RESET                      => ['auth' => ['super', 'admin'], 'desc' => '修改密码页面'],
         self::IF_USER_DO_RESET                   => ['auth' => ['super', 'admin'], 'desc' => '修改密码动作'],
-        self::IF_USER_AGREE                      => ['auth' => ['agent', 'first_agent'], 'desc' => '代理协议同意动作'],
-        self::IF_USER_AGREEMENT                  => ['auth' => ['agent', 'first_agent'], 'desc' => '代理协议页面'],
+        self::IF_USER_AGREE                      => ['auth' => ['agent', 'first_agent', 'general_agent'], 'desc' => '代理协议同意动作'],
+        self::IF_USER_AGREEMENT                  => ['auth' => ['agent', 'first_agent', 'general_agent'], 'desc' => '代理协议页面'],
         self::IF_AGENT_LIST                      => ['auth' => ['super', 'admin'], 'desc' => '代理列表页面'],
         self::IF_AGENT_BAN_LIST                  => ['auth' => ['super', 'admin'], 'desc' => '封禁代理页面页面'],
         self::IF_AGENT_INFO                      => ['auth' => ['super', 'admin'], 'desc' => '代理详情页面'],
@@ -253,7 +319,7 @@ class ParamsRules
         self::IF_FIRST_AGENT_RECHARGE_LIST     => ['auth' => ['super', 'admin', 'first_agent'], 'desc' => '一级代理充值记录页面'],
         self::IF_FIRST_AGENT_CASH_ORDER_LIST   => ['auth' => ['super', 'admin'], 'desc' => '一级代理每周打款单'],
         self::IF_FIRST_AGENT_INCOME            => ['auth' => ['first_agent'], 'desc' => '一级代理收入统计'],
-        self::IF_FIRST_AGENT_SALE              => ['auth' => ['first_agent'], 'desc' => '以及代理销售明细'],
+        self::IF_FIRST_AGENT_SALE              => ['auth' => ['first_agent'], 'desc' => '一级代理销售明细'],
         self::IF_FIRST_AGENT_INCOME_HISTORY    => ['auth' => ['first_agent'], 'desc' => '一级代理收入历史'],
         self::IF_API_FIRST_AGENT_BAN           => ['auth' => ['super', 'admin'], 'desc' => '一级代理封禁接口'],
         self::IF_API_FIRST_AGENT_UNBAN         => ['auth' => ['super', 'admin'], 'desc' => '一级代理解封接口'],
@@ -266,6 +332,21 @@ class ParamsRules
         self::IF_RECHARGE_DO_AGENT               => ['auth' => ['super', 'admin'], 'desc' => '代理充值动作'],
         self::IF_RECHARGE_USER                   => ['auth' => '*', 'desc' => '用户充值页面'],
         self::IF_RECHARGE_DO_USER                => ['auth' => '*', 'desc' => '用户充值动作'],
+        self::IF_GENERAL_AGENT_LIST              => ['auth' => ['super', 'admin'], 'desc' => '总代理列表页面'],
+        self::IF_GENERAL_AGENT_BAN_LIST          => ['auth' => ['super', 'admin'], 'desc' => '封禁总代理列表页面'],
+        self::IF_GENERAL_AGENT_INVITE_CODE       => ['auth' => ['super', 'admin'], 'desc' => '邀请码列表页面'],
+        self::IF_GENERAL_AGENT_RECHARGE_LIST     => ['auth' => ['super', 'admin', 'general_agent'], 'desc' => '总代理充值记录页面'],
+        self::IF_GENERAL_AGENT_CASH_ORDER_LIST   => ['auth' => ['super', 'admin'], 'desc' => '总代理每周打款单'],
+        self::IF_GENERAL_AGENT_INCOME            => ['auth' => ['general_agent'], 'desc' => '总代理收入统计'],
+        self::IF_GENERAL_AGENT_SALE              => ['auth' => ['general_agent'], 'desc' => '总代理销售明细'],
+        self::IF_GENERAL_AGENT_INCOME_HISTORY    => ['auth' => ['general_agent'], 'desc' => '总代理收入历史'],
+        self::IF_API_GENERAL_AGENT_BAN           => ['auth' => ['super', 'admin'], 'desc' => '总代理封禁接口'],
+        self::IF_API_GENERAL_AGENT_UNBAN         => ['auth' => ['super', 'admin'], 'desc' => '总代理解封接口'],
+        self::IF_API_GENERAL_AGENT_INFO          => ['auth' => ['super', 'admin'], 'desc' => '总代理信息接口'],
+        self::IF_API_GENERAL_AGENT_SAVE          => ['auth' => ['super', 'admin'], 'desc' => '总代理信息保存接口'],
+        self::IF_API_GENERAL_AGENT_DEL_FLOW      => ['auth' => ['super', 'admin'], 'desc' => '删除代理充值记录接口'],
+        self::IF_API_GENERAL_AGENT_DO_CASH_ORDER => ['auth' => ['super', 'admin'], 'desc' => '总代理打款单确认接口'],
+        self::IF_API_GENERAL_AGENT_RESET         => ['auth' => ['super', 'admin'], 'desc' => '总代理密码重置接口'],
     ];
 
     /**
@@ -291,6 +372,14 @@ class ParamsRules
         self::IF_FIRST_AGENT_INCOME          => 'first_agent.income',
         self::IF_FIRST_AGENT_SALE            => 'first_agent.sale',
         self::IF_FIRST_AGENT_INCOME_HISTORY  => 'first_agent.income_history',
+        self::IF_GENERAL_AGENT_LIST            => 'general_agent.list',
+        self::IF_GENERAL_AGENT_INVITE_CODE     => 'general_agent.invite_code',
+        self::IF_GENERAL_AGENT_BAN_LIST        => 'general_agent.banlist',
+        self::IF_GENERAL_AGENT_RECHARGE_LIST   => 'general_agent.recharge',
+        self::IF_GENERAL_AGENT_CASH_ORDER_LIST => 'general_agent.cash_order_list',
+        self::IF_GENERAL_AGENT_INCOME          => 'general_agent.income',
+        self::IF_GENERAL_AGENT_SALE            => 'general_agent.sale',
+        self::IF_GENERAL_AGENT_INCOME_HISTORY  => 'general_agent.income_history',
     ];
 
     /**
@@ -313,5 +402,11 @@ class ParamsRules
         self::IF_API_FIRST_AGENT_DO_CASH_ORDER,
         self::IF_API_FIRST_AGENT_DEL_FLOW,
         self::IF_API_FIRST_AGENT_RESET,
+        self::IF_API_GENERAL_AGENT_BAN,
+        self::IF_API_GENERAL_AGENT_UNBAN,
+        self::IF_API_GENERAL_AGENT_SAVE,
+        self::IF_API_GENERAL_AGENT_DO_CASH_ORDER,
+        self::IF_API_GENERAL_AGENT_DEL_FLOW,
+        self::IF_API_GENERAL_AGENT_RESET,
     ];
 }
