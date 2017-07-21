@@ -107,10 +107,11 @@ class AgentController extends Controller
     {
         $user          = Auth::user();
         $agent_logic   = new AgentLogic();
-        $open_room_res = $agent_logic->openRoom($user, $this->params['server_id']);
+        //$open_room_res = $agent_logic->openRoom($user, $this->params['server_id']);
 
         return [
-            'room_id' => $open_room_res['room_id']
+            'prompt' => Constants::SUCCESS_PROMPT_OPEN_ROOM,
+            'data' => 123
         ];
     }
 

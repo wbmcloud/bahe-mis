@@ -21,6 +21,7 @@ class ParamsValidator
         'size'        => 'The :attribute must be exactly :size.',
         'between'     => 'The :attribute must be between :min - :max.',
         'max'         => 'The :attribute must less than :max.',
+        'numeric'     => 'The :attribute must be numeric.',
     ];
 
     /**

@@ -9,7 +9,7 @@
 @section('content')
     <section class="content-header">
         <h1>
-            一级代理列表
+            总监列表
         </h1>
     </section>
 
@@ -36,7 +36,8 @@
                             <th>id</th>
                             <th>用户名</th>
                             <th>姓名</th>
-                            <th>邀请码</th>
+                            <th>绑定邀请码</th>
+                            <th>被邀邀请码</th>
                             <th>发展代理数</th>
                             <th>入驻时间</th>
                             <th>操作</th>
@@ -51,16 +52,17 @@
                                         <td>{{ $agent['id'] }}</td>
                                         <td>{{ $agent['user_name'] }}</td>
                                         <td>{{ $agent['name'] }}</td>
+                                        <td>{{ $agent['code'] }}</td>
                                         <td>{{ $agent['invite_code'] }}</td>
-                                        @if(isset($agents_count[$agent['invite_code']]))
-                                        <td>{{ $agents_count[$agent['invite_code']]['count'] }}</td>
+                                        @if(isset($agents_count[$agent['code']]))
+                                        <td>{{ $agents_count[$agent['code']]['count'] }}</td>
                                         @else
                                         <td>0</td>
                                         @endif
                                         <td>{{ date('Y-m-d', strtotime($agent['created_at'])) }}</td>
                                         <td>{{ $agent['created_at'] }}</td>
                                         <td>
-                                            <button type="button" onclick="rechargeList('{{ route('first_agent.rechargelist', ['invite_code' => $agent['invite_code']]) }}')" class="btn btn-primary">充值信息</button>
+                                            <button type="button" onclick="rechargeList('{{ route('first_agent.rechargelist', ['invite_code' => $agent['code']]) }}')" class="btn btn-primary">充值信息</button>
                                             <button type="button" onclick="banAgent({{ $agent['id'] }})" class="btn btn-primary">封禁</button>
                                             <button type="button" onclick="editAgent({{ $agent['id'] }})" class="btn btn-primary">修改信息</button>
                                             <button type="button" onclick="resetPassword({{ $agent['id'] }})" class="btn btn-primary">重置密码</button>

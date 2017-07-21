@@ -9,6 +9,7 @@ namespace App\Http\Controllers;
 
 use App\Common\Constants;
 use App\Logic\FirstAgentLogic;
+use App\Logic\GeneralAgentLogic;
 use App\Logic\UserLogic;
 use App\Models\InviteCode;
 use Carbon\Carbon;
@@ -22,18 +23,22 @@ class GeneralAgentController extends Controller
         $page_size = isset($this->params['page_size']) ? $this->params['page_size'] :
             Constants::DEFAULT_PAGE_SIZE;
 
-        $first_agent_logic = new FirstAgentLogic();
+        $general_agent_logic = new GeneralAgentLogic();
         $user_logic = new UserLogic();
 
-        $users = $first_agent_logic->getGeneralAgentList($this->params, $page_size);
-        $agents_count = $first_agent_logic->getAgentCount(
-            array_column($users->toArray()['data'], 'invite_code'));
+        $users = $general_agent_logic->getGeneralAgentList($this->params, $page_size);
+        $agents_count = $general_agent_logic->getAgentCount(
+            array_column($users->toArray()['data'], 'code'));
         $agents_count = array_column($agents_count->toArray(), null, 'invite_code');
+        $first_agents_count = $general_agent_logic->getFirstAgentCount(
+            array_column($users->toArray()['data'], 'code'));
+        $first_agents_count = array_column($first_agents_count->toArray(), null, 'invite_code');
         $cities = $user_logic->getOpenCities();
 
         return [
             'agents'       => $users,
-            'agents_count' => $agents_count,
+                'agents_count' => $agents_count,
+            'first_agents_count' => $first_agents_count,
             'cities'       => $cities,
         ];
     }
@@ -42,7 +47,8 @@ class GeneralAgentController extends Controller
     {
         $page_size = isset($this->params['page_size']) ? $this->params['page_size'] :
             Constants::DEFAULT_PAGE_SIZE;
-        $codes = InviteCode::paginate($page_size);
+        $codes = InviteCode::where('type', Constants::INVITE_CODE_TYPE_GENERAL_AGENT)
+            ->paginate($page_size);
 
         return [
             'codes' => $codes,
@@ -54,8 +60,8 @@ class GeneralAgentController extends Controller
         $page_size = isset($this->params['page_size']) ? $this->params['page_size'] :
             Constants::DEFAULT_PAGE_SIZE;
 
-        $first_agent_logic = new FirstAgentLogic();
-        $users = $first_agent_logic->getGeneralAgentList($this->params, $page_size,
+        $general_agent_logic = new GeneralAgentLogic();
+        $users = $general_agent_logic->getGeneralAgentList($this->params, $page_size,
             Constants::COMMON_DISABLE);
 
         return [
@@ -70,13 +76,13 @@ class GeneralAgentController extends Controller
         $start_time = isset($this->params['start_date']) ? $this->params['start_date'] : Carbon::today()->toDateString();
         $end_time   = isset($this->params['end_date']) ? $this->params['end_date'] : Carbon::tomorrow()->toDateString();
 
-        $first_agent_logic = new FirstAgentLogic();
+        $general_agent_logic = new GeneralAgentLogic();
 
-        if (Auth::user()->hasRole(Constants::ROLE_FIRST_AGENT)) {
-            $recharge_flows      = $first_agent_logic->getAgentRechargeList(Auth::user()->invite_code, $start_time,
+        if (Auth::user()->hasRole(Constants::ROLE_GENERAL_AGENT)) {
+            $recharge_flows      = $general_agent_logic->getAgentRechargeList(Auth::user()->invite_code, $start_time,
                 $end_time, $page_size);
         } else {
-            $recharge_flows      = $first_agent_logic->getAgentRechargeList($this->params['invite_code'], $start_time,
+            $recharge_flows      = $general_agent_logic->getAgentRechargeList($this->params['invite_code'], $start_time,
                 $end_time, $page_size);
         }
 

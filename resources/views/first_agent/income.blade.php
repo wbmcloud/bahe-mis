@@ -13,7 +13,7 @@
 @section('content')
     <section class="content-header">
         <h1>
-            一级代理收入统计
+            总监收入统计
         </h1>
     </section>
 

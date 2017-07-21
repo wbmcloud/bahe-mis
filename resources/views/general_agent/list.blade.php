@@ -36,8 +36,9 @@
                             <th>id</th>
                             <th>用户名</th>
                             <th>姓名</th>
-                            <th>邀请码</th>
+                            <th>绑定邀请码</th>
                             <th>发展代理数</th>
+                            <th>发展总监数</th>
                             <th>入驻时间</th>
                             <th>操作</th>
                             </tr>
@@ -51,16 +52,22 @@
                                         <td>{{ $agent['id'] }}</td>
                                         <td>{{ $agent['user_name'] }}</td>
                                         <td>{{ $agent['name'] }}</td>
-                                        <td>{{ $agent['invite_code'] }}</td>
-                                        @if(isset($agents_count[$agent['invite_code']]))
-                                        <td>{{ $agents_count[$agent['invite_code']]['count'] }}</td>
+                                        <td>{{ $agent['code'] }}</td>
+                                        @if(isset($agents_count[$agent['code']]))
+                                            <td>{{ $agents_count[$agent['code']]['count'] }}</td>
                                         @else
-                                        <td>0</td>
+                                            <td>0</td>
+                                        @endif
+                                        @if(isset($first_agents_count[$agent['code']]))
+                                            <td>{{ $first_agents_count[$agent['code']]['count'] }}</td>
+                                        @else
+                                            <td>0</td>
                                         @endif
                                         <td>{{ date('Y-m-d', strtotime($agent['created_at'])) }}</td>
                                         <td>{{ $agent['created_at'] }}</td>
                                         <td>
-                                            <button type="button" onclick="rechargeList('{{ route('first_agent.rechargelist', ['invite_code' => $agent['invite_code']]) }}')" class="btn btn-primary">充值信息</button>
+                                            <button type="button" onclick="rechargeList('{{ route('general_agent.rechargelist', ['invite_code' => $agent['code']]) }}')" class="btn btn-primary">总监充值信息</button>
+                                            <button type="button" onclick="rechargeList('{{ route('general_agent.rechargelist', ['invite_code' => $agent['code']]) }}')" class="btn btn-primary">代理充值信息</button>
                                             <button type="button" onclick="banAgent({{ $agent['id'] }})" class="btn btn-primary">封禁</button>
                                             <button type="button" onclick="editAgent({{ $agent['id'] }})" class="btn btn-primary">修改信息</button>
                                             <button type="button" onclick="resetPassword({{ $agent['id'] }})" class="btn btn-primary">重置密码</button>
@@ -215,7 +222,7 @@
                 headers: {
                     "X-Requested-With": "XMLHttpRequest",
                 },
-                url: "/api/first_agent/ban",
+                url: "/api/general_agent/ban",
                 data: data,
                 success: function (res) {
                     $('#msg').html(res.msg);
@@ -239,7 +246,7 @@
                 headers: {
                     "X-Requested-With": "XMLHttpRequest",
                 },
-                url: "/api/first_agent/info",
+                url: "/api/general_agent/info",
                 data: data,
                 success: function (res) {
                     if (res.code) {
@@ -252,7 +259,7 @@
                         $("input[name='id']").val(data.id);
                         $("input[name='user_name']").val(data.user_name);
                         $("input[name='name']").val(data.name);
-                        $("input[name='invite_code']").val(data.invite_code);
+                        $("input[name='invite_code']").val(data.code);
                         $("input[name='uin']").val(data.uin);
                         $("input[name='wechat']").val(data.wechat);
                         $("textarea[name='uin_group']").val(data.uin_group);
@@ -276,7 +283,7 @@
                     "X-Requested-With": "XMLHttpRequest",
                 },
                 type: 'POST',
-                url: "/api/first_agent/save",
+                url: "/api/general_agent/save",
                 data: data,
                 success: function (res) {
                     $('.edit_agent').modal('hide');
@@ -342,7 +349,7 @@
                 headers: {
                     "X-Requested-With": "XMLHttpRequest",
                 },
-                url: "/api/first_agent/reset",
+                url: "/api/general_agent/reset",
                 data: _data,
                 success: function (res) {
                     $('.reset_passwd').modal('hide');

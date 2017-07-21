@@ -6,6 +6,7 @@ use App\Common\Constants;
 use Carbon\Carbon;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Redis;
 
 class GenInviteCodes extends Command
 {
@@ -42,9 +43,11 @@ class GenInviteCodes extends Command
     public function handle()
     {
         $batch_insert_arr = [];
+        Redis::del(Constants::INVITE_CODE_INCR);
         for ($i = 0; $i < Constants::INVITE_CODE_BATCH_SIZE; $i++) {
             $batch_insert_arr[] = [
                 'invite_code' => $this->genInviteCode(),
+                'type' => Constants::INVITE_CODE_TYPE_GENERAL_AGENT,
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now(),
             ];
@@ -54,10 +57,7 @@ class GenInviteCodes extends Command
 
     protected function genInviteCode($length = Constants::INVITE_CODE_LENGTH)
     {
-        $invite_code = '';
-        for ($i = 0; $i < $length; $i++) {
-            $invite_code .= mt_rand(0, 9);
-        }
-        return $invite_code;
+        $invite_code = Redis::incr(Constants::INVITE_CODE_INCR);
+        return str_pad($invite_code, $length, 0, STR_PAD_LEFT);
     }
 }

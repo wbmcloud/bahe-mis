@@ -36,6 +36,8 @@ class BaheException extends \Exception
     const CASH_ORDER_NOT_FOUND_CODE         = 2001023;
     const LOGIN_USER_NAME_OR_PASSWD_INVALID = 2001024;
     const RESOURCE_NOT_FOUND                = 2001025;
+    const INVITE_CODE_NOT_USED_CODE         = 2001026;
+    const USER_EXIST_CODE                   = 2001027;
 
 
     public static $error_msg = [
@@ -65,6 +67,8 @@ class BaheException extends \Exception
         self::CASH_ORDER_NOT_FOUND_CODE            => '未找到打款单',
         self::LOGIN_USER_NAME_OR_PASSWD_INVALID    => '用户名或者密码有误！',
         self::RESOURCE_NOT_FOUND                   => '未找到资源',
+        self::INVITE_CODE_NOT_USED_CODE            => '邀请码未使用',
+        self::USER_EXIST_CODE                      => '用户已经存在',
     ];
 
     public function __construct($code, $message = null)

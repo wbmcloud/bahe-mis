@@ -6,10 +6,10 @@
 
 @section('content')
     <div class="box-header with-border">
-        <h3 class="box-title">新增一级代理</h3>
+        <h3 class="box-title">新增总监</h3>
     </div>
     @include('widgets.error')
-    <form class="form-horizontal" method="POST" action="{{  route('user.doadd', ['type' => \App\Common\Constants::ADD_USER_TYPE_FIRST_AGENT]) }}">
+    <form class="form-horizontal" method="POST" action="{{  route('user.doadd', ['type' => \App\Common\Constants::ADD_USER_TYPE_GENERAL_AGENT]) }}">
         {{  csrf_field() }}
         <div class="box-body">
             @include('widgets.general_agent')

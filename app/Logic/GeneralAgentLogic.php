@@ -22,7 +22,7 @@ use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
-class FirstAgentLogic extends BaseLogic
+class GeneralAgentLogic extends BaseLogic
 {
     /**
      * @param     $params
@@ -30,16 +30,16 @@ class FirstAgentLogic extends BaseLogic
      * @param int $status
      * @return mixed
      */
-    public function getFirstAgentList($params, $page_size, $status = Constants::COMMON_ENABLE)
+    public function getGeneralAgentList($params, $page_size, $status = Constants::COMMON_ENABLE)
     {
         $where = [
-            'role_id' => Constants::ROLE_TYPE_FIRST_AGENT,
+            'role_id' => Constants::ROLE_TYPE_GENERAL_AGENT,
             'status'  => $status,
         ];
         if (isset($params['query_str']) && !empty($params['query_str'])) {
             // 分析query_str类型
             if (is_numeric($params['query_str']) &&
-                (strlen($params['query_str']) == Constants::FIRST_AGENT_INVITE_CODE_LENGTH)
+                (strlen($params['query_str']) == Constants::INVITE_CODE_LENGTH)
             ) {
                 // 邀请码查询
                 $where['code'] = $params['query_str'];
@@ -72,6 +72,23 @@ class FirstAgentLogic extends BaseLogic
     }
 
     /**
+     * @param $invite_codes
+     * @return mixed
+     */
+    public function getFirstAgentCount($invite_codes)
+    {
+        $where = [
+            'role_id'     => Constants::ROLE_TYPE_FIRST_AGENT,
+            'status'      => Constants::COMMON_ENABLE,
+        ];
+        return User::where($where)
+            ->whereIn('invite_code', $invite_codes)
+            ->groupBy('invite_code')
+            ->selectRaw('invite_code, count(id) as count')
+            ->get();
+    }
+
+    /**
      * @param $invite_code
      * @return mixed
      * @throws BaheException
@@ -86,8 +103,8 @@ class FirstAgentLogic extends BaseLogic
             throw new BaheException(BaheException::INVITE_CODE_NOT_VALID_CODE);
         }
 
-        if ($invite_code['is_used'] == Constants::COMMON_DISABLE) {
-            throw new BaheException(BaheException::INVITE_CODE_NOT_USED_CODE);
+        if ($invite_code['is_used'] == Constants::COMMON_ENABLE) {
+            throw new BaheException(BaheException::INVITE_CODE_USED_CODE);
         }
 
         return $invite_code;
@@ -154,7 +171,7 @@ class FirstAgentLogic extends BaseLogic
 
         // 获取所有的代理充值额度
         $agents = User::where([
-            'invite_code' => $first_agent->code,
+            'invite_code' => $first_agent->invite_code,
             'role_id' => Constants::ROLE_TYPE_AGENT,
         ])->get()->toArray();
         $agent_ids = array_column($agents, 'id');

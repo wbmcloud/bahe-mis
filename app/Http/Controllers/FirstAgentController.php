@@ -25,9 +25,9 @@ class FirstAgentController extends Controller
         $first_agent_logic = new FirstAgentLogic();
         $user_logic = new UserLogic();
 
-        $users = $first_agent_logic->getGeneralAgentList($this->params, $page_size);
+        $users = $first_agent_logic->getFirstAgentList($this->params, $page_size);
         $agents_count = $first_agent_logic->getAgentCount(
-            array_column($users->toArray()['data'], 'invite_code'));
+            array_column($users->toArray()['data'], 'code'));
         $agents_count = array_column($agents_count->toArray(), null, 'invite_code');
         $cities = $user_logic->getOpenCities();
 
@@ -42,7 +42,8 @@ class FirstAgentController extends Controller
     {
         $page_size = isset($this->params['page_size']) ? $this->params['page_size'] :
             Constants::DEFAULT_PAGE_SIZE;
-        $codes = InviteCode::paginate($page_size);
+        $codes = InviteCode::where('type', Constants::INVITE_CODE_TYPE_FIRST_AGENT)
+            ->paginate($page_size);
 
         return [
             'codes' => $codes,
@@ -55,7 +56,7 @@ class FirstAgentController extends Controller
             Constants::DEFAULT_PAGE_SIZE;
 
         $first_agent_logic = new FirstAgentLogic();
-        $users = $first_agent_logic->getGeneralAgentList($this->params, $page_size,
+        $users = $first_agent_logic->getFirstAgentList($this->params, $page_size,
             Constants::COMMON_DISABLE);
 
         return [

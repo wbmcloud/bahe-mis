@@ -12,12 +12,18 @@ use App\Library\Protobuf\COMMAND_TYPE;
 
 class Constants
 {
+    /**
+     * 角色名称
+     */
     const ROLE_SUPER       = 'super';
     const ROLE_ADMIN       = 'admin';
     const ROLE_AGENT       = 'agent';
     const ROLE_FIRST_AGENT = 'first_agent';
     const ROLE_GENERAL_AGENT = 'general_agent';
 
+    /**
+     * 角色类型id
+     */
     const ROLE_TYPE_USER        = 0;
     const ROLE_TYPE_SUPER       = 1;
     const ROLE_TYPE_ADMIN       = 2;
@@ -25,6 +31,10 @@ class Constants
     const ROLE_TYPE_FIRST_AGENT = 4;
     const ROLE_TYPE_GENERAL_AGENT = 5;
 
+    /**
+     * GMT操作类型
+     * @var array
+     */
     public static $transaction_type = [
         COMMAND_TYPE::COMMAND_TYPE_ROOM_CARD => '房卡',
         COMMAND_TYPE::COMMAND_TYPE_RECHARGE  => '钻石',
@@ -32,6 +42,10 @@ class Constants
         self::COMMAND_TYPE_OPEN_ROOM         => '代开房',
     ];
 
+    /**
+     * 角色名和角色类型对应关系
+     * @var array
+     */
     public static $recharge_role_type = [
         self::ROLE_SUPER => self::ROLE_TYPE_SUPER,
         self::ROLE_ADMIN => self::ROLE_TYPE_ADMIN,
@@ -40,12 +54,16 @@ class Constants
         self::ROLE_GENERAL_AGENT => self::ROLE_TYPE_GENERAL_AGENT,
     ];
 
+    /**
+     * 角色描述
+     * @var array
+     */
     public static $role_type = [
         self::ROLE_TYPE_USER  => '用户',
         self::ROLE_TYPE_SUPER => '超级管理员',
         self::ROLE_TYPE_ADMIN => '管理员',
         self::ROLE_TYPE_AGENT => '代理',
-        self::ROLE_TYPE_FIRST_AGENT => '一级代理',
+        self::ROLE_TYPE_FIRST_AGENT => '总监',
         self::ROLE_TYPE_GENERAL_AGENT => '总代理',
     ];
 
@@ -66,7 +84,10 @@ class Constants
     /**
      * 邀请码配置
      */
-    const INVITE_CODE_LENGTH     = 7;
+    const FIRST_AGENT_INVITE_CODE_LENGTH = 7;
+    const INVITE_CODE_LENGTH     = 4;
+    const INVITE_CODE_LEVEL_LENGTH = 3;
+
     const INVITE_CODE_BATCH_SIZE = 100;
 
     const ROOM_CARD_ITEM_ID = 13303809;
@@ -97,14 +118,19 @@ class Constants
         self::ROLE_FIRST_AGENT,
     ];
 
+    /**
+     * 代开房类型
+     */
     const COMMAND_TYPE_OPEN_ROOM = 11;
 
-    const ROOM_CARD_PRICE = 2.5;
+    /**
+     * 房卡价钱
+     */
+    const ROOM_CARD_PRICE = 1;
 
     /**
      * 代理级别类型
      */
-
     const AGENT_LEVEL_FIRST  = 1;
     const AGENT_LEVEL_SECOND = 2;
 
@@ -113,4 +139,22 @@ class Constants
      */
     const OPERATOR_PROMPT_NOT_PERMISSION_TEXT = '请勿非法访问！';
     const JUMP_TIME_INTERNAL = 3;
+
+    /**
+     * 邀请码生成key前缀
+     */
+    const INVITE_CODE_INCR = 'INVITE_CODE_INCR_';
+    const INVITE_CODE_LEVEL_INCR = 'INVITE_CODE_LEVEL_INCR_';
+
+    /**
+     * 邀请码类型
+     */
+    const INVITE_CODE_TYPE_GENERAL_AGENT = 1;
+    const INVITE_CODE_TYPE_FIRST_AGENT = 2;
+
+    /**
+     * 成功提示标题
+     */
+    const SUCCESS_PROMPT_OPEN_ROOM = '房间号';
+    const SUCCESS_PROMPT_FIRST_AGENT_INVITE_CODE = '邀请码';
 }

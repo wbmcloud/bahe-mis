@@ -8,6 +8,7 @@
 namespace App\Common;
 
 use App\Exceptions\BaheException;
+use Illuminate\Support\Facades\Redis;
 use Illuminate\Support\Facades\Request;
 
 class Utils
@@ -82,10 +83,10 @@ class Utils
         return array_values($arr);
     }
 
-    public static function renderSuccess()
+    public static function renderSuccess($message = null)
     {
         return redirect(ParamsRules::IF_PROMPT)->with([
-            'message' => BaheException::$error_msg[BaheException::SUCCESS_CODE],
+            'message' => !empty($message) ? $message : BaheException::$error_msg[BaheException::SUCCESS_CODE],
             'jump_url' => ParamsRules::IF_DASHBOARD,
             'jump_time' => Constants::JUMP_TIME_INTERNAL,
         ]);
@@ -101,5 +102,12 @@ class Utils
             'jump_url' => $jump_url,
             'jump_time' => Constants::JUMP_TIME_INTERNAL,
         ]);
+    }
+
+    public static function getUniqueInviteCode($code)
+    {
+        $invite_code = Redis::incr(Constants::INVITE_CODE_LEVEL_INCR . $code);
+        return $code . str_pad($invite_code, Constants::INVITE_CODE_LEVEL_LENGTH,
+            0, STR_PAD_LEFT);
     }
 }

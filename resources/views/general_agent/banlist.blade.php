@@ -37,7 +37,7 @@
                             <th>id</th>
                             <th>用户名</th>
                             <th>姓名</th>
-                            <th>邀请码</th>
+                            <th>绑定邀请码</th>
                             <th>入驻时间</th>
                             <th>操作</th>
                             </tr>
@@ -51,7 +51,7 @@
                                         <td>{{ $agent['id'] }}</td>
                                         <td>{{ $agent['user_name'] }}</td>
                                         <td>{{ $agent['name'] }}</td>
-                                        <td>{{ $agent['invite_code'] }}</td>
+                                        <td>{{ $agent['code'] }}</td>
                                         <!--td>{{ date('Y-m-d', strtotime($agent['created_at'])) }}</td-->
                                         <td>{{ $agent['created_at'] }}</td>
                                         <td>
@@ -107,7 +107,7 @@
                 headers: {
                     "X-Requested-With": "XMLHttpRequest",
                 },
-                url: "/api/first_agent/unban",
+                url: "/api/general_agent/unban",
                 data: data,
                 success: function (res) {
                     if (!res.code) {

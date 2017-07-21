@@ -1,5 +1,9 @@
 @extends('admin_template')
 
+@section('head')
+    <link rel="stylesheet" href="{{ asset("/bower_components/admin-lte/plugins/select2/select2.css") }}">
+@endsection
+
 @section('content')
     <section class="content-header">
         <h1>
@@ -20,7 +24,7 @@
                             <option value="{{ $city['server']['server_id'] }}">{{ $city['city_name'] }}</option>
                             @endforeach
                             @endrole
-                            @role(['agent', 'first_agent'])
+                            @role(['agent', 'first_agent', 'general_agent'])
                             <option value="{{ $agent['city']['server']['server_id'] }}">{{ $agent['city']['city_name'] }}</option>
                             @endrole
                         </select>
@@ -34,8 +38,14 @@
 @endsection
 
 @section('script')
+    <script src="{{ asset("/bower_components/admin-lte/plugins/select2/select2.js") }}"></script>
     <script>
         $(document).ready(function() {
+            $(".city_multi").select2({
+                placeholder: "请选择开通城市",
+                maximumSelectionLength: 3,
+                tags: true
+            });
             $('#openroom').addClass('active');
         });
 
