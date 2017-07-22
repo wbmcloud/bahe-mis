@@ -62,12 +62,6 @@ class Utils
         return $use . $unit;
     }
 
-
-    public static function getCommissionRate($amount)
-    {
-        return round($amount / 2, 2);
-    }
-
     public static function arrayUnique(array $arr)
     {
         $serialize_arr = array_map(function ($v) {

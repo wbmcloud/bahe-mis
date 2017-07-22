@@ -92,7 +92,7 @@
         @endrole
         @role(['first_agent'])
         <li id="first_agent_rechargelist" class="treeview">
-          <a href="{{ route('first_agent.rechargelist', ['invite_code' => \Illuminate\Support\Facades\Auth::user()->invite_code]) }}">
+          <a href="{{ route('first_agent.rechargelist', ['invite_code' => \Illuminate\Support\Facades\Auth::user()->code]) }}">
           <i class="fa fa-circle-o"></i><span>代理充值记录</span>
           </a>
         </li>
@@ -110,8 +110,13 @@
         @endrole
         @role(['general_agent'])
         <li id="general_agent_rechargelist" class="treeview">
-          <a href="{{ route('general_agent.rechargelist', ['invite_code' => \Illuminate\Support\Facades\Auth::user()->invite_code]) }}">
+          <a href="{{ route('general_agent.rechargelist', ['invite_code' => \Illuminate\Support\Facades\Auth::user()->code]) }}">
             <i class="fa fa-circle-o"></i><span>代理充值记录</span>
+          </a>
+        </li>
+        <li id="general_agent_rechargelist" class="treeview">
+          <a href="{{ route('general_agent.first_agent_rechargelist', ['invite_code' => \Illuminate\Support\Facades\Auth::user()->code]) }}">
+            <i class="fa fa-circle-o"></i><span>总监销售记录</span>
           </a>
         </li>
         <li id="data_stat" class="treeview">

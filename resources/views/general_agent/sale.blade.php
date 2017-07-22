@@ -30,25 +30,29 @@
                         </thead>
                         <tbody>
                         <tr>
-                            <td>本周总金额</td>
-                            <td>{{ $income_stat['sale_amount'] }}</td>
+                            <td>总监销售金额</td>
+                            <td>{{ $income_stat['first_agent_sale_amount'] }}</td>
                         </tr>
                         <tr>
-                            <td>代理提成</td>
-                            <td>{{ $income_stat['sale_commission'] }}</td>
+                            <td>总监提成</td>
+                            <td>{{ $income_stat['first_agent_sale_commission'] }}</td>
                         </tr>
                         <tr>
-                            <td>个人代理销售金额</td>
+                            <td>代理销售金额</td>
                             <td>{{ $income_stat['agent_sale_amount'] }}</td>
                         </tr>
                         <tr>
-                            <td>上周收入</td>
-                            <td>{{ $income_stat['last_week_income'] }}</td>
+                            <td>代理提成</td>
+                            <td>{{ $income_stat['agent_sale_commission'] }}</td>
+                        </tr>
+                        <tr>
+                            <td>个人代理销售金额</td>
+                            <td>{{ $income_stat['general_agent_sale_amount'] }}</td>
                         </tr>
                         </tbody>
                     </table>
                 </div>
-                <h4>账单明细</h4>
+                <h4>本周代理销售账单明细</h4>
                 <div class="box">
                     <div class="box-body">
                         <table id="agent_container" class="table table-bordered table-hover">

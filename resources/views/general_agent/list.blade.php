@@ -4,6 +4,9 @@
     .pagination {
         margin-left: 40%;
     }
+    .btn {
+        margin: 2px;
+    }
     </style>
 @endsection
 @section('content')
@@ -63,11 +66,11 @@
                                         @else
                                             <td>0</td>
                                         @endif
-                                        <td>{{ date('Y-m-d', strtotime($agent['created_at'])) }}</td>
                                         <td>{{ $agent['created_at'] }}</td>
                                         <td>
-                                            <button type="button" onclick="rechargeList('{{ route('general_agent.rechargelist', ['invite_code' => $agent['code']]) }}')" class="btn btn-primary">总监充值信息</button>
+                                            <button type="button" onclick="rechargeList('{{ route('general_agent.first_agent_rechargelist', ['invite_code' => $agent['code']]) }}')" class="btn btn-primary">总监销售记录</button>
                                             <button type="button" onclick="rechargeList('{{ route('general_agent.rechargelist', ['invite_code' => $agent['code']]) }}')" class="btn btn-primary">代理充值信息</button>
+                                            <br>
                                             <button type="button" onclick="banAgent({{ $agent['id'] }})" class="btn btn-primary">封禁</button>
                                             <button type="button" onclick="editAgent({{ $agent['id'] }})" class="btn btn-primary">修改信息</button>
                                             <button type="button" onclick="resetPassword({{ $agent['id'] }})" class="btn btn-primary">重置密码</button>

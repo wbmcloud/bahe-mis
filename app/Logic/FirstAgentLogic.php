@@ -9,7 +9,6 @@
 namespace App\Logic;
 
 use App\Common\Constants;
-use App\Common\Utils;
 use App\Exceptions\BaheException;
 use App\Library\Protobuf\COMMAND_TYPE;
 use App\Models\CashOrder;
@@ -19,8 +18,6 @@ use App\Models\TransactionFlow;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Pagination\LengthAwarePaginator;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
 
 class FirstAgentLogic extends BaseLogic
 {
@@ -211,9 +208,9 @@ class FirstAgentLogic extends BaseLogic
         $agent_sale_sum = array_sum(array_column($agent_amount->toArray(), 'sum')) * Constants::ROOM_CARD_PRICE;
 
         $income_stat['sale_amount'] = $agent_sale_sum;
-        $income_stat['sale_commission'] = Utils::getCommissionRate($agent_sale_sum);
+        $income_stat['sale_commission'] = $agent_sale_sum * Constants::COMMISSION_TYPE_FIRST_TO_AGENT_RATE;
         $income_stat['agent_sale_amount'] = $this->getAgentSaleAmount($agent_id);
-        $income_stat['last_week_income'] = Utils::getCommissionRate($this->getLevelAgentLastWeekIncome($agent_id));
+        $income_stat['last_week_income'] = $this->getLevelAgentLastWeekIncome($agent_id) * Constants::COMMISSION_TYPE_FIRST_TO_AGENT_RATE;
 
         return $income_stat;
 
@@ -236,7 +233,7 @@ class FirstAgentLogic extends BaseLogic
 
     public function getLevelAgentLastWeekIncome($agent_id)
     {
-        $last_week_day = Carbon::now()->previousWeekday();
+        $last_week_day = Carbon::now()->subWeek();
         $last_week = $last_week_day->weekOfYear;
 
         return CashOrder::where([

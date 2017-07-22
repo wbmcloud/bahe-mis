@@ -65,6 +65,7 @@ Route::group(['middleware' => ['validator']], function () {
         Route::get(\App\Common\ParamsRules::IF_GENERAL_AGENT_INVITE_CODE, 'GeneralAgentController@inviteCode')->name('general_agent.invite_code');
         Route::get(\App\Common\ParamsRules::IF_GENERAL_AGENT_BAN_LIST, 'GeneralAgentController@banAgentList')->name('general_agent.banlist');
         Route::get(\App\Common\ParamsRules::IF_GENERAL_AGENT_RECHARGE_LIST, 'GeneralAgentController@agentRechargeList')->name('general_agent.rechargelist');
+        Route::get(\App\Common\ParamsRules::IF_GENERAL_AGENT_FIRST_AGENT_RECHARGE_LIST, 'GeneralAgentController@firstAgentIncomeList')->name('general_agent.first_agent_rechargelist');
         Route::get(\App\Common\ParamsRules::IF_GENERAL_AGENT_CASH_ORDER_LIST, 'GeneralAgentController@lastWeekCashOrderList')->name('general_agent.cash_order_list');
         Route::get(\App\Common\ParamsRules::IF_GENERAL_AGENT_INCOME, 'GeneralAgentController@income')->name('general_agent.income');
         Route::get(\App\Common\ParamsRules::IF_GENERAL_AGENT_SALE, 'GeneralAgentController@sale')->name('general_agent.sale');

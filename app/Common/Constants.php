@@ -116,6 +116,7 @@ class Constants
 
     public static $level_agent = [
         self::ROLE_FIRST_AGENT,
+        self::ROLE_GENERAL_AGENT,
     ];
 
     /**
@@ -131,8 +132,8 @@ class Constants
     /**
      * 代理级别类型
      */
-    const AGENT_LEVEL_FIRST  = 1;
-    const AGENT_LEVEL_SECOND = 2;
+    const AGENT_LEVEL_GENERAL  = 1;
+    const AGENT_LEVEL_FIRST = 2;
 
     /**
      * 操作结果
@@ -157,4 +158,12 @@ class Constants
      */
     const SUCCESS_PROMPT_OPEN_ROOM = '房间号';
     const SUCCESS_PROMPT_FIRST_AGENT_INVITE_CODE = '邀请码';
+
+    /**
+     * 佣金类型
+     */
+    const COMMISSION_TYPE_FIRST_TO_AGENT_RATE = 0.5;
+    const COMMISSION_TYPE_GENERAL_TO_FIRST_RATE = 0.5;
+    const COMMISSION_TYPE_GENERAL_TO_AGENT_RATE = 0.5;
+
 }

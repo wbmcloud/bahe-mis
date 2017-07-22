@@ -77,6 +77,7 @@ class ParamsRules
     const IF_GENERAL_AGENT_BAN_LIST        = '/general_agent/banlist';
     const IF_GENERAL_AGENT_INVITE_CODE     = '/general_agent/invite_code';
     const IF_GENERAL_AGENT_RECHARGE_LIST   = '/general_agent/rechargelist';
+    const IF_GENERAL_AGENT_FIRST_AGENT_RECHARGE_LIST = '/general_agent/first_agent_rechargelist';
     const IF_GENERAL_AGENT_CASH_ORDER_LIST = '/general_agent/cash_order_list';
     const IF_GENERAL_AGENT_INCOME          = '/general_agent/income';
     const IF_GENERAL_AGENT_SALE            = '/general_agent/sale';
@@ -298,8 +299,8 @@ class ParamsRules
         self::IF_FATAL_ERROR                     => ['auth' => '*', 'desc' => '500错误页面'],
         self::IF_USER_ADD                        => ['auth' => ['super', 'admin'], 'desc' => '添加用户页面'],
         self::IF_USER_DO_ADD                     => ['auth' => ['super', 'admin'], 'desc' => '添加用户动作'],
-        self::IF_USER_RESET                      => ['auth' => ['super', 'admin'], 'desc' => '修改密码页面'],
-        self::IF_USER_DO_RESET                   => ['auth' => ['super', 'admin'], 'desc' => '修改密码动作'],
+        self::IF_USER_RESET                      => ['auth' => '*', 'desc' => '修改密码页面'],
+        self::IF_USER_DO_RESET                   => ['auth' => '*', 'desc' => '修改密码动作'],
         self::IF_USER_AGREE                      => ['auth' => ['agent', 'first_agent', 'general_agent'], 'desc' => '代理协议同意动作'],
         self::IF_USER_AGREEMENT                  => ['auth' => ['agent', 'first_agent', 'general_agent'], 'desc' => '代理协议页面'],
         self::IF_AGENT_LIST                      => ['auth' => ['super', 'admin'], 'desc' => '代理列表页面'],
@@ -336,6 +337,7 @@ class ParamsRules
         self::IF_GENERAL_AGENT_BAN_LIST          => ['auth' => ['super', 'admin'], 'desc' => '封禁总代理列表页面'],
         self::IF_GENERAL_AGENT_INVITE_CODE       => ['auth' => ['super', 'admin'], 'desc' => '邀请码列表页面'],
         self::IF_GENERAL_AGENT_RECHARGE_LIST     => ['auth' => ['super', 'admin', 'general_agent'], 'desc' => '总代理充值记录页面'],
+        self::IF_GENERAL_AGENT_FIRST_AGENT_RECHARGE_LIST     => ['auth' => ['super', 'admin', 'general_agent'], 'desc' => '总监销售记录页面'],
         self::IF_GENERAL_AGENT_CASH_ORDER_LIST   => ['auth' => ['super', 'admin'], 'desc' => '总代理每周打款单'],
         self::IF_GENERAL_AGENT_INCOME            => ['auth' => ['general_agent'], 'desc' => '总代理收入统计'],
         self::IF_GENERAL_AGENT_SALE              => ['auth' => ['general_agent'], 'desc' => '总代理销售明细'],
@@ -376,6 +378,7 @@ class ParamsRules
         self::IF_GENERAL_AGENT_INVITE_CODE     => 'general_agent.invite_code',
         self::IF_GENERAL_AGENT_BAN_LIST        => 'general_agent.banlist',
         self::IF_GENERAL_AGENT_RECHARGE_LIST   => 'general_agent.recharge',
+        self::IF_GENERAL_AGENT_FIRST_AGENT_RECHARGE_LIST   => 'general_agent.first_agent_recharge',
         self::IF_GENERAL_AGENT_CASH_ORDER_LIST => 'general_agent.cash_order_list',
         self::IF_GENERAL_AGENT_INCOME          => 'general_agent.income',
         self::IF_GENERAL_AGENT_SALE            => 'general_agent.sale',

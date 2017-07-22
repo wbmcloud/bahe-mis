@@ -74,7 +74,7 @@ class FirstAgentController extends Controller
         $first_agent_logic = new FirstAgentLogic();
 
         if (Auth::user()->hasRole(Constants::ROLE_FIRST_AGENT)) {
-            $recharge_flows      = $first_agent_logic->getAgentRechargeList(Auth::user()->invite_code, $start_time,
+            $recharge_flows      = $first_agent_logic->getAgentRechargeList(Auth::user()->code, $start_time,
                 $end_time, $page_size);
         } else {
             $recharge_flows      = $first_agent_logic->getAgentRechargeList($this->params['invite_code'], $start_time,

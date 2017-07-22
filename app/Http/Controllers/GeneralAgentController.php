@@ -79,7 +79,7 @@ class GeneralAgentController extends Controller
         $general_agent_logic = new GeneralAgentLogic();
 
         if (Auth::user()->hasRole(Constants::ROLE_GENERAL_AGENT)) {
-            $recharge_flows      = $general_agent_logic->getAgentRechargeList(Auth::user()->invite_code, $start_time,
+            $recharge_flows      = $general_agent_logic->getAgentRechargeList(Auth::user()->code, $start_time,
                 $end_time, $page_size);
         } else {
             $recharge_flows      = $general_agent_logic->getAgentRechargeList($this->params['invite_code'], $start_time,
@@ -88,6 +88,25 @@ class GeneralAgentController extends Controller
 
         return [
             'recharge_flows' => $recharge_flows
+        ];
+    }
+
+    public function firstAgentIncomeList()
+    {
+        $page_size           = isset($this->params['page_size']) ? $this->params['page_size'] :
+            Constants::DEFAULT_PAGE_SIZE;
+        $general_agent_logic = new GeneralAgentLogic();
+
+        if (Auth::user()->hasRole(Constants::ROLE_GENERAL_AGENT)) {
+            $this->params['invite_code'] = Auth::user()->code;
+        }
+
+        $this->params['page_size'] = $page_size;
+
+        $first_agents = $general_agent_logic->getFirstAgentIncomeList($this->params);
+
+        return [
+            'first_agents' => $first_agents
         ];
     }
 
@@ -105,10 +124,10 @@ class GeneralAgentController extends Controller
 
     public function income()
     {
-        $first_agent_logic = new FirstAgentLogic();
+        $general_agent_logic = new GeneralAgentLogic();
 
         return [
-            'income_stat' => $first_agent_logic->getCurrentAgentIncomeStat(Auth::id())
+            'income_stat' => $general_agent_logic->getCurrentAgentIncomeStat(Auth::user())
         ];
     }
 
@@ -117,12 +136,12 @@ class GeneralAgentController extends Controller
         $page_size  = isset($this->params['page_size']) ? $this->params['page_size'] :
             Constants::DEFAULT_PAGE_SIZE;
 
-        $first_agent_logic = new FirstAgentLogic();
+        $general_agent_logic = new GeneralAgentLogic();
 
-        $income_stat = $first_agent_logic->getCurrentAgentIncomeStat(Auth::id());
-        $level_agent_sale_amount_list = $first_agent_logic->getLevelAgentSaleAmountDetail(Auth::id(), $page_size);
+        $income_stat = $general_agent_logic->getCurrentAgentIncomeStat(Auth::user());
+        $level_agent_sale_amount_list = $general_agent_logic->getLevelAgentSaleAmountDetail(Auth::id(), $page_size);
         $agent_ids = array_column($level_agent_sale_amount_list->toArray()['data'], 'user_id');
-        $agents = $first_agent_logic->getAgentInfoByIds($agent_ids);
+        $agents = $general_agent_logic->getAgentInfoByIds($agent_ids);
 
         return [
             'income_stat' => $income_stat,
@@ -136,10 +155,10 @@ class GeneralAgentController extends Controller
         $page_size  = isset($this->params['page_size']) ? $this->params['page_size'] :
             Constants::DEFAULT_PAGE_SIZE;
 
-        $first_agent_logic = new FirstAgentLogic();
+        $general_agent_logic = new GeneralAgentLogic();
 
         return [
-            'history_income_list' => $first_agent_logic->getLevelAgentCashOrderList(Auth::id(), $page_size)
+            'history_income_list' => $general_agent_logic->getLevelAgentCashOrderList(Auth::id(), $page_size)
         ];
     }
 }

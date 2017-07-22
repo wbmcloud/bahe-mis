@@ -139,6 +139,57 @@ class GeneralAgentLogic extends BaseLogic
         return $recharge_flows;
     }
 
+    /**
+     * @param $params
+     * @return LengthAwarePaginator
+     */
+    public function getFirstAgentIncomeList($params)
+    {
+        $income_first_agents = [];
+
+        $where = [
+            'role_id' => Constants::ROLE_TYPE_FIRST_AGENT,
+            'invite_code' => $params['invite_code'],
+        ];
+        if (isset($params['query_str']) && !empty($params['query_str'])) {
+            $where['name'] = $params['query_str'];
+        }
+
+        $first_agents = User::where($where)->get()->toArray();
+
+        foreach ($first_agents as $first_agent) {
+            $agents = User::where([
+                'role_id' => Constants::ROLE_TYPE_AGENT,
+                'invite_code' => $first_agent['code'],
+            ])->get()->toArray();
+            if (empty($agents)) {
+                continue;
+            }
+            if (isset($params['start_time']) && !empty($params['start_time']) &&
+                isset($params['end_time']) && !empty($params['end_time'])) {
+                $total_income = TransactionFlow::whereIn('recipient_id', array_column($agents, 'id'))
+                    ->whereBetween('created_at', [$params['start_time'], $params['end_time']])
+                    ->sum('num');
+            } else {
+                $total_income = TransactionFlow::whereIn('recipient_id', array_column($agents, 'id'))
+                    ->sum('num');
+            }
+
+            if (empty($total_income)) {
+                continue;
+            }
+
+            $first_agent['total_income'] = $total_income;
+            $income_first_agents[] = $first_agent;
+        }
+
+        if (isset($params['page_size']) && !empty($params['page_size'])) {
+            return new LengthAwarePaginator($income_first_agents, count($income_first_agents), $params['page_size']);;
+        }
+
+        return $income_first_agents;
+    }
+
     public function getLastWeekCashOrder($agent_level = Constants::AGENT_LEVEL_FIRST, $page_size)
     {
         $last_week_day = Carbon::now()->subWeek();
@@ -157,21 +208,21 @@ class GeneralAgentLogic extends BaseLogic
 
     public function getLevelAgentSaleAmount($user_id, $start_time = null, $end_time = null, $page_size = null)
     {
-        $first_agent = User::where([
+        $general_agent = User::where([
             'id' => $user_id
         ])->first();
 
-        if (empty($first_agent)) {
+        if (empty($general_agent)) {
             throw new BaheException(BaheException::USER_NOT_EXIST_CODE);
         }
 
-        if (!$first_agent->hasRole(Constants::$level_agent)) {
+        if (!$general_agent->hasRole(Constants::$level_agent)) {
             throw new BaheException(BaheException::AGENT_NOT_VALID_CODE);
         }
 
         // 获取所有的代理充值额度
         $agents = User::where([
-            'invite_code' => $first_agent->invite_code,
+            'invite_code' => $general_agent->code,
             'role_id' => Constants::ROLE_TYPE_AGENT,
         ])->get()->toArray();
         $agent_ids = array_column($agents, 'id');
@@ -215,28 +266,35 @@ class GeneralAgentLogic extends BaseLogic
             }
         }
 
-
         return $flows;
     }
 
-    public function getCurrentAgentIncomeStat($agent_id)
+    public function getCurrentAgentIncomeStat($user)
     {
         $income_stat = [];
         $start_of_week = Carbon::now()->startOfWeek()->toDateTimeString();
+        $end_time = Carbon::now()->toDateTimeString();
 
-        $agent_amount = $this->getLevelAgentSaleAmount($agent_id, $start_of_week, Carbon::now()->toDateTimeString());
+        $agent_amount = $this->getLevelAgentSaleAmount($user->id, $start_of_week, $end_time);
         $agent_sale_sum = array_sum(array_column($agent_amount->toArray(), 'sum')) * Constants::ROOM_CARD_PRICE;
 
-        $income_stat['sale_amount'] = $agent_sale_sum;
-        $income_stat['sale_commission'] = Utils::getCommissionRate($agent_sale_sum);
-        $income_stat['agent_sale_amount'] = $this->getAgentSaleAmount($agent_id);
-        $income_stat['last_week_income'] = Utils::getCommissionRate($this->getLevelAgentLastWeekIncome($agent_id));
+        $first_agent_amount = $this->getFirstAgentIncomeList([
+            'invite_code' => $user->code,
+            'start_time' => $start_of_week,
+            'end_time' => $end_time,
+        ]);
+        $first_agent_sum = array_sum(array_column($first_agent_amount, 'total_income'));
+
+        $income_stat['agent_sale_amount'] = $agent_sale_sum;
+        $income_stat['agent_sale_commission'] = $agent_sale_sum * Constants::COMMISSION_TYPE_GENERAL_TO_AGENT_RATE;
+        $income_stat['first_agent_sale_amount'] = $first_agent_sum;
+        $income_stat['first_agent_sale_commission'] = $first_agent_sum * Constants::COMMISSION_TYPE_GENERAL_TO_FIRST_RATE;
+        $income_stat['general_agent_sale_amount'] = $this->getGeneralAgentSaleAmount($user->id);
 
         return $income_stat;
-
     }
 
-    public function getAgentSaleAmount($agent_id, $start_time = null, $end_time = null)
+    public function getGeneralAgentSaleAmount($agent_id, $start_time = null, $end_time = null)
     {
         return TransactionFlow::where([
                 'initiator_id' => $agent_id,
@@ -280,7 +338,7 @@ class GeneralAgentLogic extends BaseLogic
     {
         $cash_orders = CashOrder::where([
                 'relation_id' => $agent_id,
-                'type' => Constants::AGENT_LEVEL_FIRST
+                'type' => Constants::AGENT_LEVEL_GENERAL
             ])
             ->selectRaw('week, amount, status')
             ->paginate($page_size);
