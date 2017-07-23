@@ -163,5 +163,6 @@
 
             });
         });
+        $('#agent_consume_flow').addClass('active');
     </script>
 @endsection

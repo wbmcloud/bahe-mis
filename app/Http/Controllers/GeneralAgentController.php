@@ -79,12 +79,14 @@ class GeneralAgentController extends Controller
         $general_agent_logic = new GeneralAgentLogic();
 
         if (Auth::user()->hasRole(Constants::ROLE_GENERAL_AGENT)) {
-            $recharge_flows      = $general_agent_logic->getAgentRechargeList(Auth::user()->code, $start_time,
-                $end_time, $page_size);
-        } else {
-            $recharge_flows      = $general_agent_logic->getAgentRechargeList($this->params['invite_code'], $start_time,
-                $end_time, $page_size);
+            if (substr($this->params['invite_code'], 0, Constants::INVITE_CODE_LENGTH) !==
+                Auth::user()->code) {
+                $this->params['invite_code'] = Auth::user()->code;
+            }
         }
+
+        $recharge_flows      = $general_agent_logic->getAgentRechargeList($this->params['invite_code'], $start_time,
+            $end_time, $page_size);
 
         return [
             'recharge_flows' => $recharge_flows
@@ -102,7 +104,6 @@ class GeneralAgentController extends Controller
         }
 
         $this->params['page_size'] = $page_size;
-
         $first_agents = $general_agent_logic->getFirstAgentIncomeList($this->params);
 
         return [
@@ -115,10 +116,10 @@ class GeneralAgentController extends Controller
         $page_size  = isset($this->params['page_size']) ? $this->params['page_size'] :
             Constants::DEFAULT_PAGE_SIZE;
 
-        $first_agent_logic = new FirstAgentLogic();
+        $general_agent_logic = new GeneralAgentLogic();
 
         return [
-            'cash_orders' => $first_agent_logic->getLastWeekCashOrder(Constants::AGENT_LEVEL_FIRST, $page_size)
+            'cash_orders' => $general_agent_logic->getLastWeekCashOrder(Constants::AGENT_LEVEL_GENERAL, $page_size)
         ];
     }
 
@@ -136,15 +137,27 @@ class GeneralAgentController extends Controller
         $page_size  = isset($this->params['page_size']) ? $this->params['page_size'] :
             Constants::DEFAULT_PAGE_SIZE;
 
+        $login_user = Auth::user();
         $general_agent_logic = new GeneralAgentLogic();
 
-        $income_stat = $general_agent_logic->getCurrentAgentIncomeStat(Auth::user());
-        $level_agent_sale_amount_list = $general_agent_logic->getLevelAgentSaleAmountDetail(Auth::id(), $page_size);
-        $agent_ids = array_column($level_agent_sale_amount_list->toArray()['data'], 'user_id');
+        if ($this->params['type'] == Constants::ROLE_TYPE_AGENT) {
+            $level_agent_sale_amount_list = $general_agent_logic->getLevelAgentSaleAmountDetail($login_user->id, $page_size);
+        } elseif ($this->params['type'] == Constants::ROLE_TYPE_FIRST_AGENT) {
+            $start_of_week = Carbon::now()->startOfWeek()->toDateTimeString();
+            $end_time = Carbon::now()->toDateTimeString();
+
+            $level_agent_sale_amount_list = $general_agent_logic->getFirstAgentIncomeList([
+                'invite_code' => $login_user->code,
+                'start_time' => $start_of_week,
+                'end_time' => $end_time,
+                'page_size' => $page_size
+            ]);
+        }
+
+        $agent_ids = array_column($level_agent_sale_amount_list->toArray()['data'], 'id');
         $agents = $general_agent_logic->getAgentInfoByIds($agent_ids);
 
         return [
-            'income_stat' => $income_stat,
             'level_agent_sale_amount_list' => $level_agent_sale_amount_list,
             'agents' => $agents
         ];

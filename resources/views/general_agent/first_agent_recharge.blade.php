@@ -48,7 +48,7 @@
                                         <td>{{ $first_agent['name'] }}</td>
                                         <td>{{ $first_agent['code'] }}</td>
                                         <td>{{ $first_agent['invite_code'] }}</td>
-                                        <td>{{ $first_agent['total_income'] }}</td>
+                                        <td>{{ $first_agent['sum'] }}</td>
                                         <td>
                                             <button type="button" onclick="rechargeList('{{ route('general_agent.rechargelist', ['invite_code' => $first_agent['code']]) }}')"
                                                     class="btn btn-primary">代理充值记录
@@ -153,5 +153,6 @@
         function rechargeList(url) {
             location.href = url;
         }
+        $('#first_agent_rechargelist').addClass('active');
     </script>
 @endsection

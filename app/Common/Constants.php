@@ -166,4 +166,10 @@ class Constants
     const COMMISSION_TYPE_GENERAL_TO_FIRST_RATE = 0.5;
     const COMMISSION_TYPE_GENERAL_TO_AGENT_RATE = 0.5;
 
+    /**
+     * 打款单类型
+     */
+    const CASH_ORDER_TYPE_GENERAL = 1;
+    const CASH_ORDER_TYPE_FIRST = 2;
+
 }

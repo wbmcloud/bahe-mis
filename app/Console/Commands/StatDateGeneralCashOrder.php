@@ -3,8 +3,10 @@
 namespace App\Console\Commands;
 
 use App\Common\Constants;
+use App\Common\Utils;
 use App\Library\Protobuf\COMMAND_TYPE;
 use App\Logic\FirstAgentLogic;
+use App\Logic\GeneralAgentLogic;
 use App\Models\CashOrder;
 use App\Models\TransactionFlow;
 use App\Models\User;
@@ -12,7 +14,7 @@ use Carbon\Carbon;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\DB;
 
-class StatDateCashOrder extends Command
+class StatDateGeneralCashOrder extends Command
 {
 
     /**
@@ -20,7 +22,7 @@ class StatDateCashOrder extends Command
      *
      * @var string
      */
-    protected $signature = 'stat:cash_order';
+    protected $signature = 'stat:general_cash_order';
 
     /**
      * The console command description.
@@ -54,33 +56,46 @@ class StatDateCashOrder extends Command
             'week' => $last_week,
             'month' => $last_week_day->month,
             'year' => $last_week_day->year,
+            'type' => Constants::CASH_ORDER_TYPE_GENERAL,
             'created_at' => Carbon::now()->toDateTimeString(),
             'updated_at' => Carbon::now()->toDateTimeString(),
         ];
-        $first_agents = User::where([
-            'role_id' => Constants::ROLE_TYPE_FIRST_AGENT,
+        $general_agents = User::where([
+            'role_id' => Constants::ROLE_TYPE_GENERAL_AGENT,
             'status' => Constants::COMMON_ENABLE,
         ])->get()->toArray();
-        foreach ($first_agents as $first_agent) {
-            $last_day_cash_order['relation_id'] = $first_agent['id'];
-            $last_day_cash_order['name'] = $first_agent['name'];
+        foreach ($general_agents as $general_agent) {
+            $last_day_cash_order['relation_id'] = $general_agent['id'];
+            $last_day_cash_order['name'] = $general_agent['name'];
 
-            $agents = User::where([
-                'invite_code' => $first_agent['code'],
-                'role_id' => Constants::ROLE_TYPE_AGENT,
-            ])->get()->toArray();
-            if (empty($agents)) {
+            $general_agent_logic = new GeneralAgentLogic();
+            $start_of_week = $last_week_day->startOfWeek()->toDateTimeString();
+            $end_of_week = $last_week_day->endOfWeek()->toDateTimeString();
+
+            // 计算销售总监收入
+            $general_sale_amount = $general_agent_logic->getFirstAgentIncomeList([
+                'invite_code' => $general_agent['code'],
+                'start_time' => $start_of_week,
+                'end_time' => $end_of_week,
+            ]);
+
+            if (empty($general_sale_amount)) {
                 $last_day_cash_order['amount'] = 0;
                 $last_day_cash_orders[] = $last_day_cash_order;
                 continue;
             }
 
-            $first_agent_logic = new FirstAgentLogic();
-            $start_of_week = $last_week_day->startOfWeek()->toDateTimeString();
-            $end_of_week = $last_week_day->endOfWeek()->toDateTimeString();
-            $level_agent_income = $first_agent_logic->getLevelAgentSaleAmount($first_agent['id'], $start_of_week, $end_of_week);
-            $level_agent_income = array_column($level_agent_income->toArray(), 'sum');
-            $last_day_cash_order['amount'] = array_sum($level_agent_income);
+            $general_sale_income = Utils::arraySum($general_sale_amount, 'sum') *
+                Constants::COMMISSION_TYPE_GENERAL_TO_FIRST_RATE;
+
+            // 计算销售代理收入
+            $level_agent_amount = $general_agent_logic->getLevelAgentSaleAmount($general_agent['id'], $start_of_week, $end_of_week);
+            $level_agent_income = Utils::arraySum($level_agent_amount->toArray(), 'sum') *
+                Constants::COMMISSION_TYPE_GENERAL_TO_AGENT_RATE;
+
+
+            // 合并收入
+            $last_day_cash_order['amount'] = $general_sale_income + $level_agent_income;
             $last_day_cash_orders[] = $last_day_cash_order;
         }
 

@@ -129,7 +129,6 @@ class FirstAgentLogic extends BaseLogic
                 'type' => $agent_level,
             ])
             ->where('amount', '>', 0)
-            ->selectRaw('relation_id as id, name, amount')
             ->paginate($page_size);
 
         return $cash_orders;
@@ -207,9 +206,9 @@ class FirstAgentLogic extends BaseLogic
         $agent_amount = $this->getLevelAgentSaleAmount($agent_id, $start_of_week, Carbon::now()->toDateTimeString());
         $agent_sale_sum = array_sum(array_column($agent_amount->toArray(), 'sum')) * Constants::ROOM_CARD_PRICE;
 
-        $income_stat['sale_amount'] = $agent_sale_sum;
-        $income_stat['sale_commission'] = $agent_sale_sum * Constants::COMMISSION_TYPE_FIRST_TO_AGENT_RATE;
-        $income_stat['agent_sale_amount'] = $this->getAgentSaleAmount($agent_id);
+        $income_stat['first_agent_sale_amount'] = $agent_sale_sum;
+        $income_stat['first_agent_sale_commission'] = $agent_sale_sum * Constants::COMMISSION_TYPE_FIRST_TO_AGENT_RATE;
+        $income_stat['agent_sale_amount'] = $this->getAgentSaleAmount($agent_id) * Constants::ROOM_CARD_PRICE;
         $income_stat['last_week_income'] = $this->getLevelAgentLastWeekIncome($agent_id) * Constants::COMMISSION_TYPE_FIRST_TO_AGENT_RATE;
 
         return $income_stat;

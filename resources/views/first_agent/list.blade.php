@@ -4,6 +4,9 @@
     .pagination {
         margin-left: 40%;
     }
+    .btn {
+        margin: 2px;
+    }
     </style>
 @endsection
 @section('content')

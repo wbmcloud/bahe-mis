@@ -5,7 +5,8 @@ namespace App\Console;
 use App\Console\Commands\genInviteCodes;
 use App\Console\Commands\ImportRolePermissions;
 use App\Console\Commands\ManagerActionLog;
-use App\Console\Commands\statDateCashOrder;
+use App\Console\Commands\StatDateFirstCashOrder;
+use App\Console\Commands\StatDateGeneralCashOrder;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 
@@ -19,7 +20,8 @@ class Kernel extends ConsoleKernel
     protected $commands = [
         ImportRolePermissions::class,
         GenInviteCodes::class,
-        StatDateCashOrder::class,
+        StatDateFirstCashOrder::class,
+        StatDateGeneralCashOrder::class,
         ManagerActionLog::class,
     ];
 

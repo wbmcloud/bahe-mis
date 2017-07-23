@@ -258,6 +258,9 @@ class ParamsRules
             'page'        => 'integer|nullable',
             'page_size'   => 'integer|nullable'
         ],
+        self::IF_GENERAL_AGENT_SALE          => [
+            'type' => ['required', 'in:3,4']
+        ],
         self::IF_API_GENERAL_AGENT_BAN       => [
             'id' => 'required|integer',
         ],

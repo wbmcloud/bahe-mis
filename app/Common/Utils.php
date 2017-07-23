@@ -104,4 +104,21 @@ class Utils
         return $code . str_pad($invite_code, Constants::INVITE_CODE_LEVEL_LENGTH,
             0, STR_PAD_LEFT);
     }
+
+    public static function arraySum(array $arr, $key = null)
+    {
+        if (empty($arr)) {
+            return 0;
+        }
+
+        if (empty($key)) {
+            return array_sum($arr);
+        }
+
+        if (!key_exists($key, $arr[0])) {
+            return array_sum($arr);
+        }
+
+        return array_sum(array_column($arr, $key));
+    }
 }

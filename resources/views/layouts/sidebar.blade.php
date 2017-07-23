@@ -106,15 +106,21 @@
           <ul class="treeview-menu">
             <li id="income"><a href="{{ route('first_agent.income') }}"><i class="fa fa-circle-o"></i>收入统计</a></li>
           </ul>
+          <ul class="treeview-menu">
+            <li id="sale"><a href="{{ route('first_agent.sale') }}"><i class="fa fa-circle-o"></i>本周账单明细</a></li>
+          </ul>
+          <ul class="treeview-menu">
+            <li id="history"><a href="{{ route('first_agent.income_history') }}"><i class="fa fa-circle-o"></i>历史收入查询</a></li>
+          </ul>
         </li>
         @endrole
         @role(['general_agent'])
-        <li id="general_agent_rechargelist" class="treeview">
+        <li id="agent_rechargelist" class="treeview">
           <a href="{{ route('general_agent.rechargelist', ['invite_code' => \Illuminate\Support\Facades\Auth::user()->code]) }}">
             <i class="fa fa-circle-o"></i><span>代理充值记录</span>
           </a>
         </li>
-        <li id="general_agent_rechargelist" class="treeview">
+        <li id="first_agent_rechargelist" class="treeview">
           <a href="{{ route('general_agent.first_agent_rechargelist', ['invite_code' => \Illuminate\Support\Facades\Auth::user()->code]) }}">
             <i class="fa fa-circle-o"></i><span>总监销售记录</span>
           </a>
@@ -128,6 +134,15 @@
           </a>
           <ul class="treeview-menu">
             <li id="income"><a href="{{ route('general_agent.income') }}"><i class="fa fa-circle-o"></i>收入统计</a></li>
+          </ul>
+          <ul class="treeview-menu">
+            <li id="first_agent_sale"><a href="{{ route('general_agent.sale', ['type' => \App\Common\Constants::ROLE_TYPE_FIRST_AGENT]) }}"><i class="fa fa-circle-o"></i>本周总监账单明细</a></li>
+          </ul>
+          <ul class="treeview-menu">
+            <li id="agent_sale"><a href="{{ route('general_agent.sale', ['type' => \App\Common\Constants::ROLE_TYPE_AGENT]) }}"><i class="fa fa-circle-o"></i>本周代理账单明细</a></li>
+          </ul>
+          <ul class="treeview-menu">
+            <li id="history"><a href="{{ route('general_agent.income_history') }}"><i class="fa fa-circle-o"></i>历史收入查询</a></li>
           </ul>
         </li>
         @endrole

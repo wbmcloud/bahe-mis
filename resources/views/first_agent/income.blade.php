@@ -13,7 +13,7 @@
 @section('content')
     <section class="content-header">
         <h1>
-            总监收入统计
+            收入统计
         </h1>
     </section>
 
@@ -25,24 +25,24 @@
                         <thead>
                         <tr>
                             <th>统计类型</th>
-                            <th>数量</th>
+                            <th>金额（单位：元）</th>
                         </tr>
                         </thead>
                         <tbody>
                         <tr>
-                            <td>本周总金额</td>
-                            <td>{{ $income_stat['sale_amount'] }}</td>
+                            <td>本周发展代理充值总金额</td>
+                            <td>{{ $income_stat['first_agent_sale_amount'] }}</td>
                         </tr>
                         <tr>
-                            <td>代理提成</td>
-                            <td>{{ $income_stat['sale_commission'] }}</td>
+                            <td>本周发展代理收入</td>
+                            <td>{{ $income_stat['first_agent_sale_commission'] }}</td>
                         </tr>
                         <tr>
-                            <td>个人代理销售金额</td>
+                            <td>本周个人代理销售金额</td>
                             <td>{{ $income_stat['agent_sale_amount'] }}</td>
                         </tr>
                         <tr>
-                            <td>上周收入</td>
+                            <td>上周发展代理收入</td>
                             <td>{{ $income_stat['last_week_income'] }}</td>
                         </tr>
                         </tbody>
@@ -50,7 +50,7 @@
                 </div>
 
                 <a href="{{ route('first_agent.sale') }}"><button class="btn btn-info">本周明细查询</button></a>
-                <a href="{{ route('first_agent.income_history') }}"><button class="btn btn-info">历史记录查询</button></a>
+                <a href="{{ route('first_agent.income_history') }}"><button class="btn btn-info">历史收入查询</button></a>
                 <!-- /.box -->
             </div>
             <!-- /.col -->

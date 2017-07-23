@@ -66,6 +66,6 @@
 @section('script')
     <script>
         $('#data_stat').addClass('active');
-        $('#income').addClass('active');
+        $('#history').addClass('active');
     </script>
 @endsection

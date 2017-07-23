@@ -12,50 +12,20 @@
 @section('content')
     <section class="content-header">
         <h1>
-            本周账单查询
+            本周账单明细
         </h1>
     </section>
 
     <section class="content">
         <div class="row">
             <div class="col-xs-12">
-                <h4>本周收入统计</h4>
-                <div class="box">
-                    <table class="table table-bordered table-hover">
-                        <thead>
-                        <tr>
-                            <th>统计类型</th>
-                            <th>数量</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr>
-                            <td>本周总金额</td>
-                            <td>{{ $income_stat['sale_amount'] }}</td>
-                        </tr>
-                        <tr>
-                            <td>代理提成</td>
-                            <td>{{ $income_stat['sale_commission'] }}</td>
-                        </tr>
-                        <tr>
-                            <td>个人代理销售金额</td>
-                            <td>{{ $income_stat['agent_sale_amount'] }}</td>
-                        </tr>
-                        <tr>
-                            <td>上周收入</td>
-                            <td>{{ $income_stat['last_week_income'] }}</td>
-                        </tr>
-                        </tbody>
-                    </table>
-                </div>
-                <h4>账单明细</h4>
                 <div class="box">
                     <div class="box-body">
                         <table id="agent_container" class="table table-bordered table-hover">
                             <thead>
                             <tr>
-                                <th>姓名</th>
-                                <th>销售量</th>
+                                <th>代理姓名</th>
+                                <th>销售金额（单位：元）</th>
                             </tr>
                             </thead>
                             <tbody id="agent_list_container">
@@ -89,6 +59,6 @@
     <script src="{{ asset("/bower_components/admin-lte/plugins/datatables/dataTables.bootstrap.min.js") }}"></script>
     <script>
         $('#data_stat').addClass('active');
-        $('#income').addClass('active');
+        $('#sale').addClass('active');
     </script>
 @endsection

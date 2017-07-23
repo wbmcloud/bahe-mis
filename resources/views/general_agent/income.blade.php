@@ -13,7 +13,7 @@
 @section('content')
     <section class="content-header">
         <h1>
-            总代理收入统计
+            收入统计
         </h1>
     </section>
 
@@ -25,36 +25,37 @@
                         <thead>
                         <tr>
                             <th>统计类型</th>
-                            <th>数量</th>
+                            <th>金额（单位：元）</th>
                         </tr>
                         </thead>
                         <tbody>
                         <tr>
-                            <td>总监销售金额</td>
+                            <td>本周总监销售金额</td>
+                            <td>{{ $income_stat['general_agent_sale_amount'] }}</td>
+                        </tr>
+                        <tr>
+                            <td>本周总监收入</td>
+                            <td>{{ $income_stat['general_agent_sale_commission'] }}</td>
+                        </tr>
+                        <tr>
+                            <td>本周代理销售金额</td>
                             <td>{{ $income_stat['first_agent_sale_amount'] }}</td>
                         </tr>
                         <tr>
-                            <td>总监提成</td>
+                            <td>本周代理收入</td>
                             <td>{{ $income_stat['first_agent_sale_commission'] }}</td>
                         </tr>
                         <tr>
-                            <td>代理销售金额</td>
+                            <td>本周个人代理销售金额</td>
                             <td>{{ $income_stat['agent_sale_amount'] }}</td>
-                        </tr>
-                        <tr>
-                            <td>代理提成</td>
-                            <td>{{ $income_stat['agent_sale_commission'] }}</td>
-                        </tr>
-                        <tr>
-                            <td>个人代理销售金额</td>
-                            <td>{{ $income_stat['general_agent_sale_amount'] }}</td>
                         </tr>
                         </tbody>
                     </table>
                 </div>
 
-                <a href="{{ route('general_agent.sale') }}"><button class="btn btn-info">本周明细查询</button></a>
-                <a href="{{ route('general_agent.income_history') }}"><button class="btn btn-info">历史记录查询</button></a>
+                <a href="{{ route('general_agent.sale', ['type' => \App\Common\Constants::ROLE_TYPE_FIRST_AGENT]) }}"><button class="btn btn-info">本周总监明细查询</button></a>
+                <a href="{{ route('general_agent.sale', ['type' => \App\Common\Constants::ROLE_TYPE_AGENT]) }}"><button class="btn btn-info">本周代理明细查询</button></a>
+                <a href="{{ route('general_agent.income_history') }}"><button class="btn btn-info">历史收入查询</button></a>
                 <!-- /.box -->
             </div>
             <!-- /.col -->

@@ -13,7 +13,7 @@
 @section('content')
     <section class="content-header">
         <h1>
-            充值信息
+            代理充值记录
         </h1>
     </section>
 
@@ -203,5 +203,6 @@
                  $('#reservation').val(_date_range);*/
             });
         });
+        $('#first_agent_rechargelist').addClass('active');
     </script>
 @endsection

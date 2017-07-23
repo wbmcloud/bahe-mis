@@ -203,5 +203,6 @@
                  $('#reservation').val(_date_range);*/
             });
         });
+        $('#agent_rechargelist').addClass('active');
     </script>
 @endsection

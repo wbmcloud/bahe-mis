@@ -179,7 +179,7 @@ class GeneralAgentLogic extends BaseLogic
                 continue;
             }
 
-            $first_agent['total_income'] = $total_income;
+            $first_agent['sum'] = $total_income;
             $income_first_agents[] = $first_agent;
         }
 
@@ -200,7 +200,6 @@ class GeneralAgentLogic extends BaseLogic
                 'type' => $agent_level,
             ])
             ->where('amount', '>', 0)
-            ->selectRaw('relation_id as id, name, amount')
             ->paginate($page_size);
 
         return $cash_orders;
@@ -228,7 +227,7 @@ class GeneralAgentLogic extends BaseLogic
         $agent_ids = array_column($agents, 'id');
 
         $group_by = 'recipient_id';
-        $select = 'recipient_id as user_id, sum(num) as sum';
+        $select = 'recipient_id as id, sum(num) as sum';
         $where = [
             'recharge_type' => COMMAND_TYPE::COMMAND_TYPE_ROOM_CARD,
             'status' => Constants::COMMON_ENABLE,
@@ -283,18 +282,18 @@ class GeneralAgentLogic extends BaseLogic
             'start_time' => $start_of_week,
             'end_time' => $end_time,
         ]);
-        $first_agent_sum = array_sum(array_column($first_agent_amount, 'total_income'));
+        $first_agent_sum = array_sum(array_column($first_agent_amount, 'total_income')) * Constants::ROOM_CARD_PRICE;
 
-        $income_stat['agent_sale_amount'] = $agent_sale_sum;
-        $income_stat['agent_sale_commission'] = $agent_sale_sum * Constants::COMMISSION_TYPE_GENERAL_TO_AGENT_RATE;
-        $income_stat['first_agent_sale_amount'] = $first_agent_sum;
-        $income_stat['first_agent_sale_commission'] = $first_agent_sum * Constants::COMMISSION_TYPE_GENERAL_TO_FIRST_RATE;
-        $income_stat['general_agent_sale_amount'] = $this->getGeneralAgentSaleAmount($user->id);
+        $income_stat['first_agent_sale_amount'] = $agent_sale_sum;
+        $income_stat['first_agent_sale_commission'] = $agent_sale_sum * Constants::COMMISSION_TYPE_GENERAL_TO_AGENT_RATE;
+        $income_stat['general_agent_sale_amount'] = $first_agent_sum;
+        $income_stat['general_agent_sale_commission'] = $first_agent_sum * Constants::COMMISSION_TYPE_GENERAL_TO_FIRST_RATE;
+        $income_stat['agent_sale_amount'] = $this->getAgentSaleAmount($user->id) * Constants::ROOM_CARD_PRICE;
 
         return $income_stat;
     }
 
-    public function getGeneralAgentSaleAmount($agent_id, $start_time = null, $end_time = null)
+    public function getAgentSaleAmount($agent_id, $start_time = null, $end_time = null)
     {
         return TransactionFlow::where([
                 'initiator_id' => $agent_id,

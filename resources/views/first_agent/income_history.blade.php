@@ -13,7 +13,7 @@
 @section('content')
     <section class="content-header">
         <h1>
-            历史记录查询
+            历史收入查询
         </h1>
     </section>
 
@@ -26,7 +26,7 @@
                             <thead>
                             <tr>
                                 <th>日期</th>
-                                <th>收入</th>
+                                <th>收入（单位：元）</th>
                                 <th>是否到账</th>
                             </tr>
                             </thead>
@@ -66,6 +66,6 @@
 @section('script')
     <script>
         $('#data_stat').addClass('active');
-        $('#income').addClass('active');
+        $('#history').addClass('active');
     </script>
 @endsection
