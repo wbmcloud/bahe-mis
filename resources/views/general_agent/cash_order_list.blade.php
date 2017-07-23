@@ -22,7 +22,7 @@
                             <tr>
                             <th>id</th>
                             <th>姓名</th>
-                            <th>上周打款金额</th>
+                            <th>上周打款金额（单位：元）</th>
                             <th>操作</th>
                             </tr>
                             </thead>

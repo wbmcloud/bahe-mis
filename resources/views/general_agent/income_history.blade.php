@@ -26,7 +26,7 @@
                             <thead>
                             <tr>
                                 <th>日期</th>
-                                <th>收入</th>
+                                <th>收入（单位：元）</th>
                                 <th>是否到账</th>
                             </tr>
                             </thead>

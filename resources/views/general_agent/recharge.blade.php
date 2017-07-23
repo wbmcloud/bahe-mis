@@ -42,7 +42,7 @@
                                 <th>代理id</th>
                                 <th>代理用户名</th>
                                 <th>充值类型</th>
-                                <th>充值额度</th>
+                                <th>充值房卡数量（单位：个）</th>
                                 <th>充值时间</th>
                                 @role(['super', 'admin'])
                                 <th>操作</th>

@@ -86,11 +86,13 @@ class StatDateGeneralCashOrder extends Command
             }
 
             $general_sale_income = Utils::arraySum($general_sale_amount, 'sum') *
+                Constants::ROOM_CARD_PRICE *
                 Constants::COMMISSION_TYPE_GENERAL_TO_FIRST_RATE;
 
             // 计算销售代理收入
             $level_agent_amount = $general_agent_logic->getLevelAgentSaleAmount($general_agent['id'], $start_of_week, $end_of_week);
             $level_agent_income = Utils::arraySum($level_agent_amount->toArray(), 'sum') *
+                Constants::ROOM_CARD_PRICE *
                 Constants::COMMISSION_TYPE_GENERAL_TO_AGENT_RATE;
 
 

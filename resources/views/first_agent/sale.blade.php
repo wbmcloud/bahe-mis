@@ -37,7 +37,7 @@
                                 @foreach($level_agent_sale_amount_list as $level_agent_sale_amount)
                                     <tr>
                                         <td>{{ $agents[$level_agent_sale_amount['user_id']]['name'] }}</td>
-                                        <td>{{ $level_agent_sale_amount['sum'] }}</td>
+                                        <td>{{ $level_agent_sale_amount['sum'] * \App\Common\Constants::ROOM_CARD_PRICE}}</td>
                                     </tr>
                                 @endforeach
                             @endif

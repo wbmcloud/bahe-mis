@@ -30,24 +30,32 @@
                         </thead>
                         <tbody>
                         <tr>
-                            <td>本周总监销售金额</td>
+                            <td>本周销售总收入</td>
+                            <td>{{ $income_stat['current_week_income'] }}</td>
+                        </tr>
+                        <tr>
+                            <td>本周发展总监销售金额</td>
                             <td>{{ $income_stat['general_agent_sale_amount'] }}</td>
                         </tr>
                         <tr>
-                            <td>本周总监收入</td>
+                            <td>本周发展总监收入</td>
                             <td>{{ $income_stat['general_agent_sale_commission'] }}</td>
                         </tr>
                         <tr>
-                            <td>本周代理销售金额</td>
+                            <td>本周发展代理销售金额</td>
                             <td>{{ $income_stat['first_agent_sale_amount'] }}</td>
                         </tr>
                         <tr>
-                            <td>本周代理收入</td>
+                            <td>本周发展代理收入</td>
                             <td>{{ $income_stat['first_agent_sale_commission'] }}</td>
                         </tr>
                         <tr>
                             <td>本周个人代理销售金额</td>
                             <td>{{ $income_stat['agent_sale_amount'] }}</td>
+                        </tr>
+                        <tr>
+                            <td>上周销售总收入</td>
+                            <td>{{ $income_stat['last_week_income'] }}</td>
                         </tr>
                         </tbody>
                     </table>

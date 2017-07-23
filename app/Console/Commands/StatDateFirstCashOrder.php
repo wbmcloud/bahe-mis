@@ -81,7 +81,9 @@ class StatDateFirstCashOrder extends Command
             $end_of_week = $last_week_day->endOfWeek()->toDateTimeString();
             $level_agent_income = $first_agent_logic->getLevelAgentSaleAmount($first_agent['id'], $start_of_week, $end_of_week);
             $level_agent_income = array_column($level_agent_income->toArray(), 'sum');
-            $last_day_cash_order['amount'] = array_sum($level_agent_income) * Constants::COMMISSION_TYPE_FIRST_TO_AGENT_RATE;
+            $last_day_cash_order['amount'] = array_sum($level_agent_income) *
+                Constants::ROOM_CARD_PRICE *
+                Constants::COMMISSION_TYPE_FIRST_TO_AGENT_RATE;
             $last_day_cash_orders[] = $last_day_cash_order;
         }
 

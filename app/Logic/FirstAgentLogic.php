@@ -209,7 +209,8 @@ class FirstAgentLogic extends BaseLogic
         $income_stat['first_agent_sale_amount'] = $agent_sale_sum;
         $income_stat['first_agent_sale_commission'] = $agent_sale_sum * Constants::COMMISSION_TYPE_FIRST_TO_AGENT_RATE;
         $income_stat['agent_sale_amount'] = $this->getAgentSaleAmount($agent_id) * Constants::ROOM_CARD_PRICE;
-        $income_stat['last_week_income'] = $this->getLevelAgentLastWeekIncome($agent_id) * Constants::COMMISSION_TYPE_FIRST_TO_AGENT_RATE;
+        $income_stat['last_week_income'] = $this->getLevelAgentLastWeekIncome($agent_id);
+        $income_stat['current_week_income'] = $income_stat['first_agent_sale_commission'];
 
         return $income_stat;
 
