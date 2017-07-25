@@ -48,7 +48,7 @@
                             </thead>
                             <tbody id="agent_list_container">
                             @if(empty($agents->total()))
-                                <tr><td colspan="5">没有记录</td></tr>
+                                <tr><td colspan="8">没有记录</td></tr>
                             @else
                                 @foreach($agents as $agent)
                                     <tr>
@@ -62,10 +62,13 @@
                                         @else
                                         <td>0</td>
                                         @endif
-                                        <td>{{ date('Y-m-d', strtotime($agent['created_at'])) }}</td>
                                         <td>{{ $agent['created_at'] }}</td>
                                         <td>
-                                            <button type="button" onclick="rechargeList('{{ route('first_agent.rechargelist', ['invite_code' => $agent['code']]) }}')" class="btn btn-primary">充值信息</button>
+                                            <button type="button" onclick="rechargeList('{{ route('first_agent.rechargelist', [
+                                                'invite_code' => $agent['code'],
+                                                'start_date' => \Carbon\Carbon::now()->startOfWeek()->toDateString(),
+                                                'end_date' => \Carbon\Carbon::tomorrow()->toDateString()
+                                            ]) }}')" class="btn btn-primary">充值信息</button>
                                             <button type="button" onclick="banAgent({{ $agent['id'] }})" class="btn btn-primary">封禁</button>
                                             <button type="button" onclick="editAgent({{ $agent['id'] }})" class="btn btn-primary">修改信息</button>
                                             <button type="button" onclick="resetPassword({{ $agent['id'] }})" class="btn btn-primary">重置密码</button>

@@ -68,8 +68,16 @@
                                         @endif
                                         <td>{{ $agent['created_at'] }}</td>
                                         <td>
-                                            <button type="button" onclick="rechargeList('{{ route('general_agent.first_agent_rechargelist', ['invite_code' => $agent['code']]) }}')" class="btn btn-primary">总监销售记录</button>
-                                            <button type="button" onclick="rechargeList('{{ route('general_agent.rechargelist', ['invite_code' => $agent['code']]) }}')" class="btn btn-primary">代理充值信息</button>
+                                            <button type="button" onclick="rechargeList('{{ route('general_agent.first_agent_rechargelist', [
+                                                'invite_code' => $agent['code'],
+                                                'start_date' => \Carbon\Carbon::now()->startOfWeek()->toDateString(),
+                                                'end_date' => \Carbon\Carbon::tomorrow()->toDateString()
+                                            ]) }}')" class="btn btn-primary">总监销售记录</button>
+                                            <button type="button" onclick="rechargeList('{{ route('general_agent.rechargelist', [
+                                                'invite_code' => $agent['code'],
+                                                'start_date' => \Carbon\Carbon::now()->startOfWeek()->toDateString(),
+                                                'end_date' => \Carbon\Carbon::tomorrow()->toDateString()
+                                            ]) }}')" class="btn btn-primary">代理充值信息</button>
                                             <br>
                                             <button type="button" onclick="banAgent({{ $agent['id'] }})" class="btn btn-primary">封禁</button>
                                             <button type="button" onclick="editAgent({{ $agent['id'] }})" class="btn btn-primary">修改信息</button>

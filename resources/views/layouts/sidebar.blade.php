@@ -85,14 +85,22 @@
         </li>
         @role(['agent', 'first_agent', 'general_agent'])
         <li id="agent_consume_flow" class="treeview">
-          <a href="{{ route('agent.rechargelist', ['id' => \Illuminate\Support\Facades\Auth::id()]) }}">
+          <a href="{{ route('agent.rechargelist', [
+              'id' => \Illuminate\Support\Facades\Auth::id(),
+              'start_date' => \Carbon\Carbon::now()->startOfWeek()->toDateString(),
+              'end_date' => \Carbon\Carbon::tomorrow()->toDateString()
+            ]) }}">
             <i class="fa fa-circle-o"></i><span>消费记录</span>
           </a>
         </li>
         @endrole
         @role(['first_agent'])
         <li id="first_agent_rechargelist" class="treeview">
-          <a href="{{ route('first_agent.rechargelist', ['invite_code' => \Illuminate\Support\Facades\Auth::user()->code]) }}">
+          <a href="{{ route('first_agent.rechargelist', [
+            'invite_code' => \Illuminate\Support\Facades\Auth::user()->code,
+            'start_date' => \Carbon\Carbon::now()->startOfWeek()->toDateString(),
+            'end_date' => \Carbon\Carbon::tomorrow()->toDateString()
+          ]) }}">
           <i class="fa fa-circle-o"></i><span>代理充值记录</span>
           </a>
         </li>
@@ -116,7 +124,11 @@
         @endrole
         @role(['general_agent'])
         <li id="agent_rechargelist" class="treeview">
-          <a href="{{ route('general_agent.rechargelist', ['invite_code' => \Illuminate\Support\Facades\Auth::user()->code]) }}">
+          <a href="{{ route('general_agent.rechargelist', [
+              'invite_code' => \Illuminate\Support\Facades\Auth::user()->code,
+              'start_date' => \Carbon\Carbon::now()->startOfWeek()->toDateString(),
+              'end_date' => \Carbon\Carbon::tomorrow()->toDateString()
+          ]) }}">
             <i class="fa fa-circle-o"></i><span>代理充值记录</span>
           </a>
         </li>

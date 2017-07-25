@@ -52,7 +52,7 @@
                             </thead>
                             <tbody id="agent_list_container">
                             @if(empty($recharge_list->total()))
-                                <tr><td colspan="9">没有记录</td></tr>
+                                <tr><td colspan="10">没有记录</td></tr>
                             @else
                                 @foreach($recharge_list as $recharge)
                                     <tr>
@@ -164,5 +164,7 @@
             });
         });
         $('#agent_consume_flow').addClass('active');
+        $('#agent').addClass('active');
+        $('#agent_list').addClass('active');
     </script>
 @endsection

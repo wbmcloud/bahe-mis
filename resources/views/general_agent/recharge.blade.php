@@ -52,7 +52,12 @@
                             <tbody id="agent_list_container">
                             @if(empty($recharge_flows->total()))
                                 <tr>
-                                    <td colspan="4">没有记录</td>
+                                    @if(\Illuminate\Support\Facades\Auth::user()->hasRole(['super', 'admin']))
+                                        <td colspan="6">没有记录</td>
+                                    @else
+                                        <td colspan="5">没有记录</td>
+                                    @endif
+
                                 </tr>
                             @else
                                 @foreach($recharge_flows as $recharge_flow)
@@ -204,5 +209,7 @@
             });
         });
         $('#agent_rechargelist').addClass('active');
+        $('#general_agent').addClass('active');
+        $('#general_agent_list').addClass('active');
     </script>
 @endsection

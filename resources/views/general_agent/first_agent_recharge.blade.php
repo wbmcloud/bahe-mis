@@ -50,7 +50,11 @@
                                         <td>{{ $first_agent['invite_code'] }}</td>
                                         <td>{{ $first_agent['sum'] }}</td>
                                         <td>
-                                            <button type="button" onclick="rechargeList('{{ route('general_agent.rechargelist', ['invite_code' => $first_agent['code']]) }}')"
+                                            <button type="button" onclick="rechargeList('{{ route('general_agent.rechargelist', [
+                                                'invite_code' => $first_agent['code'],
+                                                'start_date' => \Carbon\Carbon::now()->startOfWeek()->toDateString(),
+                                                'end_date' => \Carbon\Carbon::tomorrow()->toDateString()
+                                            ]) }}')"
                                                     class="btn btn-primary">代理充值记录
                                             </button>
                                         </td>
@@ -154,5 +158,7 @@
             location.href = url;
         }
         $('#first_agent_rechargelist').addClass('active');
+        $('#general_agent').addClass('active');
+        $('#general_agent_list').addClass('active');
     </script>
 @endsection

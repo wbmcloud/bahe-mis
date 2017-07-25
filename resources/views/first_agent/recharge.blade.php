@@ -52,7 +52,11 @@
                             <tbody id="agent_list_container">
                             @if(empty($recharge_flows->total()))
                                 <tr>
-                                    <td colspan="4">没有记录</td>
+                                    @if(\Illuminate\Support\Facades\Auth::user()->hasRole(['super', 'admin']))
+                                        <td colspan="6">没有记录</td>
+                                    @else
+                                        <td colspan="5">没有记录</td>
+                                    @endif
                                 </tr>
                             @else
                                 @foreach($recharge_flows as $recharge_flow)
@@ -203,6 +207,7 @@
                  $('#reservation').val(_date_range);*/
             });
         });
-        $('#first_agent_rechargelist').addClass('active');
+        $('#first_agent').addClass('active');
+        $('#first_agent_list').addClass('active');
     </script>
 @endsection

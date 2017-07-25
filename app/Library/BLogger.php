@@ -65,7 +65,7 @@ class BLogger
             } else {
                 self::$loggers[$type] = new Writer(new Logger($type));
             }
-            $log_file_path = storage_path() . '/logs/' . env('APP_NAME') . '-' . $type . '.log';
+            $log_file_path = storage_path() . '/logs/' . config('app.name') . '-' . $type . '.log';
             self::$loggers[$type]->useDailyFiles($log_file_path);
         }
 
