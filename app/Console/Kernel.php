@@ -2,7 +2,7 @@
 
 namespace App\Console;
 
-use App\Console\Commands\genInviteCodes;
+use App\Console\Commands\GenInviteCodes;
 use App\Console\Commands\ImportRolePermissions;
 use App\Console\Commands\ManagerActionLog;
 use App\Console\Commands\StatDateFirstCashOrder;
