@@ -139,7 +139,7 @@ class Constants
      * 操作结果
      */
     const OPERATOR_PROMPT_NOT_PERMISSION_TEXT = '请勿非法访问！';
-    const JUMP_TIME_INTERNAL = 3;
+    const JUMP_TIME_INTERNAL = 5;
 
     /**
      * 邀请码生成key前缀
