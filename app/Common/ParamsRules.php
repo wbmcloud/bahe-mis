@@ -51,7 +51,7 @@ class ParamsRules
     const IF_API_AGENT_RESET = '/api/agent/reset';
 
     /**
-     * 总监模块
+     * 总代理模块
      */
     const IF_FIRST_AGENT_LIST            = '/first_agent/list';
     const IF_FIRST_AGENT_BAN_LIST        = '/first_agent/banlist';
@@ -71,7 +71,7 @@ class ParamsRules
     const IF_API_FIRST_AGENT_RESET         = '/api/first_agent/reset';
 
     /**
-     * 总代理模块
+     * 总监模块
      */
     const IF_GENERAL_AGENT_LIST            = '/general_agent/list';
     const IF_GENERAL_AGENT_BAN_LIST        = '/general_agent/banlist';
@@ -317,41 +317,41 @@ class ParamsRules
         self::IF_API_AGENT_UNBAN                 => ['auth' => ['super', 'admin'], 'desc' => '解封代理接口'],
         self::IF_API_AGENT_RESET                 => ['auth' => ['super', 'admin'], 'desc' => '重置代理接口'],
         self::IF_API_AGENT_SAVE                  => ['auth' => ['super', 'admin'], 'desc' => '保存代理接口'],
-        self::IF_FIRST_AGENT_LIST              => ['auth' => ['super', 'admin'], 'desc' => '总监列表页面'],
-        self::IF_FIRST_AGENT_BAN_LIST          => ['auth' => ['super', 'admin'], 'desc' => '封禁总监列表页面'],
+        self::IF_FIRST_AGENT_LIST              => ['auth' => ['super', 'admin'], 'desc' => '总代理列表页面'],
+        self::IF_FIRST_AGENT_BAN_LIST          => ['auth' => ['super', 'admin'], 'desc' => '封禁总代理列表页面'],
         self::IF_FIRST_AGENT_INVITE_CODE       => ['auth' => ['super', 'admin'], 'desc' => '邀请码列表页面'],
-        self::IF_FIRST_AGENT_RECHARGE_LIST     => ['auth' => ['super', 'admin', 'first_agent'], 'desc' => '总监充值记录页面'],
-        self::IF_FIRST_AGENT_CASH_ORDER_LIST   => ['auth' => ['super', 'admin'], 'desc' => '总监每周打款单'],
-        self::IF_FIRST_AGENT_INCOME            => ['auth' => ['first_agent'], 'desc' => '总监收入统计'],
-        self::IF_FIRST_AGENT_SALE              => ['auth' => ['first_agent'], 'desc' => '总监销售明细'],
-        self::IF_FIRST_AGENT_INCOME_HISTORY    => ['auth' => ['first_agent'], 'desc' => '总监收入历史'],
-        self::IF_API_FIRST_AGENT_BAN           => ['auth' => ['super', 'admin'], 'desc' => '总监封禁接口'],
-        self::IF_API_FIRST_AGENT_UNBAN         => ['auth' => ['super', 'admin'], 'desc' => '总监解封接口'],
-        self::IF_API_FIRST_AGENT_INFO          => ['auth' => ['super', 'admin'], 'desc' => '总监信息接口'],
-        self::IF_API_FIRST_AGENT_SAVE          => ['auth' => ['super', 'admin'], 'desc' => '总监信息保存接口'],
+        self::IF_FIRST_AGENT_RECHARGE_LIST     => ['auth' => ['super', 'admin', 'first_agent'], 'desc' => '总代理充值记录页面'],
+        self::IF_FIRST_AGENT_CASH_ORDER_LIST   => ['auth' => ['super', 'admin'], 'desc' => '总代理每周打款单'],
+        self::IF_FIRST_AGENT_INCOME            => ['auth' => ['first_agent'], 'desc' => '总代理收入统计'],
+        self::IF_FIRST_AGENT_SALE              => ['auth' => ['first_agent'], 'desc' => '总代理销售明细'],
+        self::IF_FIRST_AGENT_INCOME_HISTORY    => ['auth' => ['first_agent'], 'desc' => '总代理收入历史'],
+        self::IF_API_FIRST_AGENT_BAN           => ['auth' => ['super', 'admin'], 'desc' => '总代理封禁接口'],
+        self::IF_API_FIRST_AGENT_UNBAN         => ['auth' => ['super', 'admin'], 'desc' => '总代理解封接口'],
+        self::IF_API_FIRST_AGENT_INFO          => ['auth' => ['super', 'admin'], 'desc' => '总代理信息接口'],
+        self::IF_API_FIRST_AGENT_SAVE          => ['auth' => ['super', 'admin'], 'desc' => '总代理信息保存接口'],
         self::IF_API_FIRST_AGENT_DEL_FLOW      => ['auth' => ['super', 'admin'], 'desc' => '删除代理充值记录接口'],
-        self::IF_API_FIRST_AGENT_DO_CASH_ORDER => ['auth' => ['super', 'admin'], 'desc' => '总监打款单确认接口'],
-        self::IF_API_FIRST_AGENT_RESET         => ['auth' => ['super', 'admin'], 'desc' => '总监密码重置接口'],
+        self::IF_API_FIRST_AGENT_DO_CASH_ORDER => ['auth' => ['super', 'admin'], 'desc' => '总代理打款单确认接口'],
+        self::IF_API_FIRST_AGENT_RESET         => ['auth' => ['super', 'admin'], 'desc' => '总代理密码重置接口'],
         self::IF_RECHARGE_AGENT                  => ['auth' => ['super', 'admin'], 'desc' => '代理充值页面'],
         self::IF_RECHARGE_DO_AGENT               => ['auth' => ['super', 'admin'], 'desc' => '代理充值动作'],
         self::IF_RECHARGE_USER                   => ['auth' => '*', 'desc' => '用户充值页面'],
         self::IF_RECHARGE_DO_USER                => ['auth' => '*', 'desc' => '用户充值动作'],
-        self::IF_GENERAL_AGENT_LIST              => ['auth' => ['super', 'admin'], 'desc' => '总代理列表页面'],
-        self::IF_GENERAL_AGENT_BAN_LIST          => ['auth' => ['super', 'admin'], 'desc' => '封禁总代理列表页面'],
+        self::IF_GENERAL_AGENT_LIST              => ['auth' => ['super', 'admin'], 'desc' => '总监列表页面'],
+        self::IF_GENERAL_AGENT_BAN_LIST          => ['auth' => ['super', 'admin'], 'desc' => '封禁总监列表页面'],
         self::IF_GENERAL_AGENT_INVITE_CODE       => ['auth' => ['super', 'admin'], 'desc' => '邀请码列表页面'],
-        self::IF_GENERAL_AGENT_RECHARGE_LIST     => ['auth' => ['super', 'admin', 'general_agent'], 'desc' => '总代理充值记录页面'],
-        self::IF_GENERAL_AGENT_FIRST_AGENT_RECHARGE_LIST     => ['auth' => ['super', 'admin', 'general_agent'], 'desc' => '总监销售记录页面'],
-        self::IF_GENERAL_AGENT_CASH_ORDER_LIST   => ['auth' => ['super', 'admin'], 'desc' => '总代理每周打款单'],
-        self::IF_GENERAL_AGENT_INCOME            => ['auth' => ['general_agent'], 'desc' => '总代理收入统计'],
-        self::IF_GENERAL_AGENT_SALE              => ['auth' => ['general_agent'], 'desc' => '总代理销售明细'],
-        self::IF_GENERAL_AGENT_INCOME_HISTORY    => ['auth' => ['general_agent'], 'desc' => '总代理收入历史'],
-        self::IF_API_GENERAL_AGENT_BAN           => ['auth' => ['super', 'admin'], 'desc' => '总代理封禁接口'],
-        self::IF_API_GENERAL_AGENT_UNBAN         => ['auth' => ['super', 'admin'], 'desc' => '总代理解封接口'],
-        self::IF_API_GENERAL_AGENT_INFO          => ['auth' => ['super', 'admin'], 'desc' => '总代理信息接口'],
-        self::IF_API_GENERAL_AGENT_SAVE          => ['auth' => ['super', 'admin'], 'desc' => '总代理信息保存接口'],
+        self::IF_GENERAL_AGENT_RECHARGE_LIST     => ['auth' => ['super', 'admin', 'general_agent'], 'desc' => '总监充值记录页面'],
+        self::IF_GENERAL_AGENT_FIRST_AGENT_RECHARGE_LIST     => ['auth' => ['super', 'admin', 'general_agent'], 'desc' => '总代理销售记录页面'],
+        self::IF_GENERAL_AGENT_CASH_ORDER_LIST   => ['auth' => ['super', 'admin'], 'desc' => '总监每周打款单'],
+        self::IF_GENERAL_AGENT_INCOME            => ['auth' => ['general_agent'], 'desc' => '总监收入统计'],
+        self::IF_GENERAL_AGENT_SALE              => ['auth' => ['general_agent'], 'desc' => '总监销售明细'],
+        self::IF_GENERAL_AGENT_INCOME_HISTORY    => ['auth' => ['general_agent'], 'desc' => '总监收入历史'],
+        self::IF_API_GENERAL_AGENT_BAN           => ['auth' => ['super', 'admin'], 'desc' => '总监封禁接口'],
+        self::IF_API_GENERAL_AGENT_UNBAN         => ['auth' => ['super', 'admin'], 'desc' => '总监解封接口'],
+        self::IF_API_GENERAL_AGENT_INFO          => ['auth' => ['super', 'admin'], 'desc' => '总监信息接口'],
+        self::IF_API_GENERAL_AGENT_SAVE          => ['auth' => ['super', 'admin'], 'desc' => '总监信息保存接口'],
         self::IF_API_GENERAL_AGENT_DEL_FLOW      => ['auth' => ['super', 'admin'], 'desc' => '删除代理充值记录接口'],
-        self::IF_API_GENERAL_AGENT_DO_CASH_ORDER => ['auth' => ['super', 'admin'], 'desc' => '总代理打款单确认接口'],
-        self::IF_API_GENERAL_AGENT_RESET         => ['auth' => ['super', 'admin'], 'desc' => '总代理密码重置接口'],
+        self::IF_API_GENERAL_AGENT_DO_CASH_ORDER => ['auth' => ['super', 'admin'], 'desc' => '总监打款单确认接口'],
+        self::IF_API_GENERAL_AGENT_RESET         => ['auth' => ['super', 'admin'], 'desc' => '总监密码重置接口'],
     ];
 
     /**

@@ -72,7 +72,7 @@ class StatDateGeneralCashOrder extends Command
             $start_of_week = $last_week_day->startOfWeek()->toDateTimeString();
             $end_of_week = $last_week_day->endOfWeek()->toDateTimeString();
 
-            // 计算销售总监收入
+            // 计算销售总代理收入
             $general_sale_amount = $general_agent_logic->getFirstAgentIncomeList([
                 'invite_code' => $general_agent['code'],
                 'start_time' => $start_of_week,

@@ -12,7 +12,7 @@
 @section('content')
     <section class="content-header">
         <h1>
-            总代理列表
+            总监列表
         </h1>
     </section>
 
@@ -41,7 +41,7 @@
                             <th>姓名</th>
                             <th>绑定邀请码</th>
                             <th>发展代理数</th>
-                            <th>发展总监数</th>
+                            <th>发展总代理数</th>
                             <th>入驻时间</th>
                             <th>操作</th>
                             </tr>
@@ -72,7 +72,7 @@
                                                 'invite_code' => $agent['code'],
                                                 'start_date' => \Carbon\Carbon::now()->startOfWeek()->toDateString(),
                                                 'end_date' => \Carbon\Carbon::tomorrow()->toDateString()
-                                            ]) }}')" class="btn btn-primary">总监销售记录</button>
+                                            ]) }}')" class="btn btn-primary">总代理销售记录</button>
                                             <button type="button" onclick="rechargeList('{{ route('general_agent.rechargelist', [
                                                 'invite_code' => $agent['code'],
                                                 'start_date' => \Carbon\Carbon::now()->startOfWeek()->toDateString(),

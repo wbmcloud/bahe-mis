@@ -82,7 +82,7 @@ class UserLogic extends BaseLogic
 
         DB::beginTransaction();
         try {
-            // 创建总监
+            // 创建总代理
             $user = new User();
             $user->user_name = $params['user_name'];
             $user->password = bcrypt($params['password']);
@@ -114,7 +114,7 @@ class UserLogic extends BaseLogic
 
         DB::beginTransaction();
         try {
-            // 创建总监
+            // 创建总代理
             $user = new User();
             $user->user_name = $params['user_name'];
             $user->password = bcrypt($params['password']);

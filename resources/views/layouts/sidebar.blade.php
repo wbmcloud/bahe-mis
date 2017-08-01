@@ -36,7 +36,7 @@
         @role(['super', 'admin'])
         <li id="first_agent" class="treeview">
           <a href="#">
-            <i class="fa fa-dashboard"></i> <span>总监</span>
+            <i class="fa fa-dashboard"></i> <span>总代理</span>
             <span class="pull-right-container">
               <i class="fa fa-angle-left pull-right"></i>
             </span>
@@ -51,7 +51,7 @@
         </li>
         <li id="general_agent" class="treeview">
           <a href="#">
-            <i class="fa fa-dashboard"></i> <span>总代理</span>
+            <i class="fa fa-dashboard"></i> <span>总监</span>
             <span class="pull-right-container">
               <i class="fa fa-angle-left pull-right"></i>
             </span>
@@ -134,7 +134,7 @@
         </li>
         <li id="first_agent_rechargelist" class="treeview">
           <a href="{{ route('general_agent.first_agent_rechargelist', ['invite_code' => \Illuminate\Support\Facades\Auth::user()->code]) }}">
-            <i class="fa fa-circle-o"></i><span>总监销售记录</span>
+            <i class="fa fa-circle-o"></i><span>总代理销售记录</span>
           </a>
         </li>
         <li id="data_stat" class="treeview">
@@ -148,7 +148,7 @@
             <li id="income"><a href="{{ route('general_agent.income') }}"><i class="fa fa-circle-o"></i>收入统计</a></li>
           </ul>
           <ul class="treeview-menu">
-            <li id="first_agent_sale"><a href="{{ route('general_agent.sale', ['type' => \App\Common\Constants::ROLE_TYPE_FIRST_AGENT]) }}"><i class="fa fa-circle-o"></i>本周总监账单明细</a></li>
+            <li id="first_agent_sale"><a href="{{ route('general_agent.sale', ['type' => \App\Common\Constants::ROLE_TYPE_FIRST_AGENT]) }}"><i class="fa fa-circle-o"></i>本周总代理账单明细</a></li>
           </ul>
           <ul class="treeview-menu">
             <li id="agent_sale"><a href="{{ route('general_agent.sale', ['type' => \App\Common\Constants::ROLE_TYPE_AGENT]) }}"><i class="fa fa-circle-o"></i>本周代理账单明细</a></li>

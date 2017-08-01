@@ -58,7 +58,7 @@
             <li>
               <a href="{{ route('user.add', ['type' => \App\Common\Constants::ADD_USER_TYPE_FIRST_AGENT]) }}">
                 <i class="fa fa-users text-aqua"></i>
-                <i style="color: black">添加总监</i>
+                <i style="color: black">添加总代理</i>
               </a>
             </li>
             @endrole

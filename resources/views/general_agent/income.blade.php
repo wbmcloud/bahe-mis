@@ -34,11 +34,11 @@
                             <td>{{ $income_stat['current_week_income'] }}</td>
                         </tr>
                         <tr>
-                            <td>本周发展总监销售金额</td>
+                            <td>本周发展总代理销售金额</td>
                             <td>{{ $income_stat['general_agent_sale_amount'] }}</td>
                         </tr>
                         <tr>
-                            <td>本周发展总监收入</td>
+                            <td>本周发展总代理收入</td>
                             <td>{{ $income_stat['general_agent_sale_commission'] }}</td>
                         </tr>
                         <tr>
@@ -61,7 +61,7 @@
                     </table>
                 </div>
 
-                <a href="{{ route('general_agent.sale', ['type' => \App\Common\Constants::ROLE_TYPE_FIRST_AGENT]) }}"><button class="btn btn-info">本周总监明细查询</button></a>
+                <a href="{{ route('general_agent.sale', ['type' => \App\Common\Constants::ROLE_TYPE_FIRST_AGENT]) }}"><button class="btn btn-info">本周总代理明细查询</button></a>
                 <a href="{{ route('general_agent.sale', ['type' => \App\Common\Constants::ROLE_TYPE_AGENT]) }}"><button class="btn btn-info">本周代理明细查询</button></a>
                 <a href="{{ route('general_agent.income_history') }}"><button class="btn btn-info">历史收入查询</button></a>
                 <!-- /.box -->

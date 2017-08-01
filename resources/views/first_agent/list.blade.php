@@ -12,7 +12,7 @@
 @section('content')
     <section class="content-header">
         <h1>
-            总监列表
+            总代理列表
         </h1>
     </section>
 

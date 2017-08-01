@@ -9,7 +9,7 @@
 @section('content')
     <section class="content-header">
         <h1>
-            总监收入记录
+            总代理收入记录
         </h1>
     </section>
 

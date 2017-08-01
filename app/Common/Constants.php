@@ -63,8 +63,8 @@ class Constants
         self::ROLE_TYPE_SUPER => '超级管理员',
         self::ROLE_TYPE_ADMIN => '管理员',
         self::ROLE_TYPE_AGENT => '代理',
-        self::ROLE_TYPE_FIRST_AGENT => '总监',
-        self::ROLE_TYPE_GENERAL_AGENT => '总代理',
+        self::ROLE_TYPE_FIRST_AGENT => '总代理',
+        self::ROLE_TYPE_GENERAL_AGENT => '总监',
     ];
 
     public static $recharge_status = [
