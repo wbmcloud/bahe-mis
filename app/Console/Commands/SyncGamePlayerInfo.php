@@ -85,13 +85,13 @@ class SyncGamePlayerInfo extends Command
         }
 
         foreach ($hosts as $host) {
-            /*$credentials = Credentials::withPublicKey(self::SSH_AUTH_USER_NAME,
+            $credentials = Credentials::withPublicKey(self::SSH_AUTH_USER_NAME,
                 $this->getSshKeyPath(self::SSH_PUBLIC_KEY), $this->getSshKeyPath(self::SSH_PRIVATE_KEY));
 
             $client->setCredentials($credentials);
             $client->connect($host);
             $client->scpDownload($this->getRemotePlayerLogName(), $this->getCenterServerPlayerLogName($host));
-            $client->close();*/
+            $client->close();
 
             $this->processPlayerLog($this->getCenterServerPlayerLogName($host));
         }
