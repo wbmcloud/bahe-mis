@@ -99,6 +99,11 @@ class ParamsRules
     const IF_RECHARGE_AGENT    = '/recharge/agent';
     const IF_RECHARGE_DO_AGENT = '/recharge/doagent';
 
+    /**
+     * 游戏模块
+     */
+    const IF_GAME_PLAYER_LIST       = '/game/playerlist';
+    const IF_GAME_PLAYER_LOGIN_LIST = '/game/playerloginlist';
 
     /**
      * @var array
@@ -352,6 +357,8 @@ class ParamsRules
         self::IF_API_GENERAL_AGENT_DEL_FLOW      => ['auth' => ['super', 'admin'], 'desc' => '删除代理充值记录接口'],
         self::IF_API_GENERAL_AGENT_DO_CASH_ORDER => ['auth' => ['super', 'admin'], 'desc' => '总监打款单确认接口'],
         self::IF_API_GENERAL_AGENT_RESET         => ['auth' => ['super', 'admin'], 'desc' => '总监密码重置接口'],
+        self::IF_GAME_PLAYER_LIST                => ['auth' => ['super', 'admin'], 'desc' => '游戏角色列表查询接口'],
+        self::IF_GAME_PLAYER_LOGIN_LIST          => ['auth' => ['super', 'admin'], 'desc' => '游戏角色登录信息查询接口'],
     ];
 
     /**
@@ -386,6 +393,8 @@ class ParamsRules
         self::IF_GENERAL_AGENT_INCOME          => 'general_agent.income',
         self::IF_GENERAL_AGENT_SALE            => 'general_agent.sale',
         self::IF_GENERAL_AGENT_INCOME_HISTORY  => 'general_agent.income_history',
+        self::IF_GAME_PLAYER_LIST              => 'game.player_list',
+        self::IF_GAME_PLAYER_LOGIN_LIST        => 'game.player_login_list',
     ];
 
     /**

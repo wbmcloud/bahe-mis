@@ -43,5 +43,15 @@ return [
         'host' => env('GMT_HOST', '123.206.24.228'),
         'port' => env('GMT_PORT', 60031),
     ],
+    /**
+     * 游戏服务器IP地址列表
+     */
+    'game_server' => [
+        'outer' => [
+        ],
+        'inner' => [
+            '111.230.140.74'
+        ],
+    ],
 
 ];

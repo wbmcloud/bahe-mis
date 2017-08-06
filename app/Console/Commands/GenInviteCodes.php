@@ -44,7 +44,7 @@ class GenInviteCodes extends Command
     {
         $batch_insert_arr = [];
         Redis::del(Constants::INVITE_CODE_INCR);
-        for ($i = 0; $i < Constants::INVITE_CODE_BATCH_SIZE; $i++) {
+        for ($i = 0; $i < Constants::BATCH_SIZE; $i++) {
             $batch_insert_arr[] = [
                 'invite_code' => $this->genInviteCode(),
                 'type' => Constants::INVITE_CODE_TYPE_GENERAL_AGENT,

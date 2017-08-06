@@ -7,6 +7,7 @@ use App\Console\Commands\ImportRolePermissions;
 use App\Console\Commands\ManagerActionLog;
 use App\Console\Commands\StatDateFirstCashOrder;
 use App\Console\Commands\StatDateGeneralCashOrder;
+use App\Console\Commands\SyncGamePlayerInfo;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 
@@ -23,6 +24,7 @@ class Kernel extends ConsoleKernel
         StatDateFirstCashOrder::class,
         StatDateGeneralCashOrder::class,
         ManagerActionLog::class,
+        SyncGamePlayerInfo::class,
     ];
 
     /**

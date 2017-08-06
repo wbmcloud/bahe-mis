@@ -88,7 +88,7 @@ class Constants
     const INVITE_CODE_LENGTH     = 4;
     const INVITE_CODE_LEVEL_LENGTH = 3;
 
-    const INVITE_CODE_BATCH_SIZE = 100;
+    const BATCH_SIZE = 100;
 
     const ROOM_CARD_ITEM_ID = 13303809;
 

@@ -71,6 +71,9 @@ Route::group(['middleware' => ['validator']], function () {
         Route::get(\App\Common\ParamsRules::IF_GENERAL_AGENT_SALE, 'GeneralAgentController@sale')->name('general_agent.sale');
         Route::get(\App\Common\ParamsRules::IF_GENERAL_AGENT_INCOME_HISTORY, 'GeneralAgentController@incomeHistory')->name('general_agent.income_history');
 
+        Route::get(\App\Common\ParamsRules::IF_GAME_PLAYER_LIST, 'GameController@playerList')->name('game.playerlist');
+        Route::get(\App\Common\ParamsRules::IF_GAME_PLAYER_LOGIN_LIST, 'GameController@playerLoginList')->name('game.playerloginlist');
+
         /**
          * ajax API
          */

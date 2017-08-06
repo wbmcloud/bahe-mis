@@ -158,6 +158,22 @@
           </ul>
         </li>
         @endrole
+        @role(['super', 'admin'])
+        <li id="game" class="treeview">
+          <a href="#">
+            <i class="fa fa-dashboard"></i> <span>游戏</span>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+          </a>
+          <ul class="treeview-menu">
+            <li id="player_list"><a href="{{ route('game.playerlist') }}"><i class="fa fa-circle-o"></i>角色列表</a></li>
+          </ul>
+          <ul class="treeview-menu">
+            <li id="player_login_list"><a href="{{ route('game.playerloginlist') }}"><i class="fa fa-circle-o"></i>角色登录信息列表</a></li>
+          </ul>
+        </li>
+        @endrole
       </ul>
       <!-- /.sidebar-menu -->
     </section>
