@@ -15,6 +15,7 @@ use App\Library\Protobuf\INNER_TYPE;
 use App\Library\Protobuf\Protobuf;
 use App\Library\TcpClient;
 use App\Models\Accounts;
+use App\Models\InviteCode;
 use App\Models\Role;
 use App\Models\TransactionFlow;
 use App\Models\User;
@@ -196,5 +197,26 @@ class AgentLogic extends BaseLogic
             ])
             ->whereBetween('created_at', [$start_time, $end_time])
             ->paginate();
+    }
+
+    /**
+     * @param $invite_code
+     * @return mixed
+     * @throws BaheException
+     */
+    public function getInviteCode($invite_code)
+    {
+        $invite_code = InviteCode::where([
+            'invite_code' => $invite_code,
+        ])->first();
+        if (empty($invite_code)) {
+            throw new BaheException(BaheException::INVITE_CODE_NOT_VALID_CODE);
+        }
+
+        if ($invite_code['is_used'] == Constants::COMMON_DISABLE) {
+            throw new BaheException(BaheException::INVITE_CODE_NOT_USED_CODE);
+        }
+
+        return $invite_code;
     }
 }

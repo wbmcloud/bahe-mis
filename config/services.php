@@ -48,9 +48,18 @@ return [
      */
     'game_server' => [
         'outer' => [
+            [
+                'host' => '123.206.24.228',
+                'user' => 'root',
+                'password' => '!QAZ8ik,9ol.',
+            ]
         ],
         'inner' => [
-            '111.230.140.74'
+            [
+                'host' => '111.230.140.74',
+                'user' => 'game',
+                'password' => '!QAZ8ik,9ol.',
+            ]
         ],
     ],
 

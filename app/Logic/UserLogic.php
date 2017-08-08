@@ -55,6 +55,12 @@ class UserLogic extends BaseLogic
      */
     public function createAgent($params)
     {
+        // 判断邀请码是否有效
+        $agent_logic = new AgentLogic();
+        if (isset($params['invite_code']) && !empty($params['invite_code'])) {
+            $agent_logic->getInviteCode($params['invite_code']);
+        }
+
         // 创建用户
         $user = new User();
         $user->user_name = $params['user_name'];

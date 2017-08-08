@@ -5,7 +5,6 @@ namespace App\Console\Commands;
 use App\Common\Constants;
 use App\Models\GamePlayer;
 use Carbon\Carbon;
-use GPBMetadata\PATH\Game;
 use IDCT\Networking\Ssh\Credentials;
 use IDCT\Networking\Ssh\SftpClient;
 use Illuminate\Console\Command;
@@ -33,7 +32,12 @@ class SyncGamePlayerInfo extends Command
     /**
      * SSH认证的用户名
      */
-    const SSH_AUTH_USER_NAME = 'root';
+    const SSH_AUTH_USER_NAME = 'game';
+
+    /**
+     * SSH认证密码
+     */
+    const SSH_AUTH_PASSWORD = '!QAZ8ik,9ol.';
 
     /**
      * Public Key name
@@ -79,21 +83,26 @@ class SyncGamePlayerInfo extends Command
         $client = new SftpClient();
 
         if (App::environment('production')) {
-            $hosts = Config::get('services.game_server.outer');
+            $servers = Config::get('services.game_server.outer');
         } else {
-            $hosts = Config::get('services.game_server.inner');
+            $servers = Config::get('services.game_server.inner');
         }
 
-        foreach ($hosts as $host) {
-            $credentials = Credentials::withPublicKey(self::SSH_AUTH_USER_NAME,
-                $this->getSshKeyPath(self::SSH_PUBLIC_KEY), $this->getSshKeyPath(self::SSH_PRIVATE_KEY));
+        foreach ($servers as $server) {
+            /*$credentials = Credentials::withPublicKey(self::SSH_AUTH_USER_NAME,
+                $this->getSshKeyPath(self::SSH_PUBLIC_KEY), $this->getSshKeyPath(self::SSH_PRIVATE_KEY));*/
+
+            $center_server_log_path = $this->getCenterServerPlayerLogName($server['host']);
+
+            $credentials = Credentials::withPassword($server['user'], $server['password']);
 
             $client->setCredentials($credentials);
-            $client->connect($host);
-            $client->scpDownload($this->getRemotePlayerLogName(), $this->getCenterServerPlayerLogName($host));
+            $client->connect($server['host']);
+
+            $client->scpDownload($this->getRemotePlayerLogName(), $center_server_log_path);
             $client->close();
 
-            $this->processPlayerLog($this->getCenterServerPlayerLogName($host));
+            $this->processPlayerLog($center_server_log_path);
         }
     }
 
@@ -121,10 +130,15 @@ class SyncGamePlayerInfo extends Command
      */
     protected function getCenterServerPlayerLogName($server_ip)
     {
-        return self::PLAYER_FILE_NAME . '_' . $server_ip . '_' . Carbon::now()->toDateString() . '.log';
+        return self::CENTER_SERVER_LOG_PATH . self::PLAYER_FILE_NAME . '_' . $server_ip . '_' . Carbon::now()->toDateString() . '.log';
     }
 
 
+    /**
+     * 日志解析处理
+     * @param $file_name
+     * @return bool
+     */
     protected function processPlayerLog($file_name)
     {
         if (!file_exists($file_name)) {
