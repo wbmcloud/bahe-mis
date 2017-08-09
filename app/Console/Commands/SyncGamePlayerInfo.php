@@ -113,7 +113,7 @@ class SyncGamePlayerInfo extends Command
      */
     protected function getRemotePlayerLogName($path = self::REMOTE_GAME_LOG_PATH)
     {
-        return $path . self::PLAYER_FILE_NAME . '_' . Carbon::now()->toDateString();
+        return $path . self::PLAYER_FILE_NAME . '_' . Carbon::yesterday()->toDateString();
     }
 
     /**
@@ -131,7 +131,7 @@ class SyncGamePlayerInfo extends Command
      */
     protected function getCenterServerPlayerLogName($server_ip)
     {
-        return self::CENTER_SERVER_LOG_PATH . self::PLAYER_FILE_NAME . '_' . $server_ip . '_' . Carbon::now()->toDateString() . '.log';
+        return self::CENTER_SERVER_LOG_PATH . self::PLAYER_FILE_NAME . '_' . $server_ip . '_' . Carbon::yesterday()->toDateString() . '.log';
     }
 
 
