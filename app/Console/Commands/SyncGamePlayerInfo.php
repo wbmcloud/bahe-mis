@@ -99,7 +99,7 @@ class SyncGamePlayerInfo extends Command
             $client->setCredentials($credentials);
             $client->connect($server['host']);
 
-            $client->scpDownload($this->getRemotePlayerLogName(), $center_server_log_path);
+            $client->scpDownload($this->getRemotePlayerLogName($server['path']), $center_server_log_path);
             $client->close();
 
             $this->processPlayerLog($center_server_log_path);
@@ -108,11 +108,12 @@ class SyncGamePlayerInfo extends Command
 
     /**
      * 获取当天远程游戏角色日志名
+     * @param $path
      * @return string
      */
-    protected function getRemotePlayerLogName()
+    protected function getRemotePlayerLogName($path = self::REMOTE_GAME_LOG_PATH)
     {
-        return self::REMOTE_GAME_LOG_PATH . self::PLAYER_FILE_NAME . '_' . Carbon::now()->toDateString();
+        return $path . self::PLAYER_FILE_NAME . '_' . Carbon::now()->toDateString();
     }
 
     /**

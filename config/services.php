@@ -52,6 +52,7 @@ return [
                 'host' => '123.206.24.228',
                 'user' => 'root',
                 'password' => '!QAZ8ik,9ol.',
+                'path' => '/root/workdir/logs/',
             ]
         ],
         'inner' => [
@@ -59,6 +60,7 @@ return [
                 'host' => '111.230.140.74',
                 'user' => 'game',
                 'password' => '!QAZ8ik,9ol.',
+                'path' => '/export/game/workdir/logs/',
             ]
         ],
     ],
