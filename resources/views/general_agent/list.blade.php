@@ -70,8 +70,6 @@
                                         <td>
                                             <button type="button" onclick="rechargeList('{{ route('general_agent.first_agent_rechargelist', [
                                                 'invite_code' => $agent['code'],
-                                                'start_date' => \Carbon\Carbon::now()->startOfWeek()->toDateString(),
-                                                'end_date' => \Carbon\Carbon::tomorrow()->toDateString()
                                             ]) }}')" class="btn btn-primary">总代理销售记录</button>
                                             <button type="button" onclick="rechargeList('{{ route('general_agent.rechargelist', [
                                                 'invite_code' => $agent['code'],
