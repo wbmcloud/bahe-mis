@@ -107,6 +107,7 @@ class Constants
     public static $recharge_role = [
         self::ROLE_AGENT,
         self::ROLE_FIRST_AGENT,
+        self::ROLE_GENERAL_AGENT,
     ];
 
     public static $admin_role = [
