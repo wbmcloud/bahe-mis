@@ -32,6 +32,15 @@ class Constants
     const ROLE_TYPE_GENERAL_AGENT = 5;
 
     /**
+     * 充值类型
+     */
+    public static $recharge_type = [
+        COMMAND_TYPE::COMMAND_TYPE_ROOM_CARD,
+        COMMAND_TYPE::COMMAND_TYPE_RECHARGE,
+        COMMAND_TYPE::COMMAND_TYPE_HUANLEDOU,
+    ];
+
+    /**
      * GMT操作类型
      * @var array
      */
@@ -108,6 +117,12 @@ class Constants
         self::ROLE_AGENT,
         self::ROLE_FIRST_AGENT,
         self::ROLE_GENERAL_AGENT,
+    ];
+
+    public static $agent_role_type = [
+        self::ROLE_TYPE_AGENT,
+        self::ROLE_TYPE_FIRST_AGENT,
+        self::ROLE_TYPE_GENERAL_AGENT
     ];
 
     public static $admin_role = [

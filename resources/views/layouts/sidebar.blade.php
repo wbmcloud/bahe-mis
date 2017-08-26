@@ -173,6 +173,23 @@
             <li id="player_login_list"><a href="{{ route('game.playerloginlist') }}"><i class="fa fa-circle-o"></i>角色登录信息列表</a></li>
           </ul>
         </li>
+        <li id="record" class="treeview">
+          <a href="#">
+            <i class="fa fa-dashboard"></i> <span>记录</span>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+          </a>
+          <ul class="treeview-menu">
+            <li id="agent_recharge_record"><a href="{{ route('record.agentrecharge') }}"><i class="fa fa-circle-o"></i> <span>代理充值记录</span></a></li>
+          </ul>
+          <ul class="treeview-menu">
+            <li id="user_recharge_record"><a href="{{ route('record.userrecharge') }}"><i class="fa fa-circle-o"></i> <span>用户充值记录</span></a></li>
+          </ul>
+          <ul class="treeview-menu">
+            <li id="open_room_record"><a href="{{ route('record.openroom') }}"><i class="fa fa-circle-o"></i> <span>代开房记录</span></a></li>
+          </ul>
+        </li>
         @endrole
       </ul>
       <!-- /.sidebar-menu -->

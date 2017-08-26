@@ -106,6 +106,13 @@ class ParamsRules
     const IF_GAME_PLAYER_LOGIN_LIST = '/game/playerloginlist';
 
     /**
+     * 记录模块
+     */
+    const IF_RECORD_AGENT_RECHARGE  = '/record/agentrecharge';
+    const IF_RECORD_USER_RECHARGE   = '/record/userrecharge';
+    const IF_RECORD_OPEN_ROOM       = '/record/openroom';
+
+    /**
      * @var array
      * 参数校验规则
      */
@@ -359,6 +366,9 @@ class ParamsRules
         self::IF_API_GENERAL_AGENT_RESET         => ['auth' => ['super', 'admin'], 'desc' => '总监密码重置接口'],
         self::IF_GAME_PLAYER_LIST                => ['auth' => ['super', 'admin'], 'desc' => '游戏角色列表查询接口'],
         self::IF_GAME_PLAYER_LOGIN_LIST          => ['auth' => ['super', 'admin'], 'desc' => '游戏角色登录信息查询接口'],
+        self::IF_RECORD_AGENT_RECHARGE           => ['auth' => ['super', 'admin'], 'desc' => '代理充值记录'],
+        self::IF_RECORD_USER_RECHARGE            => ['auth' => ['super', 'admin'], 'desc' => '用户充值记录'],
+        self::IF_RECORD_OPEN_ROOM                => ['auth' => ['super', 'admin'], 'desc' => '代开房记录'],
     ];
 
     /**
@@ -395,6 +405,9 @@ class ParamsRules
         self::IF_GENERAL_AGENT_INCOME_HISTORY  => 'general_agent.income_history',
         self::IF_GAME_PLAYER_LIST              => 'game.player_list',
         self::IF_GAME_PLAYER_LOGIN_LIST        => 'game.player_login_list',
+        self::IF_RECORD_AGENT_RECHARGE         => 'record.agentrecharge',
+        self::IF_RECORD_USER_RECHARGE          => 'record.userrecharge',
+        self::IF_RECORD_OPEN_ROOM              => 'record.openroom',
     ];
 
     /**

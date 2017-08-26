@@ -183,4 +183,55 @@ class RechargeLogic extends BaseLogic
         return Utils::renderSuccess();
     }
 
+    /**
+     * @param $params
+     * @param $start_time
+     * @param $end_time
+     * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
+     */
+    public function agentRechargeRecord($params, $start_time, $end_time)
+    {
+        if (isset($params['query_str']) && !empty($params['query_str'])) {
+            return TransactionFlow::where([
+                    'recipient_name' => $params['query_str'],
+                ])
+                ->whereIn('recipient_type', Constants::$agent_role_type)
+                ->whereIn('recharge_type', Constants::$recharge_type)
+                ->whereBetween('created_at', [$start_time, $end_time])
+                ->paginate();
+        }
+
+        return TransactionFlow::whereIn('recipient_type', Constants::$agent_role_type)
+            ->whereIn('recharge_type', Constants::$recharge_type)
+            ->whereBetween('created_at', [$start_time, $end_time])
+            ->paginate();
+
+    }
+
+    /**
+     * @param $params
+     * @param $start_time
+     * @param $end_time
+     * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
+     */
+    public function userRechargeRecord($params, $start_time, $end_time)
+    {
+        if (isset($params['query_str']) && !empty($params['query_str'])) {
+            return TransactionFlow::where([
+                    'recipient_id' => $params['query_str'],
+                    'recipient_type' => Constants::ROLE_TYPE_USER
+                ])
+                ->whereIn('recharge_type', Constants::$recharge_type)
+                ->whereBetween('created_at', [$start_time, $end_time])
+                ->paginate();
+        }
+
+        return TransactionFlow::where([
+                'recipient_type' => Constants::ROLE_TYPE_USER
+            ])
+            ->whereIn('recharge_type', Constants::$recharge_type)
+            ->whereBetween('created_at', [$start_time, $end_time])
+            ->paginate();
+
+    }
 }

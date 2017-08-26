@@ -41,5 +41,4 @@ class RechargeController extends Controller
 
         return $recharge_logic->userRecharge($this->params);
     }
-
 }

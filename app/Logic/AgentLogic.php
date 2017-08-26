@@ -219,4 +219,28 @@ class AgentLogic extends BaseLogic
 
         return $invite_code;
     }
+
+
+    /**
+     * @param $params
+     * @param $start_time
+     * @param $end_time
+     * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
+     */
+    public function openRoomRecord($params, $start_time, $end_time)
+    {
+        if (isset($params['query_str']) && !empty($params['query_str'])) {
+            return TransactionFlow::where([
+                    'initiator_name' => $params['query_str'],
+                    'recharge_type'  => Constants::COMMAND_TYPE_OPEN_ROOM
+                ])
+                ->whereBetween('created_at', [$start_time, $end_time])
+                ->paginate();
+        }
+
+        return TransactionFlow::where('recharge_type', Constants::COMMAND_TYPE_OPEN_ROOM)
+            ->whereBetween('created_at', [$start_time, $end_time])
+            ->paginate();
+
+    }
 }

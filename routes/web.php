@@ -74,6 +74,10 @@ Route::group(['middleware' => ['validator']], function () {
         Route::get(\App\Common\ParamsRules::IF_GAME_PLAYER_LIST, 'GameController@playerList')->name('game.playerlist');
         Route::get(\App\Common\ParamsRules::IF_GAME_PLAYER_LOGIN_LIST, 'GameController@playerLoginList')->name('game.playerloginlist');
 
+        Route::get(\App\Common\ParamsRules::IF_RECORD_AGENT_RECHARGE, 'RecordController@agentRecharge')->name('record.agentrecharge');
+        Route::get(\App\Common\ParamsRules::IF_RECORD_USER_RECHARGE, 'RecordController@userRecharge')->name('record.userrecharge');
+        Route::get(\App\Common\ParamsRules::IF_RECORD_OPEN_ROOM, 'RecordController@openRoom')->name('record.openroom');
+
         /**
          * ajax API
          */
