@@ -31,6 +31,7 @@
                         <table id="agent_container" class="table table-bordered table-hover">
                             <thead>
                             <tr>
+                            <th>id</th>
                             <th>发起人id</th>
                             <th>发起人用户名</th>
                             <th>发起人类型</th>
@@ -49,6 +50,7 @@
                             @else
                                 @foreach($recharge_list as $recharge)
                                     <tr>
+                                        <td>{{ $recharge['id'] }}</td>
                                         <td>{{ $recharge['initiator_id'] }}</td>
                                         <td>{{ $recharge['initiator_name'] }}</td>
                                         <td>{{ \App\Common\Constants::$role_type[$recharge['initiator_type']] }}</td>

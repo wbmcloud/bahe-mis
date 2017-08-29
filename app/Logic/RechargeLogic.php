@@ -198,12 +198,14 @@ class RechargeLogic extends BaseLogic
                 ->whereIn('recipient_type', Constants::$agent_role_type)
                 ->whereIn('recharge_type', Constants::$recharge_type)
                 ->whereBetween('created_at', [$start_time, $end_time])
+                ->orderBy('id', 'desc')
                 ->paginate();
         }
 
         return TransactionFlow::whereIn('recipient_type', Constants::$agent_role_type)
             ->whereIn('recharge_type', Constants::$recharge_type)
             ->whereBetween('created_at', [$start_time, $end_time])
+            ->orderBy('id', 'desc')
             ->paginate();
 
     }
@@ -223,6 +225,7 @@ class RechargeLogic extends BaseLogic
                 ])
                 ->whereIn('recharge_type', Constants::$recharge_type)
                 ->whereBetween('created_at', [$start_time, $end_time])
+                ->orderBy('id', 'desc')
                 ->paginate();
         }
 
@@ -231,6 +234,7 @@ class RechargeLogic extends BaseLogic
             ])
             ->whereIn('recharge_type', Constants::$recharge_type)
             ->whereBetween('created_at', [$start_time, $end_time])
+            ->orderBy('id', 'desc')
             ->paginate();
 
     }

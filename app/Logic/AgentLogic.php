@@ -235,11 +235,13 @@ class AgentLogic extends BaseLogic
                     'recharge_type'  => Constants::COMMAND_TYPE_OPEN_ROOM
                 ])
                 ->whereBetween('created_at', [$start_time, $end_time])
+                ->orderBy('id', 'desc')
                 ->paginate();
         }
 
         return TransactionFlow::where('recharge_type', Constants::COMMAND_TYPE_OPEN_ROOM)
             ->whereBetween('created_at', [$start_time, $end_time])
+            ->orderBy('id', 'desc')
             ->paginate();
 
     }
