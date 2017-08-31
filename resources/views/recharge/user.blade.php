@@ -48,7 +48,7 @@
                 </div>
 
             </div>
-            @role(['agent', 'first_agent'])
+            @role(['agent', 'first_agent', 'general_agent'])
             @if(!empty($account) && (!empty($account['diamond_balance']) ||
                 !empty($account['card_balance']) || !empty($account['bean_balance'])))
             <div class="form-group">
