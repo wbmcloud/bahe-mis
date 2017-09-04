@@ -34,11 +34,11 @@
                             <td>{{ $income_stat['current_week_income'] }}</td>
                         </tr>
                         <tr>
-                            <td>本周发展代理充值总金额</td>
+                            <td>本周代理充值总金额</td>
                             <td>{{ $income_stat['first_agent_sale_amount'] }}</td>
                         </tr>
                         <tr>
-                            <td>本周发展代理收入</td>
+                            <td>本周代理收入</td>
                             <td>{{ $income_stat['first_agent_sale_commission'] }}</td>
                         </tr>
                         <tr>
