@@ -77,7 +77,7 @@ class FirstAgentLogic extends BaseLogic
     {
         $invite_code = InviteCode::where([
             'invite_code' => $invite_code,
-            'type' => Constants::INVITE_CODE_TYPE_FIRST_AGENT
+            'type' => Constants::INVITE_CODE_TYPE_GENERAL_AGENT
         ])->first();
         if (empty($invite_code)) {
             throw new BaheException(BaheException::INVITE_CODE_NOT_VALID_CODE);
