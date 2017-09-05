@@ -31,6 +31,13 @@
     </div>
 </div>
 <div class="form-group">
+    <label for="code" class="col-sm-2 control-label">生成邀请码</label>
+
+    <div class="col-sm-10">
+        <input type="text" class="form-control" name="code" placeholder="请输入生成邀请码" value="{{ old('code') }}">
+    </div>
+</div>
+<div class="form-group">
     <label for="name" class="col-sm-2 control-label">姓名</label>
 
     <div class="col-sm-10">

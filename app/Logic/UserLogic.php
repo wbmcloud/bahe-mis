@@ -125,7 +125,8 @@ class UserLogic extends BaseLogic
             $user->user_name = $params['user_name'];
             $user->password = bcrypt($params['password']);
             $user->city_id = $params['city_id'];
-            $user->code = Utils::getUniqueInviteCode($params['invite_code']);
+            $user->code = !empty($params['code']) ? $params['code'] :
+                Utils::getUniqueInviteCode($params['invite_code']);
             $user->invite_code = $params['invite_code'];
             $user->role_id = $params['role_id'];
             !empty($params['name']) && ($user->name = $params['name']);
@@ -213,10 +214,7 @@ class UserLogic extends BaseLogic
                 $account_logic->createAccount([
                     'user_id' => $user->id,
                 ]);
-                return view('res', [
-                    'prompt' => Constants::SUCCESS_PROMPT_FIRST_AGENT_INVITE_CODE,
-                    'data' => $user->code,
-                ]);
+                return Utils::renderSuccess();
                 break;
             case Constants::ADD_USER_TYPE_GENERAL_AGENT:
                 if (!Auth::user()->hasRole([

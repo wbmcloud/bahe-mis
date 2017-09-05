@@ -146,6 +146,7 @@ class ParamsRules
             'user_name'   => 'required|string|between:6,22',
             'password'    => 'required|string',
             'city_id'     => 'integer|nullable',
+            'code'        => 'digits:7|nullable',
             'invite_code' => 'numeric|nullable',
             'name'        => 'string|between:2,22|nullable',
             'uin'         => 'integer|nullable',
