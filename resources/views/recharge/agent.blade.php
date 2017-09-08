@@ -30,6 +30,13 @@
                 </div>
             </div>
             <div class="form-group">
+                <label for="recharge_name" class="col-sm-2 control-label">赠送数量</label>
+
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" name="give_num" placeholder="请输入赠送数" value="{{ old('give_num') }}">
+                </div>
+            </div>
+            <div class="form-group">
                 <label for="recharge_name" class="col-sm-2 control-label">充值类型</label>
 
                 <div class="col-sm-10">

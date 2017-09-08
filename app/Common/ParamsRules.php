@@ -238,6 +238,7 @@ class ParamsRules
         self::IF_RECHARGE_DO_AGENT => [
             'user_name'     => 'required|string|between:6,22',
             'num'           => 'integer|required',
+            'give_num'      => 'integer|nullable',
             'recharge_type' => ['required', 'in:1,2,3'],
         ],
         self::IF_USER_DO_LOGIN => [

@@ -69,19 +69,20 @@ class AccountLogic extends BaseLogic
 
     public function saveAccount($account, $params)
     {
+        $num = $params['num'] + intval($params['give_num']);
         if (isset($params['recharge_type'])) {
             switch ($params['recharge_type']) {
                 case COMMAND_TYPE::COMMAND_TYPE_RECHARGE:
-                    $account->diamond_balance += $params['num'];
-                    $account->diamond_total += $params['num'];
+                    $account->diamond_balance += $num;
+                    $account->diamond_total += $num;
                     break;
                 case COMMAND_TYPE::COMMAND_TYPE_ROOM_CARD:
-                    $account->card_balance += $params['num'];
-                    $account->card_total += $params['num'];
+                    $account->card_balance += $num;
+                    $account->card_total += $num;
                     break;
                 case COMMAND_TYPE::COMMAND_TYPE_HUANLEDOU:
-                    $account->bean_balance += $params['num'];
-                    $account->bean_total += $params['num'];
+                    $account->bean_balance += $num;
+                    $account->bean_total += $num;
                     break;
             }
         }

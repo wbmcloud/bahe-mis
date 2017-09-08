@@ -40,6 +40,7 @@
                             <th>接收人类型</th>
                             <th>交易类型</th>
                             <th>数量</th>
+                            <th>赠送数量</th>
                             <th>交易时间</th>
                             <th>交易是否成功</th>
                             </tr>
@@ -59,6 +60,7 @@
                                         <td>{{ \App\Common\Constants::$role_type[$recharge['recipient_type']] }}</td>
                                         <td>{{ \App\Common\Constants::$transaction_type[$recharge['recharge_type']] }}</td>
                                         <td>{{ $recharge['num'] }}</td>
+                                        <td>{{ $recharge['give_num'] }}</td>
                                         <td>{{ $recharge['created_at'] }}</td>
                                         <td>{{ \App\Common\Constants::$recharge_status[$recharge['status']] }}</td>
                                     </tr>

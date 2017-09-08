@@ -77,6 +77,7 @@ class RechargeLogic extends BaseLogic
         $transaction_flow->recipient_id   = $recharge_role['pivot']['user_id'];
         $transaction_flow->recipient_type = Constants::$recharge_role_type[$recharge_role['name']];
         $transaction_flow->recharge_type  = $params['recharge_type'];
+        !empty($params['give_num']) && ($transaction_flow->give_num = $params['give_num']);
         $transaction_flow->num            = $params['num'];
         $transaction_flow->status         = Constants::COMMON_ENABLE;
         $transaction_flow->save();
