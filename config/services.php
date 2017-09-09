@@ -50,9 +50,9 @@ return [
         'outer' => [
             [
                 'host' => '123.206.24.228',
-                'user' => 'root',
-                'password' => '!QAZ8ik,9ol.',
-                'path' => '/root/workdir/logs/',
+                'user' => 'game',
+                'password' => '^YHN&UJM$rfv(OL.',
+                'path' => '/export/game/workdir/logs/',
             ]
         ],
         'inner' => [
