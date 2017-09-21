@@ -81,12 +81,12 @@ class AgentLogic extends BaseLogic
     }
 
     /**
-     * @param $server_id
+     * @param $params
      * @param $open_room_res
      * @return array
      * @throws BaheException
      */
-    public function sendGmtOpenRoom($server_id, &$open_room_res)
+    public function sendGmtOpenRoom($params, &$open_room_res)
     {
         // 调用gmt注册服务器
         $inner_meta_register_srv = Protobuf::packRegisterInnerMeta();
@@ -94,9 +94,9 @@ class AgentLogic extends BaseLogic
         if (Protobuf::unpackRegister($register_res)->getTypeT() !== INNER_TYPE::INNER_TYPE_REGISTER) {
             throw new BaheException(BaheException::GMT_SERVER_REGISTER_FAIL_CODE);
         }
+
         // 调用gmt代开房
-        $open_room['server_id'] = $server_id;
-        $inner_meta_open_room   = Protobuf::packOpenRoomInnerMeta($open_room);
+        $inner_meta_open_room   = Protobuf::packOpenRoomInnerMeta($params);
         $open_room_res          = Protobuf::unpackOpenRoom(TcpClient::callTcpService($inner_meta_open_room));
         if ($open_room_res['error_code'] != 0) {
             throw new BaheException(BaheException::GMT_SERVER_OPEN_ROOM_FAIL_CODE);
@@ -136,11 +136,11 @@ class AgentLogic extends BaseLogic
 
     /**
      * @param $user
-     * @param $server_id
+     * @param $params
      * @return array
      * @throws BaheException
      */
-    public function openRoom($user, $server_id)
+    public function openRoom($user, $params)
     {
         $is_recharged = true;
         DB::beginTransaction();
@@ -154,7 +154,7 @@ class AgentLogic extends BaseLogic
                     COMMAND_TYPE::COMMAND_TYPE_ROOM_CARD,
                     Constants::OPEN_ROOM_CARD_REDUCE);
             }
-            $open_room_res = $this->sendGmtOpenRoom($server_id, $open_room_res);
+            $open_room_res = $this->sendGmtOpenRoom($params, $open_room_res);
             DB::commit();
         } catch (\Exception $e) {
             $is_recharged  = false;

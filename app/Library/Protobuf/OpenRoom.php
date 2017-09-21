@@ -45,6 +45,14 @@ class OpenRoom extends \Google\Protobuf\Internal\Message
      * <code>int64 room_id = 4;</code>
      */
     private $room_id = 0;
+    /**
+     * <pre>
+     *房间设置
+     * </pre>
+     *
+     * <code>bytes options = 5;</code>
+     */
+    private $options = '';
 
     public function __construct() {
         \GPBMetadata\PATH\Game::initOnce();
@@ -141,6 +149,31 @@ class OpenRoom extends \Google\Protobuf\Internal\Message
     {
         GPBUtil::checkInt64($var);
         $this->room_id = $var;
+    }
+
+    /**
+     * <pre>
+     *房间设置
+     * </pre>
+     *
+     * <code>bytes options = 5;</code>
+     */
+    public function getOptions()
+    {
+        return $this->options;
+    }
+
+    /**
+     * <pre>
+     *房间设置
+     * </pre>
+     *
+     * <code>bytes options = 5;</code>
+     */
+    public function setOptions($var)
+    {
+        GPBUtil::checkString($var, False);
+        $this->options = $var;
     }
 
 }

@@ -72,6 +72,8 @@ class Protobuf
         $open_room = new OpenRoom();
         $open_room->setTypeT(INNER_TYPE::INNER_TYPE_OPEN_ROOM);
         $open_room->setServerId($data['server_id']);
+        $open_room->setOptions(self::packRoomOptions($data));
+
         return $open_room->serializeToString();
     }
 
@@ -91,5 +93,20 @@ class Protobuf
             'error_code' => $open_room->getErrorCode(),
             'room_id' => $open_room->getRoomId()
         ];
+    }
+
+    public static function packRoomOptions($data)
+    {
+        $room_option = new RoomOptions();
+        $room_option->setModel($data['model']);
+        if (isset($data['extend_type']) && !empty($data['extend_type'])) {
+            $room_option->setExtendType($data['extend_type']);
+            $room_option->setExtendTypeCount(count($data['extend_type']));
+        }
+        $room_option->setOpenRands($data['open_rands']);
+        $room_option->setTopMutiple($data['top_mutiple']);
+        $room_option->setVoiceOpen((bool)$data['voice_open']);
+
+        return $room_option->serializeToString();
     }
 }
