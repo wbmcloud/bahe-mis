@@ -43,13 +43,13 @@
                     <label for="extend_type" class="col-sm-2 control-label">额外番型</label>
 
                     <div class="col-sm-10">
-                        <input type="checkbox" value="4" name="extend_type[]">&nbsp;&nbsp;&nbsp;宝牌&nbsp;&nbsp;
-                        <input type="checkbox" value="1" name="extend_type[]">&nbsp;&nbsp;&nbsp;站立胡&nbsp;&nbsp;
-                        <input type="checkbox" value="2" name="extend_type[]">&nbsp;&nbsp;&nbsp;带夹胡（夹、边）&nbsp;&nbsp;
-                        <input type="checkbox" value="5" name="extend_type[]">&nbsp;&nbsp;&nbsp;可断门&nbsp;&nbsp;
-                        <input type="checkbox" value="6" name="extend_type[]">&nbsp;&nbsp;&nbsp;清一色&nbsp;&nbsp;
-                        <input type="checkbox" value="3" name="extend_type[]">&nbsp;&nbsp;&nbsp;旋风杠&nbsp;&nbsp;
-                        <input type="checkbox" value="7" name="extend_type[]">&nbsp;&nbsp;&nbsp;包三家
+                        <input type="checkbox" value="4" name="extend_type[]" checked>&nbsp;&nbsp;&nbsp;宝牌&nbsp;&nbsp;
+                        <input type="checkbox" value="1" name="extend_type[]" checked>&nbsp;&nbsp;&nbsp;站立胡&nbsp;&nbsp;
+                        <input type="checkbox" value="2" name="extend_type[]" checked>&nbsp;&nbsp;&nbsp;带夹胡（夹、边）&nbsp;&nbsp;
+                        <input type="checkbox" value="5" name="extend_type[]" checked>&nbsp;&nbsp;&nbsp;可断门&nbsp;&nbsp;
+                        <input type="checkbox" value="6" name="extend_type[]" checked>&nbsp;&nbsp;&nbsp;清一色&nbsp;&nbsp;
+                        <input type="checkbox" value="3" name="extend_type[]" checked>&nbsp;&nbsp;&nbsp;旋风杠&nbsp;&nbsp;
+                        <input type="checkbox" value="7" name="extend_type[]" checked>&nbsp;&nbsp;&nbsp;包三家
                     </div>
                 </div>
                 <div class="form-group">
@@ -72,7 +72,7 @@
                     <label for="voice_open" class="col-sm-2 control-label">语音</label>
 
                     <div class="col-sm-10">
-                        <input type="checkbox" value="1" name="voice_open" checked>&nbsp;&nbsp;
+                        <input type="checkbox" value="1" name="voice_open">&nbsp;&nbsp;
                     </div>
                 </div>
                 <button type="submit" class="btn btn-info pull-right">开房</button>
@@ -92,7 +92,7 @@
                 maximumSelectionLength: 3,
                 tags: true
             });
-            $("input[name='mode']").iCheck({
+            $("input").iCheck({
                 checkboxClass: 'icheckbox_square-blue',
                 radioClass: 'iradio_square-blue',
                 increaseArea: '20%' // optional
