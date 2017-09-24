@@ -106,7 +106,9 @@ class Protobuf
         $room_option->setOpenRands($data['open_rands']);
         $room_option->setTopMutiple($data['top_mutiple']);
         if (isset($data['voice_open']) && !empty($data['voice_open'])) {
-            $room_option->setVoiceOpen((bool)$data['voice_open']);
+            $room_option->setVoiceOpen(intval($data['voice_open']));
+        } else {
+            $room_option->setVoiceOpen(0);
         }
 
         return $room_option->serializeToString();

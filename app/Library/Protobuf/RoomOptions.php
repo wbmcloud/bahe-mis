@@ -62,9 +62,9 @@ class RoomOptions extends \Google\Protobuf\Internal\Message
      *实时语音
      * </pre>
      *
-     * <code>bool voice_open = 6;</code>
+     * <code>int32 voice_open = 6;</code>
      */
-    private $voice_open = false;
+    private $voice_open = 0;
 
     public function __construct() {
         \GPBMetadata\PATH\Game::initOnce();
@@ -201,7 +201,7 @@ class RoomOptions extends \Google\Protobuf\Internal\Message
      *实时语音
      * </pre>
      *
-     * <code>bool voice_open = 6;</code>
+     * <code>int32 voice_open = 6;</code>
      */
     public function getVoiceOpen()
     {
@@ -213,11 +213,11 @@ class RoomOptions extends \Google\Protobuf\Internal\Message
      *实时语音
      * </pre>
      *
-     * <code>bool voice_open = 6;</code>
+     * <code>int32 voice_open = 6;</code>
      */
     public function setVoiceOpen($var)
     {
-        GPBUtil::checkBool($var);
+        GPBUtil::checkInt32($var);
         $this->voice_open = $var;
     }
 
