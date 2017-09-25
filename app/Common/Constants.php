@@ -178,8 +178,8 @@ class Constants
     /**
      * 佣金类型
      */
-    const COMMISSION_TYPE_FIRST_TO_AGENT_RATE = 0.5;
-    const COMMISSION_TYPE_GENERAL_TO_FIRST_RATE = 0.5;
+    const COMMISSION_TYPE_FIRST_TO_AGENT_RATE = 0.25;
+    const COMMISSION_TYPE_GENERAL_TO_FIRST_RATE = 0.25;
     const COMMISSION_TYPE_GENERAL_TO_AGENT_RATE = 0.5;
 
     /**
