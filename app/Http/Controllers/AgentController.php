@@ -9,6 +9,7 @@
 namespace App\Http\Controllers;
 
 use App\Common\Constants;
+use App\Logic\AccountLogic;
 use App\Logic\AgentLogic;
 use App\Logic\UserLogic;
 use Carbon\Carbon;
@@ -98,8 +99,12 @@ class AgentController extends Controller
             ];
         }
 
+        $account_logic = new AccountLogic();
+        $account      = $account_logic->getAgentBalance();
+
         return [
             'agent' => $user,
+            'account' => $account
         ];
     }
 

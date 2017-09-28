@@ -188,4 +188,6 @@ class Constants
     const CASH_ORDER_TYPE_GENERAL = 1;
     const CASH_ORDER_TYPE_FIRST = 2;
 
+    const ROOM_CARD_RANDOMS = 8;
+
 }

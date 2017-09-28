@@ -152,7 +152,7 @@ class AgentLogic extends BaseLogic
                 $account_logic = new AccountLogic();
                 $account_logic->reduceBalance($user->user_name,
                     COMMAND_TYPE::COMMAND_TYPE_ROOM_CARD,
-                    Constants::OPEN_ROOM_CARD_REDUCE);
+                    $params['open_rands'] / Constants::ROOM_CARD_RANDOMS);
             }
             $open_room_res = $this->sendGmtOpenRoom($params, $open_room_res);
             DB::commit();
