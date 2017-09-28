@@ -88,7 +88,7 @@ class AgentController extends Controller
     public function showOpenRoomForm()
     {
         $user = Auth::user();
-        if (!$user->hasRole('agent')) {
+        if ($user->hasRole(Constants::$admin_role)) {
             // 管理员和超级管理员
             $user_logic = new UserLogic();
             $cities     = $user_logic->getOpenCities();
