@@ -143,7 +143,7 @@ class Constants
     /**
      * 房卡价钱
      */
-    const ROOM_CARD_PRICE = 1.5;
+    const ROOM_CARD_PRICE = 1.2;
 
     /**
      * 代理级别类型
