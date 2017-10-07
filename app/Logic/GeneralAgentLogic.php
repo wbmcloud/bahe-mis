@@ -49,7 +49,7 @@ class GeneralAgentLogic extends BaseLogic
             }
         }
 
-        $users = User::where($where)->paginate($page_size);
+        $users = User::where($where)->orderBy('id', 'desc')->paginate($page_size);
 
         return $users;
     }

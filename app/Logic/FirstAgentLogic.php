@@ -46,7 +46,7 @@ class FirstAgentLogic extends BaseLogic
             }
         }
 
-        $users = User::where($where)->paginate($page_size);
+        $users = User::where($where)->orderBy('id', 'desc')->paginate($page_size);
 
         return $users;
     }
@@ -263,6 +263,7 @@ class FirstAgentLogic extends BaseLogic
                 'type' => Constants::AGENT_LEVEL_FIRST
             ])
             ->selectRaw('week, amount, status')
+            ->orderBy('id', 'desc')
             ->paginate($page_size);
 
         return $cash_orders;

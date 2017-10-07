@@ -45,6 +45,7 @@ class AgentLogic extends BaseLogic
         }
 
         $users = User::where($condition)
+            ->orderBy('id', 'desc')
             ->paginate($page_size);
 
         return $users;
@@ -77,6 +78,7 @@ class AgentLogic extends BaseLogic
                 'recipient_id' => $agent_id,
             ])
             ->whereBetween('created_at', [$start_time, $end_time])
+            ->orderBy('id', 'desc')
             ->paginate($page_size);
     }
 
@@ -196,6 +198,7 @@ class AgentLogic extends BaseLogic
                 'initiator_id' => $agent_id
             ])
             ->whereBetween('created_at', [$start_time, $end_time])
+            ->orderBy('id', 'desc')
             ->paginate();
     }
 
