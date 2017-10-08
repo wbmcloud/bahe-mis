@@ -45,14 +45,15 @@
                             <th>接收人用户名</th>
                             <th>接收人类型</th>
                             <th>交易类型</th>
-                            <th>数量</th>
+                            <th>充值数量</th>
+                            <th>赠送数量</th>
                             <th>交易时间</th>
                             <th>交易是否成功</th>
                             </tr>
                             </thead>
                             <tbody id="agent_list_container">
                             @if(empty($recharge_list->total()))
-                                <tr><td colspan="10">没有记录</td></tr>
+                                <tr><td colspan="11">没有记录</td></tr>
                             @else
                                 @foreach($recharge_list as $recharge)
                                     <tr>
@@ -64,6 +65,7 @@
                                         <td>{{ \App\Common\Constants::$role_type[$recharge['recipient_type']] }}</td>
                                         <td>{{ \App\Common\Constants::$transaction_type[$recharge['recharge_type']] }}</td>
                                         <td>{{ $recharge['num'] }}</td>
+                                        <td>{{ $recharge['give_num'] }}</td>
                                         <td>{{ $recharge['created_at'] }}</td>
                                         <td>{{ \App\Common\Constants::$recharge_status[$recharge['status']] }}</td>
                                     </tr>

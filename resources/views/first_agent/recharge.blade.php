@@ -43,6 +43,7 @@
                                 <th>代理用户名</th>
                                 <th>充值类型</th>
                                 <th>充值房卡数量（单位：个）</th>
+                                <th>增送房卡数量（单位：个）</th>
                                 <th>充值时间</th>
                                 @role(['super', 'admin'])
                                 <th>操作</th>
@@ -53,9 +54,9 @@
                             @if(empty($recharge_flows->total()))
                                 <tr>
                                     @if(\Illuminate\Support\Facades\Auth::user()->hasRole(['super', 'admin']))
-                                        <td colspan="6">没有记录</td>
+                                        <td colspan="7">没有记录</td>
                                     @else
-                                        <td colspan="5">没有记录</td>
+                                        <td colspan="6">没有记录</td>
                                     @endif
                                 </tr>
                             @else
@@ -65,6 +66,7 @@
                                         <td>{{ $recharge_flow['recipient_name'] }}</td>
                                         <td>{{ \App\Common\Constants::$transaction_type[$recharge_flow['recharge_type']] }}</td>
                                         <td>{{ $recharge_flow['num'] }}</td>
+                                        <td>{{ $recharge_flow['give_num'] }}</td>
                                         <td>{{ $recharge_flow['created_at'] }}</td>
                                         @role(['super', 'admin'])
                                         <td>
