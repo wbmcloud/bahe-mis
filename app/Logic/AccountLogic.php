@@ -102,15 +102,15 @@ class AccountLogic extends BaseLogic
         $account = $this->getAccountByUserName($user_name);
         switch ($type) {
             case COMMAND_TYPE::COMMAND_TYPE_RECHARGE:
-                $condition = empty($account) || $account->diamond_balance <= $num;
+                $condition = empty($account) || $account->diamond_balance < $num;
                 $account->diamond_balance -= $num;
                 break;
             case COMMAND_TYPE::COMMAND_TYPE_ROOM_CARD:
-                $condition = empty($account) || $account->card_balance <= $num;
+                $condition = empty($account) || $account->card_balance < $num;
                 $account->card_balance -= $num;
                 break;
             case COMMAND_TYPE::COMMAND_TYPE_HUANLEDOU:
-                $condition = empty($account) || $account->bean_balance <= $num;
+                $condition = empty($account) || $account->bean_balance < $num;
                 $account->bean_balance -= $num;
                 break;
         }

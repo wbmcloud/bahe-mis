@@ -232,7 +232,7 @@ class ParamsRules
         ],
         self::IF_RECHARGE_DO_USER            => [
             'role_id'       => 'integer|required',
-            'num'           => 'integer|required',
+            'num'           => 'integer|min:1|required',
             'recharge_type' => ['required', 'in:1,2,3'],
         ],
         self::IF_RECHARGE_DO_AGENT => [
