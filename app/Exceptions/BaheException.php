@@ -8,6 +8,9 @@
 
 namespace App\Exceptions;
 
+use App\Library\Protobuf\COMMAND_ERROR_CODE;
+use App\Library\Protobuf\COMMAND_TYPE;
+
 class BaheException extends \Exception
 {
     const SUCCESS_CODE                      = 0;
@@ -71,11 +74,45 @@ class BaheException extends \Exception
         self::USER_EXIST_CODE                      => '用户已经存在',
     ];
 
+
+    public static $gmt_error_msg = [
+        COMMAND_ERROR_CODE::COMMAND_ERROR_CODE_SUCCESS          => '成功',
+        COMMAND_ERROR_CODE::COMMAND_ERROR_CODE_NO_PERMISSION    => '没有权限',
+        COMMAND_ERROR_CODE::COMMAND_ERROR_CODE_PARA             => '参数错误',
+        COMMAND_ERROR_CODE::COMMAND_ERROR_CODE_NO_ACCOUNT       => '没有账号数据',
+        COMMAND_ERROR_CODE::COMMAND_ERROR_CODE_NO_PLAYER        => '没有玩家数据',
+        COMMAND_ERROR_CODE::COMMAND_ERROR_CODE_PLAYER_ONLINE    => '玩家在线',
+        COMMAND_ERROR_CODE::COMMAND_ERROR_CODE_PLAYER_OFFLINE   => '玩家离线',
+        COMMAND_ERROR_CODE::COMMAND_ERROR_CODE_ITEM_NOT_FOUND   => '物品未能找到',
+        COMMAND_ERROR_CODE::COMMAND_ERROR_CODE_SERVER_NOT_FOUND => '未能找到服务器',
+        COMMAND_ERROR_CODE::COMMAND_ERROR_CODE_ASSET_NOT_FOUND  => '未能找到相关数据，由于策划配置造成',
+
+    ];
+
     public function __construct($code, $message = null)
     {
         if (is_null($message)) {
             $message = self::$error_msg[$code];
         }
         parent::__construct($message, $code);
+    }
+
+    public static function getErrorMsg($error)
+    {
+        $error = !empty($error) ? json_decode($error, true) : [];
+
+        if (empty($error)) {
+            return '';
+        }
+
+        if (isset($error['error_msg'])) {
+            return $error['error_msg'];
+        }
+
+        if (isset(self::$gmt_error_msg[$error['error_code']])) {
+            return self::$gmt_error_msg[$error['error_code']];
+        }
+
+        return '';
     }
 }

@@ -43,11 +43,12 @@
                             <th>赠送数量</th>
                             <th>交易时间</th>
                             <th>交易是否成功</th>
+                            <th>失败原因</th>
                             </tr>
                             </thead>
                             <tbody id="agent_list_container">
                             @if(empty($recharge_list->total()))
-                                <tr><td colspan="10">没有记录</td></tr>
+                                <tr><td colspan="13">没有记录</td></tr>
                             @else
                                 @foreach($recharge_list as $recharge)
                                     <tr>
@@ -63,6 +64,7 @@
                                         <td>{{ $recharge['give_num'] }}</td>
                                         <td>{{ $recharge['created_at'] }}</td>
                                         <td>{{ \App\Common\Constants::$recharge_status[$recharge['status']] }}</td>
+                                        <td>{{ \App\Exceptions\BaheException::getErrorMsg($recharge['recharge_fail_reason']) }}</td>
                                     </tr>
                                 @endforeach
                             @endif

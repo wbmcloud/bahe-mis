@@ -121,4 +121,5 @@ class Utils
 
         return array_sum(array_column($arr, $key));
     }
+
 }
