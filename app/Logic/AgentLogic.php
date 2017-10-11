@@ -31,22 +31,21 @@ class AgentLogic extends BaseLogic
      */
     public function getAgentList($query, $page_size, $status = Constants::COMMON_ENABLE)
     {
-        if (is_null($query)) {
-            $condition = [
-                'role_id' => Constants::ROLE_TYPE_AGENT,
-                'status' => $status,
-            ];
-        } else {
-            $condition = [
-                'role_id' => Constants::ROLE_TYPE_AGENT,
-                'user_name'   => $query,
-                'status' => $status,
-            ];
-        }
+        $condition = [
+            'role_id' => Constants::ROLE_TYPE_AGENT,
+            'status' => $status,
+        ];
 
-        $users = User::where($condition)
-            ->orderBy('id', 'desc')
-            ->paginate($page_size);
+        if (!is_null($query)) {
+            $users = User::where($condition)
+                ->where('user_name', 'like', "%$query%")
+                ->orderBy('id', 'desc')
+                ->paginate($page_size);
+        } else {
+            $users = User::where($condition)
+                ->orderBy('id', 'desc')
+                ->paginate($page_size);
+        }
 
         return $users;
     }

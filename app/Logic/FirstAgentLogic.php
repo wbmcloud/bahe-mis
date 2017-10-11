@@ -40,13 +40,20 @@ class FirstAgentLogic extends BaseLogic
             ) {
                 // 邀请码查询
                 $where['code'] = $params['query_str'];
+                $users = User::where($where)
+                    ->orderBy('id', 'desc')
+                    ->paginate($page_size);
             } else {
                 // 姓名查询
-                $where['name'] = $params['query_str'];
+                $users = User::where($where)
+                    ->where('name', 'like', "%{$params['query_str']}%")
+                    ->orderBy('id', 'desc')->paginate($page_size);
             }
+        } else {
+            $users = User::where($where)
+                ->orderBy('id', 'desc')
+                ->paginate($page_size);
         }
-
-        $users = User::where($where)->orderBy('id', 'desc')->paginate($page_size);
 
         return $users;
     }

@@ -64,7 +64,9 @@
                             @endif
                             </tbody>
                         </table>
-                        {{ $agents->links() }}
+                        {{ $agents->appends([
+                            'query_str' => \Illuminate\Support\Facades\Request::input('query_str'),
+                        ])->links() }}
                     </div>
                     <!-- /.box-body -->
                 </div>

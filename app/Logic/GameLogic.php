@@ -44,9 +44,9 @@ class GameLogic extends BaseLogic
         }
 
         if (!empty($where)) {
-            $players = GamePlayer::where($where)->paginate($page_size);
+            $players = GamePlayer::where($where)->orderBy('id', 'desc')->paginate($page_size);
         } else {
-            $players = GamePlayer::paginate($page_size);
+            $players = GamePlayer::orderBy('id', 'desc')->paginate($page_size);
         }
 
         return $players;
@@ -73,9 +73,9 @@ class GameLogic extends BaseLogic
         }
 
         if (!empty($where)) {
-            $players = GamePlayerLogin::where($where)->paginate($page_size);
+            $players = GamePlayerLogin::where($where)->orderBy('id', 'desc')->paginate($page_size);
         } else {
-            $players = GamePlayerLogin::paginate($page_size);
+            $players = GamePlayerLogin::orderBy('id', 'desc')->paginate($page_size);
         }
 
         return $players;

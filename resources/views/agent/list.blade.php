@@ -38,6 +38,8 @@
                             <th>id</th>
                             <th>用户名</th>
                             <th>交易总数</th>
+                            <th>剩余房卡数</th>
+                            <th>邀请码</th>
                             <th>成为代理时间</th>
                             <th>代理操作</th>
                             </tr>
@@ -51,6 +53,8 @@
                                         <td><a href="{{ route('agent.info') . '?id=' . $agent['id'] }}">{{ $agent['id'] }}</a></td>
                                         <td>{{ $agent['user_name'] }}</td>
                                         <td>{{ $agent['account']['card_total'] }}</td>
+                                        <td>{{ $agent['account']['card_balance'] }}</td>
+                                        <td>{{ $agent['invite_code'] }}</td>
                                         <td>{{ $agent['created_at'] }}</td>
                                         <td>
                                             <button type="button" onclick="rechargeList('{{ route('agent.rechargelist', [
@@ -67,7 +71,9 @@
                             @endif
                             </tbody>
                         </table>
-                        {{ $agents->links() }}
+                        {{ $agents->appends([
+                            'query_str' => \Illuminate\Support\Facades\Request::input('query_str'),
+                        ])->links() }}
                     </div>
                     <!-- /.box-body -->
                 </div>

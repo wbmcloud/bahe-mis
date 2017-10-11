@@ -48,7 +48,7 @@ class GeneralAgentController extends Controller
         $page_size = isset($this->params['page_size']) ? $this->params['page_size'] :
             Constants::DEFAULT_PAGE_SIZE;
         $codes = InviteCode::where('type', Constants::INVITE_CODE_TYPE_GENERAL_AGENT)
-            ->paginate($page_size);
+            ->orderBy('invite_code')->paginate($page_size);
 
         return [
             'codes' => $codes,
