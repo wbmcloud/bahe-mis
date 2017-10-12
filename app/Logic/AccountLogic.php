@@ -73,19 +73,27 @@ class AccountLogic extends BaseLogic
         if (isset($params['recharge_type'])) {
             switch ($params['recharge_type']) {
                 case COMMAND_TYPE::COMMAND_TYPE_RECHARGE:
+                    $condition = $account->diamond_balance + $num;
                     $account->diamond_balance += $num;
                     $account->diamond_total += $num;
                     break;
                 case COMMAND_TYPE::COMMAND_TYPE_ROOM_CARD:
+                    $condition = $account->card_balance + $num;
                     $account->card_balance += $num;
                     $account->card_total += $num;
                     break;
                 case COMMAND_TYPE::COMMAND_TYPE_HUANLEDOU:
+                    $condition = $account->bean_balance + $num;
                     $account->bean_balance += $num;
                     $account->bean_total += $num;
                     break;
             }
         }
+
+        if (intval($condition) < 0) {
+            throw new BaheException(BaheException::ACCOUNT_BALANCE_NOT_ENOUGH);
+        }
+
         $account->save();
 
         return $account;

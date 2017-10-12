@@ -195,7 +195,7 @@
                         <div class="form-group">
                             <label for="name" class="col-sm-2 control-label">输入密码</label>
                             <div class="col-sm-10">
-                                <input type="password" class="form-control" name="password" placeholder="请输入密码" required>
+                                <input type="text" class="form-control" name="password" placeholder="请输入密码" required>
                             </div>
                         </div>
                         <button type="button" onclick="savePassword()" class="btn btn-info pull-right">提交</button>

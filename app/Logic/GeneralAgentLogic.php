@@ -47,7 +47,7 @@ class GeneralAgentLogic extends BaseLogic
             } else {
                 // 姓名查询
                 $users = User::where($where)
-                    ->where('name', 'like', "%{$params['query_str']}%")
+                    ->where('user_name', 'like', "%{$params['query_str']}%")
                     ->orderBy('id', 'desc')->paginate($page_size);
             }
         } else {
