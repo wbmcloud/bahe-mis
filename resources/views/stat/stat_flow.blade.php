@@ -1,41 +1,60 @@
 @extends('admin_template')
-@section('head')
-    <link rel="stylesheet" href="{{ asset("/bower_components/admin-lte/plugins/morris/morris.css") }}">
-@endsection
 @section('content')
-    <section class="content-header">
-        <h1>
-            代理统计
-        </h1>
-    </section>
     <section class="content">
-        <div class="col-md-6">
-            <!-- AREA CHART -->
-            <div class="box box-primary">
-                <div class="box-header with-border">
-                    <h3 class="box-title">充值流水</h3>
-
-                    <div class="box-tools pull-right">
-                        <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
-                        </button>
-                        <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
-                    </div>
-                </div>
-                <div class="box-body chart-responsive">
-                    <div class="chart" id="revenue-chart" style="height: 300px;"></div>
-                </div>
-                <!-- /.box-body -->
-            </div>
+        <div id="main" style="width: 100%;height:500px;">
         </div>
     </section>
 @endsection
 
 @section('script')
-    <!-- Morris.js charts -->
-    <script src="https://cdn.bootcss.com/raphael/2.2.7/raphael.min.js"></script>
-    <script src="{{ asset("/bower_components/admin-lte/plugins/morris/morris.min.js") }}"></script>
+    <script src="{{ asset("/bower_components/admin-lte/dist/js/echarts.min.js") }}"></script>
     <script>
         $(function () {
+
+            // 基于准备好的dom，初始化echarts实例
+            var myChart = echarts.init(document.getElementById('main'));
+
+            option = {
+                title: {
+                    text: '房卡数统计'
+                },
+                tooltip : {
+                    trigger: 'axis',
+                    axisPointer: {
+                        type: 'cross',
+                        label: {
+                            backgroundColor: '#6a7985'
+                        }
+                    }
+                },
+                legend: {
+                    data:['代理充值房卡数','用户充值房卡数','代开房消耗房卡数']
+                },
+                toolbox: {
+                    feature: {
+                        saveAsImage: {}
+                    }
+                },
+                grid: {
+                    left: '3%',
+                    right: '4%',
+                    bottom: '3%',
+                    containLabel: true
+                },
+                xAxis : [
+                    {
+                        type : 'category',
+                        boundaryGap : false,
+                        data : []
+                    }
+                ],
+                yAxis : [
+                    {
+                        type : 'value'
+                    }
+                ],
+                series : []
+            };
             $.ajax({
                 headers: {
                     "X-Requested-With": "XMLHttpRequest",
@@ -44,32 +63,50 @@
                 method: 'GET',
                 success: function (res) {
                     var _chart_data = [];
+                    var _day_axis = [];
+                    var _agent_recharge = {
+                        'name': '代理充值房卡数',
+                        'type': 'line',
+                        'stack': '总量',
+                        'areaStyle': {normal: {}},
+                        'data': []
+                    };
+                    var _user_recharge = {
+                        'name': '用户充值房卡数',
+                        'type': 'line',
+                        'stack': '总量',
+                        'areaStyle': {normal: {}},
+                        'data': []
+                    };
+                    var _open_room = {
+                        'name': '代开房消耗房卡数',
+                        'type': 'line',
+                        'stack': '总量',
+                        'areaStyle': {normal: {}},
+                        'data': []
+                    };
                     var _data = res.data['list'];
                     for (var i = 0; i < _data.length; i++) {
-                        _chart_data.push({
-                            'y': _data[i]['day'],
-                            'agent_recharge': _data[i]['agent_recharge_card_total'],
-                            'user_recharge': _data[i]['user_recharge_card_total'],
-                            'open_room': _data[i]['open_room_card_total']
-                        });
+                        _day_axis[i] = _data[i]['day'],
+                            _agent_recharge['data'][i] = _data[i]['agent_recharge_card_total'],
+                            _user_recharge['data'][i] = _data[i]['user_recharge_card_total'],
+                            _open_room['data'][i] = _data[i]['open_room_card_total']
                     }
-                    // AREA CHART
-                    var area = new Morris.Area({
-                        element: 'revenue-chart',
-                        resize: true,
-                        data: _chart_data,
-                        xkey: 'y',
-                        ykeys: ['agent_recharge', 'user_recharge', 'open_room'],
-                        labels: ['代理充值', '用户充值', '代开房'],
-                        lineColors: ['#a0d0e0', '#3c8dbc', '#3c8dae'],
-                        hideHover: 'auto'
-                    });
+
+                    _chart_data.push(_agent_recharge);
+                    _chart_data.push(_user_recharge);
+                    _chart_data.push(_open_room);
+
+                    option['xAxis'][0]['data'] = _day_axis;
+                    option['series'] = _chart_data;
+
+                    // 使用刚指定的配置项和数据显示图表。
+                    myChart.setOption(option);
                 }
             });
+
+            $('#stat').addClass('active');
+            $('#stat_flow').addClass('active');
         });
-
-
-        $('#stat').addClass('active');
-        $('#stat_flow').addClass('active');
     </script>
 @endsection

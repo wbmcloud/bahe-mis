@@ -1,41 +1,60 @@
 @extends('admin_template')
-@section('head')
-    <link rel="stylesheet" href="{{ asset("/bower_components/admin-lte/plugins/morris/morris.css") }}">
-@endsection
 @section('content')
-    <section class="content-header">
-        <h1>
-            代理统计
-        </h1>
-    </section>
     <section class="content">
-        <div class="col-md-6">
-            <!-- AREA CHART -->
-            <div class="box box-primary">
-                <div class="box-header with-border">
-                    <h3 class="box-title">新增代理</h3>
-
-                    <div class="box-tools pull-right">
-                        <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
-                        </button>
-                        <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
-                    </div>
-                </div>
-                <div class="box-body chart-responsive">
-                    <div class="chart" id="revenue-chart" style="height: 300px;"></div>
-                </div>
-                <!-- /.box-body -->
-            </div>
+        <div id="main" style="width: 100%;height:500px;">
         </div>
     </section>
 @endsection
 
 @section('script')
-    <!-- Morris.js charts -->
-    <script src="https://cdn.bootcss.com/raphael/2.2.7/raphael.min.js"></script>
-    <script src="{{ asset("/bower_components/admin-lte/plugins/morris/morris.min.js") }}"></script>
+    <script src="{{ asset("/bower_components/admin-lte/dist/js/echarts.min.js") }}"></script>
     <script>
         $(function () {
+
+            // 基于准备好的dom，初始化echarts实例
+            var myChart = echarts.init(document.getElementById('main'));
+
+            option = {
+                title: {
+                    text: '新增各级代理统计'
+                },
+                tooltip : {
+                    trigger: 'axis',
+                    axisPointer: {
+                        type: 'cross',
+                        label: {
+                            backgroundColor: '#6a7985'
+                        }
+                    }
+                },
+                legend: {
+                    data:['新增代理','新增总代理','新增总监']
+                },
+                toolbox: {
+                    feature: {
+                        saveAsImage: {}
+                    }
+                },
+                grid: {
+                    left: '3%',
+                    right: '4%',
+                    bottom: '3%',
+                    containLabel: true
+                },
+                xAxis : [
+                    {
+                        type : 'category',
+                        boundaryGap : false,
+                        data : []
+                    }
+                ],
+                yAxis : [
+                    {
+                        type : 'value'
+                    }
+                ],
+                series : []
+            };
             $.ajax({
                 headers: {
                     "X-Requested-With": "XMLHttpRequest",
@@ -44,31 +63,51 @@
                 method: 'GET',
                 success: function (res) {
                     var _chart_data = [];
+                    var _day_axis = [];
+                    var _agent = {
+                        'name': '新增代理',
+                        'type': 'line',
+                        'stack': '总量',
+                        'areaStyle': {normal: {}},
+                        'data': []
+                    };
+                    var _first_agent = {
+                        'name': '新增总代理',
+                        'type': 'line',
+                        'stack': '总量',
+                        'areaStyle': {normal: {}},
+                        'data': []
+                    };
+                    var _general_agent = {
+                        'name': '新增总监',
+                        'type': 'line',
+                        'stack': '总量',
+                        'areaStyle': {normal: {}},
+                        'data': []
+                    };
                     var _data = res.data['list'];
                     for (var i = 0; i < _data.length; i++) {
-                        _chart_data.push({
-                            'y': _data[i]['day'],
-                            'agent': _data[i]['agent_add_total'],
-                            'first_agent': _data[i]['first_agent_add_total'],
-                            'general_agent': _data[i]['general_agent_add_total']
-                        });
+                        _day_axis[i] = _data[i]['day'],
+                        _agent['data'][i] = _data[i]['agent_add_total'],
+                        _first_agent['data'][i] = _data[i]['first_agent_add_total'],
+                        _general_agent['data'][i] = _data[i]['general_agent_add_total']
                     }
-                    // AREA CHART
-                    var area = new Morris.Area({
-                        element: 'revenue-chart',
-                        resize: true,
-                        data: _chart_data,
-                        xkey: 'y',
-                        ykeys: ['agent', 'first_agent', 'general_agent'],
-                        labels: ['代理', '总代理', '总监'],
-                        lineColors: ['#a0d0e0', '#3c8dbc', '#3c8dae'],
-                        hideHover: 'auto'
-                    });
+
+                    _chart_data.push(_agent);
+                    _chart_data.push(_first_agent);
+                    _chart_data.push(_general_agent);
+
+                    option['xAxis'][0]['data'] = _day_axis;
+                    option['series'] = _chart_data;
+
+                    // 使用刚指定的配置项和数据显示图表。
+                    myChart.setOption(option);
                 }
             });
+
+            $('#stat').addClass('active');
+            $('#stat_agent').addClass('active');
         });
 
-        $('#stat').addClass('active');
-        $('#stat_agent').addClass('active');
     </script>
 @endsection
