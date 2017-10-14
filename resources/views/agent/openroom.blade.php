@@ -100,6 +100,7 @@
                     </div>
                 @endif
                 @endrole
+                <p style="color: red; text-align: center">代开房的房间保留15分钟，如果未开局不返还房卡</p>
 
                 <button type="submit" class="btn btn-info pull-right">开房</button>
             </div>
