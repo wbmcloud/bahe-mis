@@ -190,4 +190,6 @@ class Constants
 
     const ROOM_CARD_RANDOMS = 8;
 
+    const STAT_MAX_DAY = 30;
+
 }

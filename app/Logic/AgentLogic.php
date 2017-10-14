@@ -111,10 +111,11 @@ class AgentLogic extends BaseLogic
      * @param bool $is_recharged
      * @param      $recharge_res
      * @param      $recharge_fail_reason
+     * @param      $num
      * @return bool
      */
     public function saveOpenRoomTransactionFlow($user, $is_recharged = false,
-                                        $recharge_res, $recharge_fail_reason)
+                                        $recharge_res, $recharge_fail_reason, $num)
     {
         $transaction_flow                 = new TransactionFlow();
         $transaction_flow->initiator_id   = $user->id;
@@ -122,7 +123,7 @@ class AgentLogic extends BaseLogic
         $transaction_flow->initiator_type = Constants::$recharge_role_type[$user->roles()->first()->toArray()['name']];
         $transaction_flow->recipient_type = Constants::ROLE_TYPE_USER;
         $transaction_flow->recharge_type  = Constants::COMMAND_TYPE_OPEN_ROOM;
-        $transaction_flow->num            = Constants::OPEN_ROOM_CARD_REDUCE;
+        $transaction_flow->num            = $num;
 
         if ($is_recharged) {
             $transaction_flow->status = Constants::COMMON_ENABLE;
@@ -182,7 +183,7 @@ class AgentLogic extends BaseLogic
             $recharge_fail_reason : null;
 
         $this->saveOpenRoomTransactionFlow($user, $is_recharged, $open_room_res,
-            $recharge_fail_reason);
+            $recharge_fail_reason, $params['open_rands'] / Constants::ROOM_CARD_RANDOMS);
 
         if (!$is_recharged) {
             throw new BaheException($error_code, $error_message);

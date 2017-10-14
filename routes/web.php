@@ -102,5 +102,9 @@ Route::group(['middleware' => ['validator']], function () {
         Route::get(\App\Common\ParamsRules::IF_API_GENERAL_AGENT_DEL_FLOW, 'Api\GeneralAgentController@delAgentFlow');
         Route::get(\App\Common\ParamsRules::IF_API_GENERAL_AGENT_DO_CASH_ORDER, 'Api\GeneralAgentController@confirmCashOrder');
         Route::get(\App\Common\ParamsRules::IF_API_GENERAL_AGENT_RESET, 'Api\GeneralAgentController@resetPassword');
+        Route::get(\App\Common\ParamsRules::IF_API_STAT_AGENT, 'Api\StatController@agent');
+        Route::get(\App\Common\ParamsRules::IF_API_STAT_FLOW, 'Api\StatController@flow');
+        Route::get(\App\Common\ParamsRules::IF_STAT_AGENT, 'StatController@agent')->name('stat.agent');
+        Route::get(\App\Common\ParamsRules::IF_STAT_FLOW, 'StatController@flow')->name('stat.flow');
     });
 });

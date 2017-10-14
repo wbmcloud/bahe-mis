@@ -190,6 +190,20 @@
             <li id="open_room_record"><a href="{{ route('record.openroom') }}"><i class="fa fa-circle-o"></i> <span>代开房记录</span></a></li>
           </ul>
         </li>
+        <li id="stat" class="treeview">
+          <a href="#">
+            <i class="fa fa-dashboard"></i> <span>统计</span>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+          </a>
+          <ul class="treeview-menu">
+            <li id="stat_agent"><a href="{{ route('stat.agent') }}"><i class="fa fa-circle-o"></i> <span>代理</span></a></li>
+          </ul>
+          <ul class="treeview-menu">
+            <li id="stat_flow"><a href="{{ route('stat.flow') }}"><i class="fa fa-circle-o"></i> <span>流水</span></a></li>
+          </ul>
+        </li>
         @endrole
       </ul>
       <!-- /.sidebar-menu -->
