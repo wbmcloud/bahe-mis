@@ -76,7 +76,7 @@ class StatDayFlow extends Command
         }
 
         $day_flow['agent_recharge_card_total'] = array_sum($agent_day_flow);
-        $day_flow['day'] = Carbon::now()->format('Ymd');
+        $day_flow['day'] = Carbon::yesterday()->format('Ymd');
         $day_flow['week'] = Carbon::yesterday()->weekOfYear;
         $day_flow['month'] = Carbon::yesterday()->month;
         $day_flow['year'] = Carbon::yesterday()->year;

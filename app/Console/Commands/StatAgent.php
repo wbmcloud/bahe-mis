@@ -73,7 +73,7 @@ class StatAgent extends Command
             }
         }
 
-        $agent_stat['day'] = Carbon::now()->format('Ymd');
+        $agent_stat['day'] = Carbon::yesterday()->format('Ymd');
         $agent_stat['week'] = Carbon::yesterday()->weekOfYear;
         $agent_stat['month'] = Carbon::yesterday()->month;
         $agent_stat['year'] = Carbon::yesterday()->year;
