@@ -149,6 +149,9 @@ class RechargeLogic extends BaseLogic
         DB::beginTransaction();
         try {
             if ($user->hasRole(Constants::$recharge_role)) {
+                if ($params['num'] < 0) {
+                    throw new BaheException(BaheException::PARAMS_INVALID);
+                }
                 $account_logic = new AccountLogic();
                 $account_logic->reduceBalance($user->user_name,
                     $params['recharge_type'], $params['num']);
