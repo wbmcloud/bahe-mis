@@ -192,4 +192,6 @@ class Constants
 
     const STAT_MAX_DAY = 30;
 
+    const FEE_START_DATE = '2017-10-06';
+
 }
