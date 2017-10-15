@@ -21,68 +21,105 @@
         <li class="header">HEADER</li>
         <!-- Optionally, you can add icons to the links -->
         <li id="recharge" class="treeview">
-          <a href="#"><i class="fa fa-link"></i> <span>充值中心</span>
+          <a href="#"><i class="fa fa-money"></i> <span>充值中心</span>
             <span class="pull-right-container">
               <i class="fa fa-angle-left pull-right"></i>
             </span>
           </a>
           <ul class="treeview-menu">
             @role(['super', 'admin'])
-            <li id="agent_recharge"><a href="{{ route('recharge.agent') }}"><i class="fa fa-circle-o"></i> <span>代理充值</span></a></li>
+            <li id="agent_recharge"><a href="{{ route('recharge.agent') }}"><i class="fa fa-circle"></i> <span>代理充值</span></a></li>
             @endrole
-            <li id="user_recharge"><a href="{{ route('recharge.user') }}"><i class="fa fa-circle-o"></i> <span>用户充值</span></a></li>
+            <li id="user_recharge"><a href="{{ route('recharge.user') }}"><i class="fa fa-circle"></i> <span>用户充值</span></a></li>
           </ul>
         </li>
+        <li id="openroom" class="treeview">
+          <a href="{{ route('agent.openroom') }}">
+            <i class="fa fa-home"></i> <span>代开房</span>
+          </a>
+        </li>
         @role(['super', 'admin'])
-        <li id="first_agent" class="treeview">
+        <li id="agent" class="treeview">
           <a href="#">
-            <i class="fa fa-dashboard"></i> <span>总代理</span>
+            <i class="fa fa-group"></i> <span>代理</span>
             <span class="pull-right-container">
               <i class="fa fa-angle-left pull-right"></i>
             </span>
           </a>
           <ul class="treeview-menu">
-            <li id="first_agent_add"><a href="{{ route('user.add', ['type' => \App\Common\Constants::ADD_USER_TYPE_FIRST_AGENT]) }}"><i class="fa fa-circle-o"></i>新增</a></li>
-            <li id="first_agent_list"><a href="{{ route('first_agent.list') }}"><i class="fa fa-circle-o"></i>查询</a></li>
-            <li id="first_agent_banlist"><a href="{{ route('first_agent.banlist') }}"><i class="fa fa-circle-o"></i>封禁查询</a></li>
-            <li id="first_agent_invite_code"><a href="{{ route('first_agent.invite_code') }}"><i class="fa fa-circle-o"></i>邀请码</a></li>
-            <li id="first_agent_cash_order"><a href="{{ route('first_agent.cash_order_list') }}"><i class="fa fa-circle-o"></i>每周打款单</a></li>
+            <li id="agent_add"><a href="{{ route('user.add', ['type' => \App\Common\Constants::ADD_USER_TYPE_AGENT]) }}"><i class="fa fa-circle"></i>新增</a></li>
+            <li id="agent_list"><a href="{{ route('agent.list') }}"><i class="fa fa-circle"></i>查询</a></li>
+            <li id="agent_banlist"><a href="{{ route('agent.banlist') }}"><i class="fa fa-circle"></i>封禁查询</a></li>
+          </ul>
+        </li>
+        <li id="first_agent" class="treeview">
+          <a href="#">
+            <i class="fa fa-user"></i> <span>总代理</span>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+          </a>
+          <ul class="treeview-menu">
+            <li id="first_agent_add"><a href="{{ route('user.add', ['type' => \App\Common\Constants::ADD_USER_TYPE_FIRST_AGENT]) }}"><i class="fa fa-circle"></i>新增</a></li>
+            <li id="first_agent_list"><a href="{{ route('first_agent.list') }}"><i class="fa fa-circle"></i>查询</a></li>
+            <li id="first_agent_banlist"><a href="{{ route('first_agent.banlist') }}"><i class="fa fa-circle"></i>封禁查询</a></li>
+            <li id="first_agent_invite_code"><a href="{{ route('first_agent.invite_code') }}"><i class="fa fa-circle"></i>邀请码</a></li>
+            <li id="first_agent_cash_order"><a href="{{ route('first_agent.cash_order_list') }}"><i class="fa fa-circle"></i>每周打款单</a></li>
           </ul>
         </li>
         <li id="general_agent" class="treeview">
           <a href="#">
-            <i class="fa fa-dashboard"></i> <span>总监</span>
+            <i class="fa fa-user-secret"></i> <span>总监</span>
             <span class="pull-right-container">
               <i class="fa fa-angle-left pull-right"></i>
             </span>
           </a>
           <ul class="treeview-menu">
-            <li id="general_agent_add"><a href="{{ route('user.add', ['type' => \App\Common\Constants::ADD_USER_TYPE_GENERAL_AGENT]) }}"><i class="fa fa-circle-o"></i>新增</a></li>
-            <li id="general_agent_list"><a href="{{ route('general_agent.list') }}"><i class="fa fa-circle-o"></i>查询</a></li>
-            <li id="general_agent_banlist"><a href="{{ route('general_agent.banlist') }}"><i class="fa fa-circle-o"></i>封禁查询</a></li>
-            <li id="general_agent_invite_code"><a href="{{ route('general_agent.invite_code') }}"><i class="fa fa-circle-o"></i>邀请码</a></li>
-            <li id="general_agent_cash_order"><a href="{{ route('general_agent.cash_order_list') }}"><i class="fa fa-circle-o"></i>每周打款单</a></li>
+            <li id="general_agent_add"><a href="{{ route('user.add', ['type' => \App\Common\Constants::ADD_USER_TYPE_GENERAL_AGENT]) }}"><i class="fa fa-circle"></i>新增</a></li>
+            <li id="general_agent_list"><a href="{{ route('general_agent.list') }}"><i class="fa fa-circle"></i>查询</a></li>
+            <li id="general_agent_banlist"><a href="{{ route('general_agent.banlist') }}"><i class="fa fa-circle"></i>封禁查询</a></li>
+            <li id="general_agent_invite_code"><a href="{{ route('general_agent.invite_code') }}"><i class="fa fa-circle"></i>邀请码</a></li>
+            <li id="general_agent_cash_order"><a href="{{ route('general_agent.cash_order_list') }}"><i class="fa fa-circle"></i>每周打款单</a></li>
           </ul>
         </li>
-        <li id="agent" class="treeview">
+        <li id="game" class="treeview">
           <a href="#">
-            <i class="fa fa-dashboard"></i> <span>代理</span>
+            <i class="fa fa-gamepad"></i> <span>游戏</span>
             <span class="pull-right-container">
               <i class="fa fa-angle-left pull-right"></i>
             </span>
           </a>
           <ul class="treeview-menu">
-            <li id="agent_add"><a href="{{ route('user.add', ['type' => \App\Common\Constants::ADD_USER_TYPE_AGENT]) }}"><i class="fa fa-circle-o"></i>新增</a></li>
-            <li id="agent_list"><a href="{{ route('agent.list') }}"><i class="fa fa-circle-o"></i>查询</a></li>
-            <li id="agent_banlist"><a href="{{ route('agent.banlist') }}"><i class="fa fa-circle-o"></i>封禁查询</a></li>
+            <li id="player_list"><a href="{{ route('game.playerlist') }}"><i class="fa fa-circle"></i>角色列表</a></li>
+            <li id="player_login_list"><a href="{{ route('game.playerloginlist') }}"><i class="fa fa-circle"></i>角色登录信息列表</a></li>
+          </ul>
+        </li>
+        <li id="record" class="treeview">
+          <a href="#">
+            <i class="fa fa-history"></i> <span>记录</span>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+          </a>
+          <ul class="treeview-menu">
+            <li id="agent_recharge_record"><a href="{{ route('record.agentrecharge') }}"><i class="fa fa-circle"></i> <span>代理充值记录</span></a></li>
+            <li id="user_recharge_record"><a href="{{ route('record.userrecharge') }}"><i class="fa fa-circle"></i> <span>用户充值记录</span></a></li>
+            <li id="open_room_record"><a href="{{ route('record.openroom') }}"><i class="fa fa-circle"></i> <span>代开房记录</span></a></li>
+          </ul>
+        </li>
+        <li id="stat" class="treeview">
+          <a href="#">
+            <i class="fa fa-area-chart"></i> <span>统计</span>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+          </a>
+          <ul class="treeview-menu">
+            <li id="stat_agent"><a href="{{ route('stat.agent') }}"><i class="fa fa-circle"></i> <span>代理</span></a></li>
+            <li id="stat_flow"><a href="{{ route('stat.flow') }}"><i class="fa fa-circle"></i> <span>流水</span></a></li>
           </ul>
         </li>
         @endrole
-        <li id="openroom" class="treeview">
-          <a href="{{ route('agent.openroom') }}">
-            <i class="fa fa-link"></i> <span>代开房</span>
-          </a>
-        </li>
         @role(['agent', 'first_agent', 'general_agent'])
         <li id="agent_consume_flow" class="treeview">
           <a href="{{ route('agent.rechargelist', [
@@ -90,7 +127,7 @@
               'start_date' => \Carbon\Carbon::now()->startOfWeek()->toDateString(),
               'end_date' => \Carbon\Carbon::tomorrow()->toDateString()
             ]) }}">
-            <i class="fa fa-circle-o"></i><span>消费记录</span>
+            <i class="fa fa-file"></i><span>消费记录</span>
           </a>
         </li>
         @endrole
@@ -101,24 +138,20 @@
             'start_date' => \Carbon\Carbon::now()->startOfWeek()->toDateString(),
             'end_date' => \Carbon\Carbon::tomorrow()->toDateString()
           ]) }}">
-          <i class="fa fa-circle-o"></i><span>代理充值记录</span>
+          <i class="fa fa-file"></i><span>代理充值记录</span>
           </a>
         </li>
         <li id="data_stat" class="treeview">
           <a href="#">
-            <i class="fa fa-dashboard"></i> <span>数据统计</span>
+            <i class="fa fa-bar-chart"></i> <span>数据统计</span>
             <span class="pull-right-container">
               <i class="fa fa-angle-left pull-right"></i>
             </span>
           </a>
           <ul class="treeview-menu">
-            <li id="income"><a href="{{ route('first_agent.income') }}"><i class="fa fa-circle-o"></i>收入统计</a></li>
-          </ul>
-          <ul class="treeview-menu">
-            <li id="sale"><a href="{{ route('first_agent.sale') }}"><i class="fa fa-circle-o"></i>本周账单明细</a></li>
-          </ul>
-          <ul class="treeview-menu">
-            <li id="history"><a href="{{ route('first_agent.income_history') }}"><i class="fa fa-circle-o"></i>历史收入查询</a></li>
+            <li id="income"><a href="{{ route('first_agent.income') }}"><i class="fa fa-circle"></i>收入统计</a></li>
+            <li id="sale"><a href="{{ route('first_agent.sale') }}"><i class="fa fa-circle"></i>本周账单明细</a></li>
+            <li id="history"><a href="{{ route('first_agent.income_history') }}"><i class="fa fa-circle"></i>历史收入查询</a></li>
           </ul>
         </li>
         @endrole
@@ -129,79 +162,26 @@
               'start_date' => \Carbon\Carbon::now()->startOfWeek()->toDateString(),
               'end_date' => \Carbon\Carbon::tomorrow()->toDateString()
           ]) }}">
-            <i class="fa fa-circle-o"></i><span>代理充值记录</span>
+            <i class="fa fa-file"></i><span>代理充值记录</span>
           </a>
         </li>
         <li id="first_agent_rechargelist" class="treeview">
           <a href="{{ route('general_agent.first_agent_rechargelist', ['invite_code' => \Illuminate\Support\Facades\Auth::user()->code]) }}">
-            <i class="fa fa-circle-o"></i><span>总代理销售记录</span>
+            <i class="fa fa-file"></i><span>总代理销售记录</span>
           </a>
         </li>
         <li id="data_stat" class="treeview">
           <a href="#">
-            <i class="fa fa-dashboard"></i> <span>数据统计</span>
+            <i class="fa fa-bar-chart"></i> <span>数据统计</span>
             <span class="pull-right-container">
               <i class="fa fa-angle-left pull-right"></i>
             </span>
           </a>
           <ul class="treeview-menu">
-            <li id="income"><a href="{{ route('general_agent.income') }}"><i class="fa fa-circle-o"></i>收入统计</a></li>
-          </ul>
-          <ul class="treeview-menu">
-            <li id="first_agent_sale"><a href="{{ route('general_agent.sale', ['type' => \App\Common\Constants::ROLE_TYPE_FIRST_AGENT]) }}"><i class="fa fa-circle-o"></i>本周总代理账单明细</a></li>
-          </ul>
-          <ul class="treeview-menu">
-            <li id="agent_sale"><a href="{{ route('general_agent.sale', ['type' => \App\Common\Constants::ROLE_TYPE_AGENT]) }}"><i class="fa fa-circle-o"></i>本周代理账单明细</a></li>
-          </ul>
-          <ul class="treeview-menu">
-            <li id="history"><a href="{{ route('general_agent.income_history') }}"><i class="fa fa-circle-o"></i>历史收入查询</a></li>
-          </ul>
-        </li>
-        @endrole
-        @role(['super', 'admin'])
-        <li id="game" class="treeview">
-          <a href="#">
-            <i class="fa fa-dashboard"></i> <span>游戏</span>
-            <span class="pull-right-container">
-              <i class="fa fa-angle-left pull-right"></i>
-            </span>
-          </a>
-          <ul class="treeview-menu">
-            <li id="player_list"><a href="{{ route('game.playerlist') }}"><i class="fa fa-circle-o"></i>角色列表</a></li>
-          </ul>
-          <ul class="treeview-menu">
-            <li id="player_login_list"><a href="{{ route('game.playerloginlist') }}"><i class="fa fa-circle-o"></i>角色登录信息列表</a></li>
-          </ul>
-        </li>
-        <li id="record" class="treeview">
-          <a href="#">
-            <i class="fa fa-dashboard"></i> <span>记录</span>
-            <span class="pull-right-container">
-              <i class="fa fa-angle-left pull-right"></i>
-            </span>
-          </a>
-          <ul class="treeview-menu">
-            <li id="agent_recharge_record"><a href="{{ route('record.agentrecharge') }}"><i class="fa fa-circle-o"></i> <span>代理充值记录</span></a></li>
-          </ul>
-          <ul class="treeview-menu">
-            <li id="user_recharge_record"><a href="{{ route('record.userrecharge') }}"><i class="fa fa-circle-o"></i> <span>用户充值记录</span></a></li>
-          </ul>
-          <ul class="treeview-menu">
-            <li id="open_room_record"><a href="{{ route('record.openroom') }}"><i class="fa fa-circle-o"></i> <span>代开房记录</span></a></li>
-          </ul>
-        </li>
-        <li id="stat" class="treeview">
-          <a href="#">
-            <i class="fa fa-dashboard"></i> <span>统计</span>
-            <span class="pull-right-container">
-              <i class="fa fa-angle-left pull-right"></i>
-            </span>
-          </a>
-          <ul class="treeview-menu">
-            <li id="stat_agent"><a href="{{ route('stat.agent') }}"><i class="fa fa-circle-o"></i> <span>代理</span></a></li>
-          </ul>
-          <ul class="treeview-menu">
-            <li id="stat_flow"><a href="{{ route('stat.flow') }}"><i class="fa fa-circle-o"></i> <span>流水</span></a></li>
+            <li id="income"><a href="{{ route('general_agent.income') }}"><i class="fa fa-circle"></i>收入统计</a></li>
+            <li id="first_agent_sale"><a href="{{ route('general_agent.sale', ['type' => \App\Common\Constants::ROLE_TYPE_FIRST_AGENT]) }}"><i class="fa fa-circle"></i>本周总代理账单明细</a></li>
+            <li id="agent_sale"><a href="{{ route('general_agent.sale', ['type' => \App\Common\Constants::ROLE_TYPE_AGENT]) }}"><i class="fa fa-circle"></i>本周代理账单明细</a></li>
+            <li id="history"><a href="{{ route('general_agent.income_history') }}"><i class="fa fa-circle"></i>历史收入查询</a></li>
           </ul>
         </li>
         @endrole

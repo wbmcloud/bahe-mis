@@ -102,7 +102,7 @@
                 @endrole
                 <p style="color: red; text-align: center">代开房的房间保留15分钟，如果未开局不返还房卡</p>
 
-                <button type="button" class="btn btn-info pull-right">开房</button>
+                <button type="button" id="btn_open_room" class="btn btn-info pull-right">开房</button>
             </div>
         </form>
     </section>
@@ -125,7 +125,7 @@
                 increaseArea: '20%' // optional
             });
 
-            $('.btn').click(function () {
+            $('#btn_open_room').click(function () {
                 $('.btn').attr('disabled', 'true');
                 $('.form-horizontal').submit();
             });
