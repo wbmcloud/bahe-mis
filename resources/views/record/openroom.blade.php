@@ -20,7 +20,7 @@
                     <!--div class="box-header">
                         <h3 class="box-title">Hover Data Table</h3>
                     </div-->
-                    <div class="input-group margin" style="width:25%;">
+                    <div class="input-group margin" style="width:80%;">
                         <input id="query_str" type="text" class="col-sm-2 form-control" placeholder="请输入代开房用户名">
                         <span class="input-group-btn">
                           <button type="button" class="btn btn-info btn-flat" onclick="query();">查询</button>

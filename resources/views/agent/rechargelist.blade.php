@@ -24,7 +24,7 @@
                         <h3 class="box-title">Hover Data Table</h3>
                     </div-->
                     <!-- Date range -->
-                    <div class="input-group margin" style="width:50%;">
+                    <div class="input-group margin" style="width:80%;">
                         <div class="input-group-addon">
                             <i class="fa fa-calendar"></i>
                         </div>
