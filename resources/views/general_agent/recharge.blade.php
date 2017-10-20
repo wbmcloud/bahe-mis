@@ -51,7 +51,7 @@
                             </tr>
                             </thead>
                             <tbody id="agent_list_container">
-                            @if(empty($recharge_flows->total()))
+                            @if(empty($recharge_flows->count()))
                                 <tr>
                                     @if(\Illuminate\Support\Facades\Auth::user()->hasRole(['super', 'admin']))
                                         <td colspan="7">没有记录</td>

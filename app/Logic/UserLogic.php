@@ -11,7 +11,6 @@ namespace App\Logic;
 use App\Common\Constants;
 use App\Common\ParamsRules;
 use App\Common\Utils;
-use App\Events\ActionEvent;
 use App\Exceptions\BaheException;
 use App\Models\City;
 use App\Models\InviteCode;
@@ -20,7 +19,6 @@ use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Request;
 
 class UserLogic extends BaseLogic
 {

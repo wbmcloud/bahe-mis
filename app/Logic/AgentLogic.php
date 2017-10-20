@@ -14,9 +14,7 @@ use App\Library\Protobuf\COMMAND_TYPE;
 use App\Library\Protobuf\INNER_TYPE;
 use App\Library\Protobuf\Protobuf;
 use App\Library\TcpClient;
-use App\Models\Accounts;
 use App\Models\InviteCode;
-use App\Models\Role;
 use App\Models\TransactionFlow;
 use App\Models\User;
 use Illuminate\Support\Facades\DB;
@@ -40,11 +38,11 @@ class AgentLogic extends BaseLogic
             $users = User::where($condition)
                 ->where('user_name', 'like', "%$query%")
                 ->orderBy('id', 'desc')
-                ->paginate($page_size);
+                ->simplePaginate($page_size);
         } else {
             $users = User::where($condition)
                 ->orderBy('id', 'desc')
-                ->paginate($page_size);
+                ->simplePaginate($page_size);
         }
 
         return $users;
@@ -78,7 +76,7 @@ class AgentLogic extends BaseLogic
             ])
             ->whereBetween('created_at', [$start_time, $end_time])
             ->orderBy('id', 'desc')
-            ->paginate($page_size);
+            ->simplePaginate($page_size);
     }
 
     /**
@@ -199,7 +197,7 @@ class AgentLogic extends BaseLogic
             ])
             ->whereBetween('created_at', [$start_time, $end_time])
             ->orderBy('id', 'desc')
-            ->paginate();
+            ->simplePaginate($page_size);
     }
 
     /**
@@ -239,13 +237,13 @@ class AgentLogic extends BaseLogic
                 ])
                 ->whereBetween('created_at', [$start_time, $end_time])
                 ->orderBy('id', 'desc')
-                ->paginate();
+                ->simplePaginate($params['page_size']);
         }
 
         return TransactionFlow::where('recharge_type', Constants::COMMAND_TYPE_OPEN_ROOM)
             ->whereBetween('created_at', [$start_time, $end_time])
             ->orderBy('id', 'desc')
-            ->paginate();
+            ->simplePaginate($params['page_size']);
 
     }
 }

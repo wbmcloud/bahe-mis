@@ -53,7 +53,7 @@
                             </tr>
                             </thead>
                             <tbody id="agent_list_container">
-                            @if(empty($recharge_list->total()))
+                            @if(empty($recharge_list->count()))
                                 <tr><td colspan="12">没有记录</td></tr>
                             @else
                                 @foreach($recharge_list as $recharge)

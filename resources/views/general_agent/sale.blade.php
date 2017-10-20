@@ -29,7 +29,7 @@
                             </tr>
                             </thead>
                             <tbody id="agent_list_container">
-                            @if(empty($level_agent_sale_amount_list->total()))
+                            @if(empty($level_agent_sale_amount_list->count()))
                                 <tr>
                                     <td colspan="2">没有记录</td>
                                 </tr>

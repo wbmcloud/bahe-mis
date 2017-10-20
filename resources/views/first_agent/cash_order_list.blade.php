@@ -27,7 +27,7 @@
                             </tr>
                             </thead>
                             <tbody id="agent_list_container">
-                            @if(empty($cash_orders->total()))
+                            @if(empty($cash_orders->count()))
                                 <tr><td colspan="4">没有记录</td></tr>
                             @else
                                 @foreach($cash_orders as $cash_order)

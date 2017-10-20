@@ -8,18 +8,9 @@
 
 namespace App\Logic;
 
-use App\Common\Constants;
-use App\Exceptions\BaheException;
-use App\Library\Protobuf\COMMAND_TYPE;
-use App\Models\CashOrder;
 use App\Models\GamePlayer;
 use App\Models\GamePlayerLogin;
 use App\Models\GeneralAgents;
-use App\Models\InviteCode;
-use App\Models\TransactionFlow;
-use App\Models\User;
-use Carbon\Carbon;
-use Illuminate\Pagination\LengthAwarePaginator;
 
 class GameLogic extends BaseLogic
 {
@@ -44,9 +35,9 @@ class GameLogic extends BaseLogic
         }
 
         if (!empty($where)) {
-            $players = GamePlayer::where($where)->orderBy('id', 'desc')->paginate($page_size);
+            $players = GamePlayer::where($where)->orderBy('id', 'desc')->simplePaginate($page_size);
         } else {
-            $players = GamePlayer::orderBy('id', 'desc')->paginate($page_size);
+            $players = GamePlayer::orderBy('id', 'desc')->simplePaginate($page_size);
         }
 
         return $players;
@@ -73,9 +64,9 @@ class GameLogic extends BaseLogic
         }
 
         if (!empty($where)) {
-            $players = GamePlayerLogin::where($where)->orderBy('id', 'desc')->paginate($page_size);
+            $players = GamePlayerLogin::where($where)->orderBy('id', 'desc')->simplePaginate($page_size);
         } else {
-            $players = GamePlayerLogin::orderBy('id', 'desc')->paginate($page_size);
+            $players = GamePlayerLogin::orderBy('id', 'desc')->simplePaginate($page_size);
         }
 
         return $players;

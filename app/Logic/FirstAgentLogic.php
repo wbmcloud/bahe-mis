@@ -42,17 +42,17 @@ class FirstAgentLogic extends BaseLogic
                 $where['code'] = $params['query_str'];
                 $users = User::where($where)
                     ->orderBy('id', 'desc')
-                    ->paginate($page_size);
+                    ->simplePaginate($page_size);
             } else {
                 // 姓名查询
                 $users = User::where($where)
                     ->where('user_name', 'like', "%{$params['query_str']}%")
-                    ->orderBy('id', 'desc')->paginate($page_size);
+                    ->orderBy('id', 'desc')->simplePaginate($page_size);
             }
         } else {
             $users = User::where($where)
                 ->orderBy('id', 'desc')
-                ->paginate($page_size);
+                ->simplePaginate($page_size);
         }
 
         return $users;
@@ -120,7 +120,7 @@ class FirstAgentLogic extends BaseLogic
                     $end_time,
                 ])
                 ->orderBy('id', 'desc')
-                ->paginate($page_size);
+                ->simplePaginate($page_size);
         }
 
         return $recharge_flows;
@@ -136,7 +136,7 @@ class FirstAgentLogic extends BaseLogic
                 'type' => $agent_level,
             ])
             ->where('amount', '>', 0)
-            ->paginate($page_size);
+            ->simplePaginate($page_size);
 
         return $cash_orders;
     }
@@ -182,7 +182,7 @@ class FirstAgentLogic extends BaseLogic
                     ->whereBetween('created_at', [$start_time, $end_time])
                     ->groupBy($group_by)
                     ->selectRaw($select)
-                    ->paginate();
+                    ->simplePaginate($page_size);
             }
 
         } else {
@@ -197,7 +197,7 @@ class FirstAgentLogic extends BaseLogic
                     ->where($where)
                     ->groupBy($group_by)
                     ->selectRaw($select)
-                    ->paginate();
+                    ->simplePaginate($page_size);
             }
         }
 
@@ -271,7 +271,7 @@ class FirstAgentLogic extends BaseLogic
             ])
             ->selectRaw('week, amount, status')
             ->orderBy('id', 'desc')
-            ->paginate($page_size);
+            ->simplePaginate($page_size);
 
         return $cash_orders;
     }

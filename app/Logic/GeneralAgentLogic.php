@@ -9,7 +9,6 @@
 namespace App\Logic;
 
 use App\Common\Constants;
-use App\Common\Utils;
 use App\Exceptions\BaheException;
 use App\Library\Protobuf\COMMAND_TYPE;
 use App\Models\CashOrder;
@@ -19,8 +18,6 @@ use App\Models\TransactionFlow;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Pagination\LengthAwarePaginator;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
 
 class GeneralAgentLogic extends BaseLogic
 {
@@ -43,17 +40,17 @@ class GeneralAgentLogic extends BaseLogic
             ) {
                 // 邀请码查询
                 $where['code'] = $params['query_str'];
-                $users = User::where($where)->orderBy('id', 'desc')->paginate($page_size);
+                $users = User::where($where)->orderBy('id', 'desc')->simplePaginate($page_size);
             } else {
                 // 姓名查询
                 $users = User::where($where)
                     ->where('user_name', 'like', "%{$params['query_str']}%")
-                    ->orderBy('id', 'desc')->paginate($page_size);
+                    ->orderBy('id', 'desc')->simplePaginate($page_size);
             }
         } else {
             $users = User::where($where)
                 ->orderBy('id', 'desc')
-                ->paginate($page_size);
+                ->simplePaginate($page_size);
         }
 
         return $users;
@@ -138,7 +135,7 @@ class GeneralAgentLogic extends BaseLogic
                     $end_time,
                 ])
                 ->orderBy('id', 'desc')
-                ->paginate($page_size);
+                ->simplePaginate($page_size);
         }
 
         return $recharge_flows;
@@ -205,7 +202,7 @@ class GeneralAgentLogic extends BaseLogic
                 'type' => $agent_level,
             ])
             ->where('amount', '>', 0)
-            ->paginate($page_size);
+            ->simplePaginate($page_size);
 
         return $cash_orders;
     }
@@ -251,7 +248,7 @@ class GeneralAgentLogic extends BaseLogic
                     ->whereBetween('created_at', [$start_time, $end_time])
                     ->groupBy($group_by)
                     ->selectRaw($select)
-                    ->paginate();
+                    ->simplePaginate();
             }
 
         } else {
@@ -266,7 +263,7 @@ class GeneralAgentLogic extends BaseLogic
                     ->where($where)
                     ->groupBy($group_by)
                     ->selectRaw($select)
-                    ->paginate();
+                    ->simplePaginate();
             }
         }
 
@@ -347,7 +344,7 @@ class GeneralAgentLogic extends BaseLogic
                 'type' => Constants::AGENT_LEVEL_GENERAL
             ])
             ->selectRaw('week, amount, status')
-            ->paginate($page_size);
+            ->simplePaginate($page_size);
 
         return $cash_orders;
     }

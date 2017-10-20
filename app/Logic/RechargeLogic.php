@@ -9,7 +9,6 @@
 namespace App\Logic;
 
 use App\Common\Constants;
-use App\Common\ParamsRules;
 use App\Common\Utils;
 use App\Exceptions\BaheException;
 use App\Library\Protobuf\COMMAND_TYPE;
@@ -203,14 +202,14 @@ class RechargeLogic extends BaseLogic
                 ->whereIn('recharge_type', Constants::$recharge_type)
                 ->whereBetween('created_at', [$start_time, $end_time])
                 ->orderBy('id', 'desc')
-                ->paginate();
+                ->simplePaginate($params['page_size']);
         }
 
         return TransactionFlow::whereIn('recipient_type', Constants::$agent_role_type)
             ->whereIn('recharge_type', Constants::$recharge_type)
             ->whereBetween('created_at', [$start_time, $end_time])
             ->orderBy('id', 'desc')
-            ->paginate();
+            ->simplePaginate($params['page_size']);
 
     }
 
@@ -230,7 +229,7 @@ class RechargeLogic extends BaseLogic
                 ->whereIn('recharge_type', Constants::$recharge_type)
                 ->whereBetween('created_at', [$start_time, $end_time])
                 ->orderBy('id', 'desc')
-                ->paginate();
+                ->simplePaginate($params['page_size']);
         }
 
         return TransactionFlow::where([
@@ -239,7 +238,7 @@ class RechargeLogic extends BaseLogic
             ->whereIn('recharge_type', Constants::$recharge_type)
             ->whereBetween('created_at', [$start_time, $end_time])
             ->orderBy('id', 'desc')
-            ->paginate();
+            ->simplePaginate($params['page_size']);
 
     }
 }

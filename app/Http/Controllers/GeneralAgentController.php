@@ -8,7 +8,6 @@
 namespace App\Http\Controllers;
 
 use App\Common\Constants;
-use App\Logic\FirstAgentLogic;
 use App\Logic\GeneralAgentLogic;
 use App\Logic\UserLogic;
 use App\Models\InviteCode;
@@ -48,7 +47,7 @@ class GeneralAgentController extends Controller
         $page_size = isset($this->params['page_size']) ? $this->params['page_size'] :
             Constants::DEFAULT_PAGE_SIZE;
         $codes = InviteCode::where('type', Constants::INVITE_CODE_TYPE_GENERAL_AGENT)
-            ->orderBy('invite_code')->paginate($page_size);
+            ->orderBy('invite_code')->simplePaginate($page_size);
 
         return [
             'codes' => $codes,

@@ -37,7 +37,7 @@
                             </tr>
                             </thead>
                             <tbody id="agent_list_container">
-                            @if(empty($first_agents->total()))
+                            @if(empty($first_agents->count()))
                                 <tr>
                                     <td colspan="6">没有记录</td>
                                 </tr>

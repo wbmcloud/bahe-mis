@@ -8,6 +8,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Common\Constants;
 use App\Logic\AgentLogic;
 use App\Logic\RechargeLogic;
 use Carbon\Carbon;
@@ -20,6 +21,8 @@ class RecordController extends Controller
 
         $start_time = Carbon::now()->subMonth()->toDateTimeString();
         $end_time = Carbon::now()->toDateTimeString();
+        $this->params['page_size'] = isset($this->params['page_size']) ? $this->params['page_size'] :
+            Constants::DEFAULT_PAGE_SIZE;
 
         return [
             'recharge_list' => $recharge_logic->agentRechargeRecord($this->params, $start_time, $end_time)
@@ -32,6 +35,8 @@ class RecordController extends Controller
 
         $start_time = Carbon::now()->subMonth()->toDateTimeString();
         $end_time = Carbon::now()->toDateTimeString();
+        $this->params['page_size'] = isset($this->params['page_size']) ? $this->params['page_size'] :
+            Constants::DEFAULT_PAGE_SIZE;
 
         return [
             'recharge_list' => $recharge_logic->userRechargeRecord($this->params, $start_time, $end_time)
@@ -44,6 +49,8 @@ class RecordController extends Controller
 
         $start_time = Carbon::now()->subMonth()->toDateTimeString();
         $end_time = Carbon::now()->toDateTimeString();
+        $this->params['page_size'] = isset($this->params['page_size']) ? $this->params['page_size'] :
+            Constants::DEFAULT_PAGE_SIZE;
 
         return [
             'recharge_list' => $agent_logic->openRoomRecord($this->params, $start_time, $end_time)

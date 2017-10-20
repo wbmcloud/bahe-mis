@@ -31,7 +31,7 @@
                             </tr>
                             </thead>
                             <tbody id="agent_list_container">
-                            @if(empty($history_income_list->total()))
+                            @if(empty($history_income_list->count()))
                                 <tr>
                                     <td colspan="3">没有记录</td>
                                 </tr>
