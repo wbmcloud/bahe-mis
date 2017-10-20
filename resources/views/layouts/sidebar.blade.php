@@ -91,7 +91,7 @@
           </a>
           <ul class="treeview-menu">
             <li id="player_list"><a href="{{ route('game.playerlist') }}"><i class="fa fa-circle"></i>角色列表</a></li>
-            <li id="player_login_list"><a href="{{ route('game.playerloginlist') }}"><i class="fa fa-circle"></i>角色登录信息列表</a></li>
+            <!--li id="player_login_list"><a href="{{ route('game.playerloginlist') }}"><i class="fa fa-circle"></i>角色登录信息列表</a></li-->
           </ul>
         </li>
         <li id="record" class="treeview">

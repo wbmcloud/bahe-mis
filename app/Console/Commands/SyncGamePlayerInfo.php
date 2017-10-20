@@ -32,7 +32,8 @@ class SyncGamePlayerInfo extends Command
     /**
      * SSH认证的用户名
      */
-    const SSH_AUTH_USER_NAME = 'game';
+    // const SSH_AUTH_USER_NAME = 'game';
+    const SSH_AUTH_USER_NAME = 'root';
 
     /**
      * SSH认证密码
@@ -89,13 +90,12 @@ class SyncGamePlayerInfo extends Command
         }
 
         foreach ($servers as $server) {
-            /*$credentials = Credentials::withPublicKey(self::SSH_AUTH_USER_NAME,
-                $this->getSshKeyPath(self::SSH_PUBLIC_KEY), $this->getSshKeyPath(self::SSH_PRIVATE_KEY));*/
+            $credentials = Credentials::withPublicKey(self::SSH_AUTH_USER_NAME,
+                $this->getSshKeyPath(self::SSH_PUBLIC_KEY), $this->getSshKeyPath(self::SSH_PRIVATE_KEY));
 
             $center_server_log_path = $this->getCenterServerPlayerLogName($server['host']);
 
-            $credentials = Credentials::withPassword($server['user'], $server['password']);
-
+            // $credentials = Credentials::withPassword($server['user'], $server['password']);
             $client->setCredentials($credentials);
             $client->connect($server['host']);
 
@@ -122,7 +122,7 @@ class SyncGamePlayerInfo extends Command
      */
     protected function getSshKeyPath($key_name)
     {
-        return getenv('HOME') . DIRECTORY_SEPARATOR . '.ssh/' . $key_name;
+        return '/root' . DIRECTORY_SEPARATOR . '.ssh/' . $key_name;
     }
 
     /**
@@ -158,7 +158,7 @@ class SyncGamePlayerInfo extends Command
                 continue;
             }
 
-            $player_login_logs[] = [
+            /*$player_login_logs[] = [
                 'player_id' => $player_log['common_prop']['player_id'],
                 'player_name' => isset($player_log['common_prop']['name']) ? $player_log['common_prop']['name'] : '',
                 'login_time' => !empty($player_log['login_time']) ? Carbon::createFromTimestamp($player_log['login_time'])->toDateTimeString() : null,
@@ -170,7 +170,7 @@ class SyncGamePlayerInfo extends Command
             if ($idx >= Constants::BATCH_SIZE) {
                 DB::table('game_player_login')->insert($player_login_logs);
                 $player_login_logs = [];
-            }
+            }*/
 
             // 查询是否已经存在角色
             $game_player = GamePlayer::where('player_id', $player_log['common_prop']['player_id'])->first();
@@ -181,7 +181,7 @@ class SyncGamePlayerInfo extends Command
             $game_player->player_id = $player_log['common_prop']['player_id'];
             $game_player->player_name = isset($player_log['common_prop']['name']) ? $player_log['common_prop']['name'] : '';
             $game_player->user_name = isset($player_log['account']) ? $player_log['account'] : '';
-            $game_player->server_id = $player_log['server_id'];
+            $game_player->server_id = isset($player_log['server_id']) ? $player_log['server_id'] : 0;
             $game_player->save();
         }
 
