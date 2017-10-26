@@ -46,7 +46,7 @@
                         <input type="checkbox" value="4" name="extend_type[]" checked>&nbsp;&nbsp;&nbsp;宝牌&nbsp;&nbsp;
                         <input type="checkbox" value="1" name="extend_type[]" checked>&nbsp;&nbsp;&nbsp;站立胡&nbsp;&nbsp;
                         <input type="checkbox" value="2" name="extend_type[]" checked>&nbsp;&nbsp;&nbsp;带夹胡（夹、边）&nbsp;&nbsp;
-                        <input type="checkbox" value="5" name="extend_type[]" checked>&nbsp;&nbsp;&nbsp;可断门&nbsp;&nbsp;
+                        <input type="checkbox" value="5" name="extend_type[]">&nbsp;&nbsp;&nbsp;可断门&nbsp;&nbsp;
                         <input type="checkbox" value="6" name="extend_type[]" checked>&nbsp;&nbsp;&nbsp;清一色&nbsp;&nbsp;
                         <input type="checkbox" value="3" name="extend_type[]" checked>&nbsp;&nbsp;&nbsp;旋风杠&nbsp;&nbsp;
                         <input type="checkbox" value="7" name="extend_type[]" checked>&nbsp;&nbsp;&nbsp;包三家
