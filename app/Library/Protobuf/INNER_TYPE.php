@@ -33,7 +33,7 @@ class INNER_TYPE
     const INNER_TYPE_REGISTER = 1;
     /**
      * <pre>
-     *GMT指令
+     *GMT指令-钻石//房卡//欢乐豆
      * </pre>
      *
      * <code>INNER_TYPE_COMMAND = 2;</code>
@@ -41,7 +41,7 @@ class INNER_TYPE
     const INNER_TYPE_COMMAND = 2;
     /**
      * <pre>
-     *代开房间
+     *GMT指令-代开房间
      * </pre>
      *
      * <code>INNER_TYPE_OPEN_ROOM = 3;</code>
@@ -49,11 +49,35 @@ class INNER_TYPE
     const INNER_TYPE_OPEN_ROOM = 3;
     /**
      * <pre>
-     *协议最大数量
+     *GMT指令-发送邮件
      * </pre>
      *
-     * <code>INNER_TYPE_COUNT = 100;</code>
+     * <code>INNER_TYPE_SEND_MAIL = 4;</code>
      */
-    const INNER_TYPE_COUNT = 100;
+    const INNER_TYPE_SEND_MAIL = 4;
+    /**
+     * <pre>
+     *GMT指令-系统广播
+     * </pre>
+     *
+     * <code>INNER_TYPE_SYSTEM_BROADCAST = 5;</code>
+     */
+    const INNER_TYPE_SYSTEM_BROADCAST = 5;
+    /**
+     * <pre>
+     *GMT指令-活动控制
+     * </pre>
+     *
+     * <code>INNER_TYPE_ACTIVITY_CONTROL = 6;</code>
+     */
+    const INNER_TYPE_ACTIVITY_CONTROL = 6;
+    /**
+     * <pre>
+     *查询玩家信息
+     * </pre>
+     *
+     * <code>INNER_TYPE_QUERY_PLAYER = 7;</code>
+     */
+    const INNER_TYPE_QUERY_PLAYER = 7;
 }
 

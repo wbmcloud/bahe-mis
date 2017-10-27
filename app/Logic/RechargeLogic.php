@@ -200,7 +200,6 @@ class RechargeLogic extends BaseLogic
                 ])
                 ->whereIn('recipient_type', Constants::$agent_role_type)
                 ->whereIn('recharge_type', Constants::$recharge_type)
-                ->whereBetween('created_at', [$start_time, $end_time])
                 ->orderBy('id', 'desc')
                 ->simplePaginate($params['page_size']);
         }
@@ -227,7 +226,6 @@ class RechargeLogic extends BaseLogic
                     'recipient_type' => Constants::ROLE_TYPE_USER
                 ])
                 ->whereIn('recharge_type', Constants::$recharge_type)
-                ->whereBetween('created_at', [$start_time, $end_time])
                 ->orderBy('id', 'desc')
                 ->simplePaginate($params['page_size']);
         }

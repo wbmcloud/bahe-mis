@@ -2,16 +2,14 @@
 
 namespace App\Console\Commands;
 
-use App\Common\Constants;
 use App\Models\GamePlayer;
-use App\Models\WechatAccount;
+use App\Models\GameAccount;
 use Carbon\Carbon;
 use IDCT\Networking\Ssh\Credentials;
 use IDCT\Networking\Ssh\SftpClient;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Config;
-use Illuminate\Support\Facades\DB;
 
 class SyncGamePlayerInfo extends Command
 {
@@ -115,7 +113,7 @@ class SyncGamePlayerInfo extends Command
             $this->processAccountLog($center_server_account_log_path);
         }
 
-        $this->processWechatNickname();
+        $this->updatePlayerInfo();
     }
 
     /**
@@ -239,33 +237,50 @@ class SyncGamePlayerInfo extends Command
             $arr = explode(' ', $line);
             $account_log = json_decode($arr[5], true);
             if (!isset($account_log['wechat'])) {
-                continue;
+                // 查询是否已经存在角色
+                $game_account = GameAccount::where('nick_name', $account_log['account']['username'])->first();
+                if (empty($game_account)) {
+                    $game_account = new GameAccount();
+                    $game_account->nick_name = $account_log['account']['username'];
+                }
+                $game_account->create_time = Carbon::createFromTimestamp($account_log['create_time'])->toDateTimeString();
+                $game_account->save();
+            } else {
+                // 查询是否已经存在角色
+                $game_account = GameAccount::where('open_id', $account_log['wechat']['openid'])->first();
+                if (empty($game_account)) {
+                    $game_account = new GameAccount();
+                    $game_account->open_id = $account_log['wechat']['openid'];
+                }
+                $game_account->nick_name = $account_log['wechat']['nickname'];
+                $game_account->head_img_url = $account_log['wechat']['headimgurl'];
+                $game_account->create_time = Carbon::createFromTimestamp($account_log['create_time'])->toDateTimeString();
+                $game_account->save();
             }
 
-            // 查询是否已经存在角色
-            $wechat_account = WechatAccount::where('open_id', $account_log['wechat']['openid'])->first();
-            if (empty($wechat_account)) {
-                $wechat_account = new WechatAccount();
-                $wechat_account->open_id = $account_log['wechat']['openid'];
-            }
-            $wechat_account->nick_name = $account_log['wechat']['nickname'];
-            $wechat_account->head_img_url = $account_log['wechat']['headimgurl'];
-            $wechat_account->save();
         }
     }
 
-    protected function processWechatNickname()
+    protected function updatePlayerInfo()
     {
         $t = Carbon::today()->toDateTimeString();
         // 查询是否已经存在角色
         $game_players = GamePlayer::where('updated_at', '>', $t)->get();
         foreach ($game_players as $game_player) {
             if (!strpos($game_player->user_name, 'guest')) {
-                $wechat_account = WechatAccount::where('open_id', $game_player->user_name)->first();
-                if (empty($wechat_account)) {
+                $game_account = GameAccount::where('open_id', $game_player->user_name)->first();
+                if (empty($game_account)) {
                     continue;
                 }
-                $game_player->user_name = $wechat_account->nick_name;
+                $game_player->user_name = $game_account->nick_name;
+                $game_player->create_time = $game_account->create_time;
+                $game_player->save();
+            } else {
+                $game_account = GameAccount::where('nick_name', $game_player->user_name)->first();
+                if (empty($game_account)) {
+                    continue;
+                }
+                $game_player->create_time = $game_account->create_time;
                 $game_player->save();
             }
         }

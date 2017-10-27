@@ -113,4 +113,37 @@ class Protobuf
 
         return $room_option->serializeToString();
     }
+
+    public static function packQueryPlayer($player_id)
+    {
+        $query_player = new QueryPlayer();
+        $query_player->setTypeT(INNER_TYPE::INNER_TYPE_QUERY_PLAYER);
+        $query_player->setPlayerId($player_id);
+
+        $common_prop = new CommonProp();
+        $byte = $common_prop->serializeToString();
+        $query_player->setCommonProp($byte);
+
+        return $query_player->serializeToString();
+    }
+
+    public static function packQueryPlayerInnerMeta($player_id)
+    {
+        $inner_meta = new InnerMeta();
+        $inner_meta->setTypeT(INNER_TYPE::INNER_TYPE_QUERY_PLAYER);
+        $inner_meta->setStuff(self::packQueryPlayer($player_id));
+        return $inner_meta->serializeToString();
+    }
+
+    public static function unpackQueryPlayer($data)
+    {
+        $query_player = new QueryPlayer();
+        $query_player->mergeFromString($data);
+        if ($query_player->getErrorCode() != 0) {
+            return false;
+        }
+        $common_prop = new CommonProp();
+        $common_prop->mergeFromString($query_player->getCommonProp());
+        return $common_prop;
+    }
 }

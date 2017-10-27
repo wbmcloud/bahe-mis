@@ -145,10 +145,7 @@ class AgentLogic extends BaseLogic
         $is_recharged = true;
         DB::beginTransaction();
         try {
-            if ($user->hasRole([
-                Constants::ROLE_AGENT,
-                Constants::ROLE_FIRST_AGENT,
-            ])) {
+            if (!$user->hasRole(Constants::$admin_role)) {
                 $account_logic = new AccountLogic();
                 $account_logic->reduceBalance($user->user_name,
                     COMMAND_TYPE::COMMAND_TYPE_ROOM_CARD,
@@ -235,7 +232,6 @@ class AgentLogic extends BaseLogic
                     'initiator_name' => $params['query_str'],
                     'recharge_type'  => Constants::COMMAND_TYPE_OPEN_ROOM
                 ])
-                ->whereBetween('created_at', [$start_time, $end_time])
                 ->orderBy('id', 'desc')
                 ->simplePaginate($params['page_size']);
         }

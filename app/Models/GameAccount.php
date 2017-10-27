@@ -2,13 +2,13 @@
 
 use Illuminate\Database\Eloquent\Model;
 
-class WechatAccount extends Model
+class GameAccount extends Model
 {
     protected $table;
 
     public function __construct(array $attributes = [])
     {
         parent::__construct($attributes);
-        $this->table = 'wechat_account';
+        $this->table = 'game_account';
     }
 }

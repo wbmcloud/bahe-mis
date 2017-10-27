@@ -73,6 +73,7 @@ class TcpClient
 
         if (!$keep_alive && self::isAlive()) {
             $socket->close();
+            self::$socket = null;
         }
 
         return $response;

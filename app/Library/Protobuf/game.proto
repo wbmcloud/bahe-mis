@@ -10,11 +10,14 @@ message InnerMeta {
 //服务器之间通用协议类型
 /////////////////////////////////////////////////////
 enum INNER_TYPE {
-    INNER_TYPE_BEGIN = 0; //开始协议
-    INNER_TYPE_REGISTER = 1; //注册服务器
-    INNER_TYPE_COMMAND = 2; //GMT指令
-    INNER_TYPE_OPEN_ROOM = 3; //代开房间
-    INNER_TYPE_COUNT = 100; //协议最大数量
+	INNER_TYPE_BEGIN = 0; //开始协议
+	INNER_TYPE_REGISTER = 1; //注册服务器
+	INNER_TYPE_COMMAND = 2; //GMT指令-钻石//房卡//欢乐豆
+	INNER_TYPE_OPEN_ROOM = 3; //GMT指令-代开房间
+	INNER_TYPE_SEND_MAIL = 4; //GMT指令-发送邮件
+	INNER_TYPE_SYSTEM_BROADCAST = 5; //GMT指令-系统广播
+	INNER_TYPE_ACTIVITY_CONTROL = 6; //GMT指令-活动控制
+	INNER_TYPE_QUERY_PLAYER = 7; //查询玩家信息
 }
 
 //操作类型
@@ -99,4 +102,43 @@ message RoomOptions {
     int32 top_mutiple = 4; //封顶番数
     int32 open_rands = 5; //局数
     int32 voice_open = 6; //实时语音
+}
+
+//系统广播
+message SystemBroadcast {
+	INNER_TYPE type_t = 1;
+	COMMAND_ERROR_CODE error_code = 2; //返回码
+	bytes content = 3; //内容
+}
+
+//查询玩家信息
+message QueryPlayer {
+    INNER_TYPE type_t = 1;
+    COMMAND_ERROR_CODE error_code = 2; //返回码
+    int64 player_id = 3; //角色ID
+    bytes common_prop = 4;
+}
+
+//玩家公共数据
+message CommonProp {
+	int64 player_id = 1; //玩家ID
+	int32 local_server_id = 2; //注册服务器
+	bytes name = 3; //名字
+	int32 iphoto = 4; //头像ID
+	int32 level = 5; //级别
+	GENDER_TYPE gender = 6; //性别
+	int64 diamond = 7; //钻石总数
+	int64 huanledou = 8; //欢乐豆数
+	int64 room_card_count = 9; //房卡数
+	int64 total_rounds = 10; //参加的总局数
+	int64 total_win_rounds = 11; //赢牌局数
+	int64 streak_wins = 12; //最高连胜
+	int64 score = 13; //积分
+}
+
+//性别
+enum GENDER_TYPE {
+    GENDER_TYPE_UNKNOWN = 0; //未知
+	GENDER_TYPE_MAN = 1; //男
+	GENDER_TYPE_WOMAN = 2; //女
 }
