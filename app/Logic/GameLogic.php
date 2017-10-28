@@ -46,6 +46,9 @@ class GameLogic extends BaseLogic
         foreach ($players as $key => &$player) {
             $query_player = $this->getQueryPlayer($player->player_id);
             $player->card_balance = !is_null($query_player) ? $query_player->getRoomCardCount() : '';
+            $player->total_rounds = !is_null($query_player) ? $query_player->getTotalRounds() : '';
+            $player->total_win_rounds = !is_null($query_player) ? $query_player->getTotalWinRounds() : '';
+            $player->streak_wins = !is_null($query_player) ? $query_player->getStreakWins() : '';
         }
 
         return $players;

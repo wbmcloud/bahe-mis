@@ -35,6 +35,9 @@
                             <th>服务器id</th>
                             <th>账号</th>
                             <th>剩余房卡数</th>
+                            <th>总局数</th>
+                            <th>赢牌局数</th>
+                            <th>最高连胜</th>
                             <th>创建时间</th>
                             </tr>
                             </thead>
@@ -50,6 +53,9 @@
                                         <td>{{ $player['server_id'] }}</td>
                                         <td>{{ $player['user_name'] }}</td>
                                         <td>{{ $player['card_balance'] }}</td>
+                                        <td>{{ $player['total_rounds'] }}</td>
+                                        <td>{{ $player['total_win_rounds'] }}</td>
+                                        <td>{{ $player['streak_wins'] }}</td>
                                         <td>{{ $player['create_time'] }}</td>
                                     </tr>
                                 @endforeach
