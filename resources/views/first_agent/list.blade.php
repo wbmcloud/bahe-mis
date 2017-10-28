@@ -42,6 +42,8 @@
                             <th>绑定邀请码</th>
                             <th>被邀邀请码</th>
                             <th>发展代理数</th>
+                            <th>交易总数</th>
+                            <th>剩余房卡数</th>
                             <th>入驻时间</th>
                             <th>操作</th>
                             </tr>
@@ -62,6 +64,8 @@
                                         @else
                                         <td>0</td>
                                         @endif
+                                        <td>{{ $agent['account']['card_total'] }}</td>
+                                        <td>{{ $agent['account']['card_balance'] }}</td>
                                         <td>{{ $agent['created_at'] }}</td>
                                         <td>
                                             <button type="button" onclick="rechargeList('{{ route('first_agent.rechargelist', [

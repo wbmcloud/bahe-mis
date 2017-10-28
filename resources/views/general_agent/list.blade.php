@@ -42,6 +42,8 @@
                             <th>绑定邀请码</th>
                             <th>发展代理数</th>
                             <th>发展总代理数</th>
+                            <th>交易总数</th>
+                            <th>剩余房卡数</th>
                             <th>入驻时间</th>
                             <th>操作</th>
                             </tr>
@@ -66,19 +68,20 @@
                                         @else
                                             <td>0</td>
                                         @endif
+                                        <td>{{ $agent['account']['card_total'] }}</td>
+                                        <td>{{ $agent['account']['card_balance'] }}</td>
                                         <td>{{ $agent['created_at'] }}</td>
                                         <td>
                                             <button type="button" onclick="rechargeList('{{ route('general_agent.first_agent_rechargelist', [
                                                 'invite_code' => $agent['code'],
                                             ]) }}')" class="btn btn-primary">总代理销售记录</button>
+                                            <button type="button" onclick="editAgent({{ $agent['id'] }})" class="btn btn-primary">修改信息</button>
+                                            <button type="button" onclick="banAgent({{ $agent['id'] }})" class="btn btn-primary">封禁</button>
                                             <button type="button" onclick="rechargeList('{{ route('general_agent.rechargelist', [
                                                 'invite_code' => $agent['code'],
                                                 'start_date' => \Carbon\Carbon::now()->startOfWeek()->toDateString(),
                                                 'end_date' => \Carbon\Carbon::tomorrow()->toDateString()
                                             ]) }}')" class="btn btn-primary">代理充值信息</button>
-                                            <br>
-                                            <button type="button" onclick="banAgent({{ $agent['id'] }})" class="btn btn-primary">封禁</button>
-                                            <button type="button" onclick="editAgent({{ $agent['id'] }})" class="btn btn-primary">修改信息</button>
                                             <button type="button" onclick="resetPassword({{ $agent['id'] }})" class="btn btn-primary">重置密码</button>
                                         </td>
                                     </tr>
