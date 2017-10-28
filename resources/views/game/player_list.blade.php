@@ -38,6 +38,7 @@
                             <th>总局数</th>
                             <th>赢牌局数</th>
                             <th>最高连胜</th>
+                            <th>玩家IP</th>
                             <th>创建时间</th>
                             </tr>
                             </thead>
@@ -56,6 +57,7 @@
                                         <td>{{ $player['total_rounds'] }}</td>
                                         <td>{{ $player['total_win_rounds'] }}</td>
                                         <td>{{ $player['streak_wins'] }}</td>
+                                        <td>{{ $player['client_ip'] }}</td>
                                         <td>{{ $player['create_time'] }}</td>
                                     </tr>
                                 @endforeach

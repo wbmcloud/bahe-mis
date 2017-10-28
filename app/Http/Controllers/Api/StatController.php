@@ -27,4 +27,14 @@ class StatController extends Controller
 
         return $stat_logic->getStatFlowList(Constants::STAT_MAX_DAY);
     }
+
+    /**
+     * 局数统计
+     */
+    public function rounds()
+    {
+        $stat_logic = new StatLogic();
+
+        return $stat_logic->getStatRoundsList(Constants::STAT_MAX_DAY);
+    }
 }

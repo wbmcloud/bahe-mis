@@ -117,6 +117,7 @@
           <ul class="treeview-menu">
             <li id="stat_agent"><a href="{{ route('stat.agent') }}"><i class="fa fa-circle"></i> <span>代理</span></a></li>
             <li id="stat_flow"><a href="{{ route('stat.flow') }}"><i class="fa fa-circle"></i> <span>流水</span></a></li>
+            <li id="stat_rounds"><a href="{{ route('stat.rounds') }}"><i class="fa fa-circle"></i> <span>局数</span></a></li>
           </ul>
         </li>
         @endrole

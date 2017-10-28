@@ -19,4 +19,12 @@ class StatController extends Controller
     {
         return [];
     }
+
+    /**
+     * 局数统计
+     */
+    public function rounds()
+    {
+        return [];
+    }
 }

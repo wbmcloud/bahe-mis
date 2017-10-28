@@ -10,6 +10,7 @@ namespace App\Logic;
 
 use App\Models\DayAgentStat;
 use App\Models\DayFlowStat;
+use App\Models\DayRounds;
 use App\Models\GeneralAgents;
 
 class StatLogic extends BaseLogic
@@ -37,6 +38,19 @@ class StatLogic extends BaseLogic
         array_multisort(array_column($flows, 'id'), SORT_ASC, $flows);
         return [
             'list' => $flows
+        ];
+    }
+
+    /**
+     * @param $size
+     * @return array
+     */
+    public function getStatRoundsList($size)
+    {
+        $rounds = DayRounds::orderBy('id', 'desc')->take($size)->get()->toArray();
+        array_multisort(array_column($rounds, 'id'), SORT_ASC, $rounds);
+        return [
+            'list' => $rounds
         ];
     }
 

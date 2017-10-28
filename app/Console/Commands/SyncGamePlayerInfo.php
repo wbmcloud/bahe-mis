@@ -243,8 +243,6 @@ class SyncGamePlayerInfo extends Command
                     $game_account = new GameAccount();
                     $game_account->nick_name = $account_log['account']['username'];
                 }
-                $game_account->create_time = Carbon::createFromTimestamp($account_log['create_time'])->toDateTimeString();
-                $game_account->save();
             } else {
                 // 查询是否已经存在角色
                 $game_account = GameAccount::where('open_id', $account_log['wechat']['openid'])->first();
@@ -254,10 +252,10 @@ class SyncGamePlayerInfo extends Command
                 }
                 $game_account->nick_name = $account_log['wechat']['nickname'];
                 $game_account->head_img_url = $account_log['wechat']['headimgurl'];
-                $game_account->create_time = Carbon::createFromTimestamp($account_log['create_time'])->toDateTimeString();
-                $game_account->save();
             }
-
+            $game_account->create_time = Carbon::createFromTimestamp($account_log['create_time'])->toDateTimeString();
+            $game_account->client_ip = $account_log['client_info']['client_ip'];
+            $game_account->save();
         }
     }
 
@@ -273,16 +271,15 @@ class SyncGamePlayerInfo extends Command
                     continue;
                 }
                 $game_player->user_name = $game_account->nick_name;
-                $game_player->create_time = $game_account->create_time;
-                $game_player->save();
             } else {
                 $game_account = GameAccount::where('nick_name', $game_player->user_name)->first();
                 if (empty($game_account)) {
                     continue;
                 }
-                $game_player->create_time = $game_account->create_time;
-                $game_player->save();
             }
+            $game_player->client_ip = $game_account->client_ip;
+            $game_player->create_time = $game_account->create_time;
+            $game_player->save();
         }
     }
 }

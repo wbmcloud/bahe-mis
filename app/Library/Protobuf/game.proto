@@ -131,9 +131,10 @@ message CommonProp {
 	int64 huanledou = 8; //欢乐豆数
 	int64 room_card_count = 9; //房卡数
 	int64 total_rounds = 10; //参加的总局数
-	int64 total_win_rounds = 11; //赢牌局数
-	int64 streak_wins = 12; //最高连胜
-	int64 score = 13; //积分
+	int64 room_card_rounds = 11; //房卡局数
+	int64 total_win_rounds = 12; //赢牌局数
+	int64 streak_wins = 13; //最高连胜
+	int64 score = 14; //积分
 }
 
 //性别

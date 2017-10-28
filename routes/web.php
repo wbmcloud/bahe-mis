@@ -104,7 +104,9 @@ Route::group(['middleware' => ['validator']], function () {
         Route::get(\App\Common\ParamsRules::IF_API_GENERAL_AGENT_RESET, 'Api\GeneralAgentController@resetPassword');
         Route::get(\App\Common\ParamsRules::IF_API_STAT_AGENT, 'Api\StatController@agent');
         Route::get(\App\Common\ParamsRules::IF_API_STAT_FLOW, 'Api\StatController@flow');
+        Route::get(\App\Common\ParamsRules::IF_API_STAT_ROUNDS, 'Api\StatController@rounds');
         Route::get(\App\Common\ParamsRules::IF_STAT_AGENT, 'StatController@agent')->name('stat.agent');
         Route::get(\App\Common\ParamsRules::IF_STAT_FLOW, 'StatController@flow')->name('stat.flow');
+        Route::get(\App\Common\ParamsRules::IF_STAT_ROUNDS, 'StatController@rounds')->name('stat.rounds');
     });
 });

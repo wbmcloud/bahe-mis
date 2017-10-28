@@ -99,10 +99,18 @@ class CommonProp extends \Google\Protobuf\Internal\Message
     private $total_rounds = 0;
     /**
      * <pre>
+     *房卡局数
+     * </pre>
+     *
+     * <code>int64 room_card_rounds = 11;</code>
+     */
+    private $room_card_rounds = 0;
+    /**
+     * <pre>
      *赢牌局数
      * </pre>
      *
-     * <code>int64 total_win_rounds = 11;</code>
+     * <code>int64 total_win_rounds = 12;</code>
      */
     private $total_win_rounds = 0;
     /**
@@ -110,7 +118,7 @@ class CommonProp extends \Google\Protobuf\Internal\Message
      *最高连胜
      * </pre>
      *
-     * <code>int64 streak_wins = 12;</code>
+     * <code>int64 streak_wins = 13;</code>
      */
     private $streak_wins = 0;
     /**
@@ -118,7 +126,7 @@ class CommonProp extends \Google\Protobuf\Internal\Message
      *积分
      * </pre>
      *
-     * <code>int64 score = 13;</code>
+     * <code>int64 score = 14;</code>
      */
     private $score = 0;
 
@@ -379,10 +387,35 @@ class CommonProp extends \Google\Protobuf\Internal\Message
 
     /**
      * <pre>
+     *房卡局数
+     * </pre>
+     *
+     * <code>int64 room_card_rounds = 11;</code>
+     */
+    public function getRoomCardRounds()
+    {
+        return $this->room_card_rounds;
+    }
+
+    /**
+     * <pre>
+     *房卡局数
+     * </pre>
+     *
+     * <code>int64 room_card_rounds = 11;</code>
+     */
+    public function setRoomCardRounds($var)
+    {
+        GPBUtil::checkInt64($var);
+        $this->room_card_rounds = $var;
+    }
+
+    /**
+     * <pre>
      *赢牌局数
      * </pre>
      *
-     * <code>int64 total_win_rounds = 11;</code>
+     * <code>int64 total_win_rounds = 12;</code>
      */
     public function getTotalWinRounds()
     {
@@ -394,7 +427,7 @@ class CommonProp extends \Google\Protobuf\Internal\Message
      *赢牌局数
      * </pre>
      *
-     * <code>int64 total_win_rounds = 11;</code>
+     * <code>int64 total_win_rounds = 12;</code>
      */
     public function setTotalWinRounds($var)
     {
@@ -407,7 +440,7 @@ class CommonProp extends \Google\Protobuf\Internal\Message
      *最高连胜
      * </pre>
      *
-     * <code>int64 streak_wins = 12;</code>
+     * <code>int64 streak_wins = 13;</code>
      */
     public function getStreakWins()
     {
@@ -419,7 +452,7 @@ class CommonProp extends \Google\Protobuf\Internal\Message
      *最高连胜
      * </pre>
      *
-     * <code>int64 streak_wins = 12;</code>
+     * <code>int64 streak_wins = 13;</code>
      */
     public function setStreakWins($var)
     {
@@ -432,7 +465,7 @@ class CommonProp extends \Google\Protobuf\Internal\Message
      *积分
      * </pre>
      *
-     * <code>int64 score = 13;</code>
+     * <code>int64 score = 14;</code>
      */
     public function getScore()
     {
@@ -444,7 +477,7 @@ class CommonProp extends \Google\Protobuf\Internal\Message
      *积分
      * </pre>
      *
-     * <code>int64 score = 13;</code>
+     * <code>int64 score = 14;</code>
      */
     public function setScore($var)
     {
