@@ -187,20 +187,6 @@ class SyncGamePlayerInfo extends Command
                 continue;
             }
 
-            /*$player_login_logs[] = [
-                'player_id' => $player_log['common_prop']['player_id'],
-                'player_name' => isset($player_log['common_prop']['name']) ? $player_log['common_prop']['name'] : '',
-                'login_time' => !empty($player_log['login_time']) ? Carbon::createFromTimestamp($player_log['login_time'])->toDateTimeString() : null,
-                'logout_time' => !empty($player_log['logout_time']) ? Carbon::createFromTimestamp($player_log['logout_time'])->toDateTimeString() : null,
-                'created_at' => Carbon::now()->toDateTimeString(),
-                'updated_at' => Carbon::now()->toDateTimeString(),
-            ];
-
-            if ($idx >= Constants::BATCH_SIZE) {
-                DB::table('game_player_login')->insert($player_login_logs);
-                $player_login_logs = [];
-            }*/
-
             if (!isset($player_log['common_prop']['name']) ||
                 !isset($player_log['account']) ||
                 !isset($player_log['server_id'])) {
@@ -218,8 +204,6 @@ class SyncGamePlayerInfo extends Command
             $game_player->server_id = $player_log['server_id'];
             $game_player->save();
         }
-
-        //DB::table('game_player_login')->insert($player_login_logs);
     }
 
     protected function processAccountLog($file_name)
