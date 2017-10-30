@@ -97,7 +97,6 @@ class SyncGamePlayerInfo extends Command
             $credentials = Credentials::withPublicKey(self::SSH_AUTH_USER_NAME,
                 $this->getSshKeyPath(self::SSH_PUBLIC_KEY), $this->getSshKeyPath(self::SSH_PRIVATE_KEY));
 
-            // $credentials = Credentials::withPassword($server['user'], $server['password']);
             $client->setCredentials($credentials);
             $client->connect($server['host']);
 
@@ -221,6 +220,9 @@ class SyncGamePlayerInfo extends Command
             $arr = explode(' ', $line);
             $account_log = json_decode($arr[5], true);
             if (!isset($account_log['wechat'])) {
+                if (empty($account_log['account']['username'])) {
+                    continue;
+                }
                 // 查询是否已经存在角色
                 $game_account = GameAccount::where('nick_name', $account_log['account']['username'])->first();
                 if (empty($game_account)) {
@@ -228,6 +230,9 @@ class SyncGamePlayerInfo extends Command
                     $game_account->nick_name = $account_log['account']['username'];
                 }
             } else {
+                if (empty($account_log['wechat']['openid'])) {
+                    continue;
+                }
                 // 查询是否已经存在角色
                 $game_account = GameAccount::where('open_id', $account_log['wechat']['openid'])->first();
                 if (empty($game_account)) {
@@ -237,7 +242,7 @@ class SyncGamePlayerInfo extends Command
                 $game_account->nick_name = $account_log['wechat']['nickname'];
                 $game_account->head_img_url = $account_log['wechat']['headimgurl'];
             }
-            $game_account->create_time = Carbon::createFromTimestamp($account_log['create_time'])->toDateTimeString();
+            isset($account_log['create_time']) && ($game_account->create_time = Carbon::createFromTimestamp($account_log['create_time'])->toDateTimeString());
             $game_account->client_ip = $account_log['client_info']['client_ip'];
             $game_account->save();
         }
