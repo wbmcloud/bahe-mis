@@ -242,7 +242,7 @@ class SyncGamePlayerInfo extends Command
                 $game_account->nick_name = $account_log['wechat']['nickname'];
                 $game_account->head_img_url = $account_log['wechat']['headimgurl'];
             }
-            isset($account_log['create_time']) && ($game_account->create_time = Carbon::createFromTimestamp($account_log['create_time'])->toDateTimeString());
+            isset($account_log['create_time']) && ($game_account->create_time = Carbon::createFromTimestamp($account_log['created_time'])->toDateTimeString());
             $game_account->client_ip = $account_log['client_info']['client_ip'];
             $game_account->save();
         }
