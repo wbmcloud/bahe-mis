@@ -44,7 +44,7 @@
             @role('super')
             <li>
               <a href="{{ route('user.add', ['type' => \App\Common\Constants::ADD_USER_TYPE_ADMIN]) }}">
-                <i class="fa fa-users text-aqua"></i>
+                <i class="fa fa-user-plus text-aqua"></i>
                 <i style="color: black">添加管理员</i>
               </a>
             </li>
@@ -57,8 +57,14 @@
             </li>
             <li>
               <a href="{{ route('user.add', ['type' => \App\Common\Constants::ADD_USER_TYPE_FIRST_AGENT]) }}">
-                <i class="fa fa-users text-aqua"></i>
+                <i class="fa fa-user text-aqua"></i>
                 <i style="color: black">添加总代理</i>
+              </a>
+            </li>
+            <li>
+              <a href="{{ route('user.add', ['type' => \App\Common\Constants::ADD_USER_TYPE_GENERAL_AGENT]) }}">
+                <i class="fa fa-user-secret text-aqua"></i>
+                <i style="color: black">添加总监</i>
               </a>
             </li>
             @endrole

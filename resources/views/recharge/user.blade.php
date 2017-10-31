@@ -73,7 +73,7 @@
             @endif
             @endrole
         </div>
-        <button type="submit" class="btn btn-info pull-right">充值</button>
+        <button type="submit" id="user_recharge_btn" class="btn btn-info pull-right">充值</button>
     </form>
 @endsection
 @section('script')
@@ -86,6 +86,10 @@
                 radioClass: 'iradio_square-blue',
                 increaseArea: '20%' // optional
             });
+        });
+        $('#user_recharge_btn').click(function () {
+            $('#user_recharge_btn').attr('disabled', 'true');
+            $('.form-horizontal').submit();
         });
         $('#recharge').addClass('active');
         $('#user_recharge').addClass('active');

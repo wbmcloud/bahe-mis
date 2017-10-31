@@ -13,7 +13,7 @@
         {{  csrf_field() }}
         <div class="box-body">
             @include('widgets.first_agent')
-            <button type="submit" class="btn btn-info pull-right">提交</button>
+            <button type="submit" id="add_first_agent_btn" class="btn btn-info pull-right">提交</button>
         </div>
     </form>
 @endsection
@@ -29,7 +29,10 @@
             tags: true
         });
     });
-
+    $('#add_first_agent_btn').click(function () {
+        $('#add_first_agent_btn').attr('disabled', 'true');
+        $('.form-horizontal').submit();
+    });
     $('#first_agent').addClass('active');
     $('#first_agent_add').addClass('active');
 </script>

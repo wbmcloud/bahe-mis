@@ -56,7 +56,7 @@
 
             </div>
         </div>
-        <button type="submit" class="btn btn-info pull-right">充值</button>
+        <button type="submit" id="agent_recharge_btn" class="btn btn-info pull-right">充值</button>
     </form>
 @endsection
 @section('script')
@@ -70,6 +70,12 @@
                 increaseArea: '20%' // optional
             });
         });
+
+        $('#agent_recharge_btn').click(function () {
+            $('#agent_recharge_btn').attr('disabled', 'true');
+            $('.form-horizontal').submit();
+        });
+
         $('#recharge').addClass('active');
         $('#agent_recharge').addClass('active');
     </script>

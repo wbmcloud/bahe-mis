@@ -8,7 +8,15 @@
         {{  csrf_field() }}
         <div class="box-body">
             @include('widgets.admin')
-            <button type="submit" class="btn btn-info pull-right">提交</button>
+            <button type="submit" id="add_admin_btn" class="btn btn-info pull-right">提交</button>
         </div>
     </form>
+@endsection
+@section('script')
+    <script>
+        $('#add_admin_btn').click(function () {
+            $('#add_admin_btn').attr('disabled', 'true');
+            $('.form-horizontal').submit();
+        });
+    </script>
 @endsection
