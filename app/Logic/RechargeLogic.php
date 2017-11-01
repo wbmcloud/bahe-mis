@@ -221,13 +221,24 @@ class RechargeLogic extends BaseLogic
     public function userRechargeRecord($params, $start_time, $end_time)
     {
         if (isset($params['query_str']) && !empty($params['query_str'])) {
-            return TransactionFlow::where([
-                    'recipient_id' => $params['query_str'],
+            $transaction_flow = TransactionFlow::where([
+                    'initiator_name' => $params['query_str'],
                     'recipient_type' => Constants::ROLE_TYPE_USER
                 ])
                 ->whereIn('recharge_type', Constants::$recharge_type)
                 ->orderBy('id', 'desc')
                 ->simplePaginate($params['page_size']);
+            if ($transaction_flow->isEmpty()) {
+                return TransactionFlow::where([
+                        'recipient_id' => $params['query_str'],
+                        'recipient_type' => Constants::ROLE_TYPE_USER
+                    ])
+                    ->whereIn('recharge_type', Constants::$recharge_type)
+                    ->orderBy('id', 'desc')
+                    ->simplePaginate($params['page_size']);
+            }
+
+            return $transaction_flow;
         }
 
         return TransactionFlow::where([
