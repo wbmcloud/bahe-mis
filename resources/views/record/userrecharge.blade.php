@@ -21,7 +21,7 @@
                         <h3 class="box-title">Hover Data Table</h3>
                     </div-->
                 <div class="input-group margin" style="width:80%;">
-                    <input id="query_str" type="text" class="col-sm-2 form-control" placeholder="请输入玩家角色id">
+                    <input id="query_str" type="text" class="col-sm-2 form-control" placeholder="请输入充值发起用户名或者玩家角色id">
                     <span class="input-group-btn">
                           <button type="button" class="btn btn-info btn-flat" onclick="query();">查询</button>
                     </span>
@@ -117,7 +117,7 @@
         {
             var query_str = $("#query_str").val();
             if (!query_str) {
-                $('#msg').html("请输入玩家角色id");
+                $('#msg').html("请输入充值发起用户名或者玩家角色id");
                 $("#confirm").attr("data-dismiss", "modal");
                 $("#confirm").removeAttr("onclick");
                 $('.modal_container').modal({
