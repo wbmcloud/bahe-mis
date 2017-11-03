@@ -199,7 +199,7 @@ class SyncGamePlayerInfo extends Command
                 $game_player->player_id = $player_log['common_prop']['player_id'];
             }
             $game_player->player_name = $player_log['common_prop']['name'];
-            $game_player->user_name = $player_log['account'];
+            $game_player->user_id = $player_log['account'];
             $game_player->server_id = $player_log['server_id'];
             $game_player->save();
         }
@@ -224,22 +224,22 @@ class SyncGamePlayerInfo extends Command
                     continue;
                 }
                 // 查询是否已经存在角色
-                $game_account = GameAccount::where('nick_name', $account_log['account']['username'])->first();
+                $game_account = GameAccount::where('user_id', $account_log['account']['username'])->first();
                 if (empty($game_account)) {
                     $game_account = new GameAccount();
-                    $game_account->nick_name = $account_log['account']['username'];
+                    $game_account->user_id = $account_log['account']['username'];
                 }
             } else {
                 if (empty($account_log['wechat']['openid'])) {
                     continue;
                 }
                 // 查询是否已经存在角色
-                $game_account = GameAccount::where('open_id', $account_log['wechat']['openid'])->first();
+                $game_account = GameAccount::where('user_id', $account_log['wechat']['openid'])->first();
                 if (empty($game_account)) {
                     $game_account = new GameAccount();
-                    $game_account->open_id = $account_log['wechat']['openid'];
+                    $game_account->user_id = $account_log['wechat']['openid'];
                 }
-                $game_account->nick_name = $account_log['wechat']['nickname'];
+                $game_account->user_name = $account_log['wechat']['nickname'];
                 $game_account->head_img_url = $account_log['wechat']['headimgurl'];
             }
             isset($account_log['create_time']) && ($game_account->create_time = Carbon::createFromTimestamp($account_log['created_time'])->toDateTimeString());
@@ -254,17 +254,12 @@ class SyncGamePlayerInfo extends Command
         // 查询是否已经存在角色
         $game_players = GamePlayer::where('updated_at', '>', $t)->get();
         foreach ($game_players as $game_player) {
-            if (!strpos($game_player->user_name, 'guest')) {
-                $game_account = GameAccount::where('open_id', $game_player->user_name)->first();
+            if (!strpos($game_player->user_id, 'guest')) {
+                $game_account = GameAccount::where('user_id', $game_player->user_id)->first();
                 if (empty($game_account)) {
                     continue;
                 }
-                $game_player->user_name = $game_account->nick_name;
-            } else {
-                $game_account = GameAccount::where('nick_name', $game_player->user_name)->first();
-                if (empty($game_account)) {
-                    continue;
-                }
+                $game_player->user_name = $game_account->user_name;
             }
             $game_player->client_ip = $game_account->client_ip;
             $game_player->create_time = $game_account->create_time;

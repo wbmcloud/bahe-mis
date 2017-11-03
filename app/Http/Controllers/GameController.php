@@ -21,19 +21,4 @@ class GameController extends Controller
             'players' => $game_logic->getPlayerList($this->params, $page_size)
         ];
     }
-
-    /**
-     * 角色登录信息列表
-     */
-    public function playerLoginList()
-    {
-        $page_size = isset($this->params['page_size']) ? $this->params['page_size'] :
-            Constants::DEFAULT_PAGE_SIZE;
-
-        $game_logic = new GameLogic();
-
-        return [
-            'players' => $game_logic->getPlayerLoginList($this->params, $page_size)
-        ];
-    }
 }

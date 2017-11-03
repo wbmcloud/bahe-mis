@@ -17,7 +17,7 @@
             <div class="col-xs-12">
                 <div class="box">
                     <div class="input-group margin" style="width:80%;">
-                        <input id="query_str" type="text" class="col-sm-2 form-control" placeholder="请输入角色id或者账号">
+                        <input id="query_str" type="text" class="col-sm-2 form-control" placeholder="请输入角色id或者用户名">
                         <span class="input-group-btn">
                               <button type="button" class="btn btn-info btn-flat" onclick="query();">搜索</button>
                         </span>
@@ -33,7 +33,8 @@
                             <th>角色id</th>
                             <th>角色名</th>
                             <th>服务器id</th>
-                            <th>账号</th>
+                            <th>用户id</th>
+                            <th>用户名</th>
                             <th>剩余房卡数</th>
                             <th>总局数</th>
                             <th>赢牌局数</th>
@@ -52,6 +53,7 @@
                                         <td>{{ $player['player_id'] }}</td>
                                         <td>{{ $player['player_name'] }}</td>
                                         <td>{{ $player['server_id'] }}</td>
+                                        <td>{{ $player['user_id'] }}</td>
                                         <td>{{ $player['user_name'] }}</td>
                                         <td>{{ $player['card_balance'] }}</td>
                                         <td>{{ $player['total_rounds'] }}</td>
@@ -110,7 +112,7 @@
         {
             var query_str = $("#query_str").val();
             if (!query_str) {
-                $('#msg').html("请输入角色id或者角色名");
+                $('#msg').html("请输入角色id或者用户名");
                 $("#confirm").attr("data-dismiss", "modal");
                 $("#confirm").removeAttr("onclick");
                 $('.modal_container').modal({

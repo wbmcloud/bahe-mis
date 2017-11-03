@@ -72,7 +72,6 @@ Route::group(['middleware' => ['validator']], function () {
         Route::get(\App\Common\ParamsRules::IF_GENERAL_AGENT_INCOME_HISTORY, 'GeneralAgentController@incomeHistory')->name('general_agent.income_history');
 
         Route::get(\App\Common\ParamsRules::IF_GAME_PLAYER_LIST, 'GameController@playerList')->name('game.playerlist');
-        Route::get(\App\Common\ParamsRules::IF_GAME_PLAYER_LOGIN_LIST, 'GameController@playerLoginList')->name('game.playerloginlist');
 
         Route::get(\App\Common\ParamsRules::IF_RECORD_AGENT_RECHARGE, 'RecordController@agentRecharge')->name('record.agentrecharge');
         Route::get(\App\Common\ParamsRules::IF_RECORD_USER_RECHARGE, 'RecordController@userRecharge')->name('record.userrecharge');

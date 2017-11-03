@@ -55,35 +55,6 @@ class GameLogic extends BaseLogic
     }
 
     /**
-     * @param     $params
-     * @param     $page_size
-     * @return mixed
-     */
-    public function getPlayerLoginList($params, $page_size)
-    {
-        $where = [];
-
-        if (isset($params['query_str']) && !empty($params['query_str'])) {
-            // 分析query_str类型
-            if (is_numeric($params['query_str'])) {
-                // 邀请码查询
-                $where['player_id'] = $params['query_str'];
-            } else {
-                // 姓名查询
-                $where['player_name'] = $params['query_str'];
-            }
-        }
-
-        if (!empty($where)) {
-            $players = GamePlayerLogin::where($where)->orderBy('id', 'desc')->simplePaginate($page_size);
-        } else {
-            $players = GamePlayerLogin::orderBy('id', 'desc')->simplePaginate($page_size);
-        }
-
-        return $players;
-    }
-
-    /**
      * @param $player_id
      * @return \App\Library\Protobuf\CommonProp|bool|null
      * @throws BaheException
