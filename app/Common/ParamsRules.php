@@ -392,6 +392,7 @@ class ParamsRules
      * 接口渲染模板路径
      */
     public static $interface_tpl = [
+        self::IF_DASHBOARD                               => 'dashboard',
         self::IF_AGENT_LIST                              => 'agent.list',
         self::IF_AGENT_BAN_LIST                          => 'agent.banlist',
         self::IF_AGENT_INFO                              => 'agent.info',

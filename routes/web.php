@@ -27,9 +27,7 @@ Route::group(['middleware' => ['validator']], function () {
     });
 
     Route::group(['middleware' => ['acl']], function () {
-        Route::get(\App\Common\ParamsRules::IF_DASHBOARD, function () {
-            return view('dashboard');
-        });
+        Route::get(\App\Common\ParamsRules::IF_DASHBOARD, 'IndexController@index');
         Route::get(\App\Common\ParamsRules::IF_PROMPT, 'PromptController@index');
         Route::get(\App\Common\ParamsRules::IF_USER_AGREEMENT, function () {
             return view('agreement');
