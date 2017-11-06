@@ -136,4 +136,27 @@ class StatLogic extends BaseLogic
     {
         return GamePlayer::count();
     }
+
+    /**
+     * 获取赠送代理房卡数
+     * @return mixed
+     */
+    public function getGiveTotalCard()
+    {
+        return TransactionFlow::whereIn('recipient_type', Constants::$agent_role_type)
+            ->where('recharge_type', COMMAND_TYPE::COMMAND_TYPE_ROOM_CARD)
+            ->sum('give_num');
+    }
+
+    /**
+     * 获取今天赠送代理房卡数
+     * @return mixed
+     */
+    public function getTodayGiveCard()
+    {
+        return TransactionFlow::whereIn('recipient_type', Constants::$agent_role_type)
+            ->where('recharge_type', COMMAND_TYPE::COMMAND_TYPE_ROOM_CARD)
+            ->where('created_at', '>=', Carbon::today()->toDateTimeString())
+            ->sum('give_num');
+    }
 }

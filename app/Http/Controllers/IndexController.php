@@ -24,6 +24,8 @@ class IndexController extends Controller
             'today_new_agents' => $stat_logic->getTodayNewAgents(),
             'total_agents' => $stat_logic->getTotalAgents(),
             'total_game_player' => $stat_logic->getTotalGamePlayer(),
+            'total_give_card' => $stat_logic->getGiveTotalCard(),
+            'today_give_card' => $stat_logic->getTodayGiveCard()
         ];
     }
 }
