@@ -19,7 +19,8 @@ class IndexController extends Controller
         return [
             'total_balance_card' => $stat_logic->getTotalBalanceCard(),
             'total_card' => $stat_logic->getTotalCard(),
-            'today_consume_card' => $stat_logic->getTodayConsumeCard(),
+            'today_user_recharge_card' => $stat_logic->getTodayUserRechargeCard(),
+            'today_open_room_card' => $stat_logic->getTodayOpenRoomCard(),
             'today_recharge_card' => $stat_logic->getTodayRechargeCard(),
             'today_new_agents' => $stat_logic->getTodayNewAgents(),
             'total_agents' => $stat_logic->getTotalAgents(),

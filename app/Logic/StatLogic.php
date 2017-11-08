@@ -81,16 +81,30 @@ class StatLogic extends BaseLogic
     }
 
     /**
-     * 获取今天房卡消耗数
+     * 获取今天用户充值房卡数
      * @return mixed
      */
-    public function getTodayConsumeCard()
+    public function getTodayUserRechargeCard()
+    {
+        return TransactionFlow::where([
+                'recipient_type' => Constants::ROLE_TYPE_USER,
+                'recharge_type' => COMMAND_TYPE::COMMAND_TYPE_ROOM_CARD
+            ])
+            ->where('created_at', '>=', Carbon::today()->toDateTimeString())
+            ->sum('num');
+    }
+
+    /**
+     * 获取今天代开房房卡数
+     * @return mixed
+     */
+    public function getTodayOpenRoomCard()
     {
         // 代开房+用户充值数量
         return TransactionFlow::where([
-            'recipient_type' => Constants::ROLE_TYPE_USER,
-            'recharge_type' => COMMAND_TYPE::COMMAND_TYPE_ROOM_CARD
-        ])
+                'recipient_type' => Constants::ROLE_TYPE_USER,
+                'recharge_type' => Constants::COMMAND_TYPE_OPEN_ROOM
+            ])
             ->where('created_at', '>=', Carbon::today()->toDateTimeString())
             ->sum('num');
     }
