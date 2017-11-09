@@ -16,9 +16,11 @@ use App\Models\DayFlowStat;
 use App\Models\DayRounds;
 use App\Models\GamePlayer;
 use App\Models\GeneralAgents;
+use App\Models\LoginLog;
 use App\Models\TransactionFlow;
 use App\Models\User;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\DB;
 
 class StatLogic extends BaseLogic
 {
@@ -172,5 +174,15 @@ class StatLogic extends BaseLogic
             ->where('recharge_type', COMMAND_TYPE::COMMAND_TYPE_ROOM_CARD)
             ->where('created_at', '>=', Carbon::today()->toDateTimeString())
             ->sum('give_num');
+    }
+
+    /**
+     * 获取今天活跃代理数
+     * @return mixed
+     */
+    public function getTodayActiveAgents()
+    {
+        return LoginLog::where('created_at', '>=', Carbon::today()->toDateTimeString())
+            ->count(DB::raw('DISTINCT user_id'));
     }
 }

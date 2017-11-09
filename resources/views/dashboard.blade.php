@@ -126,6 +126,19 @@
         </div>
         <div class="col-lg-3 col-xs-6">
             <!-- small box -->
+            <div class="small-box bg-orange-active">
+                <div class="inner">
+                    <h3>{{ $today_active_agents }}</h3>
+
+                    <p>今日活跃代理数</p>
+                </div>
+                <div class="icon">
+                    <i class="ion ion-person"></i>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-3 col-xs-6">
+            <!-- small box -->
             <div class="small-box bg-blue">
                 <div class="inner">
                     <h3>{{ $total_game_player }}</h3>
