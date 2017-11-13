@@ -37,4 +37,14 @@ class StatController extends Controller
 
         return $stat_logic->getStatRoundsList(Constants::STAT_MAX_DAY);
     }
+
+    /**
+     * 游戏DAU统计
+     */
+    public function dau()
+    {
+        $stat_logic = new StatLogic();
+
+        return $stat_logic->getStatDauList(Constants::STAT_MAX_DAY);
+    }
 }

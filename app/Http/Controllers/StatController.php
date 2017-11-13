@@ -27,4 +27,12 @@ class StatController extends Controller
     {
         return [];
     }
+
+    /**
+     * 游戏日活DAU统计
+     */
+    public function dau()
+    {
+        return [];
+    }
 }

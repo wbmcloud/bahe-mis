@@ -117,9 +117,11 @@ class ParamsRules
     const IF_API_STAT_AGENT  = '/api/stat/agent';
     const IF_API_STAT_FLOW   = '/api/stat/flow';
     const IF_API_STAT_ROUNDS = '/api/stat/rounds';
+    const IF_API_STAT_DAU    = '/api/stat/dau';
     const IF_STAT_AGENT      = '/stat/agent';
     const IF_STAT_FLOW       = '/stat/flow';
     const IF_STAT_ROUNDS     = '/stat/rounds';
+    const IF_STAT_DAU        = '/stat/dau';
 
     /**
      * @var array
@@ -382,9 +384,11 @@ class ParamsRules
         self::IF_API_STAT_AGENT                          => ['auth' => ['super', 'admin'], 'desc' => '代理统计'],
         self::IF_API_STAT_FLOW                           => ['auth' => ['super', 'admin'], 'desc' => '流水统计'],
         self::IF_API_STAT_ROUNDS                         => ['auth' => ['super', 'admin'], 'desc' => '流水统计'],
+        self::IF_API_STAT_DAU                            => ['auth' => ['super', 'admin'], 'desc' => '流水统计'],
         self::IF_STAT_AGENT                              => ['auth' => ['super', 'admin'], 'desc' => '流水统计页面'],
         self::IF_STAT_FLOW                               => ['auth' => ['super', 'admin'], 'desc' => '流水统计页面'],
         self::IF_STAT_ROUNDS                             => ['auth' => ['super', 'admin'], 'desc' => '流水统计页面'],
+        self::IF_STAT_DAU                                => ['auth' => ['super', 'admin'], 'desc' => 'DAU统计页面'],
     ];
 
     /**
@@ -427,6 +431,7 @@ class ParamsRules
         self::IF_STAT_AGENT                              => 'stat.stat_agent',
         self::IF_STAT_FLOW                               => 'stat.stat_flow',
         self::IF_STAT_ROUNDS                             => 'stat.stat_rounds',
+        self::IF_STAT_DAU                                => 'stat.stat_dau',
     ];
 
     /**

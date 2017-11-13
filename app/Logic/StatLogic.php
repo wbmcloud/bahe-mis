@@ -13,6 +13,7 @@ use App\Library\Protobuf\COMMAND_TYPE;
 use App\Models\Accounts;
 use App\Models\DayAgentStat;
 use App\Models\DayFlowStat;
+use App\Models\DayGamePlayerLoginLog;
 use App\Models\DayRounds;
 use App\Models\GamePlayer;
 use App\Models\GeneralAgents;
@@ -63,6 +64,19 @@ class StatLogic extends BaseLogic
         ];
     }
 
+    public function getStatDauList($size)
+    {
+        $day_game_player_login_log = DayGamePlayerLoginLog::groupBy('day')
+            ->orderBy('day', 'desc')
+            ->take($size)
+            ->selectRaw('day, count(1) AS amount')
+            ->get()
+            ->toArray();
+        array_multisort(array_column($day_game_player_login_log, 'day'), SORT_ASC, $day_game_player_login_log);
+        return [
+            'list' => $day_game_player_login_log,
+        ];
+    }
 
     /**
      * 获取剩余房卡数
@@ -90,7 +104,8 @@ class StatLogic extends BaseLogic
     {
         return TransactionFlow::where([
                 'recipient_type' => Constants::ROLE_TYPE_USER,
-                'recharge_type' => COMMAND_TYPE::COMMAND_TYPE_ROOM_CARD
+                'recharge_type' => COMMAND_TYPE::COMMAND_TYPE_ROOM_CARD,
+                'status' => Constants::COMMON_ENABLE
             ])
             ->where('created_at', '>=', Carbon::today()->toDateTimeString())
             ->sum('num');
@@ -105,7 +120,8 @@ class StatLogic extends BaseLogic
         // 代开房+用户充值数量
         return TransactionFlow::where([
                 'recipient_type' => Constants::ROLE_TYPE_USER,
-                'recharge_type' => Constants::COMMAND_TYPE_OPEN_ROOM
+                'recharge_type' => Constants::COMMAND_TYPE_OPEN_ROOM,
+                'status' => Constants::COMMON_ENABLE
             ])
             ->where('created_at', '>=', Carbon::today()->toDateTimeString())
             ->sum('num');
@@ -118,7 +134,10 @@ class StatLogic extends BaseLogic
     public function getTodayRechargeCard()
     {
         return TransactionFlow::whereIn('recipient_type', Constants::$agent_role_type)
-            ->where('recharge_type', COMMAND_TYPE::COMMAND_TYPE_ROOM_CARD)
+            ->where([
+                'recharge_type' => COMMAND_TYPE::COMMAND_TYPE_ROOM_CARD,
+                'status' => Constants::COMMON_ENABLE
+            ])
             ->where('created_at', '>=', Carbon::today()->toDateTimeString())
             ->sum('num');
     }

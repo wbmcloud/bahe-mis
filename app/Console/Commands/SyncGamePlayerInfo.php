@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands;
 
+use App\Models\DayGamePlayerLoginLog;
 use App\Models\GamePlayer;
 use App\Models\GameAccount;
 use Carbon\Carbon;
@@ -85,7 +86,7 @@ class SyncGamePlayerInfo extends Command
      */
     public function handle()
     {
-        $client = new SftpClient();
+        /*$client = new SftpClient();
 
         if (App::environment('production')) {
             $servers = Config::get('services.game_server.outer');
@@ -112,6 +113,11 @@ class SyncGamePlayerInfo extends Command
             $this->processAccountLog($center_server_account_log_path);
         }
 
+        $this->updatePlayerInfo();*/
+        $p_p = '/Users/cloud/Documents/player_2017-10-25';
+        $a_p = '/Users/cloud/Documents/account_2017-10-25';
+        $this->processPlayerLog($p_p);
+        $this->processAccountLog($a_p);
         $this->updatePlayerInfo();
     }
 
@@ -202,6 +208,9 @@ class SyncGamePlayerInfo extends Command
             $game_player->user_id = $player_log['account'];
             $game_player->server_id = $player_log['server_id'];
             $game_player->save();
+
+            // 登录日志
+            $this->_insertPlayerLoginLog($player_log);
         }
     }
 
@@ -265,5 +274,34 @@ class SyncGamePlayerInfo extends Command
             $game_player->create_time = $game_account->create_time;
             $game_player->save();
         }
+    }
+
+    /**
+     * @param $login_log
+     * @return mixed
+     */
+    private function _insertPlayerLoginLog($login_log)
+    {
+        $carbon = Carbon::yesterday();
+
+        $day_game_player_login_log = DayGamePlayerLoginLog::where([
+            'day' => $carbon->toDateString()
+        ])->first();
+
+        if (!empty($day_game_player_login_log)) {
+            return $day_game_player_login_log;
+        }
+
+        $day_game_player_login_log = new DayGamePlayerLoginLog();
+        $day_game_player_login_log->day = $carbon->toDateString();
+        $day_game_player_login_log->week = $carbon->weekOfYear;
+        $day_game_player_login_log->month = $carbon->month;
+        $day_game_player_login_log->year = $carbon->year;
+        $day_game_player_login_log->player_id = $login_log['common_prop']['player_id'];
+        $day_game_player_login_log->player_name = $login_log['common_prop']['name'];
+        $day_game_player_login_log->user_id = $login_log['account'];
+        $day_game_player_login_log->save();
+
+        return $day_game_player_login_log;
     }
 }

@@ -41,7 +41,7 @@ return [
 
         'mysql' => [
             'driver' => 'mysql',
-            'host' => env('DB_HOST', '127.0.0.1'),
+            'host' => env('DB_HOST', '10.135.105.28'),
             'port' => env('DB_PORT', '3306'),
             'database' => env('DB_DATABASE', 'game_mis'),
             'username' => env('DB_USERNAME', 'gamemis'),
@@ -109,9 +109,9 @@ return [
         'client' => 'predis',
 
         'default' => [
-            'host' => env('REDIS_HOST', '127.0.0.1'),
-            'password' => env('REDIS_PASSWORD', null),
-            'port' => env('REDIS_PORT', 6379),
+            'host' => env('REDIS_HOST', '10.135.105.28'),
+            'password' => env('REDIS_PASSWORD', '31e6aaa626f4b90acd9b0b01cbd241c6'),
+            'port' => env('REDIS_PORT', 11101),
             'database' => 0,
         ],
 
