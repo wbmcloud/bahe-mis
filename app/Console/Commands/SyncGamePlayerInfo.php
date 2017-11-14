@@ -86,7 +86,7 @@ class SyncGamePlayerInfo extends Command
      */
     public function handle()
     {
-        /*$client = new SftpClient();
+        $client = new SftpClient();
 
         if (App::environment('production')) {
             $servers = Config::get('services.game_server.outer');
@@ -113,11 +113,6 @@ class SyncGamePlayerInfo extends Command
             $this->processAccountLog($center_server_account_log_path);
         }
 
-        $this->updatePlayerInfo();*/
-        $p_p = '/Users/cloud/Documents/player_2017-10-25';
-        $a_p = '/Users/cloud/Documents/account_2017-10-25';
-        $this->processPlayerLog($p_p);
-        $this->processAccountLog($a_p);
         $this->updatePlayerInfo();
     }
 
@@ -285,7 +280,8 @@ class SyncGamePlayerInfo extends Command
         $carbon = Carbon::yesterday();
 
         $day_game_player_login_log = DayGamePlayerLoginLog::where([
-            'day' => $carbon->toDateString()
+            'day' => $carbon->toDateString(),
+            'player_id' => $login_log['common_prop']['player_id']
         ])->first();
 
         if (!empty($day_game_player_login_log)) {
