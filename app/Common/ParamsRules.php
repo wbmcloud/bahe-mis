@@ -118,10 +118,14 @@ class ParamsRules
     const IF_API_STAT_FLOW   = '/api/stat/flow';
     const IF_API_STAT_ROUNDS = '/api/stat/rounds';
     const IF_API_STAT_DAU    = '/api/stat/dau';
+    const IF_API_STAT_WAU    = '/api/stat/wau';
+    const IF_API_STAT_MAU    = '/api/stat/mau';
     const IF_STAT_AGENT      = '/stat/agent';
     const IF_STAT_FLOW       = '/stat/flow';
     const IF_STAT_ROUNDS     = '/stat/rounds';
     const IF_STAT_DAU        = '/stat/dau';
+    const IF_STAT_WAU        = '/stat/wau';
+    const IF_STAT_MAU        = '/stat/mau';
 
     /**
      * @var array
@@ -383,12 +387,16 @@ class ParamsRules
         self::IF_RECORD_OPEN_ROOM                        => ['auth' => ['super', 'admin'], 'desc' => '代开房记录'],
         self::IF_API_STAT_AGENT                          => ['auth' => ['super', 'admin'], 'desc' => '代理统计'],
         self::IF_API_STAT_FLOW                           => ['auth' => ['super', 'admin'], 'desc' => '流水统计'],
-        self::IF_API_STAT_ROUNDS                         => ['auth' => ['super', 'admin'], 'desc' => '流水统计'],
-        self::IF_API_STAT_DAU                            => ['auth' => ['super', 'admin'], 'desc' => '流水统计'],
-        self::IF_STAT_AGENT                              => ['auth' => ['super', 'admin'], 'desc' => '流水统计页面'],
+        self::IF_API_STAT_ROUNDS                         => ['auth' => ['super', 'admin'], 'desc' => '局数统计'],
+        self::IF_API_STAT_DAU                            => ['auth' => ['super', 'admin'], 'desc' => 'DAU统计'],
+        self::IF_API_STAT_WAU                            => ['auth' => ['super', 'admin'], 'desc' => 'WAU统计'],
+        self::IF_API_STAT_MAU                            => ['auth' => ['super', 'admin'], 'desc' => 'MAU统计'],
+        self::IF_STAT_AGENT                              => ['auth' => ['super', 'admin'], 'desc' => '代理统计页面'],
         self::IF_STAT_FLOW                               => ['auth' => ['super', 'admin'], 'desc' => '流水统计页面'],
-        self::IF_STAT_ROUNDS                             => ['auth' => ['super', 'admin'], 'desc' => '流水统计页面'],
+        self::IF_STAT_ROUNDS                             => ['auth' => ['super', 'admin'], 'desc' => '局数统计页面'],
         self::IF_STAT_DAU                                => ['auth' => ['super', 'admin'], 'desc' => 'DAU统计页面'],
+        self::IF_STAT_WAU                                => ['auth' => ['super', 'admin'], 'desc' => 'WAU统计页面'],
+        self::IF_STAT_MAU                                => ['auth' => ['super', 'admin'], 'desc' => 'MAU统计页面'],
     ];
 
     /**
@@ -432,6 +440,8 @@ class ParamsRules
         self::IF_STAT_FLOW                               => 'stat.stat_flow',
         self::IF_STAT_ROUNDS                             => 'stat.stat_rounds',
         self::IF_STAT_DAU                                => 'stat.stat_dau',
+        self::IF_STAT_WAU                                => 'stat.stat_wau',
+        self::IF_STAT_MAU                                => 'stat.stat_mau',
     ];
 
     /**

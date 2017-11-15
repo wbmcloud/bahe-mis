@@ -103,9 +103,13 @@ Route::group(['middleware' => ['validator']], function () {
         Route::get(\App\Common\ParamsRules::IF_API_STAT_FLOW, 'Api\StatController@flow');
         Route::get(\App\Common\ParamsRules::IF_API_STAT_ROUNDS, 'Api\StatController@rounds');
         Route::get(\App\Common\ParamsRules::IF_API_STAT_DAU, 'Api\StatController@dau');
+        Route::get(\App\Common\ParamsRules::IF_API_STAT_WAU, 'Api\StatController@wau');
+        Route::get(\App\Common\ParamsRules::IF_API_STAT_MAU, 'Api\StatController@mau');
         Route::get(\App\Common\ParamsRules::IF_STAT_AGENT, 'StatController@agent')->name('stat.agent');
         Route::get(\App\Common\ParamsRules::IF_STAT_FLOW, 'StatController@flow')->name('stat.flow');
         Route::get(\App\Common\ParamsRules::IF_STAT_ROUNDS, 'StatController@rounds')->name('stat.rounds');
         Route::get(\App\Common\ParamsRules::IF_STAT_DAU, 'StatController@dau')->name('stat.dau');
+        Route::get(\App\Common\ParamsRules::IF_STAT_WAU, 'StatController@wau')->name('stat.wau');
+        Route::get(\App\Common\ParamsRules::IF_STAT_MAU, 'StatController@mau')->name('stat.mau');
     });
 });

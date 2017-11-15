@@ -35,4 +35,21 @@ class StatController extends Controller
     {
         return [];
     }
+
+    /**
+     * 游戏日活WAU统计
+     */
+    public function wau()
+    {
+        return [];
+    }
+
+    /**
+     * 游戏日活MAU统计
+     */
+    public function mau()
+    {
+        return [];
+    }
+
 }

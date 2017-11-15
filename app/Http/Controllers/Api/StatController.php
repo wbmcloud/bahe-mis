@@ -47,4 +47,24 @@ class StatController extends Controller
 
         return $stat_logic->getStatDauList(Constants::STAT_MAX_DAY);
     }
+
+    /**
+     * 游戏DAU统计
+     */
+    public function wau()
+    {
+        $stat_logic = new StatLogic();
+
+        return $stat_logic->getStatWauList(Constants::STAT_MAX_DAY);
+    }
+
+    /**
+     * 游戏DAU统计
+     */
+    public function mau()
+    {
+        $stat_logic = new StatLogic();
+
+        return $stat_logic->getStatMauList(Constants::STAT_MAX_DAY);
+    }
 }
