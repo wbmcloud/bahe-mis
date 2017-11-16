@@ -83,7 +83,7 @@ class StatLogic extends BaseLogic
         $week_game_player_login_log = DayGamePlayerLoginLog::groupBy('week')
             ->orderBy('week', 'desc')
             ->take($size)
-            ->selectRaw('week, count(1) AS amount')
+            ->selectRaw('week, COUNT(DISTINCT player_id) AS amount')
             ->get()
             ->toArray();
         array_multisort(array_column($week_game_player_login_log, 'week'), SORT_ASC, $week_game_player_login_log);
@@ -97,7 +97,7 @@ class StatLogic extends BaseLogic
         $month_game_player_login_log = DayGamePlayerLoginLog::groupBy('month')
             ->orderBy('month', 'desc')
             ->take($size)
-            ->selectRaw('month, count(1) AS amount')
+            ->selectRaw('month, COUNT(DISTINCT player_id) AS amount')
             ->get()
             ->toArray();
         array_multisort(array_column($month_game_player_login_log, 'month'), SORT_ASC, $month_game_player_login_log);
