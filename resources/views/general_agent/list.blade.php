@@ -75,6 +75,7 @@
                                             <button type="button" onclick="rechargeList('{{ route('general_agent.first_agent_rechargelist', [
                                                 'invite_code' => $agent['code'],
                                             ]) }}')" class="btn btn-primary">总代理销售记录</button>
+                                            <a href="{{ route('general_agent.income', ['agent_id' => $agent['id']]) }}" class="btn btn-primary">本周账单</a>
                                             <button type="button" onclick="editAgent({{ $agent['id'] }})" class="btn btn-primary">修改信息</button>
                                             <button type="button" onclick="banAgent({{ $agent['id'] }})" class="btn btn-primary">封禁</button>
                                             <button type="button" onclick="rechargeList('{{ route('general_agent.rechargelist', [

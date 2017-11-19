@@ -45,6 +45,7 @@
                                 <th>充值房卡数量（单位：个）</th>
                                 <th>增送房卡数量（单位：个）</th>
                                 <th>充值时间</th>
+                                <th>充值状态</th>
                                 @role(['super', 'admin'])
                                 <th>操作</th>
                                 @endrole
@@ -54,9 +55,9 @@
                             @if(empty($recharge_flows->count()))
                                 <tr>
                                     @if(\Illuminate\Support\Facades\Auth::user()->hasRole(['super', 'admin']))
-                                        <td colspan="7">没有记录</td>
+                                        <td colspan="8">没有记录</td>
                                     @else
-                                        <td colspan="6">没有记录</td>
+                                        <td colspan="7">没有记录</td>
                                     @endif
 
                                 </tr>
@@ -69,6 +70,11 @@
                                         <td>{{ $recharge_flow['num'] }}</td>
                                         <td>{{ $recharge_flow['give_num'] }}</td>
                                         <td>{{ $recharge_flow['created_at'] }}</td>
+                                        @if($recharge_flow['status'] == 1)
+                                            <td>成功</td>
+                                        @else
+                                            <td>失败</td>
+                                        @endif
                                         @role(['super', 'admin'])
                                         <td>
                                             <button type="button"

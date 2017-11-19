@@ -11,6 +11,7 @@ use App\Common\Constants;
 use App\Logic\GeneralAgentLogic;
 use App\Logic\UserLogic;
 use App\Models\InviteCode;
+use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 
@@ -124,10 +125,16 @@ class GeneralAgentController extends Controller
 
     public function income()
     {
+        if (Auth::user()->hasRole(Constants::$admin_role)) {
+            $user = User::find($this->params['agent_id']);
+        } else {
+            $user = Auth::user();
+        }
+
         $general_agent_logic = new GeneralAgentLogic();
 
         return [
-            'income_stat' => $general_agent_logic->getCurrentAgentIncomeStat(Auth::user())
+            'income_stat' => $general_agent_logic->getCurrentAgentIncomeStat($user)
         ];
     }
 
@@ -136,7 +143,12 @@ class GeneralAgentController extends Controller
         $page_size  = isset($this->params['page_size']) ? $this->params['page_size'] :
             Constants::DEFAULT_PAGE_SIZE;
 
-        $login_user = Auth::user();
+        if (Auth::user()->hasRole(Constants::$admin_role)) {
+            $login_user = User::find($this->params['agent_id']);
+        } else {
+            $login_user = Auth::user();
+        }
+
         $general_agent_logic = new GeneralAgentLogic();
 
         if ($this->params['type'] == Constants::ROLE_TYPE_AGENT) {
@@ -167,10 +179,16 @@ class GeneralAgentController extends Controller
         $page_size  = isset($this->params['page_size']) ? $this->params['page_size'] :
             Constants::DEFAULT_PAGE_SIZE;
 
+        if (Auth::user()->hasRole(Constants::$admin_role)) {
+            $agent_id = User::find($this->params['agent_id']);
+        } else {
+            $agent_id = Auth::user();
+        }
+
         $general_agent_logic = new GeneralAgentLogic();
 
         return [
-            'history_income_list' => $general_agent_logic->getLevelAgentCashOrderList(Auth::id(), $page_size)
+            'history_income_list' => $general_agent_logic->getLevelAgentCashOrderList($agent_id, $page_size)
         ];
     }
 }

@@ -115,6 +115,7 @@ class FirstAgentLogic extends BaseLogic
             $recharge_flows = new LengthAwarePaginator([], 0, $page_size);
         } else {
             $recharge_flows = TransactionFlow::whereIn('recipient_id', array_column($users, 'id'))
+                ->whereIn('recipient_type', Constants::$agent_role_type)
                 ->whereBetween('created_at', [
                     $start_time,
                     $end_time,
@@ -171,6 +172,7 @@ class FirstAgentLogic extends BaseLogic
         if (!empty($start_time) && !empty($end_time)) {
             if (empty($page_size)) {
                 $flows = TransactionFlow::whereIn('recipient_id', $agent_ids)
+                    ->whereIn('recipient_type', Constants::$agent_role_type)
                     ->where($where)
                     ->whereBetween('created_at', [$start_time, $end_time])
                     ->groupBy($group_by)
@@ -178,6 +180,7 @@ class FirstAgentLogic extends BaseLogic
                     ->get();
             } else {
                 $flows = TransactionFlow::whereIn('recipient_id', $agent_ids)
+                    ->whereIn('recipient_type', Constants::$agent_role_type)
                     ->where($where)
                     ->whereBetween('created_at', [$start_time, $end_time])
                     ->groupBy($group_by)
@@ -188,12 +191,14 @@ class FirstAgentLogic extends BaseLogic
         } else {
             if (empty($page_size)) {
                 $flows = TransactionFlow::whereIn('recipient_id', $agent_ids)
+                    ->whereIn('recipient_type', Constants::$agent_role_type)
                     ->where($where)
                     ->groupBy($group_by)
                     ->selectRaw($select)
                     ->get();
             } else {
                 $flows = TransactionFlow::whereIn('recipient_id', $agent_ids)
+                    ->whereIn('recipient_type', Constants::$agent_role_type)
                     ->where($where)
                     ->groupBy($group_by)
                     ->selectRaw($select)

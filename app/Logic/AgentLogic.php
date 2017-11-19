@@ -74,6 +74,7 @@ class AgentLogic extends BaseLogic
         return TransactionFlow::where([
                 'recipient_id' => $agent_id,
             ])
+            ->whereIn('recipient_type', Constants::$agent_role_type)
             ->whereBetween('created_at', [$start_time, $end_time])
             ->orderBy('id', 'desc')
             ->simplePaginate($page_size);

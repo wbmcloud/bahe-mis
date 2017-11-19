@@ -61,9 +61,17 @@
                     </table>
                 </div>
 
-                <a href="{{ route('general_agent.sale', ['type' => \App\Common\Constants::ROLE_TYPE_FIRST_AGENT]) }}"><button class="btn btn-info">本周总代理明细查询</button></a>
-                <a href="{{ route('general_agent.sale', ['type' => \App\Common\Constants::ROLE_TYPE_AGENT]) }}"><button class="btn btn-info">本周代理明细查询</button></a>
-                <a href="{{ route('general_agent.income_history') }}"><button class="btn btn-info">历史收入查询</button></a>
+                <a href="{{ route('general_agent.sale', [
+                    'type' => \App\Common\Constants::ROLE_TYPE_FIRST_AGENT,
+                    'agent_id' => \Illuminate\Support\Facades\Request::input('agent_id', '')
+                ]) }}"><button class="btn btn-info">本周总代理明细查询</button></a>
+                <a href="{{ route('general_agent.sale', [
+                    'type' => \App\Common\Constants::ROLE_TYPE_AGENT,
+                    'agent_id' => \Illuminate\Support\Facades\Request::input('agent_id', '')
+                ]) }}"><button class="btn btn-info">本周代理明细查询</button></a>
+                <a href="{{ route('general_agent.income_history', [
+                    'agent_id' => \Illuminate\Support\Facades\Request::input('agent_id', '')
+                ]) }}"><button class="btn btn-info">历史收入查询</button></a>
                 <!-- /.box -->
             </div>
             <!-- /.col -->

@@ -102,8 +102,14 @@ class FirstAgentController extends Controller
     {
         $first_agent_logic = new FirstAgentLogic();
 
+        if (Auth::user()->hasRole(Constants::$admin_role)) {
+            $agent_id = $this->params['agent_id'];
+        } else {
+            $agent_id = Auth::id();
+        }
+
         return [
-            'income_stat' => $first_agent_logic->getCurrentAgentIncomeStat(Auth::id())
+            'income_stat' => $first_agent_logic->getCurrentAgentIncomeStat($agent_id)
         ];
     }
 
@@ -112,9 +118,15 @@ class FirstAgentController extends Controller
         $page_size  = isset($this->params['page_size']) ? $this->params['page_size'] :
             Constants::DEFAULT_PAGE_SIZE;
 
+        if (Auth::user()->hasRole(Constants::$admin_role)) {
+            $agent_id = $this->params['agent_id'];
+        } else {
+            $agent_id = Auth::id();
+        }
+
         $first_agent_logic = new FirstAgentLogic();
 
-        $level_agent_sale_amount_list = $first_agent_logic->getLevelAgentSaleAmountDetail(Auth::id(), $page_size);
+        $level_agent_sale_amount_list = $first_agent_logic->getLevelAgentSaleAmountDetail($agent_id, $page_size);
         $agent_ids = array_column($level_agent_sale_amount_list->toArray()['data'], 'user_id');
         $agents = $first_agent_logic->getAgentInfoByIds($agent_ids);
 
@@ -129,10 +141,16 @@ class FirstAgentController extends Controller
         $page_size  = isset($this->params['page_size']) ? $this->params['page_size'] :
             Constants::DEFAULT_PAGE_SIZE;
 
+        if (Auth::user()->hasRole(Constants::$admin_role)) {
+            $agent_id = $this->params['agent_id'];
+        } else {
+            $agent_id = Auth::id();
+        }
+
         $first_agent_logic = new FirstAgentLogic();
 
         return [
-            'history_income_list' => $first_agent_logic->getLevelAgentCashOrderList(Auth::id(), $page_size)
+            'history_income_list' => $first_agent_logic->getLevelAgentCashOrderList($agent_id, $page_size)
         ];
     }
 }

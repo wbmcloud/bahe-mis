@@ -130,6 +130,7 @@ class GeneralAgentLogic extends BaseLogic
             $recharge_flows = new LengthAwarePaginator([], 0, $page_size);
         } else {
             $recharge_flows = TransactionFlow::whereIn('recipient_id', array_column($users, 'id'))
+                ->whereIn('recipient_type', Constants::$agent_role_type)
                 ->whereBetween('created_at', [
                     $start_time,
                     $end_time,
@@ -170,10 +171,14 @@ class GeneralAgentLogic extends BaseLogic
             if (isset($params['start_time']) && !empty($params['start_time']) &&
                 isset($params['end_time']) && !empty($params['end_time'])) {
                 $total_income = TransactionFlow::whereIn('recipient_id', array_column($agents, 'id'))
+                    ->whereIn('recipient_type', Constants::$agent_role_type)
+                    ->where('status', Constants::COMMON_ENABLE)
                     ->whereBetween('created_at', [$params['start_time'], $params['end_time']])
                     ->sum('num');
             } else {
                 $total_income = TransactionFlow::whereIn('recipient_id', array_column($agents, 'id'))
+                    ->whereIn('recipient_type', Constants::$agent_role_type)
+                    ->where('status', Constants::COMMON_ENABLE)
                     ->sum('num');
             }
 
@@ -237,6 +242,7 @@ class GeneralAgentLogic extends BaseLogic
         if (!empty($start_time) && !empty($end_time)) {
             if (empty($page_size)) {
                 $flows = TransactionFlow::whereIn('recipient_id', $agent_ids)
+                    ->whereIn('recipient_type', Constants::$agent_role_type)
                     ->where($where)
                     ->whereBetween('created_at', [$start_time, $end_time])
                     ->groupBy($group_by)
@@ -244,6 +250,7 @@ class GeneralAgentLogic extends BaseLogic
                     ->get();
             } else {
                 $flows = TransactionFlow::whereIn('recipient_id', $agent_ids)
+                    ->whereIn('recipient_type', Constants::$agent_role_type)
                     ->where($where)
                     ->whereBetween('created_at', [$start_time, $end_time])
                     ->groupBy($group_by)
@@ -254,12 +261,14 @@ class GeneralAgentLogic extends BaseLogic
         } else {
             if (empty($page_size)) {
                 $flows = TransactionFlow::whereIn('recipient_id', $agent_ids)
+                    ->whereIn('recipient_type', Constants::$agent_role_type)
                     ->where($where)
                     ->groupBy($group_by)
                     ->selectRaw($select)
                     ->get();
             } else {
                 $flows = TransactionFlow::whereIn('recipient_id', $agent_ids)
+                    ->whereIn('recipient_type', Constants::$agent_role_type)
                     ->where($where)
                     ->groupBy($group_by)
                     ->selectRaw($select)
@@ -284,7 +293,7 @@ class GeneralAgentLogic extends BaseLogic
             'start_time' => $start_of_week,
             'end_time' => $end_time,
         ]);
-        $first_agent_sum = array_sum(array_column($first_agent_amount, 'total_income')) * Constants::ROOM_CARD_PRICE;
+        $first_agent_sum = array_sum(array_column($first_agent_amount, 'sum')) * Constants::ROOM_CARD_PRICE;
 
         $income_stat['first_agent_sale_amount'] = $agent_sale_sum;
         $income_stat['first_agent_sale_commission'] = $agent_sale_sum * Constants::COMMISSION_TYPE_GENERAL_TO_AGENT_RATE;

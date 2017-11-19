@@ -53,8 +53,8 @@
                     </table>
                 </div>
 
-                <a href="{{ route('first_agent.sale') }}"><button class="btn btn-info">本周明细查询</button></a>
-                <a href="{{ route('first_agent.income_history') }}"><button class="btn btn-info">历史收入查询</button></a>
+                <a href="{{ route('first_agent.sale', ['agent_id' => \Illuminate\Support\Facades\Request::input('agent_id', '')]) }}"><button class="btn btn-info">本周明细查询</button></a>
+                <a href="{{ route('first_agent.income_history', ['agent_id' => \Illuminate\Support\Facades\Request::input('agent_id', '')]) }}"><button class="btn btn-info">历史收入查询</button></a>
                 <!-- /.box -->
             </div>
             <!-- /.col -->
