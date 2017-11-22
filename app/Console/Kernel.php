@@ -11,6 +11,7 @@ use App\Console\Commands\StatDateGeneralCashOrder;
 use App\Console\Commands\StatDayFlow;
 use App\Console\Commands\StatDayRounds;
 use App\Console\Commands\SyncGamePlayerInfo;
+use App\Console\Commands\SyncLastLoginTime;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 
@@ -31,6 +32,7 @@ class Kernel extends ConsoleKernel
         StatDayFlow::class,
         StatAgent::class,
         StatDayRounds::class,
+        SyncLastLoginTime::class,
     ];
 
     /**
