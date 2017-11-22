@@ -1,6 +1,8 @@
 @extends('admin_template')
 @section('head')
     <link rel="stylesheet" href="{{ asset("/bower_components/admin-lte/plugins/select2/select2.css") }}">
+    <!-- daterange picker -->
+    <link rel="stylesheet" href="{{ asset("/bower_components/admin-lte/plugins/daterangepicker/daterangepicker.css") }}">
     <style>
     .pagination {
         margin-left: 40%;
@@ -24,8 +26,12 @@
                     <!-- /input-group -->
                     <div class="input-group margin" style="width:80%;">
                         <input id="query_str" type="text" class="col-sm-2 form-control" placeholder="请输入用户名">
+                        <div class="input-group-addon">
+                            <i class="fa fa-calendar"></i>
+                        </div>
+                        <input type="text" class="form-control pull-right" id="reservation">
                         <span class="input-group-btn">
-                              <button type="button" class="btn btn-info btn-flat" onclick="query();">搜索</button>
+                              <button type="button" class="btn btn-info btn-flat" onclick="query();">查询</button>
                         </span>
                     </div>
                     <!-- /input-group -->
@@ -41,6 +47,7 @@
                             <th>剩余房卡数</th>
                             <th>邀请码</th>
                             <th>成为代理时间</th>
+                            <th>最近登录时间</th>
                             <th>代理操作</th>
                             </tr>
                             </thead>
@@ -56,6 +63,7 @@
                                         <td>{{ $agent['account']['card_balance'] }}</td>
                                         <td>{{ $agent['invite_code'] }}</td>
                                         <td>{{ $agent['created_at'] }}</td>
+                                        <td>{{ $agent['last_login_time'] }}</td>
                                         <td>
                                             <button type="button" onclick="rechargeList('{{ route('agent.rechargelist', [
                                                 'id' => $agent['id'],
@@ -226,6 +234,9 @@
     <script src="{{ asset("/bower_components/admin-lte/plugins/select2/select2.js") }}"></script>
     <script src="{{ asset("/bower_components/admin-lte/plugins/datatables/jquery.dataTables.min.js") }}"></script>
     <script src="{{ asset("/bower_components/admin-lte/plugins/datatables/dataTables.bootstrap.min.js") }}"></script>
+    <!-- date-range-picker -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.11.2/moment.min.js"></script>
+    <script src="{{ asset("/bower_components/admin-lte/plugins/daterangepicker/daterangepicker.js") }}"></script>
     <script>
         var city_select = $(".city_multi").select2({
             placeholder: "请选择开通城市",
@@ -369,8 +380,15 @@
         function query()
         {
             var query_str = $("#query_str").val();
-            if (!query_str) {
-                $('#msg').html("请输入用户名");
+            var _date_range = $('#reservation').val();
+            var _date_arr = _date_range.split(' - ');
+            var _args = getRequest();
+            _args['start_date'] = _date_arr[0];
+            _args['end_date'] = _date_arr[1];
+            _args['query_str'] = query_str;
+
+            if (!query_str && !_date_range) {
+                $('#msg').html("请输入用户名或者最近登录时间范围");
                 $("#confirm").attr("data-dismiss", "modal");
                 $("#confirm").removeAttr("onclick");
                 $('.modal_container').modal({
@@ -379,9 +397,35 @@
                     "keyboard": false
                 });
             } else {
-                location.href = getCurrenturl() + '?query_str=' + query_str;
+                location.href = getCurrenturl() + '?' + $.param(_args);
             }
         }
+
+        function getRequest() {
+            var url = location.search; //获取url中"?"符后的字串
+            var request_arr = new Object();
+            if (url.indexOf("?") != -1) {
+                var str = url.substr(1);
+                strs = str.split("&");
+                for(var i = 0; i < strs.length; i ++) {
+                    request_arr[strs[i].split("=")[0]]=unescape(strs[i].split("=")[1]);
+                }
+            }
+            return request_arr;
+        }
+
+        $(document).ready(function () {
+            //Date range picker
+            $('#reservation').daterangepicker({
+                'locale': {
+                    "format": "YYYY-MM-DD",
+                },
+                "startDate": getRequest()['start_date'],
+                "endDate": getRequest()['end_date']
+            }, function (start, end, label) {
+
+            });
+        });
 
         $('#agent').addClass('active');
         $('#agent_list').addClass('active');

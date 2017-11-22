@@ -156,7 +156,6 @@
         }
 
         $(document).ready(function () {
-            console.log(getRequest());
             //Date range picker
             $('#reservation').daterangepicker({
                 'locale': {

@@ -19,10 +19,16 @@ class LoginListener
      */
     public function handle(LoginEvent $event)
     {
+        $now = Carbon::now();
+
         //获取事件中保存的信息
         $user  = $event->getUser();
         $agent = $event->getAgent();
         $ip    = $event->getIp();
+
+        // 更新最近登录时间
+        $user->last_login_time = $now;
+        $user->save();
 
         //登录信息
         $login_info = [
@@ -56,8 +62,8 @@ class LoginListener
             $login_info['device_type'] = 'desktop';
         }
 
-        $login_info['created_at'] = Carbon::now();
-        $login_info['updated_at'] = Carbon::now();
+        $login_info['created_at'] = $now;
+        $login_info['updated_at'] = $now;
 
         //插入到数据库
         DB::table('login_log')->insert($login_info);

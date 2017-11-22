@@ -26,9 +26,7 @@ class AgentController extends Controller
         $agent_logic = new AgentLogic();
         $user_logic  = new UserLogic();
 
-        $users  = isset($this->params['query_str']) && !empty($this->params['query_str']) ?
-            $agent_logic->getAgentList($this->params['query_str'], $page_size) :
-            $agent_logic->getAgentList(null, $page_size);
+        $users  = $agent_logic->getAgentList($this->params, $page_size);
         $cities = $user_logic->getOpenCities();
 
         return [

@@ -22,28 +22,33 @@ use Illuminate\Support\Facades\DB;
 class AgentLogic extends BaseLogic
 {
     /**
-     * @param     $query
+     * @param     $params
      * @param     $page_size
      * @param int $status
      * @return mixed
      */
-    public function getAgentList($query, $page_size, $status = Constants::COMMON_ENABLE)
+    public function getAgentList($params, $page_size, $status = Constants::COMMON_ENABLE)
     {
         $condition = [
             'role_id' => Constants::ROLE_TYPE_AGENT,
             'status' => $status,
         ];
 
-        if (!is_null($query)) {
-            $users = User::where($condition)
-                ->where('user_name', 'like', "%$query%")
-                ->orderBy('id', 'desc')
-                ->simplePaginate($page_size);
-        } else {
-            $users = User::where($condition)
-                ->orderBy('id', 'desc')
-                ->simplePaginate($page_size);
+        $users = User::where($condition);
+
+        if (!empty($params)) {
+            if (isset($params['query_str']) && !empty($params['query_str'])) {
+                $users = $users->where('user_name', 'like', "%{$params['query_str']}%");
+            }
+
+            if (isset($params['start_date']) && !empty($params['start_date']) &&
+                isset($params['end_date']) && !empty($params['end_date'])) {
+                $users = $users->whereBetween('last_login_time', [$params['start_date'], $params['end_date']]);
+            }
         }
+
+        $users = $users->orderBy('id', 'desc')
+            ->simplePaginate($page_size);
 
         return $users;
     }
