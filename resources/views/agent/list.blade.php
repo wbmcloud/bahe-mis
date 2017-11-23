@@ -27,7 +27,7 @@
                     <div class="input-group margin" style="width:80%;">
                         <input id="query_str" type="text" class="col-sm-2 form-control" placeholder="请输入用户名">
                         <div class="input-group-addon">
-                            <i class="fa fa-calendar"></i>
+                            <i class="fa fa-calendar"> 最近登录时间</i>
                         </div>
                         <input type="text" class="form-control pull-right" id="reservation">
                         <span class="input-group-btn">
