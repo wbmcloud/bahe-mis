@@ -42,6 +42,7 @@
                                 <th>交易时间</th>
                                 <th>交易是否成功</th>
                                 <th>失败原因</th>
+                                <th>开房参数</th>
                             </tr>
                             </thead>
                             <tbody id="agent_list_container">
@@ -65,6 +66,7 @@
                                         <td>{{ $recharge['created_at'] }}</td>
                                         <td>{{ \App\Common\Constants::$recharge_status[$recharge['status']] }}</td>
                                         <td>{{ \App\Exceptions\BaheException::getErrorMsg($recharge['recharge_fail_reason']) }}</td>
+                                        <td>{{ (new \App\Logic\AgentLogic())->renderOpenRoomParams($recharge['req_params']) }}</td>
                                     </tr>
                                 @endforeach
                             @endif

@@ -111,6 +111,7 @@ class AgentLogic extends BaseLogic
     }
 
     /**
+     * @param      $params
      * @param      $user
      * @param bool $is_recharged
      * @param      $recharge_res
@@ -118,7 +119,7 @@ class AgentLogic extends BaseLogic
      * @param      $num
      * @return bool
      */
-    public function saveOpenRoomTransactionFlow($user, $is_recharged = false,
+    public function saveOpenRoomTransactionFlow($params, $user, $is_recharged = false,
                                         $recharge_res, $recharge_fail_reason, $num)
     {
         $transaction_flow                 = new TransactionFlow();
@@ -128,6 +129,7 @@ class AgentLogic extends BaseLogic
         $transaction_flow->recipient_type = Constants::ROLE_TYPE_USER;
         $transaction_flow->recharge_type  = Constants::COMMAND_TYPE_OPEN_ROOM;
         $transaction_flow->num            = $num;
+        $transaction_flow->req_params     = json_encode($params);
 
         if ($is_recharged) {
             $transaction_flow->status = Constants::COMMON_ENABLE;
@@ -183,7 +185,7 @@ class AgentLogic extends BaseLogic
         $recharge_fail_reason = isset($recharge_fail_reason) && !empty($recharge_fail_reason) ?
             $recharge_fail_reason : null;
 
-        $this->saveOpenRoomTransactionFlow($user, $is_recharged, $open_room_res,
+        $this->saveOpenRoomTransactionFlow($params, $user, $is_recharged, $open_room_res,
             $recharge_fail_reason, $params['open_rands'] / Constants::ROOM_CARD_RANDOMS);
 
         if (!$is_recharged) {
@@ -247,5 +249,40 @@ class AgentLogic extends BaseLogic
             ->orderBy('id', 'desc')
             ->simplePaginate($params['page_size']);
 
+    }
+
+
+    /**
+     * @param $params
+     * @return string
+     */
+    public function renderOpenRoomParams($params)
+    {
+        if (empty($params)) {
+            return '';
+        }
+
+        $render_arr = [];
+        $params = !is_array($params) ? json_decode($params, true) : $params;
+
+        $render_arr[] = Constants::$open_room_mode[$params['model']];
+
+        $fanxing_arr = array_map(function ($r) {
+            return Constants::$open_room_fanxing[$r];
+        }, $params['extend_type']);
+        $render_arr[] = implode(',', $fanxing_arr);
+
+        $render_arr[] = Constants::$open_room_rounds[$params['open_rands']];
+
+        $render_arr[] = Constants::$open_room_top_multiple[$params['top_mutiple']];
+
+        if (isset($params['voice_open']) && $params['voice_open'] == 1) {
+            $render_arr[] = Constants::$open_room_voice[$params['voice_open']];
+        } else {
+            $params['voice_open'] = 0;
+            $render_arr[] = Constants::$open_room_voice[$params['voice_open']];
+        }
+
+        return implode(' ', $render_arr);
     }
 }

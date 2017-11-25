@@ -20,6 +20,9 @@ class Controller extends BaseController
 
     public function __construct()
     {
+        if (isset($_REQUEST['_token'])) {
+            unset($_REQUEST['_token']);
+        }
         $this->params = $_REQUEST;
     }
 
