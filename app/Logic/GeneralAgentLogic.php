@@ -197,16 +197,13 @@ class GeneralAgentLogic extends BaseLogic
         return $income_first_agents;
     }
 
-    public function getLastWeekCashOrder($agent_level = Constants::AGENT_LEVEL_FIRST, $page_size)
+    public function getWeekCashOrder($agent_level = Constants::AGENT_LEVEL_FIRST, $page_size)
     {
-        $last_week_day = Carbon::now()->subWeek();
-        $last_week = $last_week_day->weekOfYear;
-
         $cash_orders = CashOrder::where([
-                'week' => $last_week,
                 'type' => $agent_level,
             ])
             ->where('amount', '>', 0)
+            ->orderBy('id', 'desc')
             ->simplePaginate($page_size);
 
         return $cash_orders;

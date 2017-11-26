@@ -86,7 +86,7 @@ class FirstAgentController extends Controller
         ];
     }
 
-    public function lastWeekCashOrderList()
+    public function weekCashOrderList()
     {
         $page_size  = isset($this->params['page_size']) ? $this->params['page_size'] :
             Constants::DEFAULT_PAGE_SIZE;
@@ -94,7 +94,7 @@ class FirstAgentController extends Controller
         $first_agent_logic = new FirstAgentLogic();
 
         return [
-            'cash_orders' => $first_agent_logic->getLastWeekCashOrder(Constants::AGENT_LEVEL_FIRST, $page_size)
+            'cash_orders' => $first_agent_logic->getWeekCashOrder(Constants::AGENT_LEVEL_FIRST, $page_size)
         ];
     }
 

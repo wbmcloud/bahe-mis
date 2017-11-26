@@ -110,11 +110,22 @@ class AgentController extends Controller
     {
         $user          = Auth::user();
         $agent_logic   = new AgentLogic();
-        $open_room_res = $agent_logic->openRoom($user, $this->params);
+
+        $open_room_params['server_id'] = $this->params['server_id'];
+        $open_room_params['model'] = $this->params['model'];
+        $open_room_params['extend_type'] = $this->params['extend_type'];
+        $open_room_params['open_rands'] = $this->params['open_rands'];
+        $open_room_params['top_mutiple'] = $this->params['top_mutiple'];
+        isset($this->params['voice_open']) && ($open_room_params['voice_open'] = $this->params['voice_open']);
+
+        $open_room_res = $agent_logic->openRoom($user, $open_room_params);
 
         return [
             'prompt' => Constants::SUCCESS_PROMPT_OPEN_ROOM,
-            'data' => $open_room_res['room_id'],
+            'data' => [
+                'room_id' => $open_room_res['room_id'],
+                'req_params' => $agent_logic->renderOpenRoomParams($open_room_params)
+            ],
         ];
     }
 

@@ -23,6 +23,7 @@
                             <th>id</th>
                             <th>姓名</th>
                             <th>上周打款金额（单位：元）</th>
+                            <th>时间</th>
                             <th>操作</th>
                             </tr>
                             </thead>
@@ -35,6 +36,11 @@
                                         <td>{{ $cash_order['id'] }}</td>
                                         <td>{{ $cash_order['name'] }}</td>
                                         <td>{{ $cash_order['amount'] }}</td>
+                                        <td>{{ \Carbon\Carbon::now()->subYears(\Carbon\Carbon::now()->year - $cash_order['year'])
+                                        ->subWeeks(\Carbon\Carbon::now()->weekOfYear - $cash_order['week'])->startOfWeek()->toDateString() }} - {{
+                                        \Carbon\Carbon::now()->subYears(\Carbon\Carbon::now()->year - $cash_order['year'])
+                                        ->subWeeks(\Carbon\Carbon::now()->weekOfYear - $cash_order['week'])->endOfWeek()->toDateString()
+                                        }}</td>
                                         @if($cash_order['status'] == \App\Common\Constants::COMMON_ENABLE)
                                             <td>
                                                 <button type="button" class="btn btn-primary" disabled>已打款</button>

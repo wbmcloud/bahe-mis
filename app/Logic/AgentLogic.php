@@ -41,7 +41,7 @@ class AgentLogic extends BaseLogic
                 $users = $users->where('user_name', 'like', "%{$params['query_str']}%");
             }
 
-            if (isset($params['start_date']) && !empty($params['start_date']) &&
+            if (empty($params['query_str']) && isset($params['start_date']) && !empty($params['start_date']) &&
                 isset($params['end_date']) && !empty($params['end_date'])) {
                 $users = $users->whereBetween('last_login_time', [$params['start_date'], $params['end_date']]);
             }
@@ -129,14 +129,7 @@ class AgentLogic extends BaseLogic
         $transaction_flow->recipient_type = Constants::ROLE_TYPE_USER;
         $transaction_flow->recharge_type  = Constants::COMMAND_TYPE_OPEN_ROOM;
         $transaction_flow->num            = $num;
-
-        $open_room_params['server_id'] = $params['server_id'];
-        $open_room_params['model'] = $params['model'];
-        $open_room_params['extend_type'] = $params['extend_type'];
-        $open_room_params['open_rands'] = $params['open_rands'];
-        $open_room_params['top_mutiple'] = $params['top_mutiple'];
-        isset($params['voice_open']) && ($open_room_params['voice_open'] = $params['voice_open']);
-        $transaction_flow->req_params     = json_encode($open_room_params);
+        $transaction_flow->req_params     = json_encode($params);
 
         if ($is_recharged) {
             $transaction_flow->status = Constants::COMMON_ENABLE;

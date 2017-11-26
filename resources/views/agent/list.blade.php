@@ -42,6 +42,7 @@
                             <thead>
                             <tr>
                             <th>id</th>
+                            <th>姓名</th>
                             <th>用户名</th>
                             <th>交易总数</th>
                             <th>剩余房卡数</th>
@@ -58,6 +59,7 @@
                                 @foreach($agents as $agent)
                                     <tr>
                                         <td><a href="{{ route('agent.info') . '?id=' . $agent['id'] }}">{{ $agent['id'] }}</a></td>
+                                        <td>{{ $agent['name'] }}</td>
                                         <td>{{ $agent['user_name'] }}</td>
                                         <td>{{ $agent['account']['card_total'] }}</td>
                                         <td>{{ $agent['account']['card_balance'] }}</td>
@@ -415,11 +417,22 @@
         }
 
         $(document).ready(function () {
+            var locale = {
+                "format": 'YYYY-MM-DD',
+                "separator": " - ",
+                "applyLabel": "确定",
+                "cancelLabel": "取消",
+                "fromLabel": "起始时间",
+                "toLabel": "结束时间'",
+                "customRangeLabel": "自定义",
+                "weekLabel": "W",
+                "daysOfWeek": ["日", "一", "二", "三", "四", "五", "六"],
+                "monthNames": ["一月", "二月", "三月", "四月", "五月", "六月", "七月", "八月", "九月", "十月", "十一月", "十二月"],
+                "firstDay": 1
+            };
             //Date range picker
             $('#reservation').daterangepicker({
-                'locale': {
-                    "format": "YYYY-MM-DD",
-                },
+                'locale': locale,
                 "startDate": getRequest()['start_date'],
                 "endDate": getRequest()['end_date']
             }, function (start, end, label) {

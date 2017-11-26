@@ -198,6 +198,11 @@ class ParamsRules
         ],
         self::IF_AGENT_DO_OPEN_ROOM              => [
             'server_id' => 'required|integer',
+            'model' => ['required', 'in:1,2'],
+            'extend_type' => 'required|array',
+            'open_rands' => ['required', 'in:8,16'],
+            'top_mutiple' => ['required', 'in:0,32'],
+            'voice_open' => 'integer|nullable',
         ],
         self::IF_FIRST_AGENT_LIST                => [
             'query_str' => 'string|nullable',

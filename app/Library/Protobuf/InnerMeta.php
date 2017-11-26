@@ -18,7 +18,11 @@ class InnerMeta extends \Google\Protobuf\Internal\Message
      */
     private $type_t = 0;
     /**
-     * <code>bytes stuff = 2;</code>
+     * <code>int64 session_id = 2;</code>
+     */
+    private $session_id = 0;
+    /**
+     * <code>bytes stuff = 3;</code>
      */
     private $stuff = '';
 
@@ -45,7 +49,24 @@ class InnerMeta extends \Google\Protobuf\Internal\Message
     }
 
     /**
-     * <code>bytes stuff = 2;</code>
+     * <code>int64 session_id = 2;</code>
+     */
+    public function getSessionId()
+    {
+        return $this->session_id;
+    }
+
+    /**
+     * <code>int64 session_id = 2;</code>
+     */
+    public function setSessionId($var)
+    {
+        GPBUtil::checkInt64($var);
+        $this->session_id = $var;
+    }
+
+    /**
+     * <code>bytes stuff = 3;</code>
      */
     public function getStuff()
     {
@@ -53,7 +74,7 @@ class InnerMeta extends \Google\Protobuf\Internal\Message
     }
 
     /**
-     * <code>bytes stuff = 2;</code>
+     * <code>bytes stuff = 3;</code>
      */
     public function setStuff($var)
     {

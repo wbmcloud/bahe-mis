@@ -3,7 +3,8 @@ package app.library.protobuf;
 
 message InnerMeta {
     INNER_TYPE type_t = 1;
-    bytes stuff = 2;
+    int64 session_id = 2;
+    bytes stuff = 3;
 }
 
 /////////////////////////////////////////////////////

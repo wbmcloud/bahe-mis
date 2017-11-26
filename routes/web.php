@@ -53,7 +53,7 @@ Route::group(['middleware' => ['validator']], function () {
         Route::get(\App\Common\ParamsRules::IF_FIRST_AGENT_INVITE_CODE, 'FirstAgentController@inviteCode')->name('first_agent.invite_code');
         Route::get(\App\Common\ParamsRules::IF_FIRST_AGENT_BAN_LIST, 'FirstAgentController@banAgentList')->name('first_agent.banlist');
         Route::get(\App\Common\ParamsRules::IF_FIRST_AGENT_RECHARGE_LIST, 'FirstAgentController@agentRechargeList')->name('first_agent.rechargelist');
-        Route::get(\App\Common\ParamsRules::IF_FIRST_AGENT_CASH_ORDER_LIST, 'FirstAgentController@lastWeekCashOrderList')->name('first_agent.cash_order_list');
+        Route::get(\App\Common\ParamsRules::IF_FIRST_AGENT_CASH_ORDER_LIST, 'FirstAgentController@weekCashOrderList')->name('first_agent.cash_order_list');
         Route::get(\App\Common\ParamsRules::IF_FIRST_AGENT_INCOME, 'FirstAgentController@income')->name('first_agent.income');
         Route::get(\App\Common\ParamsRules::IF_FIRST_AGENT_SALE, 'FirstAgentController@sale')->name('first_agent.sale');
         Route::get(\App\Common\ParamsRules::IF_FIRST_AGENT_INCOME_HISTORY, 'FirstAgentController@incomeHistory')->name('first_agent.income_history');
@@ -64,7 +64,7 @@ Route::group(['middleware' => ['validator']], function () {
         Route::get(\App\Common\ParamsRules::IF_GENERAL_AGENT_BAN_LIST, 'GeneralAgentController@banAgentList')->name('general_agent.banlist');
         Route::get(\App\Common\ParamsRules::IF_GENERAL_AGENT_RECHARGE_LIST, 'GeneralAgentController@agentRechargeList')->name('general_agent.rechargelist');
         Route::get(\App\Common\ParamsRules::IF_GENERAL_AGENT_FIRST_AGENT_RECHARGE_LIST, 'GeneralAgentController@firstAgentIncomeList')->name('general_agent.first_agent_rechargelist');
-        Route::get(\App\Common\ParamsRules::IF_GENERAL_AGENT_CASH_ORDER_LIST, 'GeneralAgentController@lastWeekCashOrderList')->name('general_agent.cash_order_list');
+        Route::get(\App\Common\ParamsRules::IF_GENERAL_AGENT_CASH_ORDER_LIST, 'GeneralAgentController@weekCashOrderList')->name('general_agent.cash_order_list');
         Route::get(\App\Common\ParamsRules::IF_GENERAL_AGENT_INCOME, 'GeneralAgentController@income')->name('general_agent.income');
         Route::get(\App\Common\ParamsRules::IF_GENERAL_AGENT_SALE, 'GeneralAgentController@sale')->name('general_agent.sale');
         Route::get(\App\Common\ParamsRules::IF_GENERAL_AGENT_INCOME_HISTORY, 'GeneralAgentController@incomeHistory')->name('general_agent.income_history');

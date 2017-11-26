@@ -11,6 +11,7 @@
             代开房
         </h1>
     </section>
+    @include('widgets.error')
     <section class="content">
         <form class="form-horizontal" method="POST" action="{{  route('agent.doopenroom') }}">
             {{  csrf_field() }}
