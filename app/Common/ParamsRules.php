@@ -148,7 +148,7 @@ class ParamsRules
         self::IF_API_AGENT_SAVE                  => [
             'id'          => 'required|integer',
             'city_id'     => 'required|integer',
-            'invite_code' => 'digits:7|nullable',
+            'invite_code' => 'numeric|nullable',
             'uin'         => 'integer|nullable',
             'wechat'      => 'string|max:50|nullable',
             'uin_group'   => 'string|max:512|nullable',
