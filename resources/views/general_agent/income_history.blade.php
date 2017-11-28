@@ -5,10 +5,6 @@
             margin-left: 40%;
         }
     </style>
-    <!-- daterange picker -->
-    <link rel="stylesheet"
-          href="{{ asset("/bower_components/admin-lte/plugins/daterangepicker/daterangepicker.css") }}">
-
 @endsection
 @section('content')
     <section class="content-header">
