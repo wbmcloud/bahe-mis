@@ -225,7 +225,13 @@
                  $('#reservation').val(_date_range);*/
             });
         });
-        $('#first_agent').addClass('active');
-        $('#first_agent_list').addClass('active');
+        {{ 'var is_admin = ' . (int)\Illuminate\Support\Facades\Auth::user()->hasRole(\App\Common\Constants::$admin_role) }};
+        if (is_admin) {
+            $('#first_agent').addClass('active');
+            $('#first_agent_list').addClass('active');
+        } else {
+            $('#record').addClass('active');
+            $('#first_agent_rechargelist').addClass('active');
+        }
     </script>
 @endsection

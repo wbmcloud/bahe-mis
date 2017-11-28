@@ -179,6 +179,7 @@
             });
         });
         $('#agent_consume_flow').addClass('active');
+        $('#record').addClass('active');
         $('#agent').addClass('active');
         $('#agent_list').addClass('active');
     </script>

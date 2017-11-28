@@ -12,6 +12,7 @@ use App\Common\Constants;
 use App\Logic\AgentLogic;
 use App\Logic\RechargeLogic;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Auth;
 
 class RecordController extends Controller
 {

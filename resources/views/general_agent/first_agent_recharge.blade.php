@@ -157,8 +157,14 @@
         function rechargeList(url) {
             location.href = url;
         }
-        $('#first_agent_rechargelist').addClass('active');
-        $('#general_agent').addClass('active');
-        $('#general_agent_list').addClass('active');
+
+        {{ 'var is_admin = ' . (int)\Illuminate\Support\Facades\Auth::user()->hasRole(\App\Common\Constants::$admin_role) }};
+        if (is_admin) {
+            $('#general_agent').addClass('active');
+            $('#general_agent_list').addClass('active');
+        } else {
+            $('#record').addClass('active');
+            $('#first_agent_rechargelist').addClass('active');
+        }
     </script>
 @endsection

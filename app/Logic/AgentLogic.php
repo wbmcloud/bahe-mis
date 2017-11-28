@@ -17,6 +17,7 @@ use App\Library\TcpClient;
 use App\Models\InviteCode;
 use App\Models\TransactionFlow;
 use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class AgentLogic extends BaseLogic
@@ -235,6 +236,16 @@ class AgentLogic extends BaseLogic
      */
     public function openRoomRecord($params, $start_time, $end_time)
     {
+        if (!Auth::user()->hasRole(Constants::$admin_role)) {
+            return TransactionFlow::where([
+                    'recharge_type' => Constants::COMMAND_TYPE_OPEN_ROOM,
+                    'initiator_id'  => Auth::id()
+                ])
+                ->whereBetween('created_at', [$start_time, $end_time])
+                ->orderBy('id', 'desc')
+                ->simplePaginate($params['page_size']);
+        }
+
         if (isset($params['query_str']) && !empty($params['query_str'])) {
             return TransactionFlow::where([
                     'initiator_name' => $params['query_str'],
@@ -248,7 +259,6 @@ class AgentLogic extends BaseLogic
             ->whereBetween('created_at', [$start_time, $end_time])
             ->orderBy('id', 'desc')
             ->simplePaginate($params['page_size']);
-
     }
 
 

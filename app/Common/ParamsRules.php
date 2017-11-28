@@ -389,7 +389,7 @@ class ParamsRules
         self::IF_GAME_PLAYER_LIST                        => ['auth' => ['super', 'admin'], 'desc' => '游戏角色列表查询接口'],
         self::IF_RECORD_AGENT_RECHARGE                   => ['auth' => ['super', 'admin'], 'desc' => '代理充值记录'],
         self::IF_RECORD_USER_RECHARGE                    => ['auth' => ['super', 'admin'], 'desc' => '用户充值记录'],
-        self::IF_RECORD_OPEN_ROOM                        => ['auth' => ['super', 'admin'], 'desc' => '代开房记录'],
+        self::IF_RECORD_OPEN_ROOM                        => ['auth' => '*', 'desc' => '代开房记录'],
         self::IF_API_STAT_AGENT                          => ['auth' => ['super', 'admin'], 'desc' => '代理统计'],
         self::IF_API_STAT_FLOW                           => ['auth' => ['super', 'admin'], 'desc' => '流水统计'],
         self::IF_API_STAT_ROUNDS                         => ['auth' => ['super', 'admin'], 'desc' => '局数统计'],
