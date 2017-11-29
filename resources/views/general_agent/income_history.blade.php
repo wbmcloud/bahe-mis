@@ -23,7 +23,6 @@
                             <tr>
                                 <th>日期</th>
                                 <th>收入（单位：元）</th>
-                                <th>是否到账</th>
                             </tr>
                             </thead>
                             <tbody id="agent_list_container">
@@ -37,11 +36,6 @@
                                         <td>{{ \Carbon\Carbon::now()->subWeek(\Carbon\Carbon::now()->weekOfYear - $history_income['week'])->startOfWeek()->toDateString() }}
                                         - {{ \Carbon\Carbon::now()->subWeek(\Carbon\Carbon::now()->weekOfYear - $history_income['week'])->endOfWeek()->toDateString() }}</td>
                                         <td>{{ $history_income['amount'] }}</td>
-                                        @if($history_income['status'] == 0)
-                                            <td>否</td>
-                                        @else
-                                            <td>是</td>
-                                        @endif
                                     </tr>
                                 @endforeach
                             @endif
