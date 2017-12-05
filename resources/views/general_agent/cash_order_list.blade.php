@@ -9,7 +9,7 @@
 @section('content')
     <section class="content-header">
         <h1>
-            上周打款列表
+            每周打款列表
         </h1>
     </section>
     <section class="content">

@@ -98,7 +98,7 @@ class Protobuf
     public static function packRoomOptions($data)
     {
         $room_option = new RoomOptions();
-        $room_option->setModel($data['model']);
+        //$room_option->setModel($data['model']);
         if (isset($data['extend_type']) && !empty($data['extend_type'])) {
             $room_option->setExtendType($data['extend_type']);
             $room_option->setExtendTypeCount(count($data['extend_type']));

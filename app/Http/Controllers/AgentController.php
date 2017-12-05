@@ -112,7 +112,7 @@ class AgentController extends Controller
         $agent_logic   = new AgentLogic();
 
         $open_room_params['server_id'] = $this->params['server_id'];
-        $open_room_params['model'] = $this->params['model'];
+        //$open_room_params['model'] = $this->params['model'];
         $open_room_params['extend_type'] = $this->params['extend_type'];
         $open_room_params['open_rands'] = $this->params['open_rands'];
         $open_room_params['top_mutiple'] = $this->params['top_mutiple'];

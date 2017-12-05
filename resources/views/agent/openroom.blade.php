@@ -32,14 +32,14 @@
                         </select>
                     </div>
                 </div>
-                <div class="form-group">
+                <!--div class="form-group">
                     <label for="model" class="col-sm-2 control-label">模式选择</label>
 
                     <div class="col-sm-10">
                         <input type="radio" value="1" name="model" checked>&nbsp;&nbsp;&nbsp;经典模式&nbsp;&nbsp;
                         <input type="radio" value="2" name="model">&nbsp;&nbsp;&nbsp;高番模式
                     </div>
-                </div>
+                </div-->
                 <div class="form-group">
                     <label for="extend_type" class="col-sm-2 control-label">额外番型</label>
 

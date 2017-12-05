@@ -275,7 +275,7 @@ class AgentLogic extends BaseLogic
         $render_arr = [];
         $params = !is_array($params) ? json_decode($params, true) : $params;
 
-        $render_arr[] = Constants::$open_room_mode[$params['model']];
+        //$render_arr[] = Constants::$open_room_mode[$params['model']];
 
         $fanxing_arr = array_map(function ($r) {
             return Constants::$open_room_fanxing[$r];
