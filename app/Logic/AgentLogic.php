@@ -158,7 +158,7 @@ class AgentLogic extends BaseLogic
                 $account_logic = new AccountLogic();
                 $account_logic->reduceBalance($user->user_name,
                     COMMAND_TYPE::COMMAND_TYPE_ROOM_CARD,
-                    $params['open_rands'] / Constants::ROOM_CARD_RANDOMS);
+                    ($params['open_rands'] / Constants::ROOM_CARD_RANDOMS) * Constants::ROOM_CARD_FISSION_FACTOR);
             }
             $open_room_res = $this->sendGmtOpenRoom($params, $open_room_res);
             DB::commit();
@@ -187,7 +187,7 @@ class AgentLogic extends BaseLogic
             $recharge_fail_reason : null;
 
         $this->saveOpenRoomTransactionFlow($params, $user, $is_recharged, $open_room_res,
-            $recharge_fail_reason, $params['open_rands'] / Constants::ROOM_CARD_RANDOMS);
+            $recharge_fail_reason, ($params['open_rands'] / Constants::ROOM_CARD_RANDOMS) * Constants::ROOM_CARD_FISSION_FACTOR);
 
         if (!$is_recharged) {
             throw new BaheException($error_code, $error_message);

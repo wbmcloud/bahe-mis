@@ -143,7 +143,7 @@ class Constants
     /**
      * 房卡价钱
      */
-    const ROOM_CARD_PRICE = 1.2;
+    const ROOM_CARD_PRICE = 0.3;
 
     /**
      * 代理级别类型
@@ -244,4 +244,8 @@ class Constants
         self::OPEN_ROOM_VOICE_UP => '开启语音',
     ];
 
+    /**
+     * 房卡数裂变因子
+     */
+    const ROOM_CARD_FISSION_FACTOR = 4;
 }
