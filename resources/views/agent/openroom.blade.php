@@ -57,8 +57,8 @@
                     <label for="open_rands" class="col-sm-2 control-label">开设局数</label>
 
                     <div class="col-sm-10">
-                        <input type="radio" value="8" name="open_rands" checked>&nbsp;&nbsp;&nbsp;8局（消耗房卡*1）&nbsp;&nbsp;
-                        <input type="radio" value="16" name="open_rands">&nbsp;&nbsp;&nbsp;16局（消耗房卡*2）
+                        <input type="radio" value="8" name="open_rands" checked>&nbsp;&nbsp;&nbsp;8局（消耗房卡*4）&nbsp;&nbsp;
+                        <input type="radio" value="16" name="open_rands">&nbsp;&nbsp;&nbsp;16局（消耗房卡*8）
                     </div>
                 </div>
                 <div class="form-group">
