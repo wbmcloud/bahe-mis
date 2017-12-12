@@ -113,6 +113,12 @@ class SyncGamePlayerInfo extends Command
             $this->processAccountLog($center_server_account_log_path);
         }
 
+        /*$p_path = '/Users/cloud/Documents/player_2017-10-25';
+        $a_path = '/Users/cloud/Documents/account_2017-10-25';
+
+        $this->processPlayerLog($p_path);
+        $this->processAccountLog($a_path);*/
+
         $this->updatePlayerInfo();
     }
 
@@ -163,6 +169,20 @@ class SyncGamePlayerInfo extends Command
         return self::CENTER_SERVER_LOG_PATH . self::ACCOUNT_FILE_NAME . '_' . $server_ip . '_' . Carbon::yesterday()->toDateString() . '.log';
     }
 
+    /**
+     * @param $file_name
+     * @return \Generator
+     */
+    protected function yieldReadLog($file_name)
+    {
+        $handle = fopen($file_name, 'rb');
+
+        while(feof($handle) === false) {
+            yield fgets($handle);
+        }
+
+        fclose($handle);
+    }
 
     /**
      * 日志解析处理
@@ -174,13 +194,14 @@ class SyncGamePlayerInfo extends Command
         if (!file_exists($file_name)) {
             return false;
         }
-        $lines = file($file_name, FILE_SKIP_EMPTY_LINES);
-        if (empty($lines)) {
-            return false;
-        }
+        //$lines = file($file_name, FILE_SKIP_EMPTY_LINES);
+        $lines = $this->yieldReadLog($file_name);
 
         //$player_login_logs = [];
         foreach ($lines as $idx => $line) {
+            if (empty($line)) {
+                continue;
+            }
             $arr = explode(' ', $line);
             $player_log = json_decode($arr[5], true);
             if (!isset($player_log['common_prop'])) {
@@ -214,13 +235,17 @@ class SyncGamePlayerInfo extends Command
         if (!file_exists($file_name)) {
             return false;
         }
-        $lines = file($file_name, FILE_SKIP_EMPTY_LINES);
+        /*$lines = file($file_name, FILE_SKIP_EMPTY_LINES);
         if (empty($lines)) {
             return false;
-        }
+        }*/
+        $lines = $this->yieldReadLog($file_name);
 
         //$player_login_logs = [];
         foreach ($lines as $idx => $line) {
+            if (empty($line)) {
+                continue;
+            }
             $arr = explode(' ', $line);
             $account_log = json_decode($arr[5], true);
             if (!isset($account_log['wechat'])) {
