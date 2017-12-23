@@ -203,6 +203,9 @@ class SyncGamePlayerInfo extends Command
                 continue;
             }
             $arr = explode(' ', $line);
+            if (!isset($arr[5])) {
+                continue;
+            }
             $player_log = json_decode($arr[5], true);
             if (!isset($player_log['common_prop'])) {
                 continue;
@@ -247,6 +250,9 @@ class SyncGamePlayerInfo extends Command
                 continue;
             }
             $arr = explode(' ', $line);
+            if (!isset($arr[5])) {
+                continue;
+            }
             $account_log = json_decode($arr[5], true);
             if (!isset($account_log['wechat'])) {
                 if (empty($account_log['account']['username'])) {
@@ -268,7 +274,8 @@ class SyncGamePlayerInfo extends Command
                     $game_account = new GameAccount();
                     $game_account->user_id = $account_log['wechat']['openid'];
                 }
-                $game_account->user_name = $account_log['wechat']['nickname'];
+                $game_account->user_name = isset($account_log['wechat']['nickname']) ?
+                    $account_log['wechat']['nickname'] : '';
                 $game_account->head_img_url = isset($account_log['wechat']['headimgurl']) ?
                     $account_log['wechat']['headimgurl'] : '';
             }
