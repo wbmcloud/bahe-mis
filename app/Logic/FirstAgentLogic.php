@@ -17,7 +17,7 @@ use App\Models\InviteCode;
 use App\Models\TransactionFlow;
 use App\Models\User;
 use Carbon\Carbon;
-use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Pagination\Paginator;
 
 class FirstAgentLogic extends BaseLogic
 {
@@ -102,7 +102,7 @@ class FirstAgentLogic extends BaseLogic
      * @param $start_time
      * @param $end_time
      * @param $page_size
-     * @return LengthAwarePaginator
+     * @return \Illuminate\Contracts\Pagination\Paginator|Paginator
      */
     public function getAgentRechargeList($invite_code, $start_time, $end_time, $page_size)
     {
@@ -112,7 +112,7 @@ class FirstAgentLogic extends BaseLogic
         ])->get()->toArray();
 
         if (empty($users) || ($start_time > $end_time)) {
-            $recharge_flows = new LengthAwarePaginator([], 0, $page_size);
+            $recharge_flows = new Paginator([], $page_size);
         } else {
             $recharge_flows = TransactionFlow::whereIn('recipient_id', array_column($users, 'id'))
                 ->whereIn('recipient_type', Constants::$agent_role_type)

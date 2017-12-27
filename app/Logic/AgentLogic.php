@@ -232,7 +232,7 @@ class AgentLogic extends BaseLogic
      * @param $params
      * @param $start_time
      * @param $end_time
-     * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
+     * @return \Illuminate\Contracts\Pagination\Paginator
      */
     public function openRoomRecord($params, $start_time, $end_time)
     {

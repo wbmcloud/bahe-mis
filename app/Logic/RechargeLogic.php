@@ -190,7 +190,7 @@ class RechargeLogic extends BaseLogic
      * @param $params
      * @param $start_time
      * @param $end_time
-     * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
+     * @return \Illuminate\Contracts\Pagination\Paginator
      */
     public function agentRechargeRecord($params, $start_time, $end_time)
     {
@@ -216,7 +216,7 @@ class RechargeLogic extends BaseLogic
      * @param $params
      * @param $start_time
      * @param $end_time
-     * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
+     * @return \Illuminate\Contracts\Pagination\Paginator
      */
     public function userRechargeRecord($params, $start_time, $end_time)
     {

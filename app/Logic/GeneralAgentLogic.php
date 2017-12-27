@@ -17,7 +17,8 @@ use App\Models\InviteCode;
 use App\Models\TransactionFlow;
 use App\Models\User;
 use Carbon\Carbon;
-use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Pagination\Paginator;
+use Illuminate\Support\Facades\Request;
 
 class GeneralAgentLogic extends BaseLogic
 {
@@ -117,7 +118,7 @@ class GeneralAgentLogic extends BaseLogic
      * @param $start_time
      * @param $end_time
      * @param $page_size
-     * @return LengthAwarePaginator
+     * @return \Illuminate\Contracts\Pagination\Paginator|Paginator
      */
     public function getAgentRechargeList($invite_code, $start_time, $end_time, $page_size)
     {
@@ -127,7 +128,7 @@ class GeneralAgentLogic extends BaseLogic
         ])->get()->toArray();
 
         if (empty($users) || ($start_time > $end_time)) {
-            $recharge_flows = new LengthAwarePaginator([], 0, $page_size);
+            $recharge_flows = new Paginator([], $page_size);
         } else {
             $recharge_flows = TransactionFlow::whereIn('recipient_id', array_column($users, 'id'))
                 ->whereIn('recipient_type', Constants::$agent_role_type)
@@ -144,7 +145,7 @@ class GeneralAgentLogic extends BaseLogic
 
     /**
      * @param $params
-     * @return LengthAwarePaginator
+     * @return array|Paginator
      */
     public function getFirstAgentIncomeList($params)
     {
@@ -191,7 +192,12 @@ class GeneralAgentLogic extends BaseLogic
         }
 
         if (isset($params['page_size']) && !empty($params['page_size'])) {
-            return new LengthAwarePaginator($income_first_agents, count($income_first_agents), $params['page_size']);;
+            $page = isset($params['page']) ? $params['page'] : Constants::DEFAULT_PAGE;
+            $offset = ($page - 1) * $params['page_size'];
+            $items = array_slice($income_first_agents, $offset);
+            return new Paginator($items, $params['page_size'], null, [
+                'path' => Request::url()
+            ]);;
         }
 
         return $income_first_agents;
