@@ -180,9 +180,9 @@ class GeneralAgentController extends Controller
             Constants::DEFAULT_PAGE_SIZE;
 
         if (Auth::user()->hasRole(Constants::$admin_role)) {
-            $agent_id = User::find($this->params['agent_id']);
+            $agent_id = $this->params['agent_id'];
         } else {
-            $agent_id = Auth::user();
+            $agent_id = Auth::id();
         }
 
         $general_agent_logic = new GeneralAgentLogic();

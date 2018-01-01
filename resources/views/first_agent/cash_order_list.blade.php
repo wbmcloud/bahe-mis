@@ -36,11 +36,8 @@
                                         <td>{{ $cash_order['id'] }}</td>
                                         <td>{{ $cash_order['name'] }}</td>
                                         <td>{{ $cash_order['amount'] }}</td>
-                                        <td>{{ \Carbon\Carbon::now()->subYears(\Carbon\Carbon::now()->year - $cash_order['year'])
-                                        ->subWeeks(\Carbon\Carbon::now()->weekOfYear - $cash_order['week'])->startOfWeek()->toDateString() }} - {{
-                                        \Carbon\Carbon::now()->subYears(\Carbon\Carbon::now()->year - $cash_order['year'])
-                                        ->subWeeks(\Carbon\Carbon::now()->weekOfYear - $cash_order['week'])->endOfWeek()->toDateString()
-                                        }}</td>
+                                        <td>{{ \App\Common\Utils::getWeekIntervalDay($cash_order['year'], $cash_order['week'])['start_week'] . '-' .
+                                         \App\Common\Utils::getWeekIntervalDay($cash_order['year'], $cash_order['week'])['end_week']}}</td>
                                         @if($cash_order['status'] == \App\Common\Constants::COMMON_ENABLE)
                                             <td>
                                                 <button type="button" class="btn btn-primary" disabled>已打款</button>

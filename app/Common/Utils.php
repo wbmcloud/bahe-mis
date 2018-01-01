@@ -8,6 +8,7 @@
 namespace App\Common;
 
 use App\Exceptions\BaheException;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Redis;
 use Illuminate\Support\Facades\Request;
 
@@ -120,6 +121,24 @@ class Utils
         }
 
         return array_sum(array_column($arr, $key));
+    }
+
+    public static function getWeekIntervalDay($year, $week)
+    {
+        $t = Carbon::now();
+        $ty = $t->year;
+        $tw = $t->weekOfYear;
+
+        $y_interval = $ty - $year;
+        if ($y_interval) {
+            $w_interval = $tw - $week - 1;
+        }
+
+        $cb = $t->subYears($y_interval)->subWeeks($w_interval);
+        return [
+            'start_week' => $cb->startOfWeek()->toDateString(),
+            'end_week' => $cb->endOfWeek()->toDateString(),
+        ];
     }
 
 }

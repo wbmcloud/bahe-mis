@@ -33,8 +33,8 @@
                             @else
                                 @foreach($history_income_list as $history_income)
                                     <tr>
-                                        <td>{{ \Carbon\Carbon::now()->subWeek(\Carbon\Carbon::now()->weekOfYear - $history_income['week'])->startOfWeek()->toDateString() }}
-                                        - {{ \Carbon\Carbon::now()->subWeek(\Carbon\Carbon::now()->weekOfYear - $history_income['week'])->endOfWeek()->toDateString() }}</td>
+                                        <td>{{ \App\Common\Utils::getWeekIntervalDay($history_income['year'], $history_income['week'])['start_week'] . '-' .
+                                         \App\Common\Utils::getWeekIntervalDay($history_income['year'], $history_income['week'])['end_week']}}</td>
                                         <td>{{ $history_income['amount'] }}</td>
                                     </tr>
                                 @endforeach

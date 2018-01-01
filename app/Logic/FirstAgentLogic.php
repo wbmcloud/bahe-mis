@@ -271,8 +271,8 @@ class FirstAgentLogic extends BaseLogic
                 'relation_id' => $agent_id,
                 'type' => Constants::AGENT_LEVEL_FIRST
             ])
-            ->selectRaw('week, amount, status')
-            ->orderBy('id', 'desc')
+            ->selectRaw('year, week, amount, status')
+            ->orderBy('id', 'DESC')
             ->simplePaginate($page_size);
 
         return $cash_orders;
