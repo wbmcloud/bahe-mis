@@ -132,6 +132,8 @@ class Utils
         $y_interval = $ty - $year;
         if ($y_interval) {
             $w_interval = $tw - $week - 1;
+        } else {
+            $w_interval = $tw - $week;
         }
 
         $cb = $t->subYears($y_interval)->subWeeks($w_interval);
