@@ -143,4 +143,13 @@ class Utils
         ];
     }
 
+    public static function getLastWeekIntervalDay($create_time)
+    {
+        $cur_week_day = Carbon::createFromFormat('Y-m-d H:i:s', $create_time);
+        $last_week_day = $cur_week_day->subWeek();
+        return [
+            'start_week' => $last_week_day->startOfWeek()->toDateString(),
+            'end_week' => $last_week_day->endOfWeek()->toDateString(),
+        ];
+    }
 }

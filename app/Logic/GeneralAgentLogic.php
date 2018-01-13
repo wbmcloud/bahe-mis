@@ -355,7 +355,7 @@ class GeneralAgentLogic extends BaseLogic
                 'relation_id' => $agent_id,
                 'type' => Constants::AGENT_LEVEL_GENERAL
             ])
-            ->selectRaw('year, week, amount, status')
+            ->selectRaw('year, week, amount, status, created_at')
             ->orderBy('id', 'DESC')
             ->simplePaginate($page_size);
 

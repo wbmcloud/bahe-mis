@@ -36,8 +36,8 @@
                                         <td>{{ $cash_order['id'] }}</td>
                                         <td>{{ $cash_order['name'] }}</td>
                                         <td>{{ $cash_order['amount'] }}</td>
-                                        <td>{{ \App\Common\Utils::getWeekIntervalDay($cash_order['year'], $cash_order['week'])['start_week'] . '-' .
-                                         \App\Common\Utils::getWeekIntervalDay($cash_order['year'], $cash_order['week'])['end_week']}}</td>
+                                        <td>{{ \App\Common\Utils::getLastWeekIntervalDay($cash_order['created_at'])['start_week'] . '-' .
+                                         \App\Common\Utils::getLastWeekIntervalDay($cash_order['created_at'])['end_week']}}</td>
                                         @if($cash_order['status'] == \App\Common\Constants::COMMON_ENABLE)
                                             <td>
                                                 <button type="button" class="btn btn-primary" disabled>已打款</button>
