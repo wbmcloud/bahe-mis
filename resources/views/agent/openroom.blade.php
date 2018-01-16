@@ -29,7 +29,7 @@
                         @endrole
                         @role(['agent', 'first_agent', 'general_agent'])
                         <select class="city_multi form-control select2" name="server_id" style="width: 100%;" onchange="changeFanxing(this.selectedOptions[0])" required>
-                            <option value="{{ $agent['city']['server']['server_id'] }}" data="{{ $city['city_id'] }}">{{ $agent['city']['city_name'] }}</option>
+                            <option value="{{ $agent['city']['server']['server_id'] }}" data="{{ $agent['city_id'] }}">{{ $agent['city']['city_name'] }}</option>
                         </select>
                         @endrole
                     </div>
