@@ -53,7 +53,7 @@
                         <input type="checkbox" value="6" name="extend_type[]" checked>&nbsp;&nbsp;&nbsp;清一色&nbsp;&nbsp;
                         <input type="checkbox" value="3" name="extend_type[]" checked>&nbsp;&nbsp;&nbsp;旋风杠&nbsp;&nbsp;
                         <input type="checkbox" value="7" name="extend_type[]" checked>&nbsp;&nbsp;&nbsp;包三家
-                        <input type="checkbox" value="8" name="extend_type[]" checked>&nbsp;&nbsp;&nbsp;暗宝
+                        <input type="checkbox" value="8" name="extend_type[]">&nbsp;&nbsp;&nbsp;暗宝
                     </div>
                 </div>
                 <div class="form-group">
@@ -129,7 +129,9 @@
                     var _html = '';
                     var _e = res.data.fanxing;
                     for (var i in _e)  {
-                        _html += '<input type="checkbox" value=' + i + ' name="extend_type[]" checked>&nbsp;&nbsp;&nbsp;' + _e[i] + '&nbsp;&nbsp;'
+                        _html += '<input type="checkbox" value=' + i +
+                            ' name="extend_type[]" ' + (('undefined' == typeof(_e[i].is_checked)) ? 'checked' : '') +
+                            '>&nbsp;&nbsp;&nbsp;' + _e[i].desc + '&nbsp;&nbsp;'
                     }
                     $('#extra_fanxing').html(_html);
                     $("input").iCheck({
