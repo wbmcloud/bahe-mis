@@ -65,6 +65,30 @@ class RoomOptions extends \Google\Protobuf\Internal\Message
      * <code>int32 voice_open = 6;</code>
      */
     private $voice_open = 0;
+    /**
+     * <pre>
+     *是否代开房
+     * </pre>
+     *
+     * <code>bool gmt_opened = 7;</code>
+     */
+    private $gmt_opened = false;
+    /**
+     * <pre>
+     *付费方式
+     * </pre>
+     *
+     * <code>.app.library.protobuf.ROOM_PAY_TYPE pay_type = 8;</code>
+     */
+    private $pay_type = 0;
+    /**
+     * <pre>
+     *城市
+     * </pre>
+     *
+     * <code>.app.library.protobuf.CITY_TYPE city_type = 9;</code>
+     */
+    private $city_type = 0;
 
     public function __construct() {
         \GPBMetadata\PATH\Game::initOnce();
@@ -219,6 +243,81 @@ class RoomOptions extends \Google\Protobuf\Internal\Message
     {
         GPBUtil::checkInt32($var);
         $this->voice_open = $var;
+    }
+
+    /**
+     * <pre>
+     *是否代开房
+     * </pre>
+     *
+     * <code>bool gmt_opened = 7;</code>
+     */
+    public function getGmtOpened()
+    {
+        return $this->gmt_opened;
+    }
+
+    /**
+     * <pre>
+     *是否代开房
+     * </pre>
+     *
+     * <code>bool gmt_opened = 7;</code>
+     */
+    public function setGmtOpened($var)
+    {
+        GPBUtil::checkBool($var);
+        $this->gmt_opened = $var;
+    }
+
+    /**
+     * <pre>
+     *付费方式
+     * </pre>
+     *
+     * <code>.app.library.protobuf.ROOM_PAY_TYPE pay_type = 8;</code>
+     */
+    public function getPayType()
+    {
+        return $this->pay_type;
+    }
+
+    /**
+     * <pre>
+     *付费方式
+     * </pre>
+     *
+     * <code>.app.library.protobuf.ROOM_PAY_TYPE pay_type = 8;</code>
+     */
+    public function setPayType($var)
+    {
+        GPBUtil::checkEnum($var, \App\Library\Protobuf\ROOM_PAY_TYPE::class);
+        $this->pay_type = $var;
+    }
+
+    /**
+     * <pre>
+     *城市
+     * </pre>
+     *
+     * <code>.app.library.protobuf.CITY_TYPE city_type = 9;</code>
+     */
+    public function getCityType()
+    {
+        return $this->city_type;
+    }
+
+    /**
+     * <pre>
+     *城市
+     * </pre>
+     *
+     * <code>.app.library.protobuf.CITY_TYPE city_type = 9;</code>
+     */
+    public function setCityType($var)
+    {
+        GPBUtil::checkEnum($var, \App\Library\Protobuf\CITY_TYPE::class);
+        $this->city_type = $var;
     }
 
 }

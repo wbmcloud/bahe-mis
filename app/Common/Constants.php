@@ -197,13 +197,21 @@ class Constants
     const OPEN_ROOM_MODE_CLASSIC = 1;
     const OPEN_ROOM_MODE_GAOFAN  = 2;
 
-    const OPEN_ROOM_FANXING_ZHANLIHU     = 1;
-    const OPEN_ROOM_FANXING_DAIJIAHU     = 2;
-    const OPEN_ROOM_FANXING_XUANFENGGANG = 3;
-    const OPEN_ROOM_FANXING_BAOPAI       = 4;
-    const OPEN_ROOM_FANXING_KEDUANMEN    = 5;
-    const OPEN_ROOM_FANXING_QINGYISE     = 6;
-    const OPEN_ROOM_FANXING_BAOSANJIA    = 7;
+    const OPEN_ROOM_FANXING_ZHANLIHU             = 1;
+    const OPEN_ROOM_FANXING_DAIJIAHU             = 2;
+    const OPEN_ROOM_FANXING_XUANFENGGANG         = 3;
+    const OPEN_ROOM_FANXING_BAOPAI               = 4;
+    const OPEN_ROOM_FANXING_KEDUANMEN            = 5;
+    const OPEN_ROOM_FANXING_QINGYISE             = 6;
+    const OPEN_ROOM_FANXING_BAOSANJIA            = 7;
+    const OPEN_ROOM_FANXING_ANBAO                = 8;
+    const OPEN_ROOM_FANXING_28ZUOZHUANG          = 9;
+    const OPEN_ROOM_FANXING_MINGPIAO             = 10;
+    const OPEN_ROOM_FANXING_HUANGZHUANGHUANGGANG = 11;
+    const OPEN_ROOM_FANXING_YIBIANGAO            = 12;
+    const OPEN_ROOM_FANXING_SIGUIYI              = 13;
+    const OPEN_ROOM_FANXING_YIJIAFU              = 14;
+
 
     const OPEN_ROOM_ROUNDS_EIGHT = 8;
     const OPEN_ROOM_ROUNDS_SIXTEEN = 16;
@@ -220,13 +228,20 @@ class Constants
     ];
 
     public static $open_room_fanxing = [
-        self::OPEN_ROOM_FANXING_ZHANLIHU => '站立胡',
-        self::OPEN_ROOM_FANXING_DAIJIAHU => '带夹胡',
-        self::OPEN_ROOM_FANXING_XUANFENGGANG => '旋风杠',
-        self::OPEN_ROOM_FANXING_BAOPAI => '宝牌',
-        self::OPEN_ROOM_FANXING_KEDUANMEN => '可断门',
-        self::OPEN_ROOM_FANXING_QINGYISE => '清一色',
-        self::OPEN_ROOM_FANXING_BAOSANJIA => '包三家',
+        self::OPEN_ROOM_FANXING_ZHANLIHU             => '站立胡',
+        self::OPEN_ROOM_FANXING_DAIJIAHU             => '带夹胡',
+        self::OPEN_ROOM_FANXING_XUANFENGGANG         => '旋风杠',
+        self::OPEN_ROOM_FANXING_BAOPAI               => '宝牌',
+        self::OPEN_ROOM_FANXING_KEDUANMEN            => '可断门',
+        self::OPEN_ROOM_FANXING_QINGYISE             => '清一色',
+        self::OPEN_ROOM_FANXING_BAOSANJIA            => '包三家',
+        self::OPEN_ROOM_FANXING_ANBAO                => '暗宝',
+        self::OPEN_ROOM_FANXING_28ZUOZHUANG          => '2、8万/饼/条不可以做庄',
+        self::OPEN_ROOM_FANXING_MINGPIAO             => '明飘',
+        self::OPEN_ROOM_FANXING_HUANGZHUANGHUANGGANG => '荒庄杠',
+        self::OPEN_ROOM_FANXING_YIBIANGAO            => '一边高',
+        self::OPEN_ROOM_FANXING_SIGUIYI              => '四归一',
+        self::OPEN_ROOM_FANXING_YIJIAFU              => '点炮一家付'
     ];
 
     public static $open_room_rounds = [
@@ -248,4 +263,30 @@ class Constants
      * 房卡数裂变因子
      */
     const ROOM_CARD_FISSION_FACTOR = 4;
+
+    public static $city_fanxing = [
+        '2340' => [
+            self::OPEN_ROOM_FANXING_ZHANLIHU             => '站立胡',
+            self::OPEN_ROOM_FANXING_DAIJIAHU             => '带夹胡',
+            self::OPEN_ROOM_FANXING_XUANFENGGANG         => '旋风杠',
+            self::OPEN_ROOM_FANXING_BAOPAI               => '宝牌',
+            self::OPEN_ROOM_FANXING_KEDUANMEN            => '可断门',
+            self::OPEN_ROOM_FANXING_QINGYISE             => '清一色',
+            self::OPEN_ROOM_FANXING_BAOSANJIA            => '包三家',
+            self::OPEN_ROOM_FANXING_ANBAO                => '暗宝',
+        ],
+        '2342' => [
+            self::OPEN_ROOM_FANXING_28ZUOZHUANG          => '2、8万/饼/条不可以做庄',
+            self::OPEN_ROOM_FANXING_MINGPIAO             => '明飘',
+            self::OPEN_ROOM_FANXING_HUANGZHUANGHUANGGANG => '荒庄杠',
+            self::OPEN_ROOM_FANXING_YIBIANGAO            => '一边高',
+            self::OPEN_ROOM_FANXING_SIGUIYI              => '四归一',
+            self::OPEN_ROOM_FANXING_YIJIAFU              => '点炮一家付'
+        ],
+    ];
+
+    public static $city_map = [
+        '2340' => '1',
+        '2342' => '2',
+    ];
 }

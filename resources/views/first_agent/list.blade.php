@@ -74,7 +74,7 @@
                                                 'end_date' => \Carbon\Carbon::tomorrow()->toDateString()
                                             ]) }}')" class="btn btn-primary">充值信息</button>
                                             <a href="{{ route('first_agent.income', ['agent_id' => $agent['id']]) }}" class="btn btn-primary">本周账单</a>
-                                            <button type="button" onclick="banAgent({{ $agent['id'] }})" class="btn btn-primary">封禁</button>
+                                            <button type="button" onclick="banAgent({{ $agent['id'] }})" class="btn btn-primary">冻结</button>
                                             <button type="button" onclick="editAgent({{ $agent['id'] }})" class="btn btn-primary">修改信息</button>
                                             <button type="button" onclick="resetPassword({{ $agent['id'] }})" class="btn btn-primary">重置密码</button>
                                         </td>

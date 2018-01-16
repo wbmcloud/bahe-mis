@@ -41,6 +41,7 @@ class BaheException extends \Exception
     const RESOURCE_NOT_FOUND                = 2001025;
     const INVITE_CODE_NOT_USED_CODE         = 2001026;
     const USER_EXIST_CODE                   = 2001027;
+    const LOGIN_USER_ACCOUNT_FROZEN         = 2001028;
 
 
     public static $error_msg = [
@@ -72,6 +73,7 @@ class BaheException extends \Exception
         self::RESOURCE_NOT_FOUND                   => '未找到资源',
         self::INVITE_CODE_NOT_USED_CODE            => '邀请码未使用',
         self::USER_EXIST_CODE                      => '用户已经存在',
+        self::LOGIN_USER_ACCOUNT_FROZEN            => '由于您的账号长期未登陆，为了保护您的账号安全，您的账号已自动进行封锁。如需解封请联系微信客服xlcyqp001',
     ];
 
 

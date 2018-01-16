@@ -78,14 +78,21 @@ message OpenRoom {
 
 //额外番型
 enum ROOM_EXTEND_TYPE {
-    ROOM_EXTEND_TYPE_NULL = 0; //初始值
-    ROOM_EXTEND_TYPE_ZHANLIHU = 1; //站立胡
-    ROOM_EXTEND_TYPE_JIAHU = 2; //夹胡
-    ROOM_EXTEND_TYPE_XUANFENGGANG = 3; //旋风杠
-    ROOM_EXTEND_TYPE_BAOPAI = 4; //宝牌
-    ROOM_EXTEND_TYPE_DUANMEN = 5; //可断门
-    ROOM_EXTEND_TYPE_QIYISE = 6; //清一色
-    ROOM_EXTEND_TYPE_BAOSANJIA = 7; //点炮包三家
+	ROOM_EXTEND_TYPE_NULL = 0; //初始值
+	ROOM_EXTEND_TYPE_ZHANLIHU = 1; //站立胡
+	ROOM_EXTEND_TYPE_JIAHU = 2; //夹胡
+	ROOM_EXTEND_TYPE_XUANFENGGANG = 3; //旋风杠
+	ROOM_EXTEND_TYPE_BAOPAI = 4; //宝牌
+	ROOM_EXTEND_TYPE_DUANMEN = 5; //可断门
+	ROOM_EXTEND_TYPE_QIYISE = 6; //清一色
+	ROOM_EXTEND_TYPE_BAOSANJIA = 7; //点炮包三家
+	ROOM_EXTEND_TYPE_ANBAO = 8; //暗宝
+	ROOM_EXTEND_TYPE_28ZUOZHANG = 9; //2、8万/饼/条不可以做掌//建平玩法
+	ROOM_EXTEND_TYPE_MINGPIAO = 10; //明飘//中发白其中之一只要碰就算明飘，本局必须胡飘，不勾选则正常//建平玩法
+	ROOM_EXTEND_TYPE_HUANGZHUANGHUANGGANG = 11; //荒庄杠//建平玩法
+	ROOM_EXTEND_TYPE_YIBIANGAO = 12; //一边高//建平玩法
+	ROOM_EXTEND_TYPE_SIGUIYI = 13; //四归一//建平玩法
+	ROOM_EXTEND_TYPE_YIJIAFU = 14; //点炮一家付//建平玩法
 }
 
 //模式选择-服务器尚无用途
@@ -103,6 +110,22 @@ message RoomOptions {
     int32 top_mutiple = 4; //封顶番数
     int32 open_rands = 5; //局数
     int32 voice_open = 6; //实时语音
+    bool gmt_opened = 7; //是否代开房
+    ROOM_PAY_TYPE pay_type = 8; //付费方式
+    CITY_TYPE city_type = 9; //城市
+}
+
+//付费方式
+enum ROOM_PAY_TYPE {
+    ROOM_PAY_TYPE_UNKNOWN = 0;
+	ROOM_PAY_TYPE_HOSTER = 1; //房主付费//房卡
+	ROOM_PAY_TYPE_AA = 2; //AA付费
+}
+
+enum CITY_TYPE {
+    CITY_TYPE_UNKNOWN = 0;
+	CITY_TYPE_CHAOYANG = 1; //朝阳
+	CITY_TYPE_JIANPING = 2; //建平
 }
 
 //系统广播

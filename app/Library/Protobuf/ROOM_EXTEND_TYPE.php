@@ -77,5 +77,61 @@ class ROOM_EXTEND_TYPE
      * <code>ROOM_EXTEND_TYPE_BAOSANJIA = 7;</code>
      */
     const ROOM_EXTEND_TYPE_BAOSANJIA = 7;
+    /**
+     * <pre>
+     *暗宝
+     * </pre>
+     *
+     * <code>ROOM_EXTEND_TYPE_ANBAO = 8;</code>
+     */
+    const ROOM_EXTEND_TYPE_ANBAO = 8;
+    /**
+     * <pre>
+     *2、8万/饼/条不可以做掌//建平玩法
+     * </pre>
+     *
+     * <code>ROOM_EXTEND_TYPE_28ZUOZHANG = 9;</code>
+     */
+    const ROOM_EXTEND_TYPE_28ZUOZHANG = 9;
+    /**
+     * <pre>
+     *明飘//中发白其中之一只要碰就算明飘，本局必须胡飘，不勾选则正常//建平玩法
+     * </pre>
+     *
+     * <code>ROOM_EXTEND_TYPE_MINGPIAO = 10;</code>
+     */
+    const ROOM_EXTEND_TYPE_MINGPIAO = 10;
+    /**
+     * <pre>
+     *荒庄杠//建平玩法
+     * </pre>
+     *
+     * <code>ROOM_EXTEND_TYPE_HUANGZHUANGHUANGGANG = 11;</code>
+     */
+    const ROOM_EXTEND_TYPE_HUANGZHUANGHUANGGANG = 11;
+    /**
+     * <pre>
+     *一边高//建平玩法
+     * </pre>
+     *
+     * <code>ROOM_EXTEND_TYPE_YIBIANGAO = 12;</code>
+     */
+    const ROOM_EXTEND_TYPE_YIBIANGAO = 12;
+    /**
+     * <pre>
+     *四归一//建平玩法
+     * </pre>
+     *
+     * <code>ROOM_EXTEND_TYPE_SIGUIYI = 13;</code>
+     */
+    const ROOM_EXTEND_TYPE_SIGUIYI = 13;
+    /**
+     * <pre>
+     *点炮一家付//建平玩法
+     * </pre>
+     *
+     * <code>ROOM_EXTEND_TYPE_YIJIAFU = 14;</code>
+     */
+    const ROOM_EXTEND_TYPE_YIJIAFU = 14;
 }
 

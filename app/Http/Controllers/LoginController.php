@@ -6,9 +6,11 @@ use App\Common\Constants;
 use App\Common\ParamsRules;
 use App\Events\LoginEvent;
 use App\Exceptions\BaheException;
+use App\Models\User;
 use Illuminate\Foundation\Auth\ThrottlesLogins;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use Jenssegers\Agent\Agent;
 
 class LoginController extends Controller
@@ -51,10 +53,15 @@ class LoginController extends Controller
             return $this->sendLockoutResponse($request);
         }
 
-        if (Auth::attempt([
+        $user = User::where([
             $this->username() => $this->params['user_name'],
-                'password' => $this->params['password'],
-                'status' => Constants::COMMON_ENABLE])) {
+        ])->first();
+        if (!empty($user) && Hash::check($this->params['password'], $user->password)) {
+            if ($user->status == Constants::COMMON_DISABLE) {
+                return redirect(ParamsRules::IF_USER_LOGIN)->with('message',
+                    BaheException::$error_msg[BaheException::LOGIN_USER_ACCOUNT_FROZEN]);
+            }
+            Auth::login($user);
             //登录成功，触发事件
             event(new LoginEvent(Auth::user(), new Agent(), $request->getClientIp()));
             return redirect(ParamsRules::IF_DASHBOARD);

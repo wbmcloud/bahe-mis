@@ -20,16 +20,18 @@
                     <label for="server_id" class="col-sm-2 control-label">城市选择</label>
 
                     <div class="col-sm-10">
-                        <select class="city_multi form-control select2" name="server_id" style="width: 100%;" required>
-                            @role(['super', 'admin'])
+                        @role(['super', 'admin'])
+                        <select class="city_multi form-control select2" name="server_id" style="width: 100%;" onchange="changeFanxing(this.selectedOptions[0])" required>
                             @foreach($cities as $city)
-                            <option value="{{ $city['server']['server_id'] }}">{{ $city['city_name'] }}</option>
+                            <option value="{{ $city['server']['server_id'] }}" data="{{ $city['city_id'] }}">{{ $city['city_name'] }}</option>
                             @endforeach
-                            @endrole
-                            @role(['agent', 'first_agent', 'general_agent'])
-                            <option value="{{ $agent['city']['server']['server_id'] }}">{{ $agent['city']['city_name'] }}</option>
-                            @endrole
                         </select>
+                        @endrole
+                        @role(['agent', 'first_agent', 'general_agent'])
+                        <select class="city_multi form-control select2" name="server_id" style="width: 100%;" onchange="changeFanxing(this.selectedOptions[0])" required>
+                            <option value="{{ $agent['city']['server']['server_id'] }}" data="{{ $city['city_id'] }}">{{ $agent['city']['city_name'] }}</option>
+                        </select>
+                        @endrole
                     </div>
                 </div>
                 <!--div class="form-group">
@@ -43,7 +45,7 @@
                 <div class="form-group">
                     <label for="extend_type" class="col-sm-2 control-label">额外番型</label>
 
-                    <div class="col-sm-10">
+                    <div class="col-sm-10" id="extra_fanxing">
                         <input type="checkbox" value="4" name="extend_type[]" checked>&nbsp;&nbsp;&nbsp;宝牌&nbsp;&nbsp;
                         <input type="checkbox" value="1" name="extend_type[]" checked>&nbsp;&nbsp;&nbsp;站立胡&nbsp;&nbsp;
                         <input type="checkbox" value="2" name="extend_type[]" checked>&nbsp;&nbsp;&nbsp;带夹胡（夹、边）&nbsp;&nbsp;
@@ -51,6 +53,7 @@
                         <input type="checkbox" value="6" name="extend_type[]" checked>&nbsp;&nbsp;&nbsp;清一色&nbsp;&nbsp;
                         <input type="checkbox" value="3" name="extend_type[]" checked>&nbsp;&nbsp;&nbsp;旋风杠&nbsp;&nbsp;
                         <input type="checkbox" value="7" name="extend_type[]" checked>&nbsp;&nbsp;&nbsp;包三家
+                        <input type="checkbox" value="8" name="extend_type[]" checked>&nbsp;&nbsp;&nbsp;暗宝
                     </div>
                 </div>
                 <div class="form-group">
@@ -114,6 +117,30 @@
     <script src="{{ asset("/bower_components/admin-lte/plugins/select2/select2.js") }}"></script>
     <script src="{{ asset("/bower_components/admin-lte/plugins/iCheck/icheck.min.js") }}"></script>
     <script>
+        function changeFanxing(e) {
+            var _data = $(e).attr('data');
+            $.ajax({
+                headers: {
+                    "X-Requested-With": "XMLHttpRequest",
+                },
+                url: "/api/basic/cityconfig",
+                data: {city_id: _data},
+                success: function (res) {
+                    var _html = '';
+                    var _e = res.data.fanxing;
+                    for (var i in _e)  {
+                        _html += '<input type="checkbox" value=' + i + ' name="extend_type[]" checked>&nbsp;&nbsp;&nbsp;' + _e[i] + '&nbsp;&nbsp;'
+                    }
+                    $('#extra_fanxing').html(_html);
+                    $("input").iCheck({
+                        checkboxClass: 'icheckbox_square-blue',
+                        radioClass: 'iradio_square-blue',
+                        increaseArea: '20%' // optional
+                    });
+                }
+            });
+        }
+
         $(document).ready(function() {
             $(".city_multi").select2({
                 placeholder: "请选择开通城市",

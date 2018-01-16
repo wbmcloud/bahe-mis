@@ -111,5 +111,7 @@ Route::group(['middleware' => ['validator']], function () {
         Route::get(\App\Common\ParamsRules::IF_STAT_DAU, 'StatController@dau')->name('stat.dau');
         Route::get(\App\Common\ParamsRules::IF_STAT_WAU, 'StatController@wau')->name('stat.wau');
         Route::get(\App\Common\ParamsRules::IF_STAT_MAU, 'StatController@mau')->name('stat.mau');
+
+        Route::get(\App\Common\ParamsRules::IF_API_BASIC_CITY_CONFIG, 'Api\BasicController@cityConfig')->name('basic.cityconfig');
     });
 });

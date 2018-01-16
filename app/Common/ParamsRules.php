@@ -128,6 +128,11 @@ class ParamsRules
     const IF_STAT_MAU        = '/stat/mau';
 
     /**
+     * 基础模块
+     */
+    const IF_API_BASIC_CITY_CONFIG = '/api/basic/cityconfig';
+
+    /**
      * @var array
      * 参数校验规则
      */
@@ -320,6 +325,9 @@ class ParamsRules
         self::IF_API_GENERAL_AGENT_DO_CASH_ORDER => [
             'id' => 'required|integer',
         ],
+        self::IF_API_BASIC_CITY_CONFIG => [
+            'city_id' => 'required|integer',
+        ],
     ];
 
     /**
@@ -402,6 +410,7 @@ class ParamsRules
         self::IF_STAT_DAU                                => ['auth' => ['super', 'admin'], 'desc' => 'DAU统计页面'],
         self::IF_STAT_WAU                                => ['auth' => ['super', 'admin'], 'desc' => 'WAU统计页面'],
         self::IF_STAT_MAU                                => ['auth' => ['super', 'admin'], 'desc' => 'MAU统计页面'],
+        self::IF_API_BASIC_CITY_CONFIG                   => ['auth' => '*', 'desc' => '城市配置'],
     ];
 
     /**
