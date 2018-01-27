@@ -4,8 +4,7 @@
     @role(['super', 'admin'])
     <!-- Small boxes (Stat box) -->
     <div class="row">
-        <div class="col-lg-3 col-xs-6">
-            <!-- small box -->
+        <!--div class="col-lg-3 col-xs-6">
             <div class="small-box bg-aqua">
                 <div class="inner">
                     <h3>{{ $total_balance_card }}</h3>
@@ -17,9 +16,7 @@
                 </div>
             </div>
         </div>
-        <!-- ./col -->
-        <div class="col-lg-3 col-xs-6">
-            <!-- small box -->
+        <div-- class="col-lg-3 col-xs-6">
             <div class="small-box bg-green">
                 <div class="inner">
                     <h3>{{ $total_card }}</h3>
@@ -30,7 +27,7 @@
                     <i class="ion ion-stats-bars"></i>
                 </div>
             </div>
-        </div>
+        </div-->
         <!-- ./col -->
         <div class="col-lg-3 col-xs-6">
             <!-- small box -->

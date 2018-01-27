@@ -29,7 +29,9 @@
                         @endrole
                         @role(['agent', 'first_agent', 'general_agent'])
                         <select class="city_multi form-control select2" name="server_id" style="width: 100%;" onchange="changeFanxing(this.selectedOptions[0])" required>
-                            <option value="{{ $agent['city']['server']['server_id'] }}" data="{{ $agent['city_id'] }}">{{ $agent['city']['city_name'] }}</option>
+                            @foreach(\App\Models\City::where(['p_city_id' => $agent['city']['p_city_id']])->get() as $city)
+                            <option value="{{ $city['server']['server_id'] }}" data="{{ $city['city_id'] }}">{{ $city['city_name'] }}</option>
+                            @endforeach
                         </select>
                         @endrole
                     </div>
