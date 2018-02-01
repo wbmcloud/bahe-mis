@@ -18,7 +18,7 @@
         <div class="text-center" style="margin-top: 20%;">
             <p id="req_params">{{ $data['req_params'] }}</p>
             <h3>{{ $prompt }}<span id="room_number" style="color: red; margin-left: 15px;">{{ $data['room_id'] }}</span></h3>
-            <button type="button" class="btn btn-info">复制</button>
+            <button id="cp_btn" type="button" class="btn btn-info">复制</button>
         </div>
         <div class="text-center" style="margin-top: 20%;">
             <p><a href="{{ \App\Common\ParamsRules::IF_DASHBOARD }}">返回首页</a></p>
@@ -33,7 +33,7 @@
 
     <!-- 3. Instantiate clipboard -->
     <script>
-        var clipboard = new Clipboard('.btn', {
+        var clipboard = new Clipboard('#cp_btn', {
             text: function() {
                 var _req_params = $('#req_params').html();
                 var _room_id = $('#room_number').text();

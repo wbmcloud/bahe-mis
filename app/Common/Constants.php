@@ -313,6 +313,7 @@ class Constants
             self::OPEN_ROOM_FANXING_HUANGZHUANGHUANGGANG => [
                 'id' => self::OPEN_ROOM_FANXING_HUANGZHUANGHUANGGANG,
                 'desc' => '荒庄杠',
+                'is_checked' => false
             ],
             self::OPEN_ROOM_FANXING_YIBIANGAO            => [
                 'id' =>  self::OPEN_ROOM_FANXING_YIBIANGAO,
