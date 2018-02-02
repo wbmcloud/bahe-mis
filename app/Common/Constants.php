@@ -304,7 +304,7 @@ class Constants
         '2342' => [
             self::OPEN_ROOM_FANXING_28ZUOZHUANG          => [
                 'id' => self::OPEN_ROOM_FANXING_28ZUOZHUANG,
-                'desc' => '2、8万/饼/条不可以做庄',
+                'desc' => '二八做掌',
             ],
             self::OPEN_ROOM_FANXING_MINGPIAO             => [
                 'id' => self::OPEN_ROOM_FANXING_MINGPIAO,
@@ -312,7 +312,7 @@ class Constants
             ],
             self::OPEN_ROOM_FANXING_HUANGZHUANGHUANGGANG => [
                 'id' => self::OPEN_ROOM_FANXING_HUANGZHUANGHUANGGANG,
-                'desc' => '荒庄杠',
+                'desc' => '荒庄荒杠',
                 'is_checked' => false
             ],
             self::OPEN_ROOM_FANXING_YIBIANGAO            => [
