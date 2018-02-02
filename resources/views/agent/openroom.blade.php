@@ -21,19 +21,19 @@
 
                     <div class="col-sm-10">
                         @role(['super', 'admin'])
-                        <select class="city_multi form-control select2" name="server_id" style="width: 100%;" onchange="changeFanxing(this.selectedOptions[0])" required>
+                        <select class="city_multi form-control select2" name="server" style="width: 100%;" onchange="changeFanxing(this.selectedOptions[0])" required>
                             @foreach($cities as $city)
-                            <option value="{{ $city['server']['server_id'] }}" data="{{ $city['city_id'] }}">{{ $city['city_name'] }}</option>
+                            <option value="{{ $city['server']['server_id'] . '-' . $city['city_id'] }}" data="{{ $city['city_id'] }}">{{ $city['city_name'] }}</option>
                             @endforeach
                         </select>
                         @endrole
                         @role(['agent', 'first_agent', 'general_agent'])
-                        <select class="city_multi form-control select2" name="server_id" style="width: 100%;" onchange="changeFanxing(this.selectedOptions[0])" required>
+                        <select class="city_multi form-control select2" name="server" style="width: 100%;" onchange="changeFanxing(this.selectedOptions[0])" required>
                             @foreach(\App\Models\City::where(['p_city_id' => $agent['city']['p_city_id']])->get() as $city)
                                 @if($city['city_id'] == $agent['city_id'])
-                                    <option value="{{ $city['server']['server_id'] }}" data="{{ $city['city_id'] }} " selected>{{ $city['city_name'] }}</option>
+                                    <option value="{{ $city['server']['server_id'] . '-' . $city['city_id'] }}" data="{{ $city['city_id'] }} " selected>{{ $city['city_name'] }}</option>
                                 @else
-                                    <option value="{{ $city['server']['server_id'] }}" data="{{ $city['city_id'] }}">{{ $city['city_name'] }}</option>
+                                    <option value="{{ $city['server']['server_id'] . '-' . $city['city_id'] }}" data="{{ $city['city_id'] }}">{{ $city['city_name'] }}</option>
                                 @endif
                             @endforeach
                         </select>

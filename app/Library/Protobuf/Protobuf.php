@@ -110,6 +110,7 @@ class Protobuf
         } else {
             $room_option->setVoiceOpen(0);
         }
+        $room_option->setCityType($data['city_type']);
 
         return $room_option->serializeToString();
     }

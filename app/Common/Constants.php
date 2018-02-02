@@ -212,6 +212,21 @@ class Constants
     const OPEN_ROOM_FANXING_SIGUIYI              = 13;
     const OPEN_ROOM_FANXING_YIJIAFU              = 14;
 
+    const OPEN_ROOM_FANXING_ZHANLIHU_DESC             = '站立胡';
+    const OPEN_ROOM_FANXING_DAIJIAHU_DESC             = '带夹胡';
+    const OPEN_ROOM_FANXING_XUANFENGGANG_DESC         = '旋风杠';
+    const OPEN_ROOM_FANXING_BAOPAI_DESC               = '宝牌';
+    const OPEN_ROOM_FANXING_KEDUANMEN_DESC            = '可断门';
+    const OPEN_ROOM_FANXING_QINGYISE_DESC             = '清一色';
+    const OPEN_ROOM_FANXING_BAOSANJIA_DESC            = '包三家';
+    const OPEN_ROOM_FANXING_ANBAO_DESC                = '暗宝';
+    const OPEN_ROOM_FANXING_28ZUOZHUANG_DESC          = '二八做掌';
+    const OPEN_ROOM_FANXING_MINGPIAO_DESC             = '明飘';
+    const OPEN_ROOM_FANXING_HUANGZHUANGHUANGGANG_DESC = '荒庄荒杠';
+    const OPEN_ROOM_FANXING_YIBIANGAO_DESC            = '一边高';
+    const OPEN_ROOM_FANXING_SIGUIYI_DESC              = '四归一';
+    const OPEN_ROOM_FANXING_YIJIAFU_DESC              = '点炮一家付';
+
 
     const OPEN_ROOM_ROUNDS_EIGHT = 8;
     const OPEN_ROOM_ROUNDS_SIXTEEN = 16;
@@ -228,20 +243,20 @@ class Constants
     ];
 
     public static $open_room_fanxing = [
-        self::OPEN_ROOM_FANXING_ZHANLIHU             => '站立胡',
-        self::OPEN_ROOM_FANXING_DAIJIAHU             => '带夹胡',
-        self::OPEN_ROOM_FANXING_XUANFENGGANG         => '旋风杠',
-        self::OPEN_ROOM_FANXING_BAOPAI               => '宝牌',
-        self::OPEN_ROOM_FANXING_KEDUANMEN            => '可断门',
-        self::OPEN_ROOM_FANXING_QINGYISE             => '清一色',
-        self::OPEN_ROOM_FANXING_BAOSANJIA            => '包三家',
-        self::OPEN_ROOM_FANXING_ANBAO                => '暗宝',
-        self::OPEN_ROOM_FANXING_28ZUOZHUANG          => '2、8万/饼/条不可以做庄',
-        self::OPEN_ROOM_FANXING_MINGPIAO             => '明飘',
-        self::OPEN_ROOM_FANXING_HUANGZHUANGHUANGGANG => '荒庄杠',
-        self::OPEN_ROOM_FANXING_YIBIANGAO            => '一边高',
-        self::OPEN_ROOM_FANXING_SIGUIYI              => '四归一',
-        self::OPEN_ROOM_FANXING_YIJIAFU              => '点炮一家付'
+        self::OPEN_ROOM_FANXING_ZHANLIHU             => self::OPEN_ROOM_FANXING_ZHANLIHU_DESC,
+        self::OPEN_ROOM_FANXING_DAIJIAHU             => self::OPEN_ROOM_FANXING_DAIJIAHU_DESC,
+        self::OPEN_ROOM_FANXING_XUANFENGGANG         => self::OPEN_ROOM_FANXING_XUANFENGGANG_DESC,
+        self::OPEN_ROOM_FANXING_BAOPAI               => self::OPEN_ROOM_FANXING_BAOPAI_DESC,
+        self::OPEN_ROOM_FANXING_KEDUANMEN            => self::OPEN_ROOM_FANXING_KEDUANMEN_DESC,
+        self::OPEN_ROOM_FANXING_QINGYISE             => self::OPEN_ROOM_FANXING_QINGYISE_DESC,
+        self::OPEN_ROOM_FANXING_BAOSANJIA            => self::OPEN_ROOM_FANXING_BAOSANJIA_DESC,
+        self::OPEN_ROOM_FANXING_ANBAO                => self::OPEN_ROOM_FANXING_ANBAO_DESC,
+        self::OPEN_ROOM_FANXING_28ZUOZHUANG          => self::OPEN_ROOM_FANXING_28ZUOZHUANG_DESC,
+        self::OPEN_ROOM_FANXING_MINGPIAO             => self::OPEN_ROOM_FANXING_MINGPIAO_DESC,
+        self::OPEN_ROOM_FANXING_HUANGZHUANGHUANGGANG => self::OPEN_ROOM_FANXING_HUANGZHUANGHUANGGANG_DESC,
+        self::OPEN_ROOM_FANXING_YIBIANGAO            => self::OPEN_ROOM_FANXING_YIBIANGAO_DESC,
+        self::OPEN_ROOM_FANXING_SIGUIYI              => self::OPEN_ROOM_FANXING_SIGUIYI_DESC,
+        self::OPEN_ROOM_FANXING_YIJIAFU              => self::OPEN_ROOM_FANXING_YIJIAFU_DESC
     ];
 
     public static $open_room_rounds = [
@@ -268,64 +283,64 @@ class Constants
         '2340' => [
             self::OPEN_ROOM_FANXING_ZHANLIHU             => [
                 'id' => self::OPEN_ROOM_FANXING_ZHANLIHU,
-                'desc' => '站立胡',
+                'desc' => self::OPEN_ROOM_FANXING_ZHANLIHU_DESC,
             ],
             self::OPEN_ROOM_FANXING_DAIJIAHU             => [
                 'id' => self::OPEN_ROOM_FANXING_DAIJIAHU,
-                'desc' => '带夹胡',
+                'desc' => self::OPEN_ROOM_FANXING_DAIJIAHU_DESC,
             ],
             self::OPEN_ROOM_FANXING_XUANFENGGANG         => [
                 'id' => self::OPEN_ROOM_FANXING_XUANFENGGANG,
-                'desc' => '旋风杠',
+                'desc' => self::OPEN_ROOM_FANXING_XUANFENGGANG_DESC,
             ],
             self::OPEN_ROOM_FANXING_BAOPAI               => [
                 'id' => self::OPEN_ROOM_FANXING_BAOPAI,
-                'desc' => '宝牌',
+                'desc' => self::OPEN_ROOM_FANXING_BAOPAI_DESC,
             ],
             self::OPEN_ROOM_FANXING_KEDUANMEN            => [
                 'id' => self::OPEN_ROOM_FANXING_KEDUANMEN,
-                'desc' => '可断门',
+                'desc' => self::OPEN_ROOM_FANXING_KEDUANMEN_DESC,
                 'is_checked' => false,
             ],
             self::OPEN_ROOM_FANXING_QINGYISE             => [
                 'id' => self::OPEN_ROOM_FANXING_QINGYISE,
-                'desc' => '清一色',
+                'desc' => self::OPEN_ROOM_FANXING_QINGYISE_DESC,
             ],
             self::OPEN_ROOM_FANXING_BAOSANJIA            => [
                 'id' => self::OPEN_ROOM_FANXING_BAOSANJIA,
-                'desc' => '包三家',
+                'desc' => self::OPEN_ROOM_FANXING_BAOSANJIA_DESC,
             ],
             self::OPEN_ROOM_FANXING_ANBAO                => [
                 'id' => self::OPEN_ROOM_FANXING_ANBAO,
-                'desc' => '暗宝',
+                'desc' => self::OPEN_ROOM_FANXING_ANBAO_DESC,
                 'is_checked' => false
             ],
         ],
         '2342' => [
             self::OPEN_ROOM_FANXING_28ZUOZHUANG          => [
                 'id' => self::OPEN_ROOM_FANXING_28ZUOZHUANG,
-                'desc' => '二八做掌',
+                'desc' => self::OPEN_ROOM_FANXING_28ZUOZHUANG_DESC,
             ],
             self::OPEN_ROOM_FANXING_MINGPIAO             => [
                 'id' => self::OPEN_ROOM_FANXING_MINGPIAO,
-                'desc' => '明飘',
+                'desc' => self::OPEN_ROOM_FANXING_MINGPIAO_DESC,
             ],
             self::OPEN_ROOM_FANXING_HUANGZHUANGHUANGGANG => [
                 'id' => self::OPEN_ROOM_FANXING_HUANGZHUANGHUANGGANG,
-                'desc' => '荒庄荒杠',
+                'desc' => self::OPEN_ROOM_FANXING_HUANGZHUANGHUANGGANG_DESC,
                 'is_checked' => false
             ],
             self::OPEN_ROOM_FANXING_YIBIANGAO            => [
                 'id' =>  self::OPEN_ROOM_FANXING_YIBIANGAO,
-                'desc' => '一边高',
+                'desc' => self::OPEN_ROOM_FANXING_YIBIANGAO_DESC,
             ],
             self::OPEN_ROOM_FANXING_SIGUIYI              => [
                 'id' => self::OPEN_ROOM_FANXING_SIGUIYI,
-                'desc' => '四归一',
+                'desc' => self::OPEN_ROOM_FANXING_SIGUIYI_DESC,
             ],
             self::OPEN_ROOM_FANXING_YIJIAFU              => [
                 'id' => self::OPEN_ROOM_FANXING_YIJIAFU,
-                'desc' => '点炮一家付',
+                'desc' => self::OPEN_ROOM_FANXING_YIJIAFU_DESC,
             ]
         ],
     ];

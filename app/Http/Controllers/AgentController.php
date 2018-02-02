@@ -111,7 +111,9 @@ class AgentController extends Controller
         $user          = Auth::user();
         $agent_logic   = new AgentLogic();
 
-        $open_room_params['server_id'] = $this->params['server_id'];
+        $server = explode('-', $this->params['server']);
+        $open_room_params['server_id'] = $server[0];
+        $open_room_params['city_type'] = Constants::$city_map[$server[1]];
         //$open_room_params['model'] = $this->params['model'];
         $open_room_params['extend_type'] = $this->params['extend_type'];
         $open_room_params['open_rands'] = $this->params['open_rands'];

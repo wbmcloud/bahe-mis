@@ -202,7 +202,7 @@ class ParamsRules
             'page_size'  => 'integer|nullable'
         ],
         self::IF_AGENT_DO_OPEN_ROOM              => [
-            'server_id' => 'required|integer',
+            'server' => 'required|string',
             //'model' => ['required', 'in:1,2'],
             'extend_type' => 'required|array',
             'open_rands' => ['required', 'in:8,16'],
