@@ -31,7 +31,7 @@
                         <select class="city_multi form-control select2" name="server" style="width: 100%;" onchange="changeFanxing(this.selectedOptions[0])" required>
                             @foreach(\App\Models\City::where(['p_city_id' => $agent['city']['p_city_id']])->get() as $city)
                                 @if($city['city_id'] == $agent['city_id'])
-                                    <option value="{{ $city['server']['server_id'] . '-' . $city['city_id'] }}" data="{{ $city['city_id'] }} " selected>{{ $city['city_name'] }}</option>
+                                    <option value="{{ $city['server']['server_id'] . '-' . $city['city_id'] }}" data="{{ $city['city_id'] }}" selected>{{ $city['city_name'] }}</option>
                                 @else
                                     <option value="{{ $city['server']['server_id'] . '-' . $city['city_id'] }}" data="{{ $city['city_id'] }}">{{ $city['city_name'] }}</option>
                                 @endif
@@ -52,14 +52,14 @@
                     <label for="extend_type" class="col-sm-2 control-label">额外番型</label>
 
                     <div class="col-sm-10" id="extra_fanxing">
-                        <input type="checkbox" value="4" name="extend_type[]" checked>&nbsp;&nbsp;&nbsp;宝牌&nbsp;&nbsp;
+                        <!--input type="checkbox" value="4" name="extend_type[]" checked>&nbsp;&nbsp;&nbsp;宝牌&nbsp;&nbsp;
                         <input type="checkbox" value="1" name="extend_type[]" checked>&nbsp;&nbsp;&nbsp;站立胡&nbsp;&nbsp;
                         <input type="checkbox" value="2" name="extend_type[]" checked>&nbsp;&nbsp;&nbsp;带夹胡（夹、边）&nbsp;&nbsp;
                         <input type="checkbox" value="5" name="extend_type[]">&nbsp;&nbsp;&nbsp;可断门&nbsp;&nbsp;
                         <input type="checkbox" value="6" name="extend_type[]" checked>&nbsp;&nbsp;&nbsp;清一色&nbsp;&nbsp;
                         <input type="checkbox" value="3" name="extend_type[]" checked>&nbsp;&nbsp;&nbsp;旋风杠&nbsp;&nbsp;
                         <input type="checkbox" value="7" name="extend_type[]" checked>&nbsp;&nbsp;&nbsp;包三家
-                        <input type="checkbox" value="8" name="extend_type[]">&nbsp;&nbsp;&nbsp;暗宝
+                        <input type="checkbox" value="8" name="extend_type[]">&nbsp;&nbsp;&nbsp;暗宝-->
                     </div>
                 </div>
                 <div class="form-group">
@@ -125,18 +125,22 @@
     <script>
         function changeFanxing(e) {
             var _data = $(e).attr('data');
+            getFanxing(_data);
+        }
+        
+        function getFanxing(city_id) {
             $.ajax({
                 headers: {
                     "X-Requested-With": "XMLHttpRequest",
                 },
                 url: "/api/basic/cityconfig",
-                data: {city_id: _data},
+                data: {city_id: city_id},
                 success: function (res) {
                     var _html = '';
                     var _e = res.data.fanxing;
                     for (var i in _e)  {
-                        _html += '<input type="checkbox" value=' + i +
-                            ' name="extend_type[]" ' + (('undefined' == typeof(_e[i].is_checked)) ? 'checked' : '') +
+                        _html += '<input type="checkbox" value="' + _e[i].id +
+                            '" name="extend_type[]" ' + (('undefined' == typeof(_e[i].is_checked)) ? 'checked' : '') +
                             '>&nbsp;&nbsp;&nbsp;' + _e[i].desc + '&nbsp;&nbsp;'
                     }
                     $('#extra_fanxing').html(_html);
@@ -166,6 +170,8 @@
                 $('.form-horizontal').submit();
             });
             $('#openroom').addClass('active');
+
+            getFanxing({{$agent['city_id']}});
         });
 
     </script>

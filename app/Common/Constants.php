@@ -281,64 +281,64 @@ class Constants
 
     public static $city_fanxing = [
         '2340' => [
-            self::OPEN_ROOM_FANXING_ZHANLIHU             => [
-                'id' => self::OPEN_ROOM_FANXING_ZHANLIHU,
-                'desc' => self::OPEN_ROOM_FANXING_ZHANLIHU_DESC,
-            ],
-            self::OPEN_ROOM_FANXING_DAIJIAHU             => [
-                'id' => self::OPEN_ROOM_FANXING_DAIJIAHU,
-                'desc' => self::OPEN_ROOM_FANXING_DAIJIAHU_DESC,
-            ],
-            self::OPEN_ROOM_FANXING_XUANFENGGANG         => [
-                'id' => self::OPEN_ROOM_FANXING_XUANFENGGANG,
-                'desc' => self::OPEN_ROOM_FANXING_XUANFENGGANG_DESC,
-            ],
-            self::OPEN_ROOM_FANXING_BAOPAI               => [
+            [
                 'id' => self::OPEN_ROOM_FANXING_BAOPAI,
                 'desc' => self::OPEN_ROOM_FANXING_BAOPAI_DESC,
             ],
-            self::OPEN_ROOM_FANXING_KEDUANMEN            => [
+            [
+                'id' => self::OPEN_ROOM_FANXING_ZHANLIHU,
+                'desc' => self::OPEN_ROOM_FANXING_ZHANLIHU_DESC,
+            ],
+            [
+                'id' => self::OPEN_ROOM_FANXING_DAIJIAHU,
+                'desc' => self::OPEN_ROOM_FANXING_DAIJIAHU_DESC,
+            ],
+            [
                 'id' => self::OPEN_ROOM_FANXING_KEDUANMEN,
                 'desc' => self::OPEN_ROOM_FANXING_KEDUANMEN_DESC,
                 'is_checked' => false,
             ],
-            self::OPEN_ROOM_FANXING_QINGYISE             => [
+            [
                 'id' => self::OPEN_ROOM_FANXING_QINGYISE,
                 'desc' => self::OPEN_ROOM_FANXING_QINGYISE_DESC,
             ],
-            self::OPEN_ROOM_FANXING_BAOSANJIA            => [
+            [
+                'id' => self::OPEN_ROOM_FANXING_XUANFENGGANG,
+                'desc' => self::OPEN_ROOM_FANXING_XUANFENGGANG_DESC,
+            ],
+            [
                 'id' => self::OPEN_ROOM_FANXING_BAOSANJIA,
                 'desc' => self::OPEN_ROOM_FANXING_BAOSANJIA_DESC,
             ],
-            self::OPEN_ROOM_FANXING_ANBAO                => [
+            [
                 'id' => self::OPEN_ROOM_FANXING_ANBAO,
                 'desc' => self::OPEN_ROOM_FANXING_ANBAO_DESC,
                 'is_checked' => false
             ],
         ],
         '2342' => [
-            self::OPEN_ROOM_FANXING_28ZUOZHUANG          => [
+            [
                 'id' => self::OPEN_ROOM_FANXING_28ZUOZHUANG,
                 'desc' => self::OPEN_ROOM_FANXING_28ZUOZHUANG_DESC,
             ],
-            self::OPEN_ROOM_FANXING_MINGPIAO             => [
+            [
                 'id' => self::OPEN_ROOM_FANXING_MINGPIAO,
                 'desc' => self::OPEN_ROOM_FANXING_MINGPIAO_DESC,
             ],
-            self::OPEN_ROOM_FANXING_HUANGZHUANGHUANGGANG => [
+            [
                 'id' => self::OPEN_ROOM_FANXING_HUANGZHUANGHUANGGANG,
                 'desc' => self::OPEN_ROOM_FANXING_HUANGZHUANGHUANGGANG_DESC,
                 'is_checked' => false
             ],
-            self::OPEN_ROOM_FANXING_YIBIANGAO            => [
+            [
                 'id' =>  self::OPEN_ROOM_FANXING_YIBIANGAO,
                 'desc' => self::OPEN_ROOM_FANXING_YIBIANGAO_DESC,
             ],
-            self::OPEN_ROOM_FANXING_SIGUIYI              => [
+            [
                 'id' => self::OPEN_ROOM_FANXING_SIGUIYI,
                 'desc' => self::OPEN_ROOM_FANXING_SIGUIYI_DESC,
             ],
-            self::OPEN_ROOM_FANXING_YIJIAFU              => [
+            [
                 'id' => self::OPEN_ROOM_FANXING_YIJIAFU,
                 'desc' => self::OPEN_ROOM_FANXING_YIJIAFU_DESC,
             ]
