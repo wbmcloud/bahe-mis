@@ -5,5 +5,5 @@
   Anything you want
 </div>
 <!-- Default to the left -->
-<strong>Copyright &copy; 2017 <a href="#">乡乐棋牌</a>.</strong> All rights reserved.
+<strong>Copyright &copy; 2017 <a href="#">乡乐棋牌</a>.&nbsp;<a style="color: red; text-decoration: underline; font-style: italic" href="/user/agreement">代理协议</a></strong>
 </footer>
