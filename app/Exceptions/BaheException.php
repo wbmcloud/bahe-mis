@@ -43,6 +43,8 @@ class BaheException extends \Exception
     const USER_EXIST_CODE                   = 2001027;
     const LOGIN_USER_ACCOUNT_FROZEN         = 2001028;
 
+    const CITY_NOT_VALID_CODE = 2001029;
+
 
     public static $error_msg = [
         self::SUCCESS_CODE                      => '操作成功',
@@ -74,6 +76,7 @@ class BaheException extends \Exception
         self::INVITE_CODE_NOT_USED_CODE            => '邀请码未使用',
         self::USER_EXIST_CODE                      => '用户已经存在',
         self::LOGIN_USER_ACCOUNT_FROZEN            => '由于您的账号长期未登陆，为了保护您的账号安全，您的账号已自动进行冻结。如需正常使用请联系微信客服xlcyqp001',
+        self::CITY_NOT_VALID_CODE                  => '城市不合法',
     ];
 
 

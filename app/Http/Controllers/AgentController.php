@@ -9,8 +9,10 @@
 namespace App\Http\Controllers;
 
 use App\Common\Constants;
+use App\Exceptions\BaheException;
 use App\Logic\AccountLogic;
 use App\Logic\AgentLogic;
+use App\Logic\CityLogic;
 use App\Logic\UserLogic;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
@@ -113,8 +115,15 @@ class AgentController extends Controller
 
         $server = explode('-', $this->params['server']);
         $open_room_params['server_id'] = $server[0];
-        $open_room_params['city_type'] = Constants::$city_map[$server[1]];
-        //$open_room_params['model'] = $this->params['model'];
+
+        $city_info = CityLogic::getCityInfo($server[1]);
+        if (empty($city_info)) {
+            throw new BaheException(BaheException::CITY_NOT_VALID_CODE);
+        }
+
+        $open_room_params['city_type'] = $city_info['gmt_city_id'];
+        $open_room_params['gmt_server_ip'] = $city_info['gmt_server_ip'];
+        $open_room_params['gmt_server_port'] = $city_info['gmt_server_port'];
         $open_room_params['extend_type'] = $this->params['extend_type'];
         $open_room_params['open_rands'] = $this->params['open_rands'];
         $open_room_params['top_mutiple'] = $this->params['top_mutiple'];

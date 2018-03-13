@@ -91,19 +91,23 @@ class AgentLogic extends BaseLogic
      * @param $open_room_res
      * @return array
      * @throws BaheException
+     * @throws \Exception
      */
     public function sendGmtOpenRoom($params, &$open_room_res)
     {
+        $server['ip'] = $params['gmt_server_ip'];
+        $server['port'] = $params['gmt_server_port'];
+
         // 调用gmt注册服务器
         $inner_meta_register_srv = Protobuf::packRegisterInnerMeta();
-        $register_res            = TcpClient::callTcpService($inner_meta_register_srv, true);
+        $register_res            = TcpClient::callTcpService($inner_meta_register_srv, true, $server);
         if (Protobuf::unpackRegister($register_res)->getTypeT() !== INNER_TYPE::INNER_TYPE_REGISTER) {
             throw new BaheException(BaheException::GMT_SERVER_REGISTER_FAIL_CODE);
         }
 
         // 调用gmt代开房
         $inner_meta_open_room   = Protobuf::packOpenRoomInnerMeta($params);
-        $open_room_res          = Protobuf::unpackOpenRoom(TcpClient::callTcpService($inner_meta_open_room));
+        $open_room_res          = Protobuf::unpackOpenRoom(TcpClient::callTcpService($inner_meta_open_room, false, $server));
         if ($open_room_res['error_code'] != 0) {
             throw new BaheException(BaheException::GMT_SERVER_OPEN_ROOM_FAIL_CODE);
         }
@@ -160,6 +164,7 @@ class AgentLogic extends BaseLogic
                     COMMAND_TYPE::COMMAND_TYPE_ROOM_CARD,
                     ($params['open_rands'] / Constants::ROOM_CARD_RANDOMS) * Constants::ROOM_CARD_FISSION_FACTOR);
             }
+
             $open_room_res = $this->sendGmtOpenRoom($params, $open_room_res);
             DB::commit();
         } catch (\Exception $e) {

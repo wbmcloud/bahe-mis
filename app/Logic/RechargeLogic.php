@@ -89,12 +89,16 @@ class RechargeLogic extends BaseLogic
      * @param $command_res
      * @return array
      * @throws BaheException
+     * @throws \Exception
      */
     public function sendGmtUserRecharge($params, &$command_res)
     {
+        $server['ip'] = $params['gmt_server_ip'];
+        $server['port'] = $params['gmt_server_port'];
+
         // 调用gmt进行充值
         $inner_meta_register_srv = Protobuf::packRegisterInnerMeta();
-        $register_res            = TcpClient::callTcpService($inner_meta_register_srv, true);
+        $register_res            = TcpClient::callTcpService($inner_meta_register_srv, true, $server);
         if (Protobuf::unpackRegister($register_res)->getTypeT() !== INNER_TYPE::INNER_TYPE_REGISTER) {
             throw new BaheException(BaheException::GMT_SERVER_REGISTER_FAIL_CODE);
         }
@@ -106,7 +110,7 @@ class RechargeLogic extends BaseLogic
         $command['player_id']    = $params['role_id'];
         $command['count']        = $params['num'];
         $inner_meta_command      = Protobuf::packCommandInnerMeta($command);
-        $command_res             = Protobuf::unpackForResponse(TcpClient::callTcpService($inner_meta_command));
+        $command_res             = Protobuf::unpackForResponse(TcpClient::callTcpService($inner_meta_command, false, $server));
         if ($command_res['error_code'] != 0) {
             throw new BaheException(BaheException::GMT_SERVER_RECHARGE_FAIL_CODE);
         }
@@ -144,6 +148,14 @@ class RechargeLogic extends BaseLogic
     {
         $is_recharged = true;
         $user         = Auth::user();
+
+        $city_info = CityLogic::getCityInfo($params['city']);
+        if (empty($city_info)) {
+            throw new BaheException(BaheException::CITY_NOT_VALID_CODE);
+        }
+
+        $params['gmt_server_ip'] = $city_info['gmt_server_ip'];
+        $params['gmt_server_port'] = $city_info['gmt_server_port'];
 
         DB::beginTransaction();
         try {

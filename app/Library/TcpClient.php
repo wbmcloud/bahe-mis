@@ -29,20 +29,20 @@ class TcpClient
 
     }
 
-    public static function getSocket()
+    public static function getSocket($server)
     {
         if (self::$socket) {
             return self::$socket;
         }
         $factory = new Factory();
-        self::$socket = $factory->createClient(self::getTcpAddress());
+        self::$socket = $factory->createClient(self::getTcpAddress($server));
         return self::$socket;
     }
 
-    public static function callTcpService($pack, $keep_alive = false)
+    public static function callTcpService($pack, $keep_alive = false, $server)
     {
         try {
-            $socket = self::getSocket();
+            $socket = self::getSocket($server);
 
             // 设置读写超时
             $socket->setOption(SOL_SOCKET, SO_SNDTIMEO, [
@@ -79,10 +79,10 @@ class TcpClient
         return $response;
     }
 
-    private static function getTcpAddress()
+    private static function getTcpAddress($server)
     {
         $gmt = Config::get('services.gmt');
-        return $gmt['schema'] . '://' . $gmt['host'] . ':' . $gmt['port'];
+        return $gmt['schema'] . '://' . $server['ip'] . ':' . $server['port'];
     }
 
     public static function isAlive()

@@ -8,8 +8,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Common\Constants;
 use App\Logic\AccountLogic;
 use App\Logic\RechargeLogic;
+use App\Logic\UserLogic;
+use Illuminate\Support\Facades\Auth;
 
 class RechargeController extends Controller
 {
@@ -23,7 +26,20 @@ class RechargeController extends Controller
         $account_logic = new AccountLogic();
         $account      = $account_logic->getAgentBalance();
 
+        $user = Auth::user();
+        if ($user->hasRole(Constants::$admin_role)) {
+            // 管理员和超级管理员
+            $user_logic = new UserLogic();
+            $cities     = $user_logic->getOpenCities();
+
+            return [
+                'agent'  => $user,
+                'cities' => $cities,
+            ];
+        }
+
         return [
+            'agent'  => $user,
             'account' => $account
         ];
     }
