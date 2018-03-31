@@ -236,7 +236,7 @@ class Constants
 
     const OPEN_ROOM_FANXING_HUIPAI_DESC        = '带会';
     const OPEN_ROOM_FANXING_JUETOUHUI_DESC     = '绝头会N*2';
-    const OPEN_ROOM_FANXING_QIONGHU_DESC       = '穷胡（夹、边）';
+    const OPEN_ROOM_FANXING_QIONGHU_DESC       = '穷胡';
     const OPEN_ROOM_FANXING_QIDUI_DESC         = '七小对';
     const OPEN_ROOM_FANXING_ZHUIFENGGANGA_DESC = '追风杠';
 
@@ -409,5 +409,10 @@ class Constants
         '2340' => '1',
         '2342' => '2',
         '2280' => '3',
+    ];
+
+    public static $bind_player_city_ban = [
+        '2340',
+        '2342'
     ];
 }

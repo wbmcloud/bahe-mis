@@ -11,6 +11,7 @@ namespace App\Http\Controllers;
 use App\Common\Constants;
 use App\Logic\AgentLogic;
 use App\Logic\RechargeLogic;
+use App\Models\UserBindPlayer;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 
@@ -58,4 +59,29 @@ class RecordController extends Controller
         ];
     }
 
+    public function bindPlayer()
+    {
+        $this->params['page_size'] = isset($this->params['page_size']) ? $this->params['page_size'] :
+            Constants::DEFAULT_PAGE_SIZE;
+
+        $login_user = Auth::user();
+
+        if ($login_user->hasRole(Constants::$admin_role)) {
+            if (isset($this->params['query_str']) && !empty($this->params['query_str'])) {
+                $bind_player_record = UserBindPlayer::where([
+                    'user_name' => $this->params['query_str']
+                ])->simplePaginate($this->params['page_size']);
+            } else {
+                $bind_player_record = UserBindPlayer::simplePaginate($this->params['page_size']);
+            }
+        } else {
+            $bind_player_record = UserBindPlayer::where([
+                'user_name' => $login_user->user_name
+            ])->simplePaginate($this->params['page_size']);
+        }
+
+        return [
+            'recharge_list' => $bind_player_record
+        ];
+    }
 }

@@ -44,6 +44,7 @@
                             <th>id</th>
                             <th>姓名</th>
                             <th>用户名</th>
+                            <th>城市</th>
                             <th>交易总数</th>
                             <th>剩余房卡数</th>
                             <th>邀请码</th>
@@ -54,13 +55,14 @@
                             </thead>
                             <tbody id="agent_list_container">
                             @if(empty($agents->count()))
-                                <tr><td colspan="5">没有记录</td></tr>
+                                <tr><td colspan="10">没有记录</td></tr>
                             @else
                                 @foreach($agents as $agent)
                                     <tr>
                                         <td><a href="{{ route('agent.info') . '?id=' . $agent['id'] }}">{{ $agent['id'] }}</a></td>
                                         <td>{{ $agent['name'] }}</td>
                                         <td>{{ $agent['user_name'] }}</td>
+                                        <td>{{ $agent['city']['city_name'] }}</td>
                                         <td>{{ $agent['account']['card_total'] }}</td>
                                         <td>{{ $agent['account']['card_balance'] }}</td>
                                         <td>{{ $agent['invite_code'] }}</td>

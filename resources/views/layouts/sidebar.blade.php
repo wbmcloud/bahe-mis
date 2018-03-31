@@ -38,6 +38,22 @@
             <i class="fa fa-home"></i><span>代开房</span>
           </a>
         </li>
+        @role(['agent', 'first_agent', 'general_agent'])
+        @if(!in_array(\Illuminate\Support\Facades\Auth::user()->city_id, \App\Common\Constants::$bind_player_city_ban))
+        <li id="bindplayer" class="treeview">
+          <a href="{{ route('game.bindplayer') }}">
+            <i class="fa fa-link"></i><span>角色绑定</span>
+          </a>
+        </li>
+        @endif
+        @endrole
+        @role(['admin', 'super'])
+        <li id="bindplayer" class="treeview">
+          <a href="{{ route('game.bindplayer') }}">
+            <i class="fa fa-link"></i><span>角色绑定</span>
+          </a>
+        </li>
+        @endrole
         @role(['super', 'admin'])
         <li id="agent" class="treeview">
           <a href="#">
@@ -118,6 +134,16 @@
             </span>
           </a>
           <ul class="treeview-menu">
+            @role(['agent', 'first_agent', 'general_agent'])
+            @if(!in_array(\Illuminate\Support\Facades\Auth::user()->city_id, \App\Common\Constants::$bind_player_city_ban))
+            <li id="bind_player_record"><a href="{{ route('record.bindplayer') }}"><i class="fa fa-circle"></i><span>绑定记录</span></a></li>
+            @endif
+            @endrole
+
+            @role(['admin', 'super'])
+            <li id="bind_player_record"><a href="{{ route('record.bindplayer') }}"><i class="fa fa-circle"></i><span>绑定记录</span></a></li>
+            @endrole
+
             @role(['super', 'admin'])
             <li id="agent_recharge_record"><a href="{{ route('record.agentrecharge') }}"><i class="fa fa-circle"></i><span>代理充值记录</span></a></li>
             <li id="user_recharge_record"><a href="{{ route('record.userrecharge') }}"><i class="fa fa-circle"></i><span>用户充值记录</span></a></li>

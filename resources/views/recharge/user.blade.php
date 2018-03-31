@@ -28,7 +28,7 @@
                     </select>
                     @endrole
                     @role(['agent', 'first_agent', 'general_agent'])
-                    <select class="city_multi form-control select2" name="server" style="width: 100%;" required>
+                    <select class="city_multi form-control select2" name="city" style="width: 100%;" required>
                         @foreach(\App\Models\City::where(['p_city_id' => $agent['city']['p_city_id']])->get() as $city)
                             @if($city['city_id'] == $agent['city_id'])
                                 <option value="{{ $city['city_id'] }}" selected>{{ $city['city_name'] }}</option>

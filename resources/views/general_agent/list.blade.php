@@ -38,6 +38,7 @@
                             <tr>
                             <th>id</th>
                             <th>用户名</th>
+                            <th>城市</th>
                             <th>姓名</th>
                             <th>绑定邀请码</th>
                             <th>发展代理数</th>
@@ -56,6 +57,7 @@
                                     <tr>
                                         <td>{{ $agent['id'] }}</td>
                                         <td>{{ $agent['user_name'] }}</td>
+                                        <td>{{ $agent['city']['city_name'] }}</td>
                                         <td>{{ $agent['name'] }}</td>
                                         <td>{{ $agent['code'] }}</td>
                                         @if(isset($agents_count[$agent['code']]))

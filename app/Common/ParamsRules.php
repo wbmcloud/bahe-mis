@@ -103,6 +103,8 @@ class ParamsRules
      * 游戏模块
      */
     const IF_GAME_PLAYER_LIST       = '/game/playerlist';
+    const IF_GAME_BIND_PLAYER       = '/game/bindplayer';
+    const IF_GAME_DO_BIND_PLAYER    = '/game/dobindplayer';
 
     /**
      * 记录模块
@@ -110,6 +112,7 @@ class ParamsRules
     const IF_RECORD_AGENT_RECHARGE = '/record/agentrecharge';
     const IF_RECORD_USER_RECHARGE  = '/record/userrecharge';
     const IF_RECORD_OPEN_ROOM      = '/record/openroom';
+    const IF_RECORD_BIND_PLAYER    = '/record/bindplayer';
 
     /**
      * 统计模块
@@ -328,6 +331,10 @@ class ParamsRules
         self::IF_API_BASIC_CITY_CONFIG => [
             'city_id' => 'required|integer',
         ],
+        self::IF_GAME_DO_BIND_PLAYER => [
+            'city' => 'required|integer',
+            'player_id' => 'required|integer',
+        ],
     ];
 
     /**
@@ -411,6 +418,9 @@ class ParamsRules
         self::IF_STAT_WAU                                => ['auth' => ['super', 'admin'], 'desc' => 'WAU统计页面'],
         self::IF_STAT_MAU                                => ['auth' => ['super', 'admin'], 'desc' => 'MAU统计页面'],
         self::IF_API_BASIC_CITY_CONFIG                   => ['auth' => '*', 'desc' => '城市配置'],
+        self::IF_GAME_BIND_PLAYER                        => ['auth' => '*', 'desc' => '绑定角色页面'],
+        self::IF_GAME_DO_BIND_PLAYER                     => ['auth' => '*', 'desc' => '绑定角色'],
+        self::IF_RECORD_BIND_PLAYER                      => ['auth' => '*', 'desc' => '绑定角色记录'],
     ];
 
     /**
@@ -450,12 +460,14 @@ class ParamsRules
         self::IF_RECORD_AGENT_RECHARGE                   => 'record.agentrecharge',
         self::IF_RECORD_USER_RECHARGE                    => 'record.userrecharge',
         self::IF_RECORD_OPEN_ROOM                        => 'record.openroom',
+        self::IF_RECORD_BIND_PLAYER                      => 'record.bindplayer',
         self::IF_STAT_AGENT                              => 'stat.stat_agent',
         self::IF_STAT_FLOW                               => 'stat.stat_flow',
         self::IF_STAT_ROUNDS                             => 'stat.stat_rounds',
         self::IF_STAT_DAU                                => 'stat.stat_dau',
         self::IF_STAT_WAU                                => 'stat.stat_wau',
         self::IF_STAT_MAU                                => 'stat.stat_mau',
+        self::IF_GAME_BIND_PLAYER                        => 'game.bindplayer',
     ];
 
     /**

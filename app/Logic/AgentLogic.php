@@ -173,7 +173,10 @@ class AgentLogic extends BaseLogic
             $error_message = $e->getMessage();
             // 关闭socket连接
             if (TcpClient::isAlive()) {
-                TcpClient::getSocket()->close();
+                TcpClient::getSocket([
+                    'ip' => $params['gmt_server_ip'],
+                    'port' => $params['gmt_server_port']
+                ])->close();
             }
             DB::rollback();
             if ($e->getCode() == BaheException::GMT_SERVER_OPEN_ROOM_FAIL_CODE) {

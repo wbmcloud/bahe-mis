@@ -36,6 +36,7 @@
                             <tr>
                             <th>id</th>
                             <th>用户名</th>
+                            <th>城市</th>
                             <th>姓名</th>
                             <th>绑定邀请码</th>
                             <th>入驻时间</th>
@@ -50,6 +51,7 @@
                                     <tr>
                                         <td>{{ $agent['id'] }}</td>
                                         <td>{{ $agent['user_name'] }}</td>
+                                        <td>{{ $agent['city']['city_name'] }}</td>
                                         <td>{{ $agent['name'] }}</td>
                                         <td>{{ $agent['code'] }}</td>
                                         <!--td>{{ date('Y-m-d', strtotime($agent['created_at'])) }}</td-->

@@ -79,5 +79,13 @@ class INNER_TYPE
      * <code>INNER_TYPE_QUERY_PLAYER = 7;</code>
      */
     const INNER_TYPE_QUERY_PLAYER = 7;
+    /**
+     * <pre>
+     *代理绑定玩家
+     * </pre>
+     *
+     * <code>INNER_TYPE_BIND_PLAYER = 8;</code>
+     */
+    const INNER_TYPE_BIND_PLAYER = 8;
 }
 

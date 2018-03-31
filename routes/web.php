@@ -74,6 +74,7 @@ Route::group(['middleware' => ['validator']], function () {
         Route::get(\App\Common\ParamsRules::IF_RECORD_AGENT_RECHARGE, 'RecordController@agentRecharge')->name('record.agentrecharge');
         Route::get(\App\Common\ParamsRules::IF_RECORD_USER_RECHARGE, 'RecordController@userRecharge')->name('record.userrecharge');
         Route::get(\App\Common\ParamsRules::IF_RECORD_OPEN_ROOM, 'RecordController@openRoom')->name('record.openroom');
+        Route::get(\App\Common\ParamsRules::IF_RECORD_BIND_PLAYER, 'RecordController@bindPlayer')->name('record.bindplayer');
 
         /**
          * ajax API
@@ -113,5 +114,9 @@ Route::group(['middleware' => ['validator']], function () {
         Route::get(\App\Common\ParamsRules::IF_STAT_MAU, 'StatController@mau')->name('stat.mau');
 
         Route::get(\App\Common\ParamsRules::IF_API_BASIC_CITY_CONFIG, 'Api\BasicController@cityConfig')->name('basic.cityconfig');
+
+
+        Route::get(\App\Common\ParamsRules::IF_GAME_BIND_PLAYER, 'GameController@showBindPlayerForm')->name('game.bindplayer');
+        Route::post(\App\Common\ParamsRules::IF_GAME_DO_BIND_PLAYER, 'GameController@bindplayer')->name('game.dobindplayer');
     });
 });

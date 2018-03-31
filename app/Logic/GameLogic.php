@@ -89,4 +89,26 @@ class GameLogic extends BaseLogic
 
         return $player;
     }
+
+    public function sendGmtBindPlayer($params)
+    {
+        $server['ip'] = $params['gmt_server_ip'];
+        $server['port'] = $params['gmt_server_port'];
+
+        // 调用gmt进行充值
+        $inner_meta_register_srv = Protobuf::packRegisterInnerMeta();
+        $register_res            = TcpClient::callTcpService($inner_meta_register_srv, true, $server);
+        if (Protobuf::unpackRegister($register_res)->getTypeT() !== INNER_TYPE::INNER_TYPE_REGISTER) {
+            throw new BaheException(BaheException::GMT_SERVER_REGISTER_FAIL_CODE);
+        }
+
+        $inner_meta_command      = Protobuf::packBindPlayerInnerMeta($params);
+        $command_res             = Protobuf::unpackBindPlayer(TcpClient::callTcpService($inner_meta_command, false, $server));
+
+        if ($command_res['error_code'] != 0) {
+            throw new BaheException(BaheException::GMT_BIND_PLAYER_FAIL_CODE);
+        }
+
+        return $command_res;
+    }
 }

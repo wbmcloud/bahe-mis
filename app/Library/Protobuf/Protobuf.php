@@ -147,4 +147,40 @@ class Protobuf
         $common_prop->mergeFromString($query_player->getCommonProp());
         return $common_prop;
     }
+
+    /**
+     * @param $params
+     * @return string
+     */
+    public static function packBindPlayer($params)
+    {
+        $bind_player = new BindPlayer();
+        $bind_player->setTypeT(INNER_TYPE::INNER_TYPE_BIND_PLAYER);
+        $bind_player->setPlayerId($params['player_id']);
+        $bind_player->setAgentAccount($params['user_name']);
+
+        return $bind_player->serializeToString();
+    }
+
+    /**
+     * @param $data
+     * @return array
+     * @throws \Google\Protobuf\Internal\Exception
+     */
+    public static function unpackBindPlayer($data)
+    {
+        $bind_player = new BindPlayer();
+        $bind_player->mergeFromString($data);
+        return [
+            'error_code' => $bind_player->getErrorCode()
+        ];
+    }
+
+    public static function packBindPlayerInnerMeta($data)
+    {
+        $inner_meta = new InnerMeta();
+        $inner_meta->setTypeT(INNER_TYPE::INNER_TYPE_BIND_PLAYER);
+        $inner_meta->setStuff(self::packBindPlayer($data));
+        return $inner_meta->serializeToString();
+    }
 }
