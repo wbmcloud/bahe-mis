@@ -8,12 +8,14 @@
 
 namespace App\Logic;
 
+use App\Common\Constants;
 use App\Exceptions\BaheException;
 use App\Library\Protobuf\INNER_TYPE;
 use App\Library\Protobuf\Protobuf;
 use App\Library\TcpClient;
 use App\Models\GamePlayer;
 use App\Models\GamePlayerLogin;
+use App\Models\GameServer;
 use App\Models\GeneralAgents;
 
 class GameLogic extends BaseLogic
@@ -110,5 +112,27 @@ class GameLogic extends BaseLogic
         }
 
         return $command_res;
+    }
+
+
+    /**
+     * @param $city_id
+     * @param $game_type
+     * @return array
+     */
+    public function getGameServerByCityIdAndType($city_id, $game_type)
+    {
+        if (in_array($game_type, Constants::$division_city_game_type)) {
+            $game_server = GameServer::where([
+                'city_id' => $city_id,
+                'game_type' => $game_type
+            ])->first();
+        } else {
+            $game_server = GameServer::where([
+                'game_type' => $game_type
+            ])->first();
+        }
+
+        return !empty($game_server) ? $game_server->toArray() : [];
     }
 }

@@ -3,6 +3,7 @@
 @section('head')
     <!-- iCheck -->
     <link rel="stylesheet" href="{{ asset("/bower_components/admin-lte/plugins/select2/select2.css") }}">
+    <link rel="stylesheet" href="{{ asset("/bower_components/admin-lte/plugins/iCheck/square/blue.css") }}">
 @endsection
 
 @section('content')
@@ -41,6 +42,15 @@
             </div>
 
             <div class="form-group">
+                <label for="model" class="col-sm-2 control-label">游戏选择</label>
+
+                <div class="col-sm-10">
+                    <input type="radio" value="1" name="game_type" checked>&nbsp;&nbsp;&nbsp;麻将&nbsp;&nbsp;
+                    <input type="radio" value="2" name="game_type">&nbsp;&nbsp;&nbsp;斗地主
+                </div>
+            </div>
+
+            <div class="form-group">
                 <label for="player_id" class="col-sm-2 control-label">角色id</label>
 
                 <div class="col-sm-10">
@@ -54,12 +64,19 @@
 @section('script')
     <!-- iCheck -->
     <script src="{{ asset("/bower_components/admin-lte/plugins/select2/select2.js") }}"></script>
+    <script src="{{ asset("/bower_components/admin-lte/plugins/iCheck/icheck.min.js") }}"></script>
     <script>
         $(function () {
             $(".city_multi").select2({
                 placeholder: "请选择开通城市",
                 maximumSelectionLength: 3,
                 tags: true
+            });
+
+            $('input').iCheck({
+                checkboxClass: 'icheckbox_square-blue',
+                radioClass: 'iradio_square-blue',
+                increaseArea: '20%' // optional
             });
         });
 

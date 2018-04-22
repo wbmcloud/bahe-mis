@@ -40,45 +40,17 @@
                         @endrole
                     </div>
                 </div>
-                <!--div class="form-group">
-                    <label for="model" class="col-sm-2 control-label">模式选择</label>
+                <div class="form-group">
+                    <label for="model" class="col-sm-2 control-label">游戏选择</label>
 
                     <div class="col-sm-10">
-                        <input type="radio" value="1" name="model" checked>&nbsp;&nbsp;&nbsp;经典模式&nbsp;&nbsp;
-                        <input type="radio" value="2" name="model">&nbsp;&nbsp;&nbsp;高番模式
-                    </div>
-                </div-->
-                <div class="form-group">
-                    <label for="extend_type" class="col-sm-2 control-label">额外番型</label>
-
-                    <div class="col-sm-10" id="extra_fanxing">
-                        <!--input type="checkbox" value="4" name="extend_type[]" checked>&nbsp;&nbsp;&nbsp;宝牌&nbsp;&nbsp;
-                        <input type="checkbox" value="1" name="extend_type[]" checked>&nbsp;&nbsp;&nbsp;站立胡&nbsp;&nbsp;
-                        <input type="checkbox" value="2" name="extend_type[]" checked>&nbsp;&nbsp;&nbsp;带夹胡（夹、边）&nbsp;&nbsp;
-                        <input type="checkbox" value="5" name="extend_type[]">&nbsp;&nbsp;&nbsp;可断门&nbsp;&nbsp;
-                        <input type="checkbox" value="6" name="extend_type[]" checked>&nbsp;&nbsp;&nbsp;清一色&nbsp;&nbsp;
-                        <input type="checkbox" value="3" name="extend_type[]" checked>&nbsp;&nbsp;&nbsp;旋风杠&nbsp;&nbsp;
-                        <input type="checkbox" value="7" name="extend_type[]" checked>&nbsp;&nbsp;&nbsp;包三家
-                        <input type="checkbox" value="8" name="extend_type[]">&nbsp;&nbsp;&nbsp;暗宝-->
+                        <input type="radio" value="1" name="game_type" checked>&nbsp;&nbsp;&nbsp;麻将&nbsp;&nbsp;
+                        <input type="radio" value="2" name="game_type">&nbsp;&nbsp;&nbsp;斗地主
                     </div>
                 </div>
-                <div class="form-group">
-                    <label for="open_rands" class="col-sm-2 control-label">开设局数</label>
-
-                    <div class="col-sm-10">
-                        <input type="radio" value="8" name="open_rands" checked>&nbsp;&nbsp;&nbsp;8局（消耗房卡*4）&nbsp;&nbsp;
-                        <input type="radio" value="16" name="open_rands">&nbsp;&nbsp;&nbsp;16局（消耗房卡*8）
-                    </div>
+                <div id="open_room_group">
                 </div>
-                <div class="form-group">
-                    <label for="top_mutiple" class="col-sm-2 control-label">封顶倍数</label>
-
-                    <div class="col-sm-10">
-                        <input type="radio" value="32" name="top_mutiple" checked>&nbsp;&nbsp;&nbsp;32倍&nbsp;&nbsp;
-                        <input type="radio" value="0" name="top_mutiple">&nbsp;&nbsp;&nbsp;不封顶
-                    </div>
-                </div>
-                <div class="form-group">
+                <div class="form-group" id="open_room_group_pre">
                     <label for="voice_open" class="col-sm-2 control-label">语音</label>
 
                     <div class="col-sm-10">
@@ -134,20 +106,66 @@
                     "X-Requested-With": "XMLHttpRequest",
                 },
                 url: "/api/basic/cityconfig",
-                data: {city_id: city_id},
+                data: {
+                    city_id: city_id,
+                    game_type: $('input[name="game_type"]:checked').val()
+                },
                 success: function (res) {
                     var _html = '';
-                    var _e = res.data.fanxing;
+                    var _e = res.data.settings;
                     for (var i in _e)  {
-                        _html += '<input type="checkbox" value="' + _e[i].id +
-                            '" name="extend_type[]" ' + (('undefined' == typeof(_e[i].is_checked)) ? 'checked' : '') +
-                            '>&nbsp;&nbsp;&nbsp;' + _e[i].desc + '&nbsp;&nbsp;'
+                        if (i == 'extend_type') {
+                            _html += '<div class="form-group">' +
+                                '<label for="extend_type" class="col-sm-2 control-label">额外番型</label>' +
+                                '<div class="col-sm-10">'
+                            for (var j in _e[i]) {
+                                _html += '<input type="checkbox" value="' + _e[i][j].id +
+                                    '" name="extend_type[]" ' + (('undefined' == typeof(_e[i][j].is_checked)) ? 'checked' : '') +
+                                    '>&nbsp;&nbsp;&nbsp;' + _e[i][j].desc + '&nbsp;&nbsp;'
+                            }
+                            _html += '</div></div>';
+                        } else if (i == 'open_rands') {
+                            _html += '<div class="form-group">' +
+                                '<label for="open_rands" class="col-sm-2 control-label">开设局数</label>' +
+                                '<div class="col-sm-10">';
+                            for (var j in _e[i]) {
+                                _html += '<input type="radio" value="' + _e[i][j].id +
+                                    '" name="open_rands" ' + (('undefined' == typeof(_e[i][j].is_checked)) ? 'checked' : '') +
+                                    '>&nbsp;&nbsp;&nbsp;' + _e[i][j].desc + '&nbsp;&nbsp;';
+                            }
+                            _html += '</div></div>';
+                        } else if (i == 'top_mutiple') {
+                            _html += '<div class="form-group">' +
+                                '<label for="top_mutiple" class="col-sm-2 control-label">封顶倍数</label>' +
+                                '<div class="col-sm-10">';
+                            for (var j in _e[i]) {
+                                _html += '<input type="radio" value="' + _e[i][j].id +
+                                    '" name="top_mutiple" ' + (('undefined' == typeof(_e[i][j].is_checked)) ? 'checked' : '') +
+                                    '>&nbsp;&nbsp;&nbsp;' + _e[i][j].desc + '&nbsp;&nbsp;';
+                            }
+                            _html += '</div></div>';
+                        } else if (i == 'zhuang_type') {
+                            _html += '<div class="form-group">' +
+                                '<label for="zhuang_type" class="col-sm-2 control-label">玩法</label>' +
+                                '<div class="col-sm-10">';
+                            for (var j in _e[i]) {
+                                _html += '<input type="radio" value="' + _e[i][j].id +
+                                    '" name="zhuang_type" ' + (('undefined' == typeof(_e[i][j].is_checked)) ? 'checked' : '') +
+                                    '>&nbsp;&nbsp;&nbsp;' + _e[i][j].desc + '&nbsp;&nbsp;';
+                            }
+                            _html += '</div></div>';
+                        }
                     }
-                    $('#extra_fanxing').html(_html);
+                    $('#open_room_group').html(_html);
                     $("input").iCheck({
                         checkboxClass: 'icheckbox_square-blue',
                         radioClass: 'iradio_square-blue',
                         increaseArea: '20%' // optional
+                    });
+
+                    $('input[name="game_type"]').on('ifChecked', function () {
+                        var _data = $('select[name="server"] option:selected').attr('data');
+                        getFanxing(_data);
                     });
                 }
             });

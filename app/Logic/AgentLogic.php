@@ -136,6 +136,8 @@ class AgentLogic extends BaseLogic
         $transaction_flow->num            = $num;
         $transaction_flow->req_params     = json_encode($params);
 
+        $transaction_flow->game_server_id = $params['game_server_id'];
+
         if ($is_recharged) {
             $transaction_flow->status = Constants::COMMON_ENABLE;
             $transaction_flow->result = json_encode($recharge_res);
@@ -215,13 +217,15 @@ class AgentLogic extends BaseLogic
     }
 
     /**
+     * @param $city_id
      * @param $invite_code
      * @return mixed
      * @throws BaheException
      */
-    public function getInviteCode($invite_code)
+    public function getInviteCode($city_id, $invite_code)
     {
         $invite_code = InviteCode::where([
+            'city_id' => $city_id,
             'invite_code' => $invite_code,
         ])->first();
         if (empty($invite_code)) {
@@ -285,14 +289,25 @@ class AgentLogic extends BaseLogic
 
         //$render_arr[] = Constants::$open_room_mode[$params['model']];
 
-        $fanxing_arr = array_map(function ($r) {
-            return Constants::$open_room_fanxing[$r];
-        }, $params['extend_type']);
-        $render_arr[] = implode(',', $fanxing_arr);
+        if (isset($params['extend_type'])) {
+            $fanxing_arr = array_map(function ($r) {
+                return Constants::$open_room_fanxing[$r];
+            }, $params['extend_type']);
+
+            $render_arr[] = implode(',', $fanxing_arr);
+        }
+
+        if (isset($params['zhuang_type'])) {
+            $render_arr[] = Constants::$open_room_zhuang_type[$params['zhuang_type']];
+        }
 
         $render_arr[] = Constants::$open_room_rounds[$params['open_rands']];
 
-        $render_arr[] = Constants::$open_room_top_multiple[$params['top_mutiple']];
+        if (in_array($params['game_type'], Constants::$division_city_game_type)) {
+            $render_arr[] = Constants::$open_room_top_multiple[$params['top_mutiple']];
+        } else {
+            $render_arr[] = Constants::$open_room_ddz_top_multiple[$params['top_mutiple']];
+        }
 
         if (isset($params['voice_open']) && $params['voice_open'] == 1) {
             $render_arr[] = Constants::$open_room_voice[$params['voice_open']];
@@ -302,5 +317,125 @@ class AgentLogic extends BaseLogic
         }
 
         return implode(' ', $render_arr);
+    }
+
+    /**
+     * @param $user_id
+     * @param $game_server_id
+     * @return array
+     */
+    public function getLastOpenRoomSettings($user_id, $game_server_id)
+    {
+        $open_room_last_set = TransactionFlow::where([
+            'initiator_id' => $user_id,
+            'game_server_id' => $game_server_id,
+            'recharge_type' => Constants::COMMAND_TYPE_OPEN_ROOM
+        ])->orderBy('id', 'DESC')->first();
+
+        return !empty($open_room_last_set) ? json_decode($open_room_last_set->toArray()['req_params'], true) : [];
+    }
+
+
+    /**
+     * @param $city_id
+     * @param $game_type
+     * @return array
+     */
+    public function getOpenRoomSetting($city_id, $game_type)
+    {
+        $user_id = Auth::id();
+        $settings = [];
+
+        $game_server = (new GameLogic())->getGameServerByCityIdAndType($city_id, $game_type);
+        if (!empty($game_server)) {
+            $settings = (new AgentLogic())->getLastOpenRoomSettings($user_id, $game_server['id']);
+        }
+
+        if (empty($settings)) {
+            $settings = $this->fmtOpenRoomSetting(Constants::$open_room_default_params[$game_server['id']], $game_server);
+        } else {
+            $settings = $this->fmtOpenRoomSetting($settings, $game_server);
+        }
+
+
+        return $settings;
+    }
+
+    /**
+     * @param array $setting
+     * @param       $game_server
+     * @return array
+     */
+    public function fmtOpenRoomSetting(array $setting, $game_server)
+    {
+        $config = json_decode($game_server['config'], true);
+
+        //番型
+        if (isset($config['extend_type'])) {
+            $setting['extend_type'] = $this->_fmtRenderParams($config['extend_type'], $setting['extend_type'],
+                Constants::OPEN_ROOM_PARAM_TYPE_EXTEND_TYPE);
+        }
+
+        //局数
+        if (isset($config['open_rands'])) {
+            $setting['open_rands'] = $this->_fmtRenderParams($config['open_rands'], $setting['open_rands'],
+                Constants::OPEN_ROOM_PARAM_TYPE_OPEN_RANDS);
+        }
+
+        //倍数
+        if (isset($config['top_mutiple'])) {
+            switch ($setting['game_type']) {
+                case Constants::GAME_TYPE_MJ:
+                    $setting['top_mutiple'] = $this->_fmtRenderParams($config['top_mutiple'], $setting['top_mutiple'],
+                        Constants::OPEN_ROOM_PARAM_TYPE_TOP_MULTIPLE);
+                    break;
+                case Constants::GAME_TYPE_DDZ:
+                    $setting['top_mutiple'] = $this->_fmtRenderParams($config['top_mutiple'], $setting['top_mutiple'],
+                        Constants::OPEN_ROOM_PARAM_TYPE_DDZ_TOP_MULTIPLE);
+                default:
+                    break;
+            }
+        }
+
+        //装类型
+        if (isset($config['zhuang_type'])) {
+            $setting['zhuang_type'] = $this->_fmtRenderParams($config['zhuang_type'], $setting['zhuang_type'],
+                Constants::OPEN_ROOM_PARAM_TYPE_ZHUANG_TYPE);
+        }
+
+        return $setting;
+    }
+
+    /**
+     * @param $init_params
+     * @param $selected_params
+     * @param $type
+     * @return array
+     */
+    private function _fmtRenderParams($init_params, $selected_params, $type)
+    {
+        $params = [];
+
+        foreach ($init_params as $v) {
+            $t = [];
+            if (!in_array($v, (array)$selected_params)) {
+                $t['is_checked'] = false;
+            }
+            $t['id'] = $v;
+            $t['desc'] = $this->_getParamDesc($type, $v);
+            $params[] = $t;
+        }
+
+        return $params;
+    }
+
+    /**
+     * @param $type
+     * @param $idx
+     * @return string
+     */
+    private function _getParamDesc($type, $idx)
+    {
+        return Constants::${Constants::$open_room_param_map[$type]}[$idx];
     }
 }

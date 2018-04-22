@@ -80,19 +80,13 @@ class SyncGamePlayerInfo extends Command
     }
 
     /**
-     * Execute the console command.
-     *
-     * @return mixed
+     * @throws \Exception
      */
     public function handle()
     {
         $client = new SftpClient();
 
-        if (App::environment('production')) {
-            $servers = Config::get('services.game_server.outer');
-        } else {
-            $servers = Config::get('services.game_server.inner');
-        }
+        $servers = Config::get('services.game_servers');
 
         foreach ($servers as $server) {
             $credentials = Credentials::withPublicKey(self::SSH_AUTH_USER_NAME,
@@ -109,8 +103,8 @@ class SyncGamePlayerInfo extends Command
 
             $client->close();
 
-            $this->processPlayerLog($center_server_player_log_path);
-            $this->processAccountLog($center_server_account_log_path);
+            $this->processPlayerLog($center_server_player_log_path, $server);
+            $this->processAccountLog($center_server_account_log_path, $server);
         }
 
         /*$p_path = '/Users/cloud/Documents/player_2017-10-25';
@@ -187,9 +181,10 @@ class SyncGamePlayerInfo extends Command
     /**
      * 日志解析处理
      * @param $file_name
+     * @param $server
      * @return bool
      */
-    protected function processPlayerLog($file_name)
+    protected function processPlayerLog($file_name, $server)
     {
         if (!file_exists($file_name)) {
             return false;
@@ -226,14 +221,15 @@ class SyncGamePlayerInfo extends Command
             $game_player->player_name = $player_log['common_prop']['name'];
             $game_player->user_id = $player_log['account'];
             $game_player->server_id = $player_log['server_id'];
+            $game_player->game_server_id = $server['game_server_id'];
             $game_player->save();
 
             // 登录日志
-            $this->_insertPlayerLoginLog($player_log);
+            $this->_insertPlayerLoginLog($player_log, $server);
         }
     }
 
-    protected function processAccountLog($file_name)
+    protected function processAccountLog($file_name, $server)
     {
         if (!file_exists($file_name)) {
             return false;
@@ -282,6 +278,7 @@ class SyncGamePlayerInfo extends Command
             isset($account_log['created_time']) && ($game_account->create_time = Carbon::createFromTimestamp($account_log['created_time'])->toDateTimeString());
             $game_account->client_ip = isset($account_log['client_info']['client_ip']) ?
                 $account_log['client_info']['client_ip'] : '';
+            $game_account->game_server_id = $server['game_server_id'];
             $game_account->save();
         }
     }
@@ -307,9 +304,10 @@ class SyncGamePlayerInfo extends Command
 
     /**
      * @param $login_log
+     * @param $server
      * @return mixed
      */
-    private function _insertPlayerLoginLog($login_log)
+    private function _insertPlayerLoginLog($login_log, $server)
     {
         $carbon = Carbon::yesterday();
 
@@ -330,6 +328,7 @@ class SyncGamePlayerInfo extends Command
         $day_game_player_login_log->player_id = $login_log['common_prop']['player_id'];
         $day_game_player_login_log->player_name = $login_log['common_prop']['name'];
         $day_game_player_login_log->user_id = $login_log['account'];
+        $day_game_player_login_log->game_server_id = $server['game_server_id'];
         $day_game_player_login_log->save();
 
         return $day_game_player_login_log;

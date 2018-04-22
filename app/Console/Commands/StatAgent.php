@@ -109,6 +109,7 @@ class StatAgent extends Command
     /**
      * @param $value
      * @param $carbon
+     * @return mixed
      */
     private function _genInsertRecord(&$value, $carbon)
     {

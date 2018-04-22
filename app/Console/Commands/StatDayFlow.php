@@ -53,8 +53,8 @@ class StatDayFlow extends Command
                 ])
                 ->where('created_at', '>=', Constants::FEE_START_DATE)
                 ->where('created_at', '<', $t)
-                ->groupBy('day', 'recipient_type', 'recharge_type')
-                ->selectRaw('substring(created_at, 1, 10) as day, recipient_type, recharge_type, sum(num) as amount')
+                ->groupBy('day', 'game_server_id', 'recipient_type', 'recharge_type')
+                ->selectRaw('substring(created_at, 1, 10) as day, game_server_id, recipient_type, recharge_type, sum(num) as amount')
                 ->get()
                 ->toArray();
         } else {
@@ -64,8 +64,8 @@ class StatDayFlow extends Command
                 ])
                 ->where('created_at', '>=', $y)
                 ->where('created_at', '<', $t)
-                ->groupBy('day', 'recipient_type', 'recharge_type')
-                ->selectRaw('substring(created_at, 1, 10) as day, recipient_type, recharge_type, sum(num) as amount')
+                ->groupBy('day', 'game_server_id', 'recipient_type', 'recharge_type')
+                ->selectRaw('substring(created_at, 1, 10) as day, game_server_id, recipient_type, recharge_type, sum(num) as amount')
                 ->get()
                 ->toArray();
         }
@@ -89,6 +89,8 @@ class StatDayFlow extends Command
             if ($flow['recharge_type'] == Constants::COMMAND_TYPE_OPEN_ROOM) {
                 $row['open_room_card_total'] = $flow['amount'];
             }
+
+            $row['game_server_id'] = $flow['game_server_id'];
 
             $day_flow[$flow['day']] = $row;
         }

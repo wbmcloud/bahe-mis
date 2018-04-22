@@ -81,8 +81,7 @@ class TcpClient
 
     private static function getTcpAddress($server)
     {
-        $gmt = Config::get('services.gmt');
-        return $gmt['schema'] . '://' . $server['ip'] . ':' . $server['port'];
+        return 'tcp://' . $server['ip'] . ':' . $server['port'];
     }
 
     public static function isAlive()

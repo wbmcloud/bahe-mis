@@ -92,13 +92,15 @@ class GeneralAgentLogic extends BaseLogic
     }
 
     /**
+     * @param $city_id
      * @param $invite_code
      * @return mixed
      * @throws BaheException
      */
-    public function getInviteCode($invite_code)
+    public function getInviteCode($city_id, $invite_code)
     {
         $invite_code = InviteCode::where([
+            'city_id' => $city_id,
             'invite_code' => $invite_code,
             'type' => Constants::INVITE_CODE_TYPE_GENERAL_AGENT
         ])->first();

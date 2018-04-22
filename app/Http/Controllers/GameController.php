@@ -48,17 +48,20 @@ class GameController extends Controller
     public function bindPlayer()
     {
         $city_id = $this->params['city'];
+        $game_type = $this->params['game_type'];
         $params['player_id'] = $this->params['player_id'];
+
         $login_user = Auth::user();
         $params['user_name'] = $login_user->user_name;
 
-        $city_info = CityLogic::getCityInfo($city_id);
-        if (empty($city_info)) {
-            throw new BaheException(BaheException::CITY_NOT_VALID_CODE);
+        // 获取game_server_id
+        $game_server = (new GameLogic())->getGameServerByCityIdAndType($city_id, $game_type);
+        if (empty($game_server)) {
+            throw new BaheException(BaheException::GAME_SERVER_NOT_FOUND_CODE);
         }
 
-        $params['gmt_server_ip'] = $city_info['gmt_server_ip'];
-        $params['gmt_server_port'] = $city_info['gmt_server_port'];
+        $params['gmt_server_ip'] = $game_server['gmt_server_ip'];
+        $params['gmt_server_port'] = $game_server['gmt_server_port'];
 
         (new GameLogic())->sendGmtBindPlayer($params);
 
@@ -66,9 +69,10 @@ class GameController extends Controller
         $user_bind_player = new UserBindPlayer();
         $user_bind_player->user_id = $login_user->id;
         $user_bind_player->user_name = $login_user->user_name;
+        $user_bind_player->game_server_id = $game_server['id'];
         $user_bind_player->player_id = $this->params['player_id'];
         $user_bind_player->save();
 
-        return Utils::renderSuccess();;
+        return Utils::renderSuccess();
     }
 }

@@ -110,7 +110,10 @@ class Protobuf
         } else {
             $room_option->setVoiceOpen(0);
         }
-        $room_option->setCityType($data['city_type']);
+        isset($data['city_type']) && $room_option->setCityType($data['city_type']);
+
+        // 如果是斗地主需要增加选项
+        isset($data['zhuang_type']) && $room_option->setZhuangType($data['zhuang_type']);
 
         return $room_option->serializeToString();
     }

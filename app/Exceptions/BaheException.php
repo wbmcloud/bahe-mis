@@ -45,6 +45,7 @@ class BaheException extends \Exception
 
     const CITY_NOT_VALID_CODE = 2001029;
     const GMT_BIND_PLAYER_FAIL_CODE = 2001030;
+    const GAME_SERVER_NOT_FOUND_CODE = 2001031;
 
 
     public static $error_msg = [
@@ -79,6 +80,7 @@ class BaheException extends \Exception
         self::LOGIN_USER_ACCOUNT_FROZEN            => '由于您的账号长期未登陆，为了保护您的账号安全，您的账号已自动进行冻结。如需正常使用请联系微信客服xlcyqp001',
         self::CITY_NOT_VALID_CODE                  => '城市不合法',
         self::GMT_BIND_PLAYER_FAIL_CODE            => '绑定角色失败',
+        self::GAME_SERVER_NOT_FOUND_CODE           => '未找到游戏服务',
     ];
 
 

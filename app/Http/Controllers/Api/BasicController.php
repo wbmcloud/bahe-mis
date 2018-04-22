@@ -8,18 +8,19 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Common\Constants;
 use App\Http\Controllers\Controller;
+use App\Logic\AgentLogic;
 
 class BasicController extends Controller
 {
     public function cityConfig()
     {
         $city_id = $this->params['city_id'];
+        $game_type = $this->params['game_type'];
 
         return [
             'city_id' => $city_id,
-            'fanxing' => Constants::$city_fanxing[$city_id]
+            'settings' => (new AgentLogic())->getOpenRoomSetting($city_id, $game_type)
         ];
     }
 }

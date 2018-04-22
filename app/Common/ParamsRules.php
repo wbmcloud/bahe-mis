@@ -207,9 +207,9 @@ class ParamsRules
         self::IF_AGENT_DO_OPEN_ROOM              => [
             'server' => 'required|string',
             //'model' => ['required', 'in:1,2'],
-            'extend_type' => 'required|array',
-            'open_rands' => ['required', 'in:8,16'],
-            'top_mutiple' => ['required', 'in:0,32'],
+            'extend_type' => 'array',
+            'open_rands' => ['required', 'in:8,16,24'],
+            'top_mutiple' => ['required', 'in:0,32,64,256'],
             'voice_open' => 'integer|nullable',
         ],
         self::IF_FIRST_AGENT_LIST                => [

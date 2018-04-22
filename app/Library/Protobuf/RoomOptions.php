@@ -89,6 +89,14 @@ class RoomOptions extends \Google\Protobuf\Internal\Message
      * <code>.app.library.protobuf.CITY_TYPE city_type = 9;</code>
      */
     private $city_type = 0;
+    /**
+     * <pre>
+     *抢庄方式//叫地主方式
+     * </pre>
+     *
+     * <code>.app.library.protobuf.ZHUANG_TYPE zhuang_type = 10;</code>
+     */
+    private $zhuang_type = 0;
 
     public function __construct() {
         \GPBMetadata\PATH\Game::initOnce();
@@ -318,6 +326,31 @@ class RoomOptions extends \Google\Protobuf\Internal\Message
     {
         GPBUtil::checkEnum($var, \App\Library\Protobuf\CITY_TYPE::class);
         $this->city_type = $var;
+    }
+
+    /**
+     * <pre>
+     *抢庄方式//叫地主方式
+     * </pre>
+     *
+     * <code>.app.library.protobuf.ZHUANG_TYPE zhuang_type = 10;</code>
+     */
+    public function getZhuangType()
+    {
+        return $this->zhuang_type;
+    }
+
+    /**
+     * <pre>
+     *抢庄方式//叫地主方式
+     * </pre>
+     *
+     * <code>.app.library.protobuf.ZHUANG_TYPE zhuang_type = 10;</code>
+     */
+    public function setZhuangType($var)
+    {
+        GPBUtil::checkEnum($var, \App\Library\Protobuf\ZHUANG_TYPE::class);
+        $this->zhuang_type = $var;
     }
 
 }

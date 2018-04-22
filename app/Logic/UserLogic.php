@@ -56,7 +56,7 @@ class UserLogic extends BaseLogic
         // 判断邀请码是否有效
         $agent_logic = new AgentLogic();
         if (isset($params['invite_code']) && !empty($params['invite_code'])) {
-            $agent_logic->getInviteCode($params['invite_code']);
+            $agent_logic->getInviteCode($params['city_id'], $params['invite_code']);
         }
 
         // 创建用户
@@ -82,7 +82,7 @@ class UserLogic extends BaseLogic
     {
         // 校验邀请码合法性
         $general_agent_logic = new GeneralAgentLogic();
-        $invite_code = $general_agent_logic->getInviteCode($params['invite_code']);
+        $invite_code = $general_agent_logic->getInviteCode($params['city_id'], $params['invite_code']);
 
         DB::beginTransaction();
         try {
@@ -114,7 +114,7 @@ class UserLogic extends BaseLogic
     {
         // 校验邀请码合法性
         $first_agent_logic = new FirstAgentLogic();
-        $first_agent_logic->getInviteCode($params['invite_code']);
+        $first_agent_logic->getInviteCode($params['city_id'], $params['invite_code']);
 
         DB::beginTransaction();
         try {
@@ -124,7 +124,7 @@ class UserLogic extends BaseLogic
             $user->password = bcrypt($params['password']);
             $user->city_id = $params['city_id'];
             $user->code = !empty($params['code']) ? $params['code'] :
-                Utils::getUniqueInviteCode($params['invite_code']);
+                Utils::getUniqueInviteCode($params['city_id'], $params['invite_code']);
             $user->invite_code = $params['invite_code'];
             $user->role_id = $params['role_id'];
             !empty($params['name']) && ($user->name = $params['name']);
@@ -134,6 +134,7 @@ class UserLogic extends BaseLogic
             $user->save();
 
             $invite_code = new InviteCode();
+            $invite_code->city_id = $params['city_id'];
             $invite_code->invite_code = $user->code;
             $invite_code->type = Constants::INVITE_CODE_TYPE_FIRST_AGENT;
             $invite_code->is_used = Constants::COMMON_ENABLE;

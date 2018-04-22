@@ -35,34 +35,22 @@ return [
         'secret' => env('STRIPE_SECRET'),
     ],
     /**
-     * 研发GMT服务器：111.230.140.74:50003
-     * 外网GMT服务器：123.206.24.228:60031
-     */
-    'gmt' => [
-        'schema' => 'tcp',
-        'host' => env('GMT_HOST', '123.206.24.228'),
-        'port' => env('GMT_PORT', 60031),
-    ],
-    /**
      * 游戏服务器IP地址列表
      */
-    'game_server' => [
-        'outer' => [
-            [
-                'host' => '123.206.24.228',
-                'user' => 'game',
-                'password' => '^YHN&UJM$rfv(OL.',
-                'path' => '/export/game/workdir/logs/',
-            ]
+    'game_servers' => [
+        [
+            'game_type' => 1,
+            'city_id' => 2340,
+            'game_server_id' => 1,
+            'host' => '123.206.24.228',
+            'path' => '/export/game/workdir/logs/',
         ],
-        'inner' => [
-            [
-                'host' => '111.230.140.74',
-                'user' => 'game',
-                'password' => '!QAZ8ik,9ol.',
-                'path' => '/export/game/workdir/logs/',
-            ]
-        ],
+        [
+            'city_id' => 2280,
+            'game_type' => 1,
+            'game_server_id' => 3,
+            'host' => '140.143.56.247',
+            'path' => '/export/game/workdir/logs/',
+        ]
     ],
-
 ];

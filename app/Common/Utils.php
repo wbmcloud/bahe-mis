@@ -99,9 +99,9 @@ class Utils
         ]);
     }
 
-    public static function getUniqueInviteCode($code)
+    public static function getUniqueInviteCode($city_id, $code)
     {
-        $invite_code = Redis::incr(Constants::INVITE_CODE_LEVEL_INCR . $code);
+        $invite_code = Redis::incr(Constants::INVITE_CODE_LEVEL_INCR . $city_id . $code);
         return $code . str_pad($invite_code, Constants::INVITE_CODE_LEVEL_LENGTH,
             0, STR_PAD_LEFT);
     }

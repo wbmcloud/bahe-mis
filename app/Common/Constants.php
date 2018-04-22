@@ -243,12 +243,18 @@ class Constants
 
     const OPEN_ROOM_ROUNDS_EIGHT   = 8;
     const OPEN_ROOM_ROUNDS_SIXTEEN = 16;
+    const OPEN_ROOM_ROUNDS_TWENTY_FOUR = 24;
 
     const OPEN_ROOM_TOP_MULTIPLE_UNLIMITED  = 0;
     const OPEN_ROOM_TOP_MULTIPLE_THIRTY_TWO = 32;
+    const OPEN_ROOM_TOP_MULTIPLE_SIXTY_FOUR = 64;
+    const OPEN_ROOM_TOP_MULTIPLE_ONE_HUNDRED_FIFTY_SIX = 256;
 
     const OPEN_ROOM_VOICE_UP   = 1;
     const OPEN_ROOM_VOICE_DOWN = 0;
+
+    const ZHUANG_TYPE_QIANGDIZHU = 1;
+    const ZHUANG_TYPE_JIAOFEN = 2;
 
     public static $open_room_mode = [
         self::OPEN_ROOM_MODE_CLASSIC => '经典模式',
@@ -278,8 +284,9 @@ class Constants
     ];
 
     public static $open_room_rounds = [
-        self::OPEN_ROOM_ROUNDS_EIGHT   => '8局',
-        self::OPEN_ROOM_ROUNDS_SIXTEEN => '16局'
+        self::OPEN_ROOM_ROUNDS_EIGHT       => '8局（消耗房卡*4）',
+        self::OPEN_ROOM_ROUNDS_SIXTEEN     => '16局（消耗房卡*8）',
+        self::OPEN_ROOM_ROUNDS_TWENTY_FOUR => '24局（消耗房卡*12））',
     ];
 
     public static $open_room_top_multiple = [
@@ -287,9 +294,35 @@ class Constants
         self::OPEN_ROOM_TOP_MULTIPLE_THIRTY_TWO => '32倍',
     ];
 
+    public static $open_room_ddz_top_multiple = [
+        self::OPEN_ROOM_TOP_MULTIPLE_UNLIMITED             => '不封顶',
+        self::OPEN_ROOM_TOP_MULTIPLE_THIRTY_TWO            => '32分',
+        self::OPEN_ROOM_TOP_MULTIPLE_SIXTY_FOUR            => '64分',
+        self::OPEN_ROOM_TOP_MULTIPLE_ONE_HUNDRED_FIFTY_SIX => '256分'
+    ];
+
     public static $open_room_voice = [
         self::OPEN_ROOM_VOICE_DOWN => '不开启语音',
         self::OPEN_ROOM_VOICE_UP   => '开启语音',
+    ];
+
+    public static $open_room_zhuang_type = [
+        self::ZHUANG_TYPE_QIANGDIZHU => '抢地主',
+        self::ZHUANG_TYPE_JIAOFEN => '叫分'
+    ];
+
+    const OPEN_ROOM_PARAM_TYPE_EXTEND_TYPE = 'extend_type';
+    const OPEN_ROOM_PARAM_TYPE_OPEN_RANDS = 'open_rands';
+    const OPEN_ROOM_PARAM_TYPE_TOP_MULTIPLE = 'top_multiple';
+    const OPEN_ROOM_PARAM_TYPE_DDZ_TOP_MULTIPLE = 'ddz_top_multiple';
+    const OPEN_ROOM_PARAM_TYPE_ZHUANG_TYPE = 'zhuang_type';
+
+    public static $open_room_param_map = [
+        self::OPEN_ROOM_PARAM_TYPE_EXTEND_TYPE => 'open_room_fanxing',
+        self::OPEN_ROOM_PARAM_TYPE_OPEN_RANDS => 'open_room_rounds',
+        self::OPEN_ROOM_PARAM_TYPE_TOP_MULTIPLE => 'open_room_top_multiple',
+        self::OPEN_ROOM_PARAM_TYPE_DDZ_TOP_MULTIPLE => 'open_room_ddz_top_multiple',
+        self::OPEN_ROOM_PARAM_TYPE_ZHUANG_TYPE => 'open_room_zhuang_type',
     ];
 
     /**
@@ -297,111 +330,62 @@ class Constants
      */
     const ROOM_CARD_FISSION_FACTOR = 4;
 
-    public static $city_fanxing = [
-        '2340' => [
-            [
-                'id'   => self::OPEN_ROOM_FANXING_BAOPAI,
-                'desc' => self::OPEN_ROOM_FANXING_BAOPAI_DESC,
+    /**
+     * 代开房默认配置
+     * @var array
+     */
+    public static $open_room_default_params = [
+        '1' => [
+            'game_server_id' => 1,
+            'game_type'      => self::GAME_TYPE_MJ,
+            'extend_type'    => [
+                self::OPEN_ROOM_FANXING_BAOPAI,
+                self::OPEN_ROOM_FANXING_ZHANLIHU,
+                self::OPEN_ROOM_FANXING_DAIJIAHU,
+                self::OPEN_ROOM_FANXING_QINGYISE,
+                self::OPEN_ROOM_FANXING_XUANFENGGANG,
+                self::OPEN_ROOM_FANXING_BAOSANJIA,
             ],
-            [
-                'id'   => self::OPEN_ROOM_FANXING_ZHANLIHU,
-                'desc' => self::OPEN_ROOM_FANXING_ZHANLIHU_DESC,
-            ],
-            [
-                'id'   => self::OPEN_ROOM_FANXING_DAIJIAHU,
-                'desc' => self::OPEN_ROOM_FANXING_DAIJIAHU_DESC,
-            ],
-            [
-                'id'         => self::OPEN_ROOM_FANXING_KEDUANMEN,
-                'desc'       => self::OPEN_ROOM_FANXING_KEDUANMEN_DESC,
-                'is_checked' => false,
-            ],
-            [
-                'id'   => self::OPEN_ROOM_FANXING_QINGYISE,
-                'desc' => self::OPEN_ROOM_FANXING_QINGYISE_DESC,
-            ],
-            [
-                'id'   => self::OPEN_ROOM_FANXING_XUANFENGGANG,
-                'desc' => self::OPEN_ROOM_FANXING_XUANFENGGANG_DESC,
-            ],
-            [
-                'id'   => self::OPEN_ROOM_FANXING_BAOSANJIA,
-                'desc' => self::OPEN_ROOM_FANXING_BAOSANJIA_DESC,
-            ],
-            [
-                'id'         => self::OPEN_ROOM_FANXING_ANBAO,
-                'desc'       => self::OPEN_ROOM_FANXING_ANBAO_DESC,
-                'is_checked' => false
-            ],
+            'open_rands'     => self::OPEN_ROOM_ROUNDS_EIGHT,
+            'top_mutiple'   => self::OPEN_ROOM_TOP_MULTIPLE_THIRTY_TWO,
         ],
-        '2342' => [
-            [
-                'id'   => self::OPEN_ROOM_FANXING_28ZUOZHUANG,
-                'desc' => self::OPEN_ROOM_FANXING_28ZUOZHUANG_DESC,
+        '2' => [
+            'game_server_id' => 2,
+            'game_type'      => self::GAME_TYPE_MJ,
+            'extend_type'    => [
+                self::OPEN_ROOM_FANXING_28ZUOZHUANG,
+                self::OPEN_ROOM_FANXING_MINGPIAO,
+                self::OPEN_ROOM_FANXING_YIBIANGAO,
+                self::OPEN_ROOM_FANXING_SIGUIYI,
+                self::OPEN_ROOM_FANXING_YIJIAFU,
             ],
-            [
-                'id'   => self::OPEN_ROOM_FANXING_MINGPIAO,
-                'desc' => self::OPEN_ROOM_FANXING_MINGPIAO_DESC,
-            ],
-            [
-                'id'         => self::OPEN_ROOM_FANXING_HUANGZHUANGHUANGGANG,
-                'desc'       => self::OPEN_ROOM_FANXING_HUANGZHUANGHUANGGANG_DESC,
-                'is_checked' => false
-            ],
-            [
-                'id'   => self::OPEN_ROOM_FANXING_YIBIANGAO,
-                'desc' => self::OPEN_ROOM_FANXING_YIBIANGAO_DESC,
-            ],
-            [
-                'id'   => self::OPEN_ROOM_FANXING_SIGUIYI,
-                'desc' => self::OPEN_ROOM_FANXING_SIGUIYI_DESC,
-            ],
-            [
-                'id'   => self::OPEN_ROOM_FANXING_YIJIAFU,
-                'desc' => self::OPEN_ROOM_FANXING_YIJIAFU_DESC,
-            ]
+            'open_rands'     => self::OPEN_ROOM_ROUNDS_EIGHT,
+            'top_mutiple'   => self::OPEN_ROOM_TOP_MULTIPLE_THIRTY_TWO,
         ],
-        '2280' => [
-            [
-                'id'   => self::OPEN_ROOM_FANXING_JUETOUHUI,
-                'desc' => self::OPEN_ROOM_FANXING_JUETOUHUI_DESC,
+        '3' => [
+            'game_server_id' => 3,
+            'game_type'      => self::GAME_TYPE_MJ,
+            'extend_type'    => [
+                self::OPEN_ROOM_FANXING_JUETOUHUI,
+                self::OPEN_ROOM_FANXING_ZHANLIHU,
+                self::OPEN_ROOM_FANXING_QIONGHU,
+                self::OPEN_ROOM_FANXING_KEDUANMEN,
+                self::OPEN_ROOM_FANXING_QINGYISE,
+                self::OPEN_ROOM_FANXING_XUANFENGGANG,
+                self::OPEN_ROOM_FANXING_BAOSANJIA,
+                self::OPEN_ROOM_FANXING_HUIPAI,
+                self::OPEN_ROOM_FANXING_ZHUIFENGGANGA,
+                self::OPEN_ROOM_FANXING_QIDUI,
             ],
-            [
-                'id'   => self::OPEN_ROOM_FANXING_ZHANLIHU,
-                'desc' => self::OPEN_ROOM_FANXING_ZHANLIHU_DESC,
-            ],
-            [
-                'id'         => self::OPEN_ROOM_FANXING_QIONGHU,
-                'desc'       => self::OPEN_ROOM_FANXING_QIONGHU_DESC,
-            ],
-            [
-                'id'   => self::OPEN_ROOM_FANXING_KEDUANMEN,
-                'desc' => self::OPEN_ROOM_FANXING_KEDUANMEN_DESC,
-            ],
-            [
-                'id'   => self::OPEN_ROOM_FANXING_QINGYISE,
-                'desc' => self::OPEN_ROOM_FANXING_QINGYISE_DESC,
-            ],
-            [
-                'id'   => self::OPEN_ROOM_FANXING_XUANFENGGANG,
-                'desc' => self::OPEN_ROOM_FANXING_XUANFENGGANG_DESC,
-            ],
-            [
-                'id'   => self::OPEN_ROOM_FANXING_BAOSANJIA,
-                'desc' => self::OPEN_ROOM_FANXING_BAOSANJIA_DESC,
-            ],
-            [
-                'id'   => self::OPEN_ROOM_FANXING_HUIPAI,
-                'desc' => self::OPEN_ROOM_FANXING_HUIPAI_DESC,
-            ],
-            [
-                'id'   => self::OPEN_ROOM_FANXING_ZHUIFENGGANGA,
-                'desc' => self::OPEN_ROOM_FANXING_ZHUIFENGGANGA_DESC,
-            ],
-            [
-                'id'   => self::OPEN_ROOM_FANXING_QIDUI,
-                'desc' => self::OPEN_ROOM_FANXING_QIDUI_DESC,
-            ]
+            'open_rands'     => self::OPEN_ROOM_ROUNDS_EIGHT,
+            'top_mutiple'   => self::OPEN_ROOM_TOP_MULTIPLE_THIRTY_TWO,
+        ],
+        '4' => [
+            'game_server_id' => 4,
+            'game_type'      => self::GAME_TYPE_DDZ,
+            'open_rands'     => self::OPEN_ROOM_ROUNDS_EIGHT,
+            'top_mutiple'    => self::OPEN_ROOM_TOP_MULTIPLE_THIRTY_TWO,
+            'zhuang_type'    => self::ZHUANG_TYPE_QIANGDIZHU
         ],
     ];
 
@@ -414,5 +398,13 @@ class Constants
     public static $bind_player_city_ban = [
         '2340',
         '2342'
+    ];
+
+
+    const GAME_TYPE_MJ  = 1;
+    const GAME_TYPE_DDZ = 2;
+
+    public static $division_city_game_type = [
+        self::GAME_TYPE_MJ
     ];
 }

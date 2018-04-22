@@ -85,11 +85,7 @@ class StatDayRounds extends Command
     {
         $client = new SftpClient();
 
-        if (App::environment('production')) {
-            $servers = Config::get('services.game_server.outer');
-        } else {
-            $servers = Config::get('services.game_server.inner');
-        }
+        $servers = Config::get('services.game_servers');
 
         foreach ($servers as $server) {
             $credentials = Credentials::withPublicKey(self::SSH_AUTH_USER_NAME,
@@ -104,7 +100,7 @@ class StatDayRounds extends Command
 
             $client->close();
 
-            $this->processLog($center_server_log_path);
+            $this->processLog($center_server_log_path, $server);
         }
     }
 
@@ -137,7 +133,7 @@ class StatDayRounds extends Command
     }
 
 
-    protected function processLog($file_name)
+    protected function processLog($file_name, $server)
     {
         if (!file_exists($file_name)) {
             return false;
@@ -152,6 +148,7 @@ class StatDayRounds extends Command
         $day_rounds->day = $y->toDateString();
         $day_rounds->week = $y->weekOfYear;
         $day_rounds->month = $y->month;
+        $day_rounds->game_server_id = $server['game_server_id'];
         $day_rounds->year = $y->year;
         $day_rounds->total_rounds = $rounds;
         $day_rounds->sixteen_rounds = $sixteen_rounds;

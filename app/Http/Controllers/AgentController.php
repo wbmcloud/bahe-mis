@@ -13,6 +13,7 @@ use App\Exceptions\BaheException;
 use App\Logic\AccountLogic;
 use App\Logic\AgentLogic;
 use App\Logic\CityLogic;
+use App\Logic\GameLogic;
 use App\Logic\UserLogic;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
@@ -116,17 +117,23 @@ class AgentController extends Controller
         $server = explode('-', $this->params['server']);
         $open_room_params['server_id'] = $server[0];
 
-        $city_info = CityLogic::getCityInfo($server[1]);
-        if (empty($city_info)) {
-            throw new BaheException(BaheException::CITY_NOT_VALID_CODE);
+        // 获取game_server_id
+        $game_server = (new GameLogic())->getGameServerByCityIdAndType($server[1], $this->params['game_type']);
+        if (empty($game_server)) {
+            throw new BaheException(BaheException::GAME_SERVER_NOT_FOUND_CODE);
         }
 
-        $open_room_params['city_type'] = $city_info['gmt_city_id'];
-        $open_room_params['gmt_server_ip'] = $city_info['gmt_server_ip'];
-        $open_room_params['gmt_server_port'] = $city_info['gmt_server_port'];
-        $open_room_params['extend_type'] = $this->params['extend_type'];
+        $open_room_params['game_server_id'] = $game_server['id'];
+        $open_room_params['city_id'] = $game_server['city_id'];
+        $open_room_params['game_type'] = $this->params['game_type'];
+        $open_room_params['city_type'] = $game_server['gmt_city_id'];
+        $open_room_params['gmt_server_ip'] = $game_server['gmt_server_ip'];
+        $open_room_params['gmt_server_port'] = $game_server['gmt_server_port'];
+
+        isset($this->params['extend_type']) && ($open_room_params['extend_type'] = $this->params['extend_type']);
         $open_room_params['open_rands'] = $this->params['open_rands'];
         $open_room_params['top_mutiple'] = $this->params['top_mutiple'];
+        isset($this->params['zhuang_type']) && ($open_room_params['zhuang_type'] = $this->params['zhuang_type']);
         isset($this->params['voice_open']) && ($open_room_params['voice_open'] = $this->params['voice_open']);
 
         $open_room_res = $agent_logic->openRoom($user, $open_room_params);

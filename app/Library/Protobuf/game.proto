@@ -103,6 +103,13 @@ enum ROOM_MODEL_TYPE {
     ROOM_MODEL_TYPE_MULTIPLE = 2; //高番模式
 }
 
+//斗地主抢庄方式
+enum ZHUANG_TYPE {
+    ZHUANG_TYPE_UNKNOWN = 0; //未知
+	ZHUANG_TYPE_QIANGDIZHU = 1; //抢地主
+	ZHUANG_TYPE_JIAOFEN = 2; //叫分
+}
+
 //房间设置-番型选择
 message RoomOptions {
     ROOM_MODEL_TYPE model = 1; //模式选择
@@ -114,6 +121,7 @@ message RoomOptions {
     bool gmt_opened = 7; //是否代开房
     ROOM_PAY_TYPE pay_type = 8; //付费方式
     CITY_TYPE city_type = 9; //城市
+    ZHUANG_TYPE zhuang_type = 10; //抢庄方式//叫地主方式
 }
 
 //付费方式
