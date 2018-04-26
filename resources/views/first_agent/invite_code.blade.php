@@ -25,6 +25,7 @@
                             <thead>
                             <tr>
                             <th>id</th>
+                            <th>城市</th>
                             <th>邀请码</th>
                             <th>是否使用</th>
                             </tr>
@@ -36,6 +37,7 @@
                                 @foreach($codes as $code)
                                     <tr>
                                         <td>{{ $code['id'] }}</td>
+                                        <td>{{ $code['city']['city_name'] }}</td>
                                         <td>{{ $code['invite_code'] }}</td>
                                         @if($code['is_used'])
                                         <td>是</td>

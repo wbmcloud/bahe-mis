@@ -11,4 +11,9 @@ class GameServer extends Model
         parent::__construct($attributes);
         $this->table = 'game_server';
     }
+
+    public function city()
+    {
+        return $this->hasOne('App\Models\City', 'city_id', 'city_id');
+    }
 }

@@ -42,6 +42,7 @@ class RechargeLogic extends BaseLogic
         if (!in_array($recharge_user_role['name'], Constants::$recharge_role)) {
             throw new BaheException(BaheException::AGENT_NOT_VALID_CODE);
         }
+        $params['city_id'] = $user->city_id;
 
         // 给代理充值
         DB::beginTransaction();
@@ -78,6 +79,7 @@ class RechargeLogic extends BaseLogic
         $transaction_flow->recharge_type  = $params['recharge_type'];
         !empty($params['give_num']) && ($transaction_flow->give_num = $params['give_num']);
         $transaction_flow->num            = $params['num'];
+        $transaction_flow->city_id        = $params['city_id'];
         $transaction_flow->status         = Constants::COMMON_ENABLE;
         $transaction_flow->save();
 
@@ -129,6 +131,7 @@ class RechargeLogic extends BaseLogic
         $transaction_flow->recharge_type  = $params['recharge_type'];
         $transaction_flow->num            = $params['num'];
         $transaction_flow->game_server_id = $params['game_server_id'];
+        $transaction_flow->city_id = $params['city_id'];
 
         if ($is_recharged) {
             $transaction_flow->status = Constants::COMMON_ENABLE;
@@ -159,6 +162,7 @@ class RechargeLogic extends BaseLogic
         $params['gmt_server_ip'] = $game_server['gmt_server_ip'];
         $params['gmt_server_port'] = $game_server['gmt_server_port'];
         $params['game_server_id'] = $game_server['id'];
+        $params['city_id'] = $game_server['city_id'];
 
         DB::beginTransaction();
         try {

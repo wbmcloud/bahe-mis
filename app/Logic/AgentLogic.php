@@ -137,6 +137,7 @@ class AgentLogic extends BaseLogic
         $transaction_flow->req_params     = json_encode($params);
 
         $transaction_flow->game_server_id = $params['game_server_id'];
+        $transaction_flow->city_id = $params['city_id'];
 
         if ($is_recharged) {
             $transaction_flow->status = Constants::COMMON_ENABLE;
@@ -303,7 +304,8 @@ class AgentLogic extends BaseLogic
 
         $render_arr[] = Constants::$open_room_rounds[$params['open_rands']];
 
-        if (in_array($params['game_type'], Constants::$division_city_game_type)) {
+        if (isset($params['game_type']) &&
+            in_array($params['game_type'], Constants::$division_city_game_type)) {
             $render_arr[] = Constants::$open_room_top_multiple[$params['top_mutiple']];
         } else {
             $render_arr[] = Constants::$open_room_ddz_top_multiple[$params['top_mutiple']];

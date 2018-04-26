@@ -11,4 +11,9 @@ class InviteCode extends Model
         parent::__construct($attributes);
         $this->table = 'invite_code';
     }
+
+    public function city()
+    {
+        return $this->hasOne('App\Models\City', 'city_id', 'city_id');
+    }
 }

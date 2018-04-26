@@ -47,7 +47,10 @@ class GenInviteCodes extends Command
 
         $city_id = $this->argument('city_id');
         if (!empty($city_id)) {
-            $this->insertRecord($city_id);
+            $city_ids = explode(',', $city_id);
+            foreach ($city_ids as $city_id) {
+                $this->insertRecord($city_id);
+            }
         } else {
             $cities = City::get()->toArray();
             foreach ($cities as $city) {

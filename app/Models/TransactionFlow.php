@@ -21,4 +21,9 @@ class TransactionFlow extends Model
         parent::__construct($attributes);
         $this->table = 'transaction_flow';
     }
+
+    public function gameServer()
+    {
+        return $this->hasOne('App\Models\GameServer', 'id', 'game_server_id');
+    }
 }

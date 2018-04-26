@@ -8,6 +8,8 @@ use App\Console\Commands\ManagerActionLog;
 use App\Console\Commands\StatAgent;
 use App\Console\Commands\StatDateFirstCashOrder;
 use App\Console\Commands\StatDateGeneralCashOrder;
+use App\Console\Commands\StatDayAgentFlow;
+use App\Console\Commands\StatDayAgentRecharge;
 use App\Console\Commands\StatDayFlow;
 use App\Console\Commands\StatDayRounds;
 use App\Console\Commands\SyncGamePlayerInfo;
@@ -33,6 +35,7 @@ class Kernel extends ConsoleKernel
         StatAgent::class,
         StatDayRounds::class,
         SyncLastLoginTime::class,
+        StatDayAgentFlow::class,
     ];
 
     /**

@@ -9,8 +9,10 @@
 namespace App\Logic;
 
 use App\Common\Constants;
+use App\Exceptions\BaheException;
 use App\Library\Protobuf\COMMAND_TYPE;
 use App\Models\Accounts;
+use App\Models\DayAgentFlowStat;
 use App\Models\DayAgentStat;
 use App\Models\DayFlowStat;
 use App\Models\DayGamePlayerLoginLog;
@@ -39,12 +41,23 @@ class StatLogic extends BaseLogic
     }
 
     /**
+     * @param $city_id
+     * @param $game_type
      * @param $size
      * @return array
+     * @throws BaheException
      */
-    public function getStatFlowList($size)
+    public function getStatFlowList($city_id, $game_type, $size)
     {
-        $flows = DayFlowStat::orderBy('id', 'desc')->take($size)->get()->toArray();
+        // 获取game_server_id
+        $game_server = (new GameLogic())->getGameServerByCityIdAndType($city_id, $game_type);
+        if (empty($game_server)) {
+            throw new BaheException(BaheException::GAME_SERVER_NOT_FOUND_CODE);
+        }
+
+        $flows = DayFlowStat::where('game_server_id', $game_server['id'])
+            ->orderBy('id', 'desc')->take($size)->get()->toArray();
+
         array_multisort(array_column($flows, 'id'), SORT_ASC, $flows);
         return [
             'list' => $flows
@@ -52,21 +65,57 @@ class StatLogic extends BaseLogic
     }
 
     /**
+     * @param $city_id
      * @param $size
      * @return array
      */
-    public function getStatRoundsList($size)
+    public function getStatAgentFlowList($city_id, $size)
     {
-        $rounds = DayRounds::orderBy('id', 'desc')->take($size)->get()->toArray();
+        if ($city_id == Constants::CITY_ID_ALL) {
+            $flows = DayAgentFlowStat::orderBy('id', 'desc')->take($size)->get()->toArray();
+        } else {
+            $flows = DayAgentFlowStat::where('city_id', $city_id)
+                ->orderBy('id', 'desc')->take($size)->get()->toArray();
+        }
+        array_multisort(array_column($flows, 'id'), SORT_ASC, $flows);
+        return [
+            'list' => $flows
+        ];
+    }
+
+    /**
+     * @param $city_id
+     * @param $game_type
+     * @param $size
+     * @return array
+     * @throws BaheException
+     */
+    public function getStatRoundsList($city_id, $game_type, $size)
+    {
+        // 获取game_server_id
+        $game_server = (new GameLogic())->getGameServerByCityIdAndType($city_id, $game_type);
+        if (empty($game_server)) {
+            throw new BaheException(BaheException::GAME_SERVER_NOT_FOUND_CODE);
+        }
+
+        $rounds = DayRounds::where('game_server_id', $game_server['id'])
+            ->orderBy('id', 'desc')->take($size)->get()->toArray();
         array_multisort(array_column($rounds, 'id'), SORT_ASC, $rounds);
         return [
             'list' => $rounds
         ];
     }
 
-    public function getStatDauList($size)
+    public function getStatDauList($city_id, $game_type, $size)
     {
-        $day_game_player_login_log = DayGamePlayerLoginLog::groupBy('day')
+        // 获取game_server_id
+        $game_server = (new GameLogic())->getGameServerByCityIdAndType($city_id, $game_type);
+        if (empty($game_server)) {
+            throw new BaheException(BaheException::GAME_SERVER_NOT_FOUND_CODE);
+        }
+
+        $day_game_player_login_log = DayGamePlayerLoginLog::where('game_server_id', $game_server['id'])
+            ->groupBy('day')
             ->orderBy('day', 'desc')
             ->take($size)
             ->selectRaw('day, count(1) AS amount')
@@ -78,9 +127,16 @@ class StatLogic extends BaseLogic
         ];
     }
 
-    public function getStatWauList($size)
+    public function getStatWauList($city_id, $game_type, $size)
     {
-        $week_game_player_login_log = DayGamePlayerLoginLog::groupBy('week')
+        // 获取game_server_id
+        $game_server = (new GameLogic())->getGameServerByCityIdAndType($city_id, $game_type);
+        if (empty($game_server)) {
+            throw new BaheException(BaheException::GAME_SERVER_NOT_FOUND_CODE);
+        }
+
+        $week_game_player_login_log = DayGamePlayerLoginLog::where('game_server_id', $game_server['id'])
+            ->groupBy('week')
             ->orderBy('week', 'desc')
             ->take($size)
             ->selectRaw('week, COUNT(DISTINCT player_id) AS amount')
@@ -92,9 +148,16 @@ class StatLogic extends BaseLogic
         ];
     }
 
-    public function getStatMauList($size)
+    public function getStatMauList($city_id, $game_type, $size)
     {
-        $month_game_player_login_log = DayGamePlayerLoginLog::groupBy('month')
+        // 获取game_server_id
+        $game_server = (new GameLogic())->getGameServerByCityIdAndType($city_id, $game_type);
+        if (empty($game_server)) {
+            throw new BaheException(BaheException::GAME_SERVER_NOT_FOUND_CODE);
+        }
+
+        $month_game_player_login_log = DayGamePlayerLoginLog::where('game_server_id', $game_server['id'])
+            ->groupBy('month')
             ->orderBy('month', 'desc')
             ->take($size)
             ->selectRaw('month, COUNT(DISTINCT player_id) AS amount')

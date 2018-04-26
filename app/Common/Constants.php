@@ -13,6 +13,11 @@ use App\Library\Protobuf\COMMAND_TYPE;
 class Constants
 {
     /**
+     * 全国
+     */
+    const CITY_ID_ALL = 1;
+
+    /**
      * 角色名称
      */
     const ROLE_SUPER         = 'super';

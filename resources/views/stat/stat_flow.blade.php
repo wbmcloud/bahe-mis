@@ -1,76 +1,110 @@
 @extends('admin_template')
+
+@section('head')
+    <link rel="stylesheet" href="{{ asset("/bower_components/admin-lte/plugins/select2/select2.css") }}">
+    <link rel="stylesheet" href="{{ asset("/bower_components/admin-lte/plugins/iCheck/square/blue.css") }}">
+@endsection
+
 @section('content')
     <section class="content">
+        <div class="box-body">
+            <div class="form-group">
+                <label>城市选择</label>
+                <select class="city_multi form-control select2" id="city_id" name="city_id"
+                        onchange="changeCity()" required>
+                    @foreach($cities as $city)
+                        <option value="{{ $city['city_id'] }}">{{ $city['city_name'] }}</option>
+                    @endforeach
+                </select>
+            </div>
+            <div class="form-group">
+                <label>游戏选择&nbsp;</label>
+                <input type="radio" value="1" name="game_type" checked>&nbsp;&nbsp;&nbsp;麻将&nbsp;&nbsp;
+                <input type="radio" value="2" name="game_type">&nbsp;&nbsp;&nbsp;斗地主
+            </div>
+
+        </div>
         <div id="main" style="width: 100%;height:500px;">
         </div>
     </section>
 @endsection
 
 @section('script')
+    <script src="{{ asset("/bower_components/admin-lte/plugins/select2/select2.js") }}"></script>
+    <script src="{{ asset("/bower_components/admin-lte/plugins/iCheck/icheck.min.js") }}"></script>
     <script src="{{ asset("/bower_components/admin-lte/dist/js/echarts.min.js") }}"></script>
     <script>
-        $(function () {
 
-            // 基于准备好的dom，初始化echarts实例
-            var myChart = echarts.init(document.getElementById('main'));
+        // 基于准备好的dom，初始化echarts实例
+        var myChart = echarts.init(document.getElementById('main'));
 
-            option = {
-                title: {
-                    text: '房卡数统计'
-                },
-                tooltip : {
-                    trigger: 'axis',
-                    axisPointer: {
-                        type: 'cross',
-                        label: {
-                            backgroundColor: '#6a7985'
-                        }
+        option = {
+            title: {
+                text: '玩家充值数统计'
+            },
+            tooltip : {
+                trigger: 'axis',
+                axisPointer: {
+                    type: 'cross',
+                    label: {
+                        backgroundColor: '#6a7985'
                     }
-                },
-                legend: {
-                    data:['代理充值房卡数','用户充值房卡数','代开房消耗房卡数']
-                },
-                toolbox: {
-                    feature: {
-                        saveAsImage: {}
-                    }
-                },
-                grid: {
-                    left: '3%',
-                    right: '4%',
-                    bottom: '3%',
-                    containLabel: true
-                },
-                xAxis : [
-                    {
-                        type : 'category',
-                        boundaryGap : false,
-                        data : []
-                    }
-                ],
-                yAxis : [
-                    {
-                        type : 'value'
-                    }
-                ],
-                series : []
-            };
+                }
+            },
+            legend: {
+                data:['用户充值房卡数','代开房消耗房卡数']
+            },
+            toolbox: {
+                feature: {
+                    saveAsImage: {}
+                }
+            },
+            grid: {
+                left: '3%',
+                right: '4%',
+                bottom: '3%',
+                containLabel: true
+            },
+            xAxis : [
+                {
+                    type : 'category',
+                    boundaryGap : false,
+                    data : []
+                }
+            ],
+            yAxis : [
+                {
+                    type : 'value'
+                }
+            ],
+            series : []
+        };
+
+        function changeCity()
+        {
+            var _city_id = $('select[name="city_id"] option:selected').val();
+            var _game_type = $('input[name="game_type"]:checked').val();
+            fillIn(myChart, option, _city_id, _game_type);
+        }
+
+        function fillIn(chart, option, city_id, game_type)
+        {
             $.ajax({
                 headers: {
                     "X-Requested-With": "XMLHttpRequest",
                 },
                 url: "/api/stat/flow",
+                data: {
+                    city_id: city_id,
+                    game_type: game_type
+                },
                 method: 'GET',
                 success: function (res) {
+                    if (res.code) {
+                        return;
+                    }
                     var _chart_data = [];
                     var _day_axis = [];
-                    var _agent_recharge = {
-                        'name': '代理充值房卡数',
-                        'type': 'line',
-                        'stack': '总量',
-                        'areaStyle': {normal: {}},
-                        'data': []
-                    };
                     var _user_recharge = {
                         'name': '用户充值房卡数',
                         'type': 'line',
@@ -88,12 +122,10 @@
                     var _data = res.data['list'];
                     for (var i = 0; i < _data.length; i++) {
                         _day_axis[i] = _data[i]['day'],
-                            _agent_recharge['data'][i] = _data[i]['agent_recharge_card_total'],
                             _user_recharge['data'][i] = _data[i]['user_recharge_card_total'],
                             _open_room['data'][i] = _data[i]['open_room_card_total']
                     }
 
-                    _chart_data.push(_agent_recharge);
                     _chart_data.push(_user_recharge);
                     _chart_data.push(_open_room);
 
@@ -104,6 +136,26 @@
                     myChart.setOption(option);
                 }
             });
+        }
+
+        $('input[name="game_type"]').on('ifChecked', function () {
+            changeCity();
+        });
+
+        $(document).ready(function () {
+            $(".city_multi").select2({
+                placeholder: "请选择开通城市",
+                maximumSelectionLength: 3,
+                tags: true
+            });
+
+            $("input").iCheck({
+                checkboxClass: 'icheckbox_square-blue',
+                radioClass: 'iradio_square-blue',
+                increaseArea: '20%' // optional
+            });
+
+            changeCity();
 
             $('#stat').addClass('active');
             $('#stat_flow').addClass('active');

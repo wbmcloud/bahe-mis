@@ -9,7 +9,7 @@ use Carbon\Carbon;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\DB;
 
-class StatDayFlow extends Command
+class StatDayAgentFlow extends Command
 {
 
     /**
@@ -17,7 +17,7 @@ class StatDayFlow extends Command
      *
      * @var string
      */
-    protected $signature = 'stat:day_flow {--all}';
+    protected $signature = 'stat:day_agent_flow {--all}';
 
     /**
      * The console command description.
@@ -49,45 +49,42 @@ class StatDayFlow extends Command
         if ($option) {
             // 计算当天房卡充值流水
             $flows = TransactionFlow::where([
-                    'recipient_type' => Constants::ROLE_TYPE_USER,
                     'status' => Constants::COMMON_ENABLE,
+                    'recharge_type' => COMMAND_TYPE::COMMAND_TYPE_ROOM_CARD,
                 ])
                 ->where('created_at', '>=', Constants::FEE_START_DATE)
                 ->where('created_at', '<', $t)
-                ->groupBy('day', 'game_server_id', 'recharge_type')
-                ->selectRaw('substring(created_at, 1, 10) as day, game_server_id, recharge_type, sum(num) as amount')
+                ->whereIn('recipient_type', Constants::$agent_role_type)
+                ->groupBy('day', 'city_id')
+                ->selectRaw('substring(created_at, 1, 10) as day, city_id, sum(num) as amount')
                 ->get()
                 ->toArray();
         } else {
             // 计算当天房卡充值流水
             $flows = TransactionFlow::where([
-                    'recipient_type' => Constants::ROLE_TYPE_USER,
                     'status' => Constants::COMMON_ENABLE,
+                    'recharge_type' => COMMAND_TYPE::COMMAND_TYPE_ROOM_CARD,
                 ])
                 ->where('created_at', '>=', $y)
                 ->where('created_at', '<', $t)
-                ->groupBy('day', 'game_server_id', 'recharge_type')
-                ->selectRaw('substring(created_at, 1, 10) as day, game_server_id, recharge_type, sum(num) as amount')
+                ->whereIn('recipient_type', Constants::$agent_role_type)
+                ->groupBy('day', 'city_id')
+                ->selectRaw('substring(created_at, 1, 10) as day, city_id, sum(num) as amount')
                 ->get()
                 ->toArray();
         }
 
         $day_flow = [];
         foreach ($flows as $flow) {
-            $k = $flow['day'] . '-' . $flow['game_server_id'];
+            $k = $flow['day'] . '-' . $flow['city_id'];
             if (isset($day_flow[$k])) {
                 $row = $day_flow[$k];
             } else {
-                $row['game_server_id'] = $flow['game_server_id'];
+                $row['city_id'] = $flow['city_id'];
                 $row['day'] = $flow['day'];
             }
-            if ($flow['recharge_type'] == COMMAND_TYPE::COMMAND_TYPE_ROOM_CARD) {
-                $row['user_recharge_card_total'] = $flow['amount'];
-            }
 
-            if ($flow['recharge_type'] == Constants::COMMAND_TYPE_OPEN_ROOM) {
-                $row['open_room_card_total'] = $flow['amount'];
-            }
+            $row['total'] = $flow['amount'];
 
             $day_flow[$k] = $row;
         }
@@ -103,7 +100,7 @@ class StatDayFlow extends Command
             }
         }
 
-        DB::table('day_flow_stat')->insert($day_flow);
+        DB::table('day_agent_flow_stat')->insert($day_flow);
     }
 
     /**
@@ -113,9 +110,7 @@ class StatDayFlow extends Command
      */
     private function _genInsertRecord(&$day_flow, $carbon)
     {
-        !isset($day_flow['user_recharge_card_total']) && ($day_flow['user_recharge_card_total'] = 0);
-        !isset($day_flow['agent_recharge_card_total']) && ($day_flow['agent_recharge_card_total'] = 0);
-        !isset($day_flow['open_room_card_total']) && ($day_flow['open_room_card_total'] = 0);
+        !isset($day_flow['total']) && ($day_flow['total'] = 0);
         $day_flow['day'] = $carbon->toDateString();
         $day_flow['week'] = $carbon->weekOfYear;
         $day_flow['month'] = $carbon->month;

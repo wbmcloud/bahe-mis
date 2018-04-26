@@ -78,7 +78,7 @@ class Handler extends ExceptionHandler
             return Utils::sendJsonResponse($code, $message);
         }
 
-        /*if ($exception instanceof ValidationException) {
+        if ($exception instanceof ValidationException) {
             return redirect()->back();
         } elseif ($exception instanceof NotFoundHttpException) {
             return redirect(ParamsRules::IF_NOT_FOUND);
@@ -88,8 +88,8 @@ class Handler extends ExceptionHandler
             return Utils::renderError(BaheException::$error_msg[BaheException::SYSTEM_ERROR_CODE]);
         } else {
             return Utils::renderError($exception->getMessage());
-        }*/
-        return parent::render($request, $exception);
+        }
+        //return parent::render($request, $exception);
     }
 
     /**

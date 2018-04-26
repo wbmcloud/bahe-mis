@@ -34,6 +34,8 @@
                             <thead>
                             <tr>
                                 <th>id</th>
+                                <th>城市</th>
+                                <th>游戏类型</th>
                                 <th>发起人id</th>
                                 <th>发起人用户名</th>
                                 <th>发起人类型</th>
@@ -54,6 +56,8 @@
                                 @foreach($recharge_list as $recharge)
                                     <tr>
                                         <td>{{ $recharge['id'] }}</td>
+                                        <td>{{ $recharge['gameServer']['city']['city_name'] }}</td>
+                                        <td>{{ $recharge['gameServer']['game_type'] }}</td>
                                         <td>{{ $recharge['initiator_id'] }}</td>
                                         <td>{{ $recharge['initiator_name'] }}</td>
                                         <td>{{ \App\Common\Constants::$role_type[$recharge['initiator_type']] }}</td>

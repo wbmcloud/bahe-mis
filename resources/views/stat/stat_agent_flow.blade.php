@@ -1,27 +1,21 @@
 @extends('admin_template')
+
 @section('head')
     <link rel="stylesheet" href="{{ asset("/bower_components/admin-lte/plugins/select2/select2.css") }}">
-    <link rel="stylesheet" href="{{ asset("/bower_components/admin-lte/plugins/iCheck/square/blue.css") }}">
 @endsection
 
 @section('content')
     <section class="content">
         <div class="box-body">
             <div class="form-group">
-                <label>城市选择</label>
+                <label for="city_id">城市选择</label>
                 <select class="city_multi form-control select2" id="city_id" name="city_id"
-                        onchange="changeCity()" required>
+                        onchange="changeCity(this.selectedOptions[0])" required>
                     @foreach($cities as $city)
                         <option value="{{ $city['city_id'] }}">{{ $city['city_name'] }}</option>
                     @endforeach
                 </select>
             </div>
-            <div class="form-group">
-                <label>游戏选择&nbsp;</label>
-                <input type="radio" value="1" name="game_type" checked>&nbsp;&nbsp;&nbsp;麻将&nbsp;&nbsp;
-                <input type="radio" value="2" name="game_type">&nbsp;&nbsp;&nbsp;斗地主
-            </div>
-
         </div>
         <div id="main" style="width: 100%;height:500px;">
         </div>
@@ -30,7 +24,6 @@
 
 @section('script')
     <script src="{{ asset("/bower_components/admin-lte/plugins/select2/select2.js") }}"></script>
-    <script src="{{ asset("/bower_components/admin-lte/plugins/iCheck/icheck.min.js") }}"></script>
     <script src="{{ asset("/bower_components/admin-lte/dist/js/echarts.min.js") }}"></script>
     <script>
         // 基于准备好的dom，初始化echarts实例
@@ -38,9 +31,9 @@
 
         option = {
             title: {
-                text: 'WAU统计'
+                text: '代理充值数统计'
             },
-            tooltip : {
+            tooltip: {
                 trigger: 'axis',
                 axisPointer: {
                     type: 'cross',
@@ -50,7 +43,7 @@
                 }
             },
             legend: {
-                data:['总局数']
+                data: ['用户充值房卡数', '代开房消耗房卡数']
             },
             toolbox: {
                 feature: {
@@ -63,55 +56,55 @@
                 bottom: '3%',
                 containLabel: true
             },
-            xAxis : [
+            xAxis: [
                 {
-                    type : 'category',
-                    boundaryGap : false,
-                    data : []
+                    type: 'category',
+                    boundaryGap: false,
+                    data: []
                 }
             ],
-            yAxis : [
+            yAxis: [
                 {
-                    type : 'value'
+                    type: 'value'
                 }
             ],
-            series : []
+            series: []
         };
 
-        function changeCity()
+        function changeCity(e)
         {
-            var _city_id = $('select[name="city_id"] option:selected').val();
-            var _game_type = $('input[name="game_type"]:checked').val();
-            fillIn(myChart, option, _city_id, _game_type);
+            var _city_id = $(e).val();
+            fillIn(myChart, option, _city_id);
         }
 
-        function fillIn(chart, option, city_id, game_type)
+        function fillIn(chart, option, city_id)
         {
             $.ajax({
                 headers: {
                     "X-Requested-With": "XMLHttpRequest",
                 },
-                url: "/api/stat/wau",
+                url: "/api/stat/agent_flow",
                 data: {
                     city_id: city_id,
-                    game_type: game_type
                 },
                 method: 'GET',
                 success: function (res) {
                     var _chart_data = [];
                     var _day_axis = [];
-                    var _total_rounds = {
-                        'name': '周活',
+                    var _agent_recharge = {
+                        'name': '代理充值房卡数',
                         'type': 'line',
+                        'stack': '总量',
+                        'areaStyle': {normal: {}},
                         'data': []
                     };
                     var _data = res.data['list'];
                     for (var i = 0; i < _data.length; i++) {
-                        _day_axis[i] = _data[i]['week'] + '周',
-                            _total_rounds['data'][i] = _data[i]['amount'];
+                        _day_axis[i] = _data[i]['day'],
+                            _agent_recharge['data'][i] = _data[i]['total'];
                     }
 
-                    _chart_data.push(_total_rounds);
+                    _chart_data.push(_agent_recharge);
 
                     option['xAxis'][0]['data'] = _day_axis;
                     option['series'] = _chart_data;
@@ -122,10 +115,6 @@
             });
         }
 
-        $('input[name="game_type"]').on('ifChecked', function () {
-            changeCity();
-        });
-
         $(document).ready(function () {
             $(".city_multi").select2({
                 placeholder: "请选择开通城市",
@@ -133,16 +122,11 @@
                 tags: true
             });
 
-            $("input").iCheck({
-                checkboxClass: 'icheckbox_square-blue',
-                radioClass: 'iradio_square-blue',
-                increaseArea: '20%' // optional
-            });
-
-            changeCity();
+            changeCity($('#city_id'));
 
             $('#stat').addClass('active');
-            $('#stat_wau').addClass('active');
+            $('#stat_agent_flow').addClass('active');
         });
+
     </script>
 @endsection

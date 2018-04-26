@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Logic\UserLogic;
+
 class StatController extends Controller
 {
     /**
@@ -17,7 +19,28 @@ class StatController extends Controller
      */
     public function flow()
     {
-        return [];
+        // 管理员和超级管理员
+        $user_logic = new UserLogic();
+        $cities     = $user_logic->getOpenCities();
+
+        return [
+            'cities' => $cities
+        ];
+    }
+
+    /**
+     * 代理充值流水
+     * @return array
+     */
+    public function agentFlow()
+    {
+        // 管理员和超级管理员
+        $user_logic = new UserLogic();
+        $cities     = $user_logic->getOpenCities();
+
+        return [
+            'cities' => $cities
+        ];
     }
 
     /**
@@ -25,7 +48,13 @@ class StatController extends Controller
      */
     public function rounds()
     {
-        return [];
+        // 管理员和超级管理员
+        $user_logic = new UserLogic();
+        $cities     = $user_logic->getOpenCities();
+
+        return [
+            'cities' => $cities
+        ];
     }
 
     /**
@@ -33,7 +62,13 @@ class StatController extends Controller
      */
     public function dau()
     {
-        return [];
+        // 管理员和超级管理员
+        $user_logic = new UserLogic();
+        $cities     = $user_logic->getOpenCities();
+
+        return [
+            'cities' => $cities
+        ];
     }
 
     /**
@@ -41,7 +76,13 @@ class StatController extends Controller
      */
     public function wau()
     {
-        return [];
+        // 管理员和超级管理员
+        $user_logic = new UserLogic();
+        $cities     = $user_logic->getOpenCities();
+
+        return [
+            'cities' => $cities
+        ];
     }
 
     /**
@@ -49,7 +90,13 @@ class StatController extends Controller
      */
     public function mau()
     {
-        return [];
+        // 管理员和超级管理员
+        $user_logic = new UserLogic();
+        $cities     = $user_logic->getOpenCities();
+
+        return [
+            'cities' => $cities
+        ];
     }
 
 }

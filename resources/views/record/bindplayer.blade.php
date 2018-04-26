@@ -37,6 +37,7 @@
                                 <th>代理用户名</th>
                                 <th>绑定角色id</th>
                                 <th>城市</th>
+                                <th>游戏类型</th>
                                 <th>绑定时间</th>
                             </tr>
                             </thead>
@@ -49,7 +50,8 @@
                                         <td>{{ $recharge['user_id'] }}</td>
                                         <td>{{ $recharge['user_name'] }}</td>
                                         <td>{{ $recharge['player_id'] }}</td>
-                                        <td>{{ $recharge['city_name'] }}</td>
+                                        <td>{{ $recharge['gameServer']['city']['city_name'] }}</td>
+                                        <td>{{ $recharge['gameServer']['game_type'] }}</td>
                                         <td>{{ $recharge['created_at'] }}</td>
                                     </tr>
                                 @endforeach

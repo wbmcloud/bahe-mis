@@ -117,12 +117,13 @@
             </span>
           </a>
           <ul class="treeview-menu">
-            <li id="stat_agent"><a href="{{ route('stat.agent') }}"><i class="fa fa-circle"></i><span>代理</span></a></li>
-            <li id="stat_flow"><a href="{{ route('stat.flow') }}"><i class="fa fa-circle"></i><span>流水</span></a></li>
-            <li id="stat_rounds"><a href="{{ route('stat.rounds') }}"><i class="fa fa-circle"></i><span>局数</span></a></li>
-            <li id="stat_dau"><a href="{{ route('stat.dau') }}"><i class="fa fa-circle"></i><span>DAU</span></a></li>
-            <li id="stat_wau"><a href="{{ route('stat.wau') }}"><i class="fa fa-circle"></i><span>WAU</span></a></li>
-            <li id="stat_mau"><a href="{{ route('stat.mau') }}"><i class="fa fa-circle"></i><span>MAU</span></a></li>
+            <!--li id="stat_agent"><a href="{{ route('stat.agent') }}"><i class="fa fa-circle"></i><span>代理</span></a></li-->
+            <li id="stat_agent_flow"><a href="{{ route('stat.agent_flow') }}"><i class="fa fa-circle"></i><span>代理充值流水</span></a></li>
+            <li id="stat_flow"><a href="{{ route('stat.flow') }}"><i class="fa fa-circle"></i><span>玩家充值流水</span></a></li>
+            <li id="stat_rounds"><a href="{{ route('stat.rounds') }}"><i class="fa fa-circle"></i><span>每日局数</span></a></li>
+            <li id="stat_dau"><a href="{{ route('stat.dau') }}"><i class="fa fa-circle"></i><span>日活DAU</span></a></li>
+            <li id="stat_wau"><a href="{{ route('stat.wau') }}"><i class="fa fa-circle"></i><span>周活WAU</span></a></li>
+            <li id="stat_mau"><a href="{{ route('stat.mau') }}"><i class="fa fa-circle"></i><span>月活MAU</span></a></li>
           </ul>
         </li>
         @endrole
