@@ -39,13 +39,11 @@
           </a>
         </li>
         @role(['agent', 'first_agent', 'general_agent'])
-        @if(!in_array(\Illuminate\Support\Facades\Auth::user()->city_id, \App\Common\Constants::$bind_player_city_ban))
         <li id="bindplayer" class="treeview">
           <a href="{{ route('game.bindplayer') }}">
             <i class="fa fa-link"></i><span>角色绑定</span>
           </a>
         </li>
-        @endif
         @endrole
         @role(['admin', 'super'])
         <li id="bindplayer" class="treeview">

@@ -195,6 +195,8 @@ class Constants
 
     const ROOM_CARD_RANDOMS = 8;
 
+    const DDZ_ROOM_CARD_RANDOM_FACTOR = 0.3;
+
     const STAT_MAX_DAY = 30;
 
     const FEE_START_DATE = '2017-10-06';
@@ -246,11 +248,15 @@ class Constants
     const OPEN_ROOM_FANXING_ZHUIFENGGANGA_DESC = '追风杠';
 
 
-    const OPEN_ROOM_ROUNDS_EIGHT   = 8;
-    const OPEN_ROOM_ROUNDS_SIXTEEN = 16;
+    const OPEN_ROOM_ROUNDS_EIGHT       = 8;
+    const OPEN_ROOM_ROUNDS_TEN         = 10;
+    const OPEN_ROOM_ROUNDS_TWENTY      = 20;
+    const OPEN_ROOM_ROUNDS_THIRTY      = 30;
+    const OPEN_ROOM_ROUNDS_SIXTEEN     = 16;
     const OPEN_ROOM_ROUNDS_TWENTY_FOUR = 24;
 
     const OPEN_ROOM_TOP_MULTIPLE_UNLIMITED  = 0;
+    const OPEN_ROOM_TOP_MULTIPLE_SIXTEEN    = 16;
     const OPEN_ROOM_TOP_MULTIPLE_THIRTY_TWO = 32;
     const OPEN_ROOM_TOP_MULTIPLE_SIXTY_FOUR = 64;
     const OPEN_ROOM_TOP_MULTIPLE_ONE_HUNDRED_FIFTY_SIX = 256;
@@ -292,6 +298,9 @@ class Constants
         self::OPEN_ROOM_ROUNDS_EIGHT       => '8局（消耗房卡*4）',
         self::OPEN_ROOM_ROUNDS_SIXTEEN     => '16局（消耗房卡*8）',
         self::OPEN_ROOM_ROUNDS_TWENTY_FOUR => '24局（消耗房卡*12））',
+        self::OPEN_ROOM_ROUNDS_TEN    => '10局（消耗房卡*3）',
+        self::OPEN_ROOM_ROUNDS_TWENTY => '20局（消耗房卡*6）',
+        self::OPEN_ROOM_ROUNDS_THIRTY => '30局（消耗房卡*9）',
     ];
 
     public static $open_room_top_multiple = [
@@ -301,6 +310,7 @@ class Constants
 
     public static $open_room_ddz_top_multiple = [
         self::OPEN_ROOM_TOP_MULTIPLE_UNLIMITED             => '不封顶',
+        self::OPEN_ROOM_TOP_MULTIPLE_SIXTEEN               => '16分',
         self::OPEN_ROOM_TOP_MULTIPLE_THIRTY_TWO            => '32分',
         self::OPEN_ROOM_TOP_MULTIPLE_SIXTY_FOUR            => '64分',
         self::OPEN_ROOM_TOP_MULTIPLE_ONE_HUNDRED_FIFTY_SIX => '256分'
@@ -388,8 +398,8 @@ class Constants
         '4' => [
             'game_server_id' => 4,
             'game_type'      => self::GAME_TYPE_DDZ,
-            'open_rands'     => self::OPEN_ROOM_ROUNDS_EIGHT,
-            'top_mutiple'    => self::OPEN_ROOM_TOP_MULTIPLE_THIRTY_TWO,
+            'open_rands'     => self::OPEN_ROOM_ROUNDS_TEN,
+            'top_mutiple'    => self::OPEN_ROOM_TOP_MULTIPLE_SIXTEEN,
             'zhuang_type'    => self::ZHUANG_TYPE_QIANGDIZHU
         ],
     ];

@@ -45,8 +45,18 @@
                 <label for="model" class="col-sm-2 control-label">游戏选择</label>
 
                 <div class="col-sm-10">
+                    @role(['super', 'admin'])
                     <input type="radio" value="1" name="game_type" checked>&nbsp;&nbsp;&nbsp;麻将&nbsp;&nbsp;
                     <input type="radio" value="2" name="game_type">&nbsp;&nbsp;&nbsp;斗地主
+                    @endrole
+                    @role(['agent', 'first_agent', 'general_agent'])
+                    @if(!in_array(\Illuminate\Support\Facades\Auth::user()->city_id, \App\Common\Constants::$bind_player_city_ban))
+                    <input type="radio" value="1" name="game_type" checked>&nbsp;&nbsp;&nbsp;麻将&nbsp;&nbsp;
+                    <input type="radio" value="2" name="game_type">&nbsp;&nbsp;&nbsp;斗地主
+                    @else
+                    <input type="radio" value="2" name="game_type" checked>&nbsp;&nbsp;&nbsp;斗地主
+                    @endif
+                    @endrole
                 </div>
             </div>
 

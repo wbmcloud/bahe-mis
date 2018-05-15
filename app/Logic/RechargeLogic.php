@@ -104,6 +104,7 @@ class RechargeLogic extends BaseLogic
         if (Protobuf::unpackRegister($register_res)->getTypeT() !== INNER_TYPE::INNER_TYPE_REGISTER) {
             throw new BaheException(BaheException::GMT_SERVER_REGISTER_FAIL_CODE);
         }
+
         // 调用gmt进行充值
         if ($params['recharge_type'] == COMMAND_TYPE::COMMAND_TYPE_ROOM_CARD) {
             $command['item_id'] = Constants::ROOM_CARD_ITEM_ID;
@@ -113,6 +114,7 @@ class RechargeLogic extends BaseLogic
         $command['count']        = $params['num'];
         $inner_meta_command      = Protobuf::packCommandInnerMeta($command);
         $command_res             = Protobuf::unpackForResponse(TcpClient::callTcpService($inner_meta_command, false, $server));
+        
         if ($command_res['error_code'] != 0) {
             throw new BaheException(BaheException::GMT_SERVER_RECHARGE_FAIL_CODE);
         }
@@ -131,7 +133,7 @@ class RechargeLogic extends BaseLogic
         $transaction_flow->recharge_type  = $params['recharge_type'];
         $transaction_flow->num            = $params['num'];
         $transaction_flow->game_server_id = $params['game_server_id'];
-        $transaction_flow->city_id = $params['city_id'];
+        isset($params['city_id']) && ($transaction_flow->city_id = $params['city_id']);
 
         if ($is_recharged) {
             $transaction_flow->status = Constants::COMMON_ENABLE;
@@ -162,7 +164,7 @@ class RechargeLogic extends BaseLogic
         $params['gmt_server_ip'] = $game_server['gmt_server_ip'];
         $params['gmt_server_port'] = $game_server['gmt_server_port'];
         $params['game_server_id'] = $game_server['id'];
-        $params['city_id'] = $game_server['city_id'];
+        !empty($game_server['city_id']) && ($params['city_id'] = $game_server['city_id']);
 
         DB::beginTransaction();
         try {

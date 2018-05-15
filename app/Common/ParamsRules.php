@@ -210,8 +210,8 @@ class ParamsRules
             'server' => 'required|string',
             //'model' => ['required', 'in:1,2'],
             'extend_type' => 'array',
-            'open_rands' => ['required', 'in:8,16,24'],
-            'top_mutiple' => ['required', 'in:0,32,64,256'],
+            'open_rands' => ['required', 'in:8,16,24,10,20,30'],
+            'top_mutiple' => ['required', 'in:0,16,32,64,256'],
             'voice_open' => 'integer|nullable',
         ],
         self::IF_FIRST_AGENT_LIST                => [

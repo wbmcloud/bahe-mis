@@ -137,7 +137,7 @@ class AgentLogic extends BaseLogic
         $transaction_flow->req_params     = json_encode($params);
 
         $transaction_flow->game_server_id = $params['game_server_id'];
-        $transaction_flow->city_id = $params['city_id'];
+        isset($params['city_id']) && $transaction_flow->city_id = $params['city_id'];
 
         if ($is_recharged) {
             $transaction_flow->status = Constants::COMMON_ENABLE;
@@ -161,11 +161,16 @@ class AgentLogic extends BaseLogic
         $is_recharged = true;
         DB::beginTransaction();
         try {
+            if ($params['game_type'] == Constants::GAME_TYPE_DDZ) {
+                $num = $params['open_rands'] * Constants::DDZ_ROOM_CARD_RANDOM_FACTOR;
+            } else {
+                $num = ($params['open_rands'] / Constants::ROOM_CARD_RANDOMS) * Constants::ROOM_CARD_FISSION_FACTOR;
+            }
+
             if (!$user->hasRole(Constants::$admin_role)) {
                 $account_logic = new AccountLogic();
                 $account_logic->reduceBalance($user->user_name,
-                    COMMAND_TYPE::COMMAND_TYPE_ROOM_CARD,
-                    ($params['open_rands'] / Constants::ROOM_CARD_RANDOMS) * Constants::ROOM_CARD_FISSION_FACTOR);
+                    COMMAND_TYPE::COMMAND_TYPE_ROOM_CARD, $num);
             }
 
             $open_room_res = $this->sendGmtOpenRoom($params, $open_room_res);
@@ -198,7 +203,7 @@ class AgentLogic extends BaseLogic
             $recharge_fail_reason : null;
 
         $this->saveOpenRoomTransactionFlow($params, $user, $is_recharged, $open_room_res,
-            $recharge_fail_reason, ($params['open_rands'] / Constants::ROOM_CARD_RANDOMS) * Constants::ROOM_CARD_FISSION_FACTOR);
+            $recharge_fail_reason, $num);
 
         if (!$is_recharged) {
             throw new BaheException($error_code, $error_message);
