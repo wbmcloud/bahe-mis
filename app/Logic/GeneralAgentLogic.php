@@ -68,9 +68,9 @@ class GeneralAgentLogic extends BaseLogic
             'status'      => Constants::COMMON_ENABLE,
         ];
         return User::where($where)
-            ->whereIn('invite_code', $invite_codes)
-            ->groupBy('invite_code')
-            ->selectRaw('invite_code, count(id) as count')
+            ->whereIn('invite_code_id', $invite_codes)
+            ->groupBy('invite_code_id')
+            ->selectRaw('invite_code_id, count(id) as count')
             ->get();
     }
 
@@ -85,9 +85,9 @@ class GeneralAgentLogic extends BaseLogic
             'status'      => Constants::COMMON_ENABLE,
         ];
         return User::where($where)
-            ->whereIn('invite_code', $invite_codes)
-            ->groupBy('invite_code')
-            ->selectRaw('invite_code, count(id) as count')
+            ->whereIn('invite_code_id', $invite_codes)
+            ->groupBy('invite_code_id')
+            ->selectRaw('invite_code_id, count(id) as count')
             ->get();
     }
 
@@ -116,17 +116,17 @@ class GeneralAgentLogic extends BaseLogic
     }
 
     /**
-     * @param $invite_code
+     * @param $code_id
      * @param $start_time
      * @param $end_time
      * @param $page_size
      * @return \Illuminate\Contracts\Pagination\Paginator|Paginator
      */
-    public function getAgentRechargeList($invite_code, $start_time, $end_time, $page_size)
+    public function getAgentRechargeList($code_id, $start_time, $end_time, $page_size)
     {
         $users = User::where([
             'role_id' => Constants::ROLE_TYPE_AGENT,
-            'invite_code' => $invite_code,
+            'invite_code_id' => $code_id,
         ])->get()->toArray();
 
         if (empty($users) || ($start_time > $end_time)) {
@@ -155,7 +155,7 @@ class GeneralAgentLogic extends BaseLogic
 
         $where = [
             'role_id' => Constants::ROLE_TYPE_FIRST_AGENT,
-            'invite_code' => $params['invite_code'],
+            'invite_code_id' => $params['invite_code_id'],
         ];
         if (isset($params['query_str']) && !empty($params['query_str'])) {
             $where['name'] = $params['query_str'];
@@ -166,7 +166,7 @@ class GeneralAgentLogic extends BaseLogic
         foreach ($first_agents as $first_agent) {
             $agents = User::where([
                 'role_id' => Constants::ROLE_TYPE_AGENT,
-                'invite_code' => $first_agent['code'],
+                'invite_code_id' => $first_agent['code_id'],
             ])->get()->toArray();
             if (empty($agents)) {
                 continue;
@@ -233,7 +233,7 @@ class GeneralAgentLogic extends BaseLogic
 
         // 获取所有的代理充值额度
         $agents = User::where([
-            'invite_code' => $general_agent->code,
+            'invite_code_id' => $general_agent->code_id,
             'role_id' => Constants::ROLE_TYPE_AGENT,
         ])->get()->toArray();
         $agent_ids = array_column($agents, 'id');
@@ -294,7 +294,7 @@ class GeneralAgentLogic extends BaseLogic
         $agent_sale_sum = array_sum(array_column($agent_amount->toArray(), 'sum')) * Constants::ROOM_CARD_PRICE;
 
         $first_agent_amount = $this->getFirstAgentIncomeList([
-            'invite_code' => $user->code,
+            'invite_code_id' => $user->code_id,
             'start_time' => $start_of_week,
             'end_time' => $end_time,
         ]);

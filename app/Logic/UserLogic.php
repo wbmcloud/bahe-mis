@@ -56,7 +56,7 @@ class UserLogic extends BaseLogic
         // 判断邀请码是否有效
         $agent_logic = new AgentLogic();
         if (isset($params['invite_code']) && !empty($params['invite_code'])) {
-            $agent_logic->getInviteCode($params['city_id'], $params['invite_code']);
+            $invite_code = $agent_logic->getInviteCode($params['city_id'], $params['invite_code']);
         }
 
         // 创建用户
@@ -73,6 +73,8 @@ class UserLogic extends BaseLogic
         !empty($params['tel']) && ($user->tel = $params['tel']);
         !empty($params['bank_card']) && ($user->bank_card = $params['bank_card']);
         !empty($params['id_card']) && ($user->id_card = $params['id_card']);
+
+        !empty($invite_code) && ($user->invite_code_id = $invite_code->id);
         $user->save();
 
         return $user;
@@ -97,6 +99,8 @@ class UserLogic extends BaseLogic
             !empty($params['tel']) && ($user->tel = $params['tel']);
             !empty($params['bank_card']) && ($user->bank_card = $params['bank_card']);
             !empty($params['id_card']) && ($user->id_card = $params['id_card']);
+
+            !empty($invite_code) && ($user->code_id = $invite_code->id);
             $user->save();
 
             $invite_code->is_used = Constants::COMMON_ENABLE;
@@ -114,7 +118,7 @@ class UserLogic extends BaseLogic
     {
         // 校验邀请码合法性
         $first_agent_logic = new FirstAgentLogic();
-        $first_agent_logic->getInviteCode($params['city_id'], $params['invite_code']);
+        $invite_code = $first_agent_logic->getInviteCode($params['city_id'], $params['invite_code']);
 
         DB::beginTransaction();
         try {
@@ -131,7 +135,7 @@ class UserLogic extends BaseLogic
             !empty($params['tel']) && ($user->tel = $params['tel']);
             !empty($params['bank_card']) && ($user->bank_card = $params['bank_card']);
             !empty($params['id_card']) && ($user->id_card = $params['id_card']);
-            $user->save();
+            !empty($invite_code) && ($user->invite_code_id = $invite_code->id);
 
             $invite_code = new InviteCode();
             $invite_code->city_id = $params['city_id'];
@@ -139,6 +143,9 @@ class UserLogic extends BaseLogic
             $invite_code->type = Constants::INVITE_CODE_TYPE_FIRST_AGENT;
             $invite_code->is_used = Constants::COMMON_ENABLE;
             $invite_code->save();
+
+            !empty($invite_code) && ($user->code_id = $invite_code->id);
+            $user->save();
             DB::commit();
         } catch (Exception $e) {
             DB::rollback();

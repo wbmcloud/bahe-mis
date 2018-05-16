@@ -60,13 +60,13 @@
                                         <td>{{ $agent['city']['city_name'] }}</td>
                                         <td>{{ $agent['name'] }}</td>
                                         <td>{{ $agent['code'] }}</td>
-                                        @if(isset($agents_count[$agent['code']]))
-                                            <td>{{ $agents_count[$agent['code']]['count'] }}</td>
+                                        @if(isset($agents_count[$agent['code_id']]))
+                                            <td>{{ $agents_count[$agent['code_id']]['count'] }}</td>
                                         @else
                                             <td>0</td>
                                         @endif
-                                        @if(isset($first_agents_count[$agent['code']]))
-                                            <td>{{ $first_agents_count[$agent['code']]['count'] }}</td>
+                                        @if(isset($first_agents_count[$agent['code_id']]))
+                                            <td>{{ $first_agents_count[$agent['code_id']]['count'] }}</td>
                                         @else
                                             <td>0</td>
                                         @endif
@@ -75,13 +75,13 @@
                                         <td>{{ $agent['created_at'] }}</td>
                                         <td>
                                             <button type="button" onclick="rechargeList('{{ route('general_agent.first_agent_rechargelist', [
-                                                'invite_code' => $agent['code'],
+                                                'invite_code_id' => $agent['code_id'],
                                             ]) }}')" class="btn btn-primary">总代理销售记录</button>
                                             <a href="{{ route('general_agent.income', ['agent_id' => $agent['id']]) }}" class="btn btn-primary">本周账单</a>
                                             <button type="button" onclick="editAgent({{ $agent['id'] }})" class="btn btn-primary">修改信息</button>
                                             <button type="button" onclick="banAgent({{ $agent['id'] }})" class="btn btn-primary">冻结</button>
                                             <button type="button" onclick="rechargeList('{{ route('general_agent.rechargelist', [
-                                                'invite_code' => $agent['code'],
+                                                'invite_code_id' => $agent['code_id'],
                                                 'start_date' => \Carbon\Carbon::now()->startOfWeek()->toDateString(),
                                                 'end_date' => \Carbon\Carbon::tomorrow()->toDateString()
                                             ]) }}')" class="btn btn-primary">代理充值信息</button>

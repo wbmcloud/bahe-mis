@@ -74,7 +74,7 @@ class StatDateGeneralCashOrder extends Command
 
             // 计算销售总代理收入
             $general_sale_amount = $general_agent_logic->getFirstAgentIncomeList([
-                'invite_code' => $general_agent['code'],
+                'invite_code_id' => $general_agent['code_id'],
                 'start_time' => $start_of_week,
                 'end_time' => $end_of_week,
             ]);

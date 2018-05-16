@@ -67,7 +67,7 @@ class StatDateFirstCashOrder extends Command
             $last_day_cash_order['name'] = $first_agent['name'];
 
             $agents = User::where([
-                'invite_code' => $first_agent['code'],
+                'invite_code_id' => $first_agent['code_id'],
                 'role_id' => Constants::ROLE_TYPE_AGENT,
             ])->get()->toArray();
             if (empty($agents)) {

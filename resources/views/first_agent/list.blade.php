@@ -61,8 +61,8 @@
                                         <td>{{ $agent['name'] }}</td>
                                         <td>{{ $agent['code'] }}</td>
                                         <td>{{ $agent['invite_code'] }}</td>
-                                        @if(isset($agents_count[$agent['code']]))
-                                        <td>{{ $agents_count[$agent['code']]['count'] }}</td>
+                                        @if(isset($agents_count[$agent['code_id']]))
+                                        <td>{{ $agents_count[$agent['code_id']]['count'] }}</td>
                                         @else
                                         <td>0</td>
                                         @endif
@@ -71,7 +71,7 @@
                                         <td>{{ $agent['created_at'] }}</td>
                                         <td>
                                             <button type="button" onclick="rechargeList('{{ route('first_agent.rechargelist', [
-                                                'invite_code' => $agent['code'],
+                                                'invite_code_id' => $agent['code_id'],
                                                 'start_date' => \Carbon\Carbon::now()->startOfWeek()->toDateString(),
                                                 'end_date' => \Carbon\Carbon::tomorrow()->toDateString()
                                             ]) }}')" class="btn btn-primary">充值信息</button>

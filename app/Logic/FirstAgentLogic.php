@@ -69,9 +69,9 @@ class FirstAgentLogic extends BaseLogic
             'status'      => Constants::COMMON_ENABLE,
         ];
         return User::where($where)
-            ->whereIn('invite_code', $invite_codes)
-            ->groupBy('invite_code')
-            ->selectRaw('invite_code, count(id) as count')
+            ->whereIn('invite_code_id', $invite_codes)
+            ->groupBy('invite_code_id')
+            ->selectRaw('invite_code_id, count(id) as count')
             ->get();
     }
 
@@ -100,17 +100,17 @@ class FirstAgentLogic extends BaseLogic
     }
 
     /**
-     * @param $invite_code
+     * @param $code_id
      * @param $start_time
      * @param $end_time
      * @param $page_size
      * @return \Illuminate\Contracts\Pagination\Paginator|Paginator
      */
-    public function getAgentRechargeList($invite_code, $start_time, $end_time, $page_size)
+    public function getAgentRechargeList($code_id, $start_time, $end_time, $page_size)
     {
         $users = User::where([
             'role_id' => Constants::ROLE_TYPE_AGENT,
-            'invite_code' => $invite_code,
+            'invite_code_id' => $code_id,
         ])->get()->toArray();
 
         if (empty($users) || ($start_time > $end_time)) {
@@ -157,7 +157,7 @@ class FirstAgentLogic extends BaseLogic
 
         // 获取所有的代理充值额度
         $agents = User::where([
-            'invite_code' => $first_agent->code,
+            'invite_code_id' => $first_agent->code_id,
             'role_id' => Constants::ROLE_TYPE_AGENT,
         ])->get()->toArray();
         $agent_ids = array_column($agents, 'id');

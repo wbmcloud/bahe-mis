@@ -229,7 +229,7 @@ class ParamsRules
             'page_size' => 'integer|nullable'
         ],
         self::IF_FIRST_AGENT_RECHARGE_LIST       => [
-            'invite_code' => 'required|numeric',
+            'invite_code_id' => 'required|numeric',
             'start_date'  => 'date_format:Y-m-d',
             'end_date'    => 'date_format:Y-m-d',
             'page'        => 'integer|nullable',
@@ -296,7 +296,7 @@ class ParamsRules
             'page_size' => 'integer|nullable'
         ],
         self::IF_GENERAL_AGENT_RECHARGE_LIST     => [
-            'invite_code' => 'required|numeric',
+            'invite_code_id' => 'required|numeric',
             'start_date'  => 'date_format:Y-m-d',
             'end_date'    => 'date_format:Y-m-d',
             'page'        => 'integer|nullable',

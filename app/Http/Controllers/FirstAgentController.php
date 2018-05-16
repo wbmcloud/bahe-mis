@@ -27,8 +27,8 @@ class FirstAgentController extends Controller
 
         $users = $first_agent_logic->getFirstAgentList($this->params, $page_size);
         $agents_count = $first_agent_logic->getAgentCount(
-            array_column($users->toArray()['data'], 'code'));
-        $agents_count = array_column($agents_count->toArray(), null, 'invite_code');
+            array_column($users->toArray()['data'], 'code_id'));
+        $agents_count = array_column($agents_count->toArray(), null, 'invite_code_id');
         $cities = $user_logic->getOpenCities();
 
         return [
@@ -43,7 +43,7 @@ class FirstAgentController extends Controller
         $page_size = isset($this->params['page_size']) ? $this->params['page_size'] :
             Constants::DEFAULT_PAGE_SIZE;
         $codes = InviteCode::where('type', Constants::INVITE_CODE_TYPE_FIRST_AGENT)
-            ->orderBy('invite_code')->simplePaginate($page_size);
+            ->orderBy('id')->simplePaginate($page_size);
 
         return [
             'codes' => $codes,
@@ -74,10 +74,10 @@ class FirstAgentController extends Controller
         $first_agent_logic = new FirstAgentLogic();
 
         if (Auth::user()->hasRole(Constants::ROLE_FIRST_AGENT)) {
-            $recharge_flows      = $first_agent_logic->getAgentRechargeList(Auth::user()->code, $start_time,
+            $recharge_flows      = $first_agent_logic->getAgentRechargeList(Auth::user()->code_id, $start_time,
                 $end_time, $page_size);
         } else {
-            $recharge_flows      = $first_agent_logic->getAgentRechargeList($this->params['invite_code'], $start_time,
+            $recharge_flows      = $first_agent_logic->getAgentRechargeList($this->params['invite_code_id'], $start_time,
                 $end_time, $page_size);
         }
 

@@ -91,7 +91,7 @@
                         {{ $recharge_flows->appends([
                             'start_date' => \Illuminate\Support\Facades\Request::input('start_date'),
                             'end_date' => \Illuminate\Support\Facades\Request::input('end_date'),
-                            'invite_code' => \Illuminate\Support\Facades\Request::input('invite_code'),
+                            'invite_code_id' => \Illuminate\Support\Facades\Request::input('invite_code_id'),
                         ])->links() }}
                     </div>
                     <!-- /.box-body -->

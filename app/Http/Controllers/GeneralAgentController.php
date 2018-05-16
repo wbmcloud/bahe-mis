@@ -28,16 +28,16 @@ class GeneralAgentController extends Controller
 
         $users = $general_agent_logic->getGeneralAgentList($this->params, $page_size);
         $agents_count = $general_agent_logic->getAgentCount(
-            array_column($users->toArray()['data'], 'code'));
-        $agents_count = array_column($agents_count->toArray(), null, 'invite_code');
+            array_column($users->toArray()['data'], 'code_id'));
+        $agents_count = array_column($agents_count->toArray(), null, 'invite_code_id');
         $first_agents_count = $general_agent_logic->getFirstAgentCount(
-            array_column($users->toArray()['data'], 'code'));
-        $first_agents_count = array_column($first_agents_count->toArray(), null, 'invite_code');
+            array_column($users->toArray()['data'], 'code_id'));
+        $first_agents_count = array_column($first_agents_count->toArray(), null, 'invite_code_id');
         $cities = $user_logic->getOpenCities();
 
         return [
             'agents'       => $users,
-                'agents_count' => $agents_count,
+            'agents_count' => $agents_count,
             'first_agents_count' => $first_agents_count,
             'cities'       => $cities,
         ];
@@ -48,7 +48,7 @@ class GeneralAgentController extends Controller
         $page_size = isset($this->params['page_size']) ? $this->params['page_size'] :
             Constants::DEFAULT_PAGE_SIZE;
         $codes = InviteCode::where('type', Constants::INVITE_CODE_TYPE_GENERAL_AGENT)
-            ->orderBy('invite_code')->simplePaginate($page_size);
+            ->orderBy('id')->simplePaginate($page_size);
 
         return [
             'codes' => $codes,
@@ -79,13 +79,14 @@ class GeneralAgentController extends Controller
         $general_agent_logic = new GeneralAgentLogic();
 
         if (Auth::user()->hasRole(Constants::ROLE_GENERAL_AGENT)) {
-            if (substr($this->params['invite_code'], 0, Constants::INVITE_CODE_LENGTH) !==
+            /*if (substr($this->params['invite_code'], 0, Constants::INVITE_CODE_LENGTH) !==
                 Auth::user()->code) {
                 $this->params['invite_code'] = Auth::user()->code;
-            }
+            }*/
+            $this->params['invite_code_id'] = Auth::user()->code_id;
         }
 
-        $recharge_flows      = $general_agent_logic->getAgentRechargeList($this->params['invite_code'], $start_time,
+        $recharge_flows      = $general_agent_logic->getAgentRechargeList($this->params['invite_code_id'], $start_time,
             $end_time, $page_size);
 
         return [
@@ -100,7 +101,7 @@ class GeneralAgentController extends Controller
         $general_agent_logic = new GeneralAgentLogic();
 
         if (Auth::user()->hasRole(Constants::ROLE_GENERAL_AGENT)) {
-            $this->params['invite_code'] = Auth::user()->code;
+            $this->params['invite_code_id'] = Auth::user()->code_id;
         }
 
         $this->params['page_size'] = $page_size;
@@ -158,7 +159,7 @@ class GeneralAgentController extends Controller
             $end_time = Carbon::now()->toDateTimeString();
 
             $level_agent_sale_amount_list = $general_agent_logic->getFirstAgentIncomeList([
-                'invite_code' => $login_user->code,
+                'invite_code_id' => $login_user->code_id,
                 'start_time' => $start_of_week,
                 'end_time' => $end_time,
                 'page_size' => $page_size
