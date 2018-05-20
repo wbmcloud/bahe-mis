@@ -76,6 +76,10 @@ class GeneralAgentController extends Controller
         $start_time = isset($this->params['start_date']) ? $this->params['start_date'] : Carbon::today()->toDateString();
         $end_time   = isset($this->params['end_date']) ? $this->params['end_date'] : Carbon::tomorrow()->toDateString();
 
+        if (empty($this->params['invite_code_id'])) {
+            throw new BaheException(BaheException::INVITE_CODE_NOT_VALID_CODE);
+        }
+
         $general_agent_logic = new GeneralAgentLogic();
 
         if (Auth::user()->hasRole(Constants::ROLE_GENERAL_AGENT)) {

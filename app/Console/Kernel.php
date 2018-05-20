@@ -2,6 +2,7 @@
 
 namespace App\Console;
 
+use App\Console\Commands\FlushCode;
 use App\Console\Commands\GenInviteCodes;
 use App\Console\Commands\ImportRolePermissions;
 use App\Console\Commands\ManagerActionLog;
@@ -36,6 +37,7 @@ class Kernel extends ConsoleKernel
         StatDayRounds::class,
         SyncLastLoginTime::class,
         StatDayAgentFlow::class,
+        FlushCode::class,
     ];
 
     /**

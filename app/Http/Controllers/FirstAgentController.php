@@ -8,6 +8,7 @@
 namespace App\Http\Controllers;
 
 use App\Common\Constants;
+use App\Exceptions\BaheException;
 use App\Logic\FirstAgentLogic;
 use App\Logic\UserLogic;
 use App\Models\InviteCode;
@@ -70,6 +71,10 @@ class FirstAgentController extends Controller
             Constants::DEFAULT_PAGE_SIZE;
         $start_time = isset($this->params['start_date']) ? $this->params['start_date'] : Carbon::today()->toDateString();
         $end_time   = isset($this->params['end_date']) ? $this->params['end_date'] : Carbon::tomorrow()->toDateString();
+
+        if (empty($this->params['invite_code_id'])) {
+            throw new BaheException(BaheException::INVITE_CODE_NOT_VALID_CODE);
+        }
 
         $first_agent_logic = new FirstAgentLogic();
 
