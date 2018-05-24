@@ -46,6 +46,7 @@ class BaheException extends \Exception
     const CITY_NOT_VALID_CODE = 2001029;
     const GMT_BIND_PLAYER_FAIL_CODE = 2001030;
     const GAME_SERVER_NOT_FOUND_CODE = 2001031;
+    const BIND_AGENT_NOT_VALID_CODE = 2001032;
 
 
     public static $error_msg = [
@@ -81,6 +82,7 @@ class BaheException extends \Exception
         self::CITY_NOT_VALID_CODE                  => '城市不合法',
         self::GMT_BIND_PLAYER_FAIL_CODE            => '绑定角色失败',
         self::GAME_SERVER_NOT_FOUND_CODE           => '未找到游戏服务',
+        self::BIND_AGENT_NOT_VALID_CODE            => '绑定的代理不合法'
     ];
 
 

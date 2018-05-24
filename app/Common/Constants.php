@@ -422,4 +422,6 @@ class Constants
     public static $division_city_game_type = [
         self::GAME_TYPE_MJ
     ];
+
+    const AGENT_UK_LEN = 5;
 }

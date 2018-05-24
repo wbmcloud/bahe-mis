@@ -15,6 +15,7 @@ use App\Library\Protobuf\COMMAND_TYPE;
 use App\Library\Protobuf\INNER_TYPE;
 use App\Library\Protobuf\Protobuf;
 use App\Library\TcpClient;
+use App\Models\PlayerBindAgent;
 use App\Models\TransactionFlow;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
@@ -165,6 +166,19 @@ class RechargeLogic extends BaseLogic
         $params['gmt_server_port'] = $game_server['gmt_server_port'];
         $params['game_server_id'] = $game_server['id'];
         !empty($game_server['city_id']) && ($params['city_id'] = $game_server['city_id']);
+
+        //判断充值的角色id是否已经有绑定，如果绑定，必须是绑定的代理可以进行充值
+        if ($user->hasRole(Constants::$recharge_role)) {
+            $agent_relation = PlayerBindAgent::where([
+                'player_id' => $params['player_id'],
+                'type' => Constants::GAME_TYPE_DDZ,
+                'status' => Constants::COMMON_ENABLE,
+            ])->first();
+
+            if (!empty($agent_relation) && ($agent_relation['agent_id'] != $user->uk)) {
+                throw new BaheException(BaheException::BIND_AGENT_NOT_VALID_CODE);
+            }
+        }
 
         DB::beginTransaction();
         try {

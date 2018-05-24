@@ -152,4 +152,17 @@ class Utils
             'end_week' => $last_week_day->endOfWeek()->toDateString(),
         ];
     }
+
+    public static function genUniqueKey($len)
+    {
+        $uk = '';
+        for ($i = 0; $i < $len; $i++) {
+            if ($i == 0) {
+                $uk .= mt_rand(1, 9);
+                continue;
+            }
+            $uk .= mt_rand(0, 9);
+        }
+        return $uk;
+    }
 }

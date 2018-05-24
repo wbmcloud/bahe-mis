@@ -42,6 +42,16 @@ class UserLogic extends BaseLogic
         $user->user_name = $params['user_name'];
         $user->password = bcrypt($params['password']);
         $user->role_id = $params['role_id'];
+
+        do {
+            $uk = Utils::genUniqueKey(Constants::AGENT_UK_LEN);
+            $agent = User::where([
+                'uk' => $uk
+            ])->first();
+
+        } while (!empty($agent));
+        $user->uk = $uk;
+
         $user->save();
 
         return $user;
@@ -75,6 +85,16 @@ class UserLogic extends BaseLogic
         !empty($params['id_card']) && ($user->id_card = $params['id_card']);
 
         !empty($invite_code) && ($user->invite_code_id = $invite_code->id);
+
+        do {
+            $uk = Utils::genUniqueKey(Constants::AGENT_UK_LEN);
+            $agent = User::where([
+                'uk' => $uk
+            ])->first();
+
+        } while (!empty($agent));
+        $user->uk = $uk;
+
         $user->save();
 
         return $user;
@@ -101,6 +121,16 @@ class UserLogic extends BaseLogic
             !empty($params['id_card']) && ($user->id_card = $params['id_card']);
 
             !empty($invite_code) && ($user->code_id = $invite_code->id);
+
+            do {
+                $uk = Utils::genUniqueKey(Constants::AGENT_UK_LEN);
+                $agent = User::where([
+                    'uk' => $uk
+                ])->first();
+
+            } while (!empty($agent));
+            $user->uk = $uk;
+
             $user->save();
 
             $invite_code->is_used = Constants::COMMON_ENABLE;
@@ -136,6 +166,16 @@ class UserLogic extends BaseLogic
             !empty($params['bank_card']) && ($user->bank_card = $params['bank_card']);
             !empty($params['id_card']) && ($user->id_card = $params['id_card']);
             !empty($invite_code) && ($user->invite_code_id = $invite_code->id);
+
+            do {
+                $uk = Utils::genUniqueKey(Constants::AGENT_UK_LEN);
+                $agent = User::where([
+                    'uk' => $uk
+                ])->first();
+
+            } while (!empty($agent));
+            $user->uk = $uk;
+
 
             $invite_code = new InviteCode();
             $invite_code->city_id = $params['city_id'];
