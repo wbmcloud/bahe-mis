@@ -170,7 +170,7 @@ class RechargeLogic extends BaseLogic
         //判断充值的角色id是否已经有绑定，如果绑定，必须是绑定的代理可以进行充值
         if ($user->hasRole(Constants::$recharge_role)) {
             $agent_relation = PlayerBindAgent::where([
-                'player_id' => $params['player_id'],
+                'player_id' => $params['role_id'],
                 'type' => Constants::GAME_TYPE_DDZ,
                 'status' => Constants::COMMON_ENABLE,
             ])->first();

@@ -51,6 +51,12 @@ return [
             'game_server_id' => 3,
             'host' => '140.143.56.247',
             'path' => '/export/game/workdir/logs/',
+        ],
+        [
+            'game_type' => 2,
+            'game_server_id' => 4,
+            'host' => '139.199.115.26',
+            'path' => '/export/game/workdir/logs/',
         ]
     ],
 ];
