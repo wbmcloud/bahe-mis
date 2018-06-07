@@ -361,9 +361,12 @@ class AgentLogic extends BaseLogic
         if (empty($settings)) {
             $settings = $this->fmtOpenRoomSetting(Constants::$open_room_default_params[$game_server['id']], $game_server);
         } else {
-            $settings = $this->fmtOpenRoomSetting($settings, $game_server);
+            if ($game_type == $settings['game_type']) {
+                $settings = $this->fmtOpenRoomSetting($settings, $game_server);
+            } else {
+                $settings = $this->fmtOpenRoomSetting(Constants::$open_room_default_params[$game_server['id']], $game_server);
+            }
         }
-
 
         return $settings;
     }
