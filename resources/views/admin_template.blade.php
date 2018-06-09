@@ -14,9 +14,9 @@ scratch. This page gets rid of all links and provides the needed markup only.
   <link rel="stylesheet" href="{{ asset("/bower_components/admin-lte/bootstrap/css/bootstrap.min.css") }}">
   @yield('head')
 <!-- Font Awesome -->
-  <link rel="stylesheet" href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.css">
+  <link rel="stylesheet" href="{{ asset("/bower_components/admin-lte/dist/css/font-awesome.min.css") }}">
 <!-- Ionicons -->
-  <link rel="stylesheet" href="https://cdn.bootcss.com/ionicons/2.0.1/css/ionicons.css">
+  <link rel="stylesheet" href="http://cdn.bootcss.com/ionicons/2.0.1/css/ionicons.min.css">
 <!-- Theme style -->
   <link rel="stylesheet" href="{{ asset("/bower_components/admin-lte/dist/css/AdminLTE.min.css") }}">
 <!-- AdminLTE Skins. We have chosen the skin-blue for this starter
