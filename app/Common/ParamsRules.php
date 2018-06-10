@@ -138,6 +138,14 @@ class ParamsRules
     const IF_API_BASIC_CITY_CONFIG = '/api/basic/cityconfig';
 
     /**
+     * 用户绑定记录
+     */
+    const IF_USER_BIND_MY_USER_RECORD = '/userbind/my';
+    const IF_USER_BIND_SUB_USER_RECORD = '/userbind/sub';
+    const IF_USER_BIND_REPLACE_RECHARGE_RECORD = '/userbind/replace';
+
+
+    /**
      * @var array
      * 参数校验规则
      */
@@ -425,6 +433,9 @@ class ParamsRules
         self::IF_GAME_BIND_PLAYER                        => ['auth' => '*', 'desc' => '绑定角色页面'],
         self::IF_GAME_DO_BIND_PLAYER                     => ['auth' => '*', 'desc' => '绑定角色'],
         self::IF_RECORD_BIND_PLAYER                      => ['auth' => '*', 'desc' => '绑定角色记录'],
+        self::IF_USER_BIND_MY_USER_RECORD                => ['auth' => '*', 'desc' => '我的用户绑定记录'],
+        self::IF_USER_BIND_SUB_USER_RECORD               => ['auth' => '*', 'desc' => '旗下用户绑定记录'],
+        self::IF_USER_BIND_REPLACE_RECHARGE_RECORD       => ['auth' => '*', 'desc' => '代充记录'],
     ];
 
     /**
@@ -473,6 +484,9 @@ class ParamsRules
         self::IF_STAT_WAU                                => 'stat.stat_wau',
         self::IF_STAT_MAU                                => 'stat.stat_mau',
         self::IF_GAME_BIND_PLAYER                        => 'game.bindplayer',
+        self::IF_USER_BIND_MY_USER_RECORD                => 'userbind.my',
+        self::IF_USER_BIND_SUB_USER_RECORD               => 'userbind.sub',
+        self::IF_USER_BIND_REPLACE_RECHARGE_RECORD       => 'userbind.replace',
     ];
 
     /**

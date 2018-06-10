@@ -220,6 +220,25 @@
           </ul>
         </li>
         @endrole
+        @role(['agent', 'first_agent', 'general_agent'])
+        <li id="user_bind" class="treeview">
+          <a href="#">
+            <i class="fa fa-user"></i><span>用户绑定</span>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+          </a>
+          <ul class="treeview-menu">
+            <li id="my"><a href="{{ route('userbind.my') }}"><i class="fa fa-circle"></i>我的用户绑定记录</a></li>
+            @role(['first_agent', 'general_agent'])
+            <li id="sub"><a href="{{ route('userbind.sub') }}"><i class="fa fa-circle"></i>旗下用户绑定记录</a></li>
+            <li id="replace"><a href="{{ route('userbind.replace', ['start_date' => \Carbon\Carbon::now()->startOfWeek()->toDateString(),
+                                                'end_date' => \Carbon\Carbon::tomorrow()->toDateString()]) }}"><i class="fa fa-circle"></i>代充记录</a></li>
+            @endrole
+          </ul>
+        </li>
+        @endrole
+
       </ul>
       <!-- /.sidebar-menu -->
     </section>

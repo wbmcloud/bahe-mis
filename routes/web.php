@@ -120,5 +120,9 @@ Route::group(['middleware' => ['validator']], function () {
 
         Route::get(\App\Common\ParamsRules::IF_GAME_BIND_PLAYER, 'GameController@showBindPlayerForm')->name('game.bindplayer');
         Route::post(\App\Common\ParamsRules::IF_GAME_DO_BIND_PLAYER, 'GameController@bindplayer')->name('game.dobindplayer');
+
+        Route::get(\App\Common\ParamsRules::IF_USER_BIND_MY_USER_RECORD, 'UserBindController@myUserBindRecord')->name('userbind.my');
+        Route::get(\App\Common\ParamsRules::IF_USER_BIND_SUB_USER_RECORD, 'UserBindController@subUserBindRecord')->name('userbind.sub');
+        Route::get(\App\Common\ParamsRules::IF_USER_BIND_REPLACE_RECHARGE_RECORD, 'UserBindController@replaceRechargeRecord')->name('userbind.replace');
     });
 });

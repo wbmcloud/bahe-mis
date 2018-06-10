@@ -123,7 +123,7 @@ class RechargeLogic extends BaseLogic
         return $command_res;
     }
 
-    public function saveUserTransactionFlow($user, $params, $is_recharged, $recharge_fail_reason)
+    public function saveUserTransactionFlow($user, $params, $is_recharged, $recharge_fail_reason, $is_replace)
     {
         $transaction_flow                 = new TransactionFlow();
         $transaction_flow->initiator_id   = $user->id;
@@ -134,6 +134,7 @@ class RechargeLogic extends BaseLogic
         $transaction_flow->recharge_type  = $params['recharge_type'];
         $transaction_flow->num            = $params['num'];
         $transaction_flow->game_server_id = $params['game_server_id'];
+        $transaction_flow->is_replace     = (int)$is_replace;
         isset($params['city_id']) && ($transaction_flow->city_id = $params['city_id']);
 
         if ($is_recharged) {
@@ -154,6 +155,7 @@ class RechargeLogic extends BaseLogic
     public function userRecharge($params)
     {
         $is_recharged = true;
+        $is_replace = false;
         $user         = Auth::user();
 
         // 获取game_server_id
@@ -168,15 +170,35 @@ class RechargeLogic extends BaseLogic
         !empty($game_server['city_id']) && ($params['city_id'] = $game_server['city_id']);
 
         //判断充值的角色id是否已经有绑定，如果绑定，必须是绑定的代理可以进行充值
-        if ($user->hasRole(Constants::$recharge_role)) {
+        if (in_array($user->role_id, Constants::$agent_role_type)) {
             $agent_relation = PlayerBindAgent::where([
                 'player_id' => $params['role_id'],
                 'type' => Constants::GAME_TYPE_DDZ,
                 'status' => Constants::COMMON_ENABLE,
             ])->first();
 
-            if (!empty($agent_relation) && ($agent_relation['agent_id'] != $user->uk)) {
-                throw new BaheException(BaheException::BIND_AGENT_NOT_VALID_CODE);
+            switch ($user->role_id) {
+                case Constants::ROLE_TYPE_AGENT:
+                    if (!empty($agent_relation) && ($agent_relation['agent_id'] != $user->uk)) {
+                        throw new BaheException(BaheException::BIND_AGENT_NOT_VALID_CODE);
+                    }
+                    break;
+                case Constants::ROLE_TYPE_FIRST_AGENT:
+                case Constants::ROLE_TYPE_GENERAL_AGENT:
+                    if (!empty($agent_relation) && ($agent_relation['agent_id'] != $user->uk)) {
+                        // 判断是否有层级关系
+                        $agent = User::where([
+                            'uk' => $agent_relation['agent_id']
+                        ])->first();
+                        if (empty($agent) || ($agent->city_id != $user->city_id) ||
+                            strpos($agent->invite_code, $user->code) === false) {
+                            throw new BaheException(BaheException::BIND_AGENT_NOT_VALID_CODE);
+                        }
+                        $is_replace = true;
+                    }
+                    break;
+                default:
+                    break;
             }
         }
 
@@ -215,7 +237,7 @@ class RechargeLogic extends BaseLogic
         }
 
         $recharge_fail_reason = isset($recharge_fail_reason) ? $recharge_fail_reason : null;
-        $this->saveUserTransactionFlow($user, $params, $is_recharged, $recharge_fail_reason);
+        $this->saveUserTransactionFlow($user, $params, $is_recharged, $recharge_fail_reason, $is_replace);
 
         if (!$is_recharged) {
             throw new BaheException($error_code, $error_message);

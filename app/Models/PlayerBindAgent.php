@@ -11,4 +11,14 @@ class PlayerBindAgent extends Model
         parent::__construct($attributes);
         $this->table = 'player_bind_agent';
     }
+
+    public function user()
+    {
+        return $this->belongsTo('App\Models\User', 'agent_id', 'uk');
+    }
+
+    public function player()
+    {
+        return $this->hasOne('App\Models\GamePlayer', 'player_id', 'player_id');
+    }
 }
