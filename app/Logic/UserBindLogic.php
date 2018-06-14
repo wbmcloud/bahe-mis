@@ -25,7 +25,7 @@ class UserBindLogic extends BaseLogic
         }
 
         return PlayerBindAgent::where([
-                'agent_id' => $login_user->id,
+                'agent_id' => $login_user->uk,
             ])->orderBy('id', 'desc')
             ->simplePaginate($page_size);
     }
