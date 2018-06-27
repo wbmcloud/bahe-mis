@@ -424,4 +424,6 @@ class Constants
     ];
 
     const AGENT_UK_LEN = 5;
+
+    const RECHARGE_REPLACE_FLAG = 1;
 }

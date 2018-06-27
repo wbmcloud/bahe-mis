@@ -187,6 +187,16 @@
               </a>
             </li>
             @endrole
+            @role(['agent', 'first_agent'])
+            <li id="replace_recharge" class="treeview">
+              <a href="{{ route('record.replacerecharge', [
+                  'start_date' => \Carbon\Carbon::now()->startOfWeek()->toDateString(),
+                  'end_date' => \Carbon\Carbon::tomorrow()->toDateString()
+                ]) }}">
+                <i class="fa fa-circle"></i><span>代充记录</span>
+              </a>
+            </li>
+            @endrole
           </ul>
         </li>
         @role(['first_agent'])

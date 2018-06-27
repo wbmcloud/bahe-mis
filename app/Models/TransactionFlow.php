@@ -26,4 +26,9 @@ class TransactionFlow extends Model
     {
         return $this->hasOne('App\Models\GameServer', 'id', 'game_server_id');
     }
+
+    public function userBind()
+    {
+        return $this->hasOne('App\Models\PlayerBindAgent', 'player_id', 'recipient_id');
+    }
 }

@@ -75,6 +75,7 @@ Route::group(['middleware' => ['validator']], function () {
         Route::get(\App\Common\ParamsRules::IF_RECORD_USER_RECHARGE, 'RecordController@userRecharge')->name('record.userrecharge');
         Route::get(\App\Common\ParamsRules::IF_RECORD_OPEN_ROOM, 'RecordController@openRoom')->name('record.openroom');
         Route::get(\App\Common\ParamsRules::IF_RECORD_BIND_PLAYER, 'RecordController@bindPlayer')->name('record.bindplayer');
+        Route::get(\App\Common\ParamsRules::IF_RECORD_REPLACE_RECHARGE, 'RecordController@replaceRecharge')->name('record.replacerecharge');
 
         /**
          * ajax API

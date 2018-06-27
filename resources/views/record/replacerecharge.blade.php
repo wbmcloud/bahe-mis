@@ -42,8 +42,6 @@
                                 <th>代理id</th>
                                 <th>代理用户名</th>
                                 <th>玩家id</th>
-                                <th>所属代理用户名</th>
-                                <th>所属代理层级</th>
                                 <th>充值类型</th>
                                 <th>充值房卡数量（单位：个）</th>
                                 <th>增送房卡数量（单位：个）</th>
@@ -54,7 +52,7 @@
                             <tbody id="agent_list_contaµiner">
                             @if(empty($recharge_flows->count()))
                                 <tr>
-                                    <td colspan="10">没有记录</td>
+                                    <td colspan="8">没有记录</td>
                                 </tr>
                             @else
                                 @foreach($recharge_flows as $recharge_flow)
@@ -62,8 +60,6 @@
                                         <td>{{ $recharge_flow['initiator_id'] }}</td>
                                         <td>{{ $recharge_flow['initiator_name'] }}</td>
                                         <td>{{ $recharge_flow['recipient_id'] }}</td>
-                                        <td>{{ $recharge_flow['userBind']['user']['user_name'] }}</td>
-                                        <td>{{ \App\Common\Constants::$role_type[$recharge_flow['userBind']['user']['role_id']] }}</td>
                                         <td>{{ \App\Common\Constants::$transaction_type[$recharge_flow['recharge_type']] }}</td>
                                         <td>{{ $recharge_flow['num'] }}</td>
                                         <td>{{ $recharge_flow['give_num'] }}</td>
@@ -174,7 +170,7 @@
                  $('#reservation').val(_date_range);*/
             });
         });
-        $('#user_bind').addClass('active');
-        $('#replace').addClass('active');
+        $('#record').addClass('active');
+        $('#replace_recharge').addClass('active');
     </script>
 @endsection

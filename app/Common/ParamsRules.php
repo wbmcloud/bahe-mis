@@ -113,6 +113,7 @@ class ParamsRules
     const IF_RECORD_USER_RECHARGE  = '/record/userrecharge';
     const IF_RECORD_OPEN_ROOM      = '/record/openroom';
     const IF_RECORD_BIND_PLAYER    = '/record/bindplayer';
+    const IF_RECORD_REPLACE_RECHARGE = '/record/replacerecharge';
 
     /**
      * 统计模块
@@ -415,6 +416,7 @@ class ParamsRules
         self::IF_RECORD_AGENT_RECHARGE                   => ['auth' => ['super', 'admin'], 'desc' => '代理充值记录'],
         self::IF_RECORD_USER_RECHARGE                    => ['auth' => ['super', 'admin'], 'desc' => '用户充值记录'],
         self::IF_RECORD_OPEN_ROOM                        => ['auth' => '*', 'desc' => '代开房记录'],
+        self::IF_RECORD_REPLACE_RECHARGE                 => ['auth' => ['agent', 'first_agent'], 'desc' => '代充记录'],
         self::IF_API_STAT_AGENT                          => ['auth' => ['super', 'admin'], 'desc' => '代理统计'],
         self::IF_API_STAT_FLOW                           => ['auth' => ['super', 'admin'], 'desc' => '流水统计'],
         self::IF_API_STAT_AGENT_FLOW                     => ['auth' => ['super', 'admin'], 'desc' => '流水统计'],
@@ -476,6 +478,7 @@ class ParamsRules
         self::IF_RECORD_USER_RECHARGE                    => 'record.userrecharge',
         self::IF_RECORD_OPEN_ROOM                        => 'record.openroom',
         self::IF_RECORD_BIND_PLAYER                      => 'record.bindplayer',
+        self::IF_RECORD_REPLACE_RECHARGE                 => 'record.replacerecharge',
         self::IF_STAT_AGENT                              => 'stat.stat_agent',
         self::IF_STAT_FLOW                               => 'stat.stat_flow',
         self::IF_STAT_AGENT_FLOW                         => 'stat.stat_agent_flow',

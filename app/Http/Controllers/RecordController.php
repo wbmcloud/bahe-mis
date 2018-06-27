@@ -11,6 +11,7 @@ namespace App\Http\Controllers;
 use App\Common\Constants;
 use App\Logic\AgentLogic;
 use App\Logic\RechargeLogic;
+use App\Logic\UserBindLogic;
 use App\Models\UserBindPlayer;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
@@ -82,6 +83,16 @@ class RecordController extends Controller
 
         return [
             'recharge_list' => $bind_player_record
+        ];
+    }
+
+    public function replaceRecharge()
+    {
+        $this->params['page_size'] = isset($this->params['page_size']) ? $this->params['page_size'] :
+            Constants::DEFAULT_PAGE_SIZE;
+
+        return [
+            'recharge_flows' => (new UserBindLogic())->replaceRechargeFlows($this->params['page_size'])
         ];
     }
 }
