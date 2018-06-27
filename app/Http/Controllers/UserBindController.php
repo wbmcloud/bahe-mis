@@ -17,7 +17,7 @@ class UserBindController extends Controller
         $page_size = isset($this->params['page_size']) ? $this->params['page_size'] :
             Constants::DEFAULT_PAGE_SIZE;
         return [
-            'records' => (new UserBindLogic())->getMyUserBindList($page_size)
+            'records' => (new UserBindLogic())->getMyUserBindList($page_size, $this->params)
         ];
     }
 
@@ -29,7 +29,7 @@ class UserBindController extends Controller
         $page_size = isset($this->params['page_size']) ? $this->params['page_size'] :
             Constants::DEFAULT_PAGE_SIZE;
         return [
-            'records' => (new UserBindLogic())->getSubUserBindList($page_size)
+            'records' => (new UserBindLogic())->getSubUserBindList($page_size, $this->params)
         ];
     }
 

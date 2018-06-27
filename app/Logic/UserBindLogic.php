@@ -18,24 +18,47 @@ use Illuminate\Support\Facades\Auth;
 
 class UserBindLogic extends BaseLogic
 {
-    public function getMyUserBindList($page_size)
+    public function getMyUserBindList($page_size, $params)
     {
         $login_user = Auth::user();
         if ($login_user->hasRole(Constants::$admin_role)) {
+            if (!empty($params['query_str'])) {
+                return PlayerBindAgent::where([
+                        'player_id' => $params['query_str']
+                    ])
+                    ->orderBy('id', 'desc')
+                    ->simplePaginate($page_size);
+            }
             return PlayerBindAgent::orderBy('id', 'desc')->simplePaginate($page_size);
         }
 
+        if (!empty($params['query_str'])) {
+            return PlayerBindAgent::where([
+                    'agent_id' => $login_user->uk,
+                    'player_id' => $params['query_str']
+                ])
+                ->orderBy('id', 'desc')
+                ->simplePaginate($page_size);
+        }
         return PlayerBindAgent::where([
-            'agent_id' => $login_user->uk,
-        ])->orderBy('id', 'desc')
+                'agent_id' => $login_user->uk,
+            ])
+            ->orderBy('id', 'desc')
             ->simplePaginate($page_size);
     }
 
-    public function getSubUserBindList($page_size)
+    public function getSubUserBindList($page_size, $params)
     {
         $login_user = Auth::user();
         if ($login_user->hasRole(Constants::$admin_role)) {
             //管理员，所有用户的记录
+            if (!empty($params['query_str'])) {
+                return PlayerBindAgent::where([
+                        'player_id' => $params['query_str']
+                    ])
+                    ->orderBy('id', 'desc')
+                    ->simplePaginate($page_size);
+            }
             return PlayerBindAgent::orderBy('id', 'desc')->simplePaginate($page_size);
         }
 
@@ -47,6 +70,15 @@ class UserBindLogic extends BaseLogic
                 'status'      => Constants::COMMON_ENABLE
             ])->get()->toArray();
             $agent_ids = array_column($users, 'uk');
+
+            if (!empty($params['query_str'])) {
+                return PlayerBindAgent::whereIn('agent_id', $agent_ids)
+                        ->where([
+                            'player_id' => $params['query_str']
+                        ])
+                        ->orderBy('id', 'desc')
+                        ->simplePaginate($page_size);
+            }
 
             return PlayerBindAgent::whereIn('agent_id', $agent_ids)
                 ->orderBy('id', 'desc')
@@ -74,6 +106,15 @@ class UserBindLogic extends BaseLogic
 
                 $agent_ids = array_column($agents, 'uk');
                 $ids       = array_merge($ids, $agent_ids);
+            }
+
+            if (!empty($params['query_str'])) {
+                return PlayerBindAgent::whereIn('agent_id', $agent_ids)
+                    ->where([
+                        'player_id' => $params['query_str']
+                    ])
+                    ->orderBy('id', 'desc')
+                    ->simplePaginate($page_size);
             }
 
             return PlayerBindAgent::whereIn('agent_id', $ids)

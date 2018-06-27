@@ -17,14 +17,12 @@
         <div class="row">
             <div class="col-xs-12">
                 <div class="box">
-                    @role(['super', 'admin'])
-                    <!--div class="input-group margin" style="width:80%;">
+                    <div class="input-group margin" style="width:80%;">
                         <input id="query_str" type="text" class="col-sm-2 form-control" placeholder="请输入用户名">
                         <span class="input-group-btn">
                           <button type="button" class="btn btn-info btn-flat" onclick="query();">查询</button>
                     </span>
-                    </div-->
-                    @endrole
+                    </div>
                     <!-- /.box-header -->
                     <div class="box-body">
                         <table id="agent_container" class="table table-bordered table-hover">
@@ -33,7 +31,7 @@
                                 <th>代理标识</th>
                                 <th>代理用户名</th>
                                 <th>绑定角色id</th>
-                                <th>绑定角色名</th>
+                                <th>绑定角色账号</th>
                                 <th>游戏类型</th>
                                 <th>绑定时间</th>
                             </tr>
@@ -47,7 +45,7 @@
                                         <td>{{ $record['agent_id'] }}</td>
                                         <td>{{ $record['user']['user_name'] }}</td>
                                         <td>{{ $record['player_id'] }}</td>
-                                        <td>{{ $record['player']['player_name'] }}</td>
+                                        <td>{{ $record['player']['user_name'] }}</td>
                                         @if($record['type'] == \App\Common\Constants::GAME_TYPE_DDZ)
                                         <td>斗地主</td>
                                         @elseif($record['type'] == \App\Common\Constants::GAME_TYPE_MJ)
