@@ -101,6 +101,7 @@
         }
         
         function getFanxing(city_id) {
+            $('.btn').attr('disabled', true);
             $.ajax({
                 headers: {
                     "X-Requested-With": "XMLHttpRequest",
@@ -157,6 +158,7 @@
                         }
                     }
                     $('#open_room_group').html(_html);
+
                     $("input").iCheck({
                         checkboxClass: 'icheckbox_square-blue',
                         radioClass: 'iradio_square-blue',
@@ -167,6 +169,8 @@
                         var _data = $('select[name="server"] option:selected').attr('data');
                         getFanxing(_data);
                     });
+
+                    $('.btn').attr('disabled', false);
                 }
             });
         }
@@ -177,6 +181,7 @@
                 maximumSelectionLength: 3,
                 tags: true
             });
+
             $("input").iCheck({
                 checkboxClass: 'icheckbox_square-blue',
                 radioClass: 'iradio_square-blue',
@@ -184,7 +189,7 @@
             });
 
             $('#btn_open_room').click(function () {
-                $('.btn').attr('disabled', 'true');
+                $('.btn').attr('disabled', true);
                 $('.form-horizontal').submit();
             });
             $('#openroom').addClass('active');
