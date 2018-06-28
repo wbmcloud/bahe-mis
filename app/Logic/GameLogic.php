@@ -66,7 +66,7 @@ class GameLogic extends BaseLogic
     public function getQueryPlayer($player)
     {
         $player_id = $player->player_id;
-        $server_info = CityLogic::getServerInfo($player->server_id);
+        $server_info = CityLogic::getServerInfo($player->game_server_id);
 
         if (empty($server_info)) {
             return;

@@ -27,13 +27,13 @@ class CityLogic extends BaseLogic
     }
 
     /**
-     * @param $server_id
+     * @param $game_server_id
      * @return array
      */
-    public static function getServerInfo($server_id)
+    public static function getServerInfo($game_server_id)
     {
         $server = GameServer::where([
-            'server_id' => $server_id
+            'id' => $game_server_id
         ])->first();
 
         return !empty($server) ? $server->toArray() : [];
