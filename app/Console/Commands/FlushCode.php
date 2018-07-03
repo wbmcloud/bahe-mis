@@ -46,6 +46,7 @@ class FlushCode extends Command
             $v['uk'] = $v['city_id'] . '-' . $v['invite_code'];
             return $v;
         }, $invite_codes);
+
         $invite_codes = array_column($invite_codes, null, 'uk');
 
         foreach ($users as $user) {

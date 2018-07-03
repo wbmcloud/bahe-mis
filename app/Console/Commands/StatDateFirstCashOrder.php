@@ -20,7 +20,7 @@ class StatDateFirstCashOrder extends Command
      *
      * @var string
      */
-    protected $signature = 'stat:first_cash_order';
+    protected $signature = 'stat:first_cash_order {week=1}';
 
     /**
      * The console command description.
@@ -46,7 +46,12 @@ class StatDateFirstCashOrder extends Command
      */
     public function handle()
     {
-        $last_week_day = Carbon::now()->subWeek();
+        $sub_weeks = $this->argument('week');
+        if (!empty($sub_weeks)) {
+            $last_week_day = Carbon::now()->subWeek(intval($sub_weeks));
+        } else {
+            $last_week_day = Carbon::now()->subWeek();
+        }
         $last_week = $last_week_day->weekOfYear;
 
         $last_day_cash_orders = [];
