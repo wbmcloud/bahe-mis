@@ -330,10 +330,12 @@ class GeneralAgentLogic extends BaseLogic
     {
         $last_week_day = Carbon::now()->previousWeekday();
         $last_week = $last_week_day->weekOfYear;
+        $last_year = $last_week_day->year;
 
         return CashOrder::where([
             'relation_id' => $agent_id,
-            'week' => $last_week
+            'week' => $last_week,
+            'year' => $last_year
         ])->sum('amount');
     }
 

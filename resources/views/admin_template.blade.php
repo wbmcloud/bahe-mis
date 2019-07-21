@@ -15,8 +15,6 @@ scratch. This page gets rid of all links and provides the needed markup only.
   @yield('head')
 <!-- Font Awesome -->
   <link rel="stylesheet" href="{{ asset("/bower_components/admin-lte/dist/css/font-awesome.min.css") }}">
-<!-- Ionicons -->
-  <link rel="stylesheet" href="http://cdn.bootcss.com/ionicons/2.0.1/css/ionicons.min.css">
 <!-- Theme style -->
   <link rel="stylesheet" href="{{ asset("/bower_components/admin-lte/dist/css/AdminLTE.min.css") }}">
 <!-- AdminLTE Skins. We have chosen the skin-blue for this starter
@@ -24,12 +22,6 @@ scratch. This page gets rid of all links and provides the needed markup only.
         apply the skin class to the body tag so the changes take effect.
         -->
   <link rel="stylesheet" href="{{ asset("/bower_components/admin-lte/dist/css/skins/skin-blue.min.css") }}">
-  <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-  <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-  <!--[if lt IE 9]>
-  <script src="https://cdn.bootcss.com/html5shiv/r29/html5.min.js"></script>
-  <script src="https://cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
-  <![endif]-->
 </head>
 <!--
 BODY TAG OPTIONS:
